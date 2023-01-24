@@ -1,0 +1,15 @@
+{
+  "commands.island.nonplayer": "This command can only be executed by a player!",
+  "commands.island.notoverworld": "You can only execute this command in the overworld.",
+
+  "commands.island.create.success": "Created your skyblock island!",
+  "commands.island.create.hasone": "You already have an island, use /island tp to teleport to your island!",
+
+  "commands.island.leave.hasnone": "You do not have an island yet!",
+  "commands.island.leave.success": "You have left your island...",
+
+  "commands.island.invite.hasone": "The player you are trying to invite already has an island!",
+  "commands.island.invite.hasnone": "You need to have an island to be able to invite someone.",
+  "commands.island.invite.success": "You have invited %1 to your island.",
+  "commands.island.invite.invitation": "%i has invited you to join their island. Type '/island accept' to join their island."
+}
