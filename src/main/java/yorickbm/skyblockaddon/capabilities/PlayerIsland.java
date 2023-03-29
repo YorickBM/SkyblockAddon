@@ -2,12 +2,9 @@ package yorickbm.skyblockaddon.capabilities;
 
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.phys.Vec3;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Date;
 import java.util.UUID;
 
 public class PlayerIsland {
@@ -37,7 +34,7 @@ public class PlayerIsland {
      * Check if player is currently part of an island
      * @return True or False
      */
-    public boolean hasOne() { return islandId != ""; }
+    public boolean hasOne() { return !islandId.equals(""); }
 
     /**
      * Returns if the player data that has been loaded was legacy data or not
@@ -65,10 +62,9 @@ public class PlayerIsland {
      */
     public void loadNBTData(CompoundTag nbt) {
         if(nbt.contains("nbt-v")) {
-            switch(nbt.getInt("nbt-v")) {
-                case 2:
-                    islandId = nbt.getString("islandId");
-                    break;
+            switch (nbt.getInt("nbt-v")) {
+                case 2 -> islandId = nbt.getString("islandId");
+                default -> islandId = "";
             }
         } else {
             if(nbt.contains("loc-x")) centerLocation = new Vec3i(nbt.getInt("loc-x"),nbt.getInt("loc-y"),nbt.getInt("loc-z"));
@@ -96,7 +92,7 @@ public class PlayerIsland {
 
     /**
      * Function to clone data over
-     * @param oldStore
+     * @param oldStore Old island
      */
     public void copyFrom(PlayerIsland oldStore) {
         this.islandId = oldStore.islandId;

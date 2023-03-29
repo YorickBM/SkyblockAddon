@@ -1,11 +1,9 @@
 package yorickbm.skyblockaddon.util;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class LanguageFile {
-    private static HashMap<String, String> items = new HashMap<>();
+    private static final HashMap<String, String> items = new HashMap<>();
 
     public static void init() {
         items.put("commands.island.nonplayer", "This command can only be executed by a player!");

@@ -13,12 +13,13 @@ import org.jetbrains.annotations.Nullable;
 
 public class PlayerIslandProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
-    public static Capability<PlayerIsland> PLAYER_ISLAND = CapabilityManager.get(new CapabilityToken<PlayerIsland>() {});
+    public static Capability<PlayerIsland> PLAYER_ISLAND = CapabilityManager.get(new CapabilityToken<>() {
+    });
 
     private PlayerIsland island = null;
     private final LazyOptional<PlayerIsland> optional = LazyOptional.of(this::createPlayerIsland);
 
-    private PlayerIsland createPlayerIsland() {
+    private @NotNull PlayerIsland createPlayerIsland() {
         if(this.island == null) {
             this.island = new PlayerIsland();
         }
@@ -38,8 +39,7 @@ public class PlayerIslandProvider implements ICapabilityProvider, INBTSerializab
 
     @Override
     public CompoundTag serializeNBT() {
-        CompoundTag nbt = createPlayerIsland().saveNBTData(new CompoundTag());
-        return nbt;
+        return createPlayerIsland().saveNBTData(new CompoundTag());
     }
 
     @Override

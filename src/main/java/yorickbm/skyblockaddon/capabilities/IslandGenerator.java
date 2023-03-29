@@ -1,7 +1,6 @@
 package yorickbm.skyblockaddon.capabilities;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -13,9 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.Main;
@@ -24,7 +21,10 @@ import yorickbm.skyblockaddon.util.IslandData;
 import yorickbm.skyblockaddon.util.NBTUtil;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class IslandGenerator {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -33,10 +33,6 @@ public class IslandGenerator {
     Vec3i spawnLocation = IslandGeneratorProvider.DEFAULT_SPAWN;
 
     HashMap<String, IslandData> islands = new HashMap<>();
-
-    public void copyFrom(IslandGenerator source) {
-        lastLocation = source.lastLocation;
-    }
 
     /**
      * Save islands data into nbt
@@ -69,20 +65,18 @@ public class IslandGenerator {
     public void loadNBTData(CompoundTag nbt) {
         if(nbt.contains("nbt-v")) {
             // Load NBT, based on stored NBT version type (Allows for dynamic further changes)
-            switch(nbt.getInt("nbt-v")) {
-                case 2:
+            switch (nbt.getInt("nbt-v")) {
+                case 2 -> {
                     lastLocation = NBTUtil.NBTToVec3i(nbt.getCompound("lastIsland"));
                     spawnLocation = NBTUtil.NBTToVec3i(nbt.getCompound("spawn"));
-
                     CompoundTag tagIslandIds = nbt.getCompound("islandIds");
                     CompoundTag tagIslands = nbt.getCompound("islands");
-
-                    for(int i = 0; i < tagIslandIds.getInt("count"); i++) {
-                        String id = tagIslandIds.getString(i+"");
+                    for (int i = 0; i < tagIslandIds.getInt("count"); i++) {
+                        String id = tagIslandIds.getString(i + "");
                         IslandData island = new IslandData(tagIslands.getCompound(id));
                         islands.put(id, island);
                     }
-                    break;
+                }
             }
         } else {
             //Make sure old version NBT can still be loaded
@@ -94,24 +88,17 @@ public class IslandGenerator {
     }
 
     public void destroyIsland(Level world, Vec3i center) {
-        Thread asyncDestroy = new Thread() {
-            @Override
-            public void run() {
-                BlockPos.betweenClosed(
-                    new BlockPos(
-                        center.getX()-IslandGeneratorProvider.SIZE,
-                        world.getMinBuildHeight(),
-                        center.getZ()-IslandGeneratorProvider.SIZE),
-                    new BlockPos(
-                        center.getX()+IslandGeneratorProvider.SIZE,
-                        world.getMaxBuildHeight(),
-                        center.getZ()+IslandGeneratorProvider.SIZE
-                    )
-                ).forEach(bp -> {
-                    world.removeBlock(bp, true);
-                });
-            }
-        };
+        Thread asyncDestroy = new Thread(() -> BlockPos.betweenClosed(
+            new BlockPos(
+                center.getX()-IslandGeneratorProvider.SIZE,
+                world.getMinBuildHeight(),
+                center.getZ()-IslandGeneratorProvider.SIZE),
+            new BlockPos(
+                center.getX()+IslandGeneratorProvider.SIZE,
+                world.getMaxBuildHeight(),
+                center.getZ()+IslandGeneratorProvider.SIZE
+            )
+        ).forEach(bp -> world.removeBlock(bp, true)));
         asyncDestroy.start();
     }
 
@@ -168,9 +155,7 @@ public class IslandGenerator {
         lastLocation = nextGridLocation(lastLocation);
 
         final int finalBigestX = bigestX, finalBigestZ = bigestZ;
-        blocks.forEach(block -> {
-            block.place(worldServer, lastLocation.offset(-(finalBigestX /2),IslandGeneratorProvider.MIN_HEIGHT,-(finalBigestZ /2)));
-        });
+        blocks.forEach(block -> block.place(worldServer, lastLocation.offset(-(finalBigestX /2),IslandGeneratorProvider.MIN_HEIGHT,-(finalBigestZ /2))));
 
         return new Vec3i(lastLocation.getX(), 121, lastLocation.getZ());
     }
@@ -238,10 +223,10 @@ public class IslandGenerator {
      */
     public void registerIslandFromLegacy(PlayerIsland i, Player player) {
         String islandId = findIslandForLocation(i.getLocation());
-        IslandData data = null;
+        IslandData data;
 
         //Register island or collect island if already exists
-        if(islandId == "") {
+        if(islandId.equals("")) {
             data = new IslandData(null, Vec3i.ZERO);
             islandId = registerIsland(data);
             LOGGER.info("New legacy island created from " + player.getGameProfile().getName() + " ("+islandId+")");

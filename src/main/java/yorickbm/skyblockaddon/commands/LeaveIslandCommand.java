@@ -51,9 +51,7 @@ public class LeaveIslandCommand {
                 else islandData.setOwner(null);
 
                 island.setIsland(""); //Make it empty so its NONE
-                player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
-                    player.teleportTo(g.getSpawnLocation().getX(), g.getSpawnLocation().getY(), g.getSpawnLocation().getZ());
-                });
+                player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> player.teleportTo(g.getSpawnLocation().getX(), g.getSpawnLocation().getY(), g.getSpawnLocation().getZ()));
                 command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.leave.success")).withStyle(ChatFormatting.GREEN), false);
             });
         });

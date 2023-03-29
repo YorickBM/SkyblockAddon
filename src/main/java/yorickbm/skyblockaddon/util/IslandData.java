@@ -11,9 +11,9 @@ import java.util.UUID;
 public class IslandData {
 
     private UUID owner = null; //UUID Of owner
-    private Vec3i spawn = Vec3i.ZERO; //Spawn coordinates of island
+    private Vec3i spawn; //Spawn coordinates of island
 
-    private List<UUID> islandMembers = new ArrayList<>(); //List of all members of island
+    private final List<UUID> islandMembers = new ArrayList<>(); //List of all members of island
 
     /**
      * Load island data from CompoundTag
@@ -45,10 +45,7 @@ public class IslandData {
      * @param uuid Player you wish to make owner of island
      */
     public void setOwner(UUID uuid) {
-        if(islandMembers.contains(uuid)) {
-            islandMembers.remove(uuid);
-        }
-
+        islandMembers.remove(uuid);
         owner = uuid;
     }
 
@@ -59,6 +56,7 @@ public class IslandData {
     public void addIslandMember(UUID uuid) {
         islandMembers.add(uuid);
     }
+
     /**
      * Remove member from island by uuid
      * @param uuid UUID of player you wish to remove
@@ -154,6 +152,10 @@ public class IslandData {
         return tag;
     }
 
+    /**
+     * Teleport player to islands spawn coordinates
+     * @param player Player to teleport
+     */
     public void teleport(Player player) {
         player.teleportTo(spawn.getX(), spawn.getY(), spawn.getZ());
     }
