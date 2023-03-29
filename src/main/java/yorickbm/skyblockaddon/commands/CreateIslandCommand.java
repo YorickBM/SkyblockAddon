@@ -13,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import yorickbm.skyblockaddon.capabilities.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.PlayerIslandProvider;
+import yorickbm.skyblockaddon.util.IslandData;
 import yorickbm.skyblockaddon.util.LanguageFile;
 
 import java.io.IOException;
@@ -50,13 +51,17 @@ public class CreateIslandCommand {
                         @Override
                         public void run() {
                             try {
-                                Vec3 vec = generator.genIsland(command.getLevel());
-                                if(vec.distanceTo(new Vec3(IslandGeneratorProvider.DEFAULT_SPAWN.getX(), IslandGeneratorProvider.DEFAULT_SPAWN.getY(), IslandGeneratorProvider.DEFAULT_SPAWN.getZ())) < 10) {
+                                Vec3i vec = generator.genIsland(command.getLevel());
+                                if(vec.distToCenterSqr(new Vec3(IslandGeneratorProvider.DEFAULT_SPAWN.getX(), IslandGeneratorProvider.DEFAULT_SPAWN.getY(), IslandGeneratorProvider.DEFAULT_SPAWN.getZ())) < 10) {
                                     command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.create.fail")));
                                     return;
                                 }
 
-                                island.createIsland(new Vec3i(vec.x, vec.y, vec.z), player);
+                                IslandData islandData = new IslandData(player.getUUID(), vec);
+                                String id = generator.registerIsland(islandData);
+                                island.setIsland(id);
+                                islandData.teleport(player);
+
                                 command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.create.success")).withStyle(ChatFormatting.GREEN), true);
                             } catch (IOException e) {
                                 e.printStackTrace();

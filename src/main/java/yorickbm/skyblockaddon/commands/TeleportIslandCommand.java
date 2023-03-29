@@ -11,9 +11,9 @@ import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import yorickbm.skyblockaddon.capabilities.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.PlayerIslandProvider;
 import yorickbm.skyblockaddon.util.LanguageFile;
 
@@ -30,11 +30,10 @@ public class TeleportIslandCommand {
 
     private int execute(CommandSourceStack command, Collection<ServerPlayer> targets) { //, Component islandName
 
-        if(!(command.getEntity() instanceof Player)) { //Executed by non-player
+        if(!(command.getEntity() instanceof Player player)) { //Executed by non-player
             command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.nonplayer")));
             return Command.SINGLE_SUCCESS;
         }
-        Player player = (Player)command.getEntity();
 
         if(player.level.dimension() != Level.OVERWORLD) {
             command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.notoverworld")));
@@ -48,9 +47,11 @@ public class TeleportIslandCommand {
             }
 
             if(targets == null || targets.isEmpty()) {
-                player.teleportTo(island.getLocation().getX(), island.getLocation().getY(), island.getLocation().getZ());
-                command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.teleport.success")).withStyle(ChatFormatting.GREEN), true);
-                return;
+                player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(generator -> {
+                    generator.getIslandById(island.getIslandId()).teleport(player);
+
+                    command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.teleport.success")).withStyle(ChatFormatting.GREEN), true);
+                });
             } else {
                 Optional<ServerPlayer> p = targets.stream().findFirst();
                 if(p.isEmpty()) {
@@ -63,12 +64,12 @@ public class TeleportIslandCommand {
                         return;
                     }
 
-                    i.sendTeleportInvite(player.getUUID());
                     command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.request.send").formatted(p.get().getGameProfile().getName())).withStyle(ChatFormatting.GREEN), false);
-
                     Style style = new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.request").formatted(player.getGameProfile().getName())).withStyle(ChatFormatting.GREEN).getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island accept")).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("Click to accept teleport!")));
                     p.get().sendMessage(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.request").formatted(player.getGameProfile().getName())).withStyle(style), p.get().getUUID());
 
+                    i.request = player.getUUID();
+                    i.requestType = 0;
                 });
             }
         });

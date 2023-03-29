@@ -1,6 +1,6 @@
 package yorickbm.skyblockaddon.events;
 
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -11,22 +11,17 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.command.ConfigCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.capabilities.IslandGenerator;
 import yorickbm.skyblockaddon.capabilities.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.PlayerIsland;
 import yorickbm.skyblockaddon.capabilities.PlayerIslandProvider;
 import yorickbm.skyblockaddon.commands.*;
-import yorickbm.skyblockaddon.Main;
-import yorickbm.skyblockaddon.util.LanguageFile;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 @Mod.EventBusSubscriber(modid = Main.MOD_ID)
 public class ModEvents {
@@ -62,15 +57,20 @@ public class ModEvents {
     }
 
     @SubscribeEvent
+    public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
+        event.getPlayer().getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> {
+            if(i.hasLegacyData()) {
+                event.getPlayer().getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(w -> w.registerIslandFromLegacy(i, event.getPlayer()));
+            }
+        });
+    }
+
+    @SubscribeEvent
     public static void onPlayerCloned(PlayerEvent.Clone event) {
         if(!event.isWasDeath()) return;
         event.getOriginal().reviveCaps();
 
-        event.getOriginal().getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(oldStore -> {
-            event.getPlayer().getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(newStore -> {
-                newStore.copyFrom(oldStore);
-            });
-        });
+        event.getOriginal().getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(oldStore -> event.getPlayer().getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(newStore -> newStore.copyFrom(oldStore)));
 
         event.getOriginal().invalidateCaps();
     }
@@ -83,46 +83,29 @@ public class ModEvents {
     @SubscribeEvent
     public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
         event.getPlayer().reviveCaps();
-//        event.getPlayer().getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> {
-//            if(i.hasOne())
-//                event.getPlayer().teleportTo(i.getLocation().getX(), i.getLocation().getY(), i.getLocation().getZ());
-//        });
     }
 
-//    @SubscribeEvent
-//    public void onPlayerBreak(BlockEvent.BreakEvent event) {
-//        if(event.getPlayer().hasPermissions(3) || event.getPlayer().getLevel().dimension() != Level.OVERWORLD) return;
-//
-//        event.getPlayer().getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> {
-//            if(!i.hasOne() || (new Vec3(i.getLocation().getX(), 0, i.getLocation().getZ())).distanceTo(new Vec3(event.getPos().getX(), 0, event.getPos().getZ())) > IslandGeneratorProvider.SIZE) {
-//                //event.getPlayer().sendMessage(new TextComponent(LanguageFile.getForKey("player.break.notpermitted")), event.getPlayer().getUUID());
-//                event.setCanceled(true);
-//                return;
-//            }
-//        });
-//    }
-//    @SubscribeEvent
-//    public void onPlayerPlace(BlockEvent.EntityPlaceEvent event) {
-//        if(event.getEntity().hasPermissions(3) || event.getEntity().getLevel().dimension() != Level.OVERWORLD) return;
-//
-//        event.getEntity().getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> {
-//            if(!i.hasOne() || (new Vec3(i.getLocation().getX(), 0, i.getLocation().getZ())).distanceTo(new Vec3(event.getPos().getX(), 0, event.getPos().getZ())) > IslandGeneratorProvider.SIZE) {
-//                //event.getEntity().sendMessage(new TextComponent(LanguageFile.getForKey("player.place.notpermitted")), event.getEntity().getUUID());
-//                event.setCanceled(true);
-//                return;
-//            }
-//        });
-//    }
     @SubscribeEvent
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if(event.getPlayer().hasPermissions(3) || event.getPlayer().getLevel().dimension() != Level.OVERWORLD) return;
+        if(
+            event instanceof PlayerInteractEvent.LeftClickEmpty
+            || event instanceof PlayerInteractEvent.RightClickEmpty
+            || event.getPlayer().hasPermissions(3)
+            || event.getPlayer().getLevel().dimension() != Level.OVERWORLD
+        ) return;
 
         event.getPlayer().getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> {
-            if(!i.hasOne() || (new Vec3(i.getLocation().getX(), 0, i.getLocation().getZ())).distanceTo(new Vec3(event.getPos().getX(), 0, event.getPos().getZ())) > IslandGeneratorProvider.SIZE) {
-                //event.getPlayer().sendMessage(new TextComponent(LanguageFile.getForKey("player.interact.notpermitted")), event.getPlayer().getUUID());
+            if(!i.hasOne()) {
                 event.setCanceled(true);
                 return;
             }
+
+            event.getPlayer().getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
+                Vec3i location = g.getIslandById(i.getIslandId()).getSpawn();
+                if((new Vec3(location.getX(), 0, location.getZ())).distanceTo(new Vec3(event.getPos().getX(), 0, event.getPos().getZ())) > IslandGeneratorProvider.SIZE) {
+                    event.setCanceled(true);
+                }
+            });
         });
     }
 

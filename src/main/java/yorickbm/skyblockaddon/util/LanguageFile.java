@@ -17,6 +17,7 @@ public class LanguageFile {
 
         items.put("commands.island.leave.hasnone", "You do not have an island yet!");
         items.put("commands.island.leave.success", "You have left your island...");
+        items.put("commands.island.leave.owner", "");
 
         items.put("commands.island.invite.hasone", "The player you are trying to invite already has an island!");
         items.put("commands.island.invite.hasnone", "You need to have an island to be able to invite someone.");

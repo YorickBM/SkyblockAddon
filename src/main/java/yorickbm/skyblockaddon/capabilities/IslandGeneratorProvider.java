@@ -29,10 +29,6 @@ public class IslandGeneratorProvider implements ICapabilityProvider, INBTSeriali
     private IslandGenerator generator = null;
     private final LazyOptional<IslandGenerator> optional = LazyOptional.of(this::createWorldIslandGenerator);
 
-    public void loadStructure(MinecraftServer server) {
-        createWorldIslandGenerator().loadStructure(server);
-    }
-
     private IslandGenerator createWorldIslandGenerator() {
         if(this.generator == null) {
             this.generator = new IslandGenerator();

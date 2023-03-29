@@ -7,131 +7,107 @@ import net.minecraft.world.phys.Vec3;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.security.Timestamp;
 import java.util.Date;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PlayerIsland {
 
     private static final Logger LOGGER = LogManager.getLogger();
+
+    //Legacy data
     private Vec3i centerLocation = new Vec3i(0,0,0);
     private boolean isOwner = false;
-    private UUID invite = null;
-    private UUID teleport = null;
-    private Date teleportRequestDate = null;
+    private boolean isLegacy = false;
 
+    //Legacy functions
+    public boolean isOwner() { return isOwner; }
     public Vec3i getLocation() {
         if(centerLocation != null && centerLocation.getX() == 0 && centerLocation.getY() == 0 && centerLocation.getZ() == 0) return null;
         return centerLocation;
     }
 
-    public void createIsland(Vec3i location, Player player) {
-        isOwner = true;
-        centerLocation = location;
+    //New data
+    private String islandId = "";
+    private String oldIslandId = ""; //Allows admin to undo island leave through commando
 
-        player.teleportTo(getLocation().getX(), getLocation().getY(), getLocation().getZ()); //Teleport player to island
+    public UUID request;
+    public int requestType = -1;
+
+    /**
+     * Check if player is currently part of an island
+     * @return True or False
+     */
+    public boolean hasOne() { return islandId != ""; }
+
+    /**
+     * Returns if the player data that has been loaded was legacy data or not
+     * @return True or False
+     */
+    public boolean hasLegacyData() {
+        return isLegacy;
     }
 
-    public boolean acceptTeleport(Player player) {
-        teleport = null;
-        if(!hasOne()) return false;
-
-        player.teleportTo(getLocation().getX(), getLocation().getY(), getLocation().getZ());
-        return true;
-    }
-
-    public void joinIsland(PlayerIsland island, Player player) {
-        invite = null;
-        centerLocation = island.getLocation();
-        player.teleportTo(getLocation().getX(), getLocation().getY(), getLocation().getZ()); //Teleport player to island
-    }
-
-    public void leaveIsland(Player player) {
-        //Teleport user to spawn
-        if(new Vec3(player.position().x, 0, player.position().z).distanceTo(new Vec3(getLocation().getX(), 0, getLocation().getZ())) > IslandGeneratorProvider.SIZE) {
-            player.teleportTo(IslandGeneratorProvider.DEFAULT_SPAWN.getX(), IslandGeneratorProvider.DEFAULT_SPAWN.getY(), IslandGeneratorProvider.DEFAULT_SPAWN.getZ());
-        }
-
-        //Check if user is owner of island
-        if(!isOwner) {
-            centerLocation = new Vec3i(0,0,0);
-            return;
-        }
-        isOwner = false;
-
-//        AtomicBoolean foundSomeone = new AtomicBoolean(false);
-//        for(Player ply : player.getServer().getPlayerList().getPlayers()) {
-//            ply.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
-//                if(island.getLocation().distManhattan(getLocation()) < 1) {
-//                    island.isOwner = true;
-//                    foundSomeone.set(true);
-//                }
-//            });
-//
-//            if(foundSomeone.get()) return;
-//        }
-//
-//        player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(generator -> {
-//            generator.destroyIsland(player.getLevel(), getLocation());
-//        });
-
-        centerLocation = new Vec3i(0,0,0);
-    }
-
-    public void sendInvite(UUID inviter) {
-        invite = inviter;
-    }
-    public void sendTeleportInvite(UUID requester) {
-        teleport = requester;
-        teleportRequestDate = new Date();
-    }
-
-    public boolean hasOne() { return getLocation() != null; }
-    public boolean isOwner() { return isOwner; }
-
-    public void copyFrom(PlayerIsland source) {
-        centerLocation = source.centerLocation;
-        isOwner = source.isOwner;
-        invite = source.invite;
-    }
-
+    /**
+     * Save players island information into CompoundTag
+     * @param nbt CompoundTag to save to
+     * @return CompoundTag
+     */
     public CompoundTag saveNBTData(CompoundTag nbt) {
-        //LOGGER.info("SAVING PLAYER NBT...");
-        nbt.putInt("loc-x", centerLocation.getX());
-        nbt.putInt("loc-y", centerLocation.getY());
-        nbt.putInt("loc-z", centerLocation.getZ());
-        nbt.putBoolean("isOwner", isOwner);
-//        LOGGER.info("DONE!!");
-//        LOGGER.info("Isowner? - " + isOwner + " " + nbt.getBoolean("isOwner"));
-//        LOGGER.info("X - " + centerLocation.getX() + " " + nbt.getInt("loc-x"));
-//        LOGGER.info("Y - " + centerLocation.getY() + " " + nbt.getInt("loc-y"));
-//        LOGGER.info("Z - " + centerLocation.getZ() + " " + nbt.getInt("loc-z"));
+        nbt.putInt("nbt-v", 2);
+        nbt.putString("islandId", islandId);
+
         return nbt;
     }
 
+    /**
+     * Load players island information from CompoundTag
+     * @param nbt CompoundTag containing information
+     */
     public void loadNBTData(CompoundTag nbt) {
-        //LOGGER.info("LOADING PLAYER NBT");
-        if(nbt.contains("loc-x")) centerLocation = new Vec3i(nbt.getInt("loc-x"),nbt.getInt("loc-y"),nbt.getInt("loc-z"));
-        else LOGGER.warn("COULD NOT GET LOCATION!");
-        if(nbt.contains("isOwner")) isOwner = nbt.getBoolean("isOwner");
-        else LOGGER.warn("COULD NOT GET OWNERSHIP!");
-
-//        LOGGER.info("Isowner? - " + isOwner + " " + nbt.getBoolean("isOwner"));
-//        LOGGER.info("X - " + centerLocation.getX() + " " + nbt.getInt("loc-x"));
-//        LOGGER.info("Y - " + centerLocation.getY() + " " + nbt.getInt("loc-y"));
-//        LOGGER.info("Z - " + centerLocation.getZ() + " " + nbt.getInt("loc-z"));
-    }
-
-    public UUID getInvite() {
-        return invite;
-    }
-    public UUID getTeleportInvite() {
-        if(teleportRequestDate == null || new Date().after(new Date(teleportRequestDate.getTime() + 300000))) {
-            teleport = null;
-            teleportRequestDate = null;
-            return null;
+        if(nbt.contains("nbt-v")) {
+            switch(nbt.getInt("nbt-v")) {
+                case 2:
+                    islandId = nbt.getString("islandId");
+                    break;
+            }
+        } else {
+            if(nbt.contains("loc-x")) centerLocation = new Vec3i(nbt.getInt("loc-x"),nbt.getInt("loc-y"),nbt.getInt("loc-z"));
+            if(nbt.contains("isOwner")) isOwner = nbt.getBoolean("isOwner");
+            isLegacy = true;
         }
-        return teleport;
+    }
+
+    /**
+     * Set players island by ID
+     * @param id ID of island to set
+     */
+    public void setIsland(String id) {
+        oldIslandId = islandId;
+        islandId = id;
+    }
+
+    /**
+     * Get players previous island he/she/they was part of.
+     * @return ID of island
+     */
+    public String getPreviousIsland() {
+        return oldIslandId;
+    }
+
+    /**
+     * Function to clone data over
+     * @param oldStore
+     */
+    public void copyFrom(PlayerIsland oldStore) {
+        this.islandId = oldStore.islandId;
+        this.oldIslandId = oldStore.oldIslandId;
+    }
+
+    /**
+     * Get ID for island currently player part of is
+     * @return Island ID
+     */
+    public String getIslandId() {
+        return islandId;
     }
 }

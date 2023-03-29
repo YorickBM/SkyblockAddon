@@ -57,7 +57,9 @@ public class InviteIslandCommand {
 
                     p.get().sendMessage(new TextComponent(LanguageFile.getForKey("commands.island.invite.invitation").formatted(player.getGameProfile().getName())).withStyle(style), p.get().getUUID());
                     player.sendMessage(new TextComponent(LanguageFile.getForKey("commands.island.invite.success").formatted(p.get().getGameProfile().getName())).withStyle(ChatFormatting.GREEN), player.getUUID());
-                    i.sendInvite(player.getUUID());
+
+                    i.request = player.getUUID();
+                    i.requestType = 1;
                 });
             }
 
