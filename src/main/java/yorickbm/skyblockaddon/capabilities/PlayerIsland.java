@@ -27,6 +27,7 @@ public class PlayerIsland {
     private String islandId = "";
     private String oldIslandId = ""; //Allows admin to undo island leave through commando
 
+    public long timestamp = 0;
     public UUID request;
     public int requestType = -1;
 

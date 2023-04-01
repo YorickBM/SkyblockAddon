@@ -15,7 +15,7 @@ public class LanguageFile {
 
         items.put("commands.island.leave.hasnone", "You do not have an island yet!");
         items.put("commands.island.leave.success", "You have left your island...");
-        items.put("commands.island.leave.owner", "");
+        items.put("commands.island.leave.undo", "You can undo leaving your island, this possibility expires in 60 minutes.");
 
         items.put("commands.island.invite.hasone", "The player you are trying to invite already has an island!");
         items.put("commands.island.invite.hasnone", "You need to have an island to be able to invite someone.");
@@ -46,6 +46,11 @@ public class LanguageFile {
         items.put("player.interact.notpermitted", "You cannot interact with any blocks here!");
 
         items.put("commands.island.biome.changed", "Your islands biome had changed too %s.");
+
+        items.put("commands.island.undo.hasnone", "You are required to leave an island before we can undo it.");
+        items.put("commands.island.undo.expired", "Your time to rejoin the island you left expired.");
+        items.put("commands.island.undo.hasone", "We have left your current island for you, to rejoin your previous one!");
+        items.put("commands.island.undo.success", "You have rejoined your previous island!");
     }
 
     public static String getForKey(String key) {
