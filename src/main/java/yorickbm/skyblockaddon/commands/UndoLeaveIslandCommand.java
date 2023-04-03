@@ -47,7 +47,7 @@ public class UndoLeaveIslandCommand {
             player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
                 String previous = island.getPreviousIsland();
                 boolean hadPrevious = false;
-                
+
                 if (island.hasOne()) {
                     IslandData islandData = g.getIslandById(island.getIslandId());
                     LeaveIslandCommand.leaveIsland(islandData, island, player);

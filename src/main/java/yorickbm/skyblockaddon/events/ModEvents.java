@@ -87,21 +87,32 @@ public class ModEvents {
     }
 
     @SubscribeEvent
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        if(
-            event instanceof PlayerInteractEvent.LeftClickEmpty
-            || event instanceof PlayerInteractEvent.RightClickEmpty
-            || event.getPlayer().hasPermissions(3)
-            || event.getPlayer().getLevel().dimension() != Level.OVERWORLD
-        ) return;
+    public void onPlayerBlockLeft(PlayerInteractEvent.LeftClickBlock e) {
+        islandPermissionCheck(e);
+    }
+    @SubscribeEvent
+    public void onPlayerBlockRight(PlayerInteractEvent.RightClickBlock e) {
+        islandPermissionCheck(e);
+    }
 
-        event.getPlayer().getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> {
-            if(!i.hasOne()) {
-                event.setCanceled(true);
-                return;
+    private void islandPermissionCheck(PlayerInteractEvent event) {
+        if(
+                event.getPlayer().hasPermissions(3)
+                || event.getPlayer().getLevel().dimension() != Level.OVERWORLD
+        ) return; //User is Operator or not in overworld
+
+        event.getWorld().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent( g-> {
+            Vec3i spawn = g.getSpawnLocation();
+            if((new Vec3(spawn.getX(), 0, spawn.getZ())).distanceTo(new Vec3(event.getPos().getX(), 0, event.getPos().getZ())) < 100) {
+                return;  // User is within spawn protection
             }
 
-            event.getPlayer().getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
+            event.getPlayer().getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> {
+                if(!i.hasOne()) {
+                    event.setCanceled(true);
+                    return;
+                }
+
                 Vec3i location = g.getIslandById(i.getIslandId()).getSpawn();
                 if((new Vec3(location.getX(), 0, location.getZ())).distanceTo(new Vec3(event.getPos().getX(), 0, event.getPos().getZ())) > IslandGeneratorProvider.SIZE) {
                     event.setCanceled(true);

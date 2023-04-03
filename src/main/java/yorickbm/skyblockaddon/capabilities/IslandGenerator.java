@@ -240,7 +240,7 @@ public class IslandGenerator {
         if(i.isOwner()) data.setOwner(player.getUUID());
         else data.addIslandMember(player.getUUID());
 
-        if(data.getSpawn() == Vec3i.ZERO) data.setSpawn(i.getLocation());
+        if(data.getSpawn() == Vec3i.ZERO || data.getSpawn().distToCenterSqr(0,0,0) <= 4) data.setSpawn(i.getLocation());
 
         //Update player information
         i.setIsland(islandId);

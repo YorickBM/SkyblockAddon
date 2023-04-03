@@ -24,7 +24,7 @@ public class Main {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "skyblockaddon";
-    public static final String VERSION = "2.0";
+    public static final String VERSION = "2.1";
     private static MinecraftServer server;
 
     public Main() {

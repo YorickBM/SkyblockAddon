@@ -82,6 +82,7 @@ public class IslandData {
      * @return Vec3i
      */
     public Vec3i getSpawn() {
+        if(spawn == null) return Vec3i.ZERO;
         return spawn;
     }
 
@@ -136,6 +137,7 @@ public class IslandData {
     public CompoundTag serialize() {
         CompoundTag tag = new CompoundTag();
         if(owner != null) tag.putString("owner", owner.toString());
+        if(spawn == null) spawn = Vec3i.ZERO;
 
         CompoundTag location = new CompoundTag();
         location.putInt("x", spawn.getX());
