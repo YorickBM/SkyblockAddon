@@ -113,7 +113,7 @@ public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
                     });
                 } else {
                     player.closeContainer();
-                    player.getServer().execute(() -> System.out.println("OPEN SETTING MENU"));
+                    player.getServer().execute(() -> SettingsOverviewHandler.openMenu(player, this.data));
                 }
                 ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, 1, 1f);
                 return true;
