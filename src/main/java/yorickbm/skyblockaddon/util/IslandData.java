@@ -1,8 +1,13 @@
 package yorickbm.skyblockaddon.util;
 
+import com.mojang.authlib.GameProfile;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
+import yorickbm.skyblockaddon.Main;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +69,6 @@ public class IslandData {
      */
     public boolean removeIslandMember(UUID uuid) {
         if(!islandMembers.contains(uuid)) return false;
-
         islandMembers.remove(uuid);
         return true;
     }
@@ -160,5 +164,23 @@ public class IslandData {
      */
     public void teleport(Player player) {
         player.teleportTo(spawn.getX(), spawn.getY(), spawn.getZ());
+        ServerHelper.playSongToPlayer((ServerPlayer) player, SoundEvents.ENDERMAN_TELEPORT, 0.4f, 1f);
+    }
+
+    /**
+     * Get Game Profile for owner of island
+     * @return GameProfile
+     */
+    public GameProfile getOwner(MinecraftServer server) {
+        if(hasOwner()) return server.getPlayerList().getPlayer(owner).getGameProfile();
+        return new GameProfile(UUID.randomUUID(), "Unknown");
+    }
+
+    /**
+     * Check if island has owner
+     * @return boolean
+     */
+    public boolean hasOwner() {
+        return owner != null;
     }
 }

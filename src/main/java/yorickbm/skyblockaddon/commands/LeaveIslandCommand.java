@@ -9,6 +9,8 @@ import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.IslandGeneratorProvider;
@@ -16,6 +18,7 @@ import yorickbm.skyblockaddon.capabilities.PlayerIsland;
 import yorickbm.skyblockaddon.capabilities.PlayerIslandProvider;
 import yorickbm.skyblockaddon.util.IslandData;
 import yorickbm.skyblockaddon.util.LanguageFile;
+import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.time.Instant;
 
@@ -49,13 +52,6 @@ public class LeaveIslandCommand {
                 IslandData islandData = generator.getIslandById(island.getIslandId());
 
                 LeaveIslandCommand.leaveIsland(islandData, island, player);
-                island.setIsland(""); //Make it empty so its NONE
-
-                Style style = new TextComponent(LanguageFile.getForKey("commands.island.leave.undo")).withStyle(ChatFormatting.GREEN).getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island undo")).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("Click to undo leaving island...")));
-
-                player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> player.teleportTo(g.getSpawnLocation().getX(), g.getSpawnLocation().getY(), g.getSpawnLocation().getZ()));
-                player.sendMessage(new TextComponent(LanguageFile.getForKey("commands.island.leave.undo")).withStyle(style), player.getUUID());
-                command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.leave.success")).withStyle(ChatFormatting.GREEN), false);
             });
         });
 
@@ -67,7 +63,17 @@ public class LeaveIslandCommand {
             islandData.setOwner(islandData.getMembers().get(0));
         else islandData.setOwner(null);
 
+        islandData.removeIslandMember(player.getUUID());
+
         island.timestamp = Instant.now().getEpochSecond();
+        island.setIsland(""); //Make it empty so its NONE
+
+        player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> player.teleportTo(g.getSpawnLocation().getX(), g.getSpawnLocation().getY(), g.getSpawnLocation().getZ()));
+        ServerHelper.playSongToPlayer((ServerPlayer) player, SoundEvents.CHORUS_FRUIT_TELEPORT, 0.4f, 1f);
+
+        Style style = new TextComponent(LanguageFile.getForKey("commands.island.leave.undo")).withStyle(ChatFormatting.GREEN).getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island undo")).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("Click to undo leaving island...")));
+        player.sendMessage(new TextComponent(LanguageFile.getForKey("commands.island.leave.undo")).withStyle(style), player.getUUID());
+        player.sendMessage(new TextComponent(LanguageFile.getForKey("commands.island.leave.success")).withStyle(ChatFormatting.GREEN), player.getUUID());
     }
 
 }

@@ -58,6 +58,9 @@ public class UndoLeaveIslandCommand {
 
                 IslandData islandData = g.getIslandById(previous);
                 island.setIsland(previous); //Set old island back
+                if(!g.getIslandById(previous).hasOwner()) {
+                    g.getIslandById(previous).setOwner(player.getUUID());
+                }
                 islandData.teleport(player);
 
                 if (hadPrevious)
