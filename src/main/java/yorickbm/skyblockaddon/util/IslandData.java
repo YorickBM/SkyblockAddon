@@ -17,6 +17,7 @@ import org.apache.commons.lang3.mutable.MutableInt;
 import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.capabilities.IslandGeneratorProvider;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -75,7 +76,8 @@ public class IslandData {
      * @param uuid UUID of p[layer you wish to add
      */
     public void addIslandMember(UUID uuid) {
-        islandMembers.add(uuid);
+        if(!hasOwner()) setOwner(uuid); //Set owner
+        else islandMembers.add(uuid);
     }
 
     /**
@@ -196,7 +198,13 @@ public class IslandData {
      * @return GameProfile
      */
     public GameProfile getOwner(MinecraftServer server) {
-        if(hasOwner()) return server.getPlayerList().getPlayer(owner).getGameProfile();
+        try {
+            if(hasOwner()) {
+                Player player = server.getPlayerList().getPlayer(owner);
+                if(player != null) return player.getGameProfile();
+                else return new GameProfile(owner, UsernameCache.getBlocking(owner));
+            }
+        } catch (IOException e) {} //API will fail on offline servers
         return new GameProfile(UUID.randomUUID(), "Unknown");
     }
 
