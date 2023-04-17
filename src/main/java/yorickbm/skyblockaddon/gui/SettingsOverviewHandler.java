@@ -1,6 +1,7 @@
 package yorickbm.skyblockaddon.gui;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
@@ -13,6 +14,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
+import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.capabilities.PlayerIslandProvider;
 import yorickbm.skyblockaddon.commands.LeaveIslandCommand;
 import yorickbm.skyblockaddon.util.IslandData;
@@ -41,7 +43,7 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
 
     @Override
     protected boolean isRightSlot(int slot) {
-        return slot == 10 || slot == 13 || slot == 16 || slot == 26;
+        return slot == 10 || slot == 12 || slot == 14 || slot == 16 || slot == 26;
     }
 
     @Override
@@ -53,52 +55,57 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
                     item = new ItemStack(Items.OAK_SAPLING);
                     item.setHoverName(ServerHelper.formattedText("Change Biome", ChatFormatting.BOLD, ChatFormatting.BLUE));
                     ServerHelper.addLore(item,
+                            ServerHelper.formattedText("\u00BB Change Biome of your island.", ChatFormatting.GRAY),
                             ServerHelper.formattedText(" "),
-                            ServerHelper.formattedText("\\u{2726} Change Biome of your island.", ChatFormatting.GRAY),
-                            ServerHelper.formattedText("\\u{2726} Current: UNKNOWN.", ChatFormatting.GRAY));
+                            ServerHelper.combineComponents(
+                                ServerHelper.formattedText("\u2666 Current: ", ChatFormatting.GRAY),
+                                ServerHelper.formattedText(data.getBiome(), ChatFormatting.WHITE)
+                            ));
                     break;
 
                 case 12:
                     item = new ItemStack(Items.IRON_BARS);
                     item.setHoverName(ServerHelper.formattedText("Permissions", ChatFormatting.BOLD, ChatFormatting.BLUE));
                     ServerHelper.addLore(item,
-                            ServerHelper.formattedText(" "),
-                            ServerHelper.formattedText("\\u{2726} Alter island permissions.", ChatFormatting.GRAY),
+                            ServerHelper.formattedText("\u00BB Alter your islands permissions.", ChatFormatting.GRAY),
                             ServerHelper.formattedText(" "),
                             ServerHelper.formattedText("Global Permissions:", ChatFormatting.YELLOW, ChatFormatting.UNDERLINE),
-                            ServerHelper.formattedText("\\u{2726} Teleport: REQUEST", ChatFormatting.GRAY),
-                            ServerHelper.formattedText("\\u{2726} Invite: MEMBERS", ChatFormatting.GRAY),
+                            ServerHelper.formattedText("\u2666 Teleport: REQUEST", ChatFormatting.GRAY),
+                            ServerHelper.formattedText("\u2666 Invite: MEMBERS", ChatFormatting.GRAY),
                             ServerHelper.formattedText(" "),
                             ServerHelper.formattedText("Interaction Permissions:", ChatFormatting.YELLOW, ChatFormatting.UNDERLINE),
-                            ServerHelper.formattedText("\\u{2726} Place: MEMBERS", ChatFormatting.GRAY),
-                            ServerHelper.formattedText("\\u{2726} BREAK: MEMBERS", ChatFormatting.GRAY),
-                            ServerHelper.formattedText("\\u{2726} USE BLOCK: MEMBERS", ChatFormatting.GRAY),
-                            ServerHelper.formattedText("\\u{2726} USE ITEM: EVERYONE", ChatFormatting.GRAY)
+                            ServerHelper.formattedText("\u2666 Place: MEMBERS", ChatFormatting.GRAY),
+                            ServerHelper.formattedText("\u2666 BREAK: MEMBERS", ChatFormatting.GRAY),
+                            ServerHelper.formattedText("\u2666 USE BLOCK: MEMBERS", ChatFormatting.GRAY),
+                            ServerHelper.formattedText("\u2666 USE ITEM: EVERYONE", ChatFormatting.GRAY)
                     );
                     break;
                 case 14:
                     item = new ItemStack(Items.RED_BED);
                     item.setHoverName(ServerHelper.formattedText("Change Spawn", ChatFormatting.BOLD, ChatFormatting.BLUE));
                     ServerHelper.addLore(item,
+                            ServerHelper.formattedText("\u00BB Set spawn of your island.", ChatFormatting.GRAY),
                             ServerHelper.formattedText(" "),
-                            ServerHelper.formattedText("\\u{2726} Set spawn of your island.", ChatFormatting.GRAY),
                             ServerHelper.combineComponents(
-                                ServerHelper.formattedText("\\u{2726} Current: ", ChatFormatting.GRAY),
-                                    ServerHelper.formattedText(data.getSpawn().getX() + ", " + data.getSpawn().getY() + ", " + data.getSpawn().getZ(), ChatFormatting.WHITE)
+                                ServerHelper.formattedText("\u2666 Current: ", ChatFormatting.GRAY),
+                                ServerHelper.formattedText(data.getSpawn().getX() + ", " + data.getSpawn().getY() + ", " + data.getSpawn().getZ(), ChatFormatting.WHITE)
+                            ),
+                            ServerHelper.combineComponents(
+                                ServerHelper.formattedText("\u2666 New: ", ChatFormatting.GRAY),
+                                ServerHelper.formattedText(Math.round(player.position().x) + ", " + Math.round(player.position().y) + ", " + Math.round(player.position().z), ChatFormatting.WHITE)
                             )
-                            );
+                        );
                     break;
                 case 16:
                     item = new ItemStack(Items.BARRIER);
                     item.setHoverName(ServerHelper.formattedText("Leave", ChatFormatting.BOLD, ChatFormatting.RED));
                     ServerHelper.addLore(item,
-                            ServerHelper.formattedText(" "),
-                            ServerHelper.formattedText("\\u{2726} Leave this island and teleport to spawn.", ChatFormatting.GRAY));
+                            ServerHelper.formattedText("\u00BB Leave this island and teleport to spawn.", ChatFormatting.GRAY));
                     break;
 
                 case 26:
                     item = new ItemStack(Items.ARROW);
-                    item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED));
+                    item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED, ChatFormatting.BOLD));
                     break;
 
                 default:
@@ -115,14 +122,15 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
 
         if (index == 0) {
             player.closeContainer();
-            ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, 1, 1f);
+            ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
             return true;
         }
 
         switch(index) {
             case 10:
                 player.closeContainer();
-                player.getServer().execute(() -> System.out.println("OPEN BIOME MENU"));
+                player.getServer().execute(() -> BiomeOverviewHandler.openMenu(player, data));
+                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
                 return true;
             case 12:
                 player.closeContainer();
@@ -130,7 +138,9 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
                 return true;
             case 14:
                 player.closeContainer();
-                player.getServer().execute(() -> System.out.println("SET ISLAND NEW SPAWN"));
+                ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
+
+                data.setSpawn(new Vec3i(player.position().x, player.position().y, player.position().z));
                 return true;
             case 16:
                 player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(pdata -> {
@@ -142,7 +152,7 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
             case 26:
                 player.closeContainer();
                 player.getServer().execute(() -> IslandOverviewHandler.openMenu(player, this.data));
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, 1, 1f);
+                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
                 return true;
         }
 

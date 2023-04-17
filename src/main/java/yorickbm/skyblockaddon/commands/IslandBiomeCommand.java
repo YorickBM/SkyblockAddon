@@ -36,27 +36,6 @@ public class IslandBiomeCommand {
                                         .executes((command) -> execute(command.getSource(), ResourceOrTagLocationArgument.getBiome(command, "biome"), (p_262543_) -> true)))));
     }
 
-    private static int quantize(int p_261998_) {
-        return QuartPos.toBlock(QuartPos.fromBlock(p_261998_));
-    }
-    private static BlockPos quantize(BlockPos p_262148_) {
-        return new BlockPos(quantize(p_262148_.getX()), quantize(p_262148_.getY()), quantize(p_262148_.getZ()));
-    }
-    private static BiomeResolver makeResolver(MutableInt p_262615_, ChunkAccess p_262698_, BoundingBox p_262622_, Holder<Biome> p_262705_, Predicate<Holder<Biome>> p_262695_) {
-        return (p_262550_, p_262551_, p_262552_, p_262553_) -> {
-            int i = QuartPos.toBlock(p_262550_);
-            int j = QuartPos.toBlock(p_262551_);
-            int k = QuartPos.toBlock(p_262552_);
-            Holder<Biome> holder = p_262698_.getNoiseBiome(p_262550_, p_262551_, p_262552_);
-            if (p_262622_.isInside(new Vec3i(i, j, k)) && p_262695_.test(holder)) {
-                p_262615_.increment();
-                return p_262705_;
-            } else {
-                return holder;
-            }
-        };
-    }
-
     private int execute(CommandSourceStack command, ResourceOrTagLocationArgument.Result<Biome> p_262612_, Predicate<Holder<Biome>> p_262697_) {
 
         if(!(command.getEntity() instanceof Player player)) { //Executed by non-player
@@ -71,34 +50,8 @@ public class IslandBiomeCommand {
         }
 
         player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(generator -> {
-            Vec3i center = generator.getIslandById(island.getIslandId()).getSpawn();
-            BlockPos blockpos = quantize(new BlockPos(center.getX() - IslandGeneratorProvider.SIZE,0,center.getZ() - IslandGeneratorProvider.SIZE));
-            BlockPos blockpos1 = quantize(new BlockPos(center.getX() + IslandGeneratorProvider.SIZE,256,center.getZ() + IslandGeneratorProvider.SIZE));
-            BoundingBox boundingbox = BoundingBox.fromCorners(blockpos, blockpos1);
 
-            ServerLevel serverlevel = command.getLevel();
-            List<ChunkAccess> list = new ArrayList<>();
-
-            for(int j = SectionPos.blockToSectionCoord(boundingbox.minZ()); j <= SectionPos.blockToSectionCoord(boundingbox.maxZ()); ++j) {
-                for(int k = SectionPos.blockToSectionCoord(boundingbox.minX()); k <= SectionPos.blockToSectionCoord(boundingbox.maxX()); ++k) {
-                    ChunkAccess chunkaccess = serverlevel.getChunk(k, j, ChunkStatus.FULL, false);
-                    if (chunkaccess == null) {
-                        continue; //Skip unloaded chunks
-                    }
-
-                    list.add(chunkaccess);
-                }
-            }
-
-            MutableInt mutableint = new MutableInt(0);
-
-            for(ChunkAccess chunkaccess1 : list) {
-                chunkaccess1.fillBiomesFromNoise(
-                        makeResolver(mutableint, chunkaccess1, boundingbox, biome, p_262697_),
-                        serverlevel.getChunkSource().getGenerator().climateSampler());
-                chunkaccess1.setUnsaved(true);
-            }
-
+            generator.getIslandById(island.getIslandId()).setBiome(command.getLevel(), biome, p_262612_.asPrintable());
             command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.biome.changed").formatted(p_262612_.asPrintable())).withStyle(ChatFormatting.GREEN), false);
         }));
 
