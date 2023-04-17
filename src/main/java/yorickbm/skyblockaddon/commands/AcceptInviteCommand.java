@@ -1,0 +1,63 @@
+package yorickbm.skyblockaddon.commands;
+
+import com.mojang.brigadier.Command;
+import com.mojang.brigadier.CommandDispatcher;
+import net.minecraft.ChatFormatting;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.UuidArgument;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import yorickbm.skyblockaddon.capabilities.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.capabilities.PlayerIslandProvider;
+import yorickbm.skyblockaddon.util.IslandData;
+import yorickbm.skyblockaddon.util.LanguageFile;
+
+import java.util.UUID;
+
+public class AcceptInviteCommand {
+    public AcceptInviteCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+        dispatcher.register(
+            Commands.literal("island")
+            .requires(source -> source.getEntity() instanceof Player)
+            .then(
+                Commands.literal("join")
+                .then(
+                    Commands.argument("islandId", UuidArgument.uuid())
+                    .executes((command) -> execute(command.getSource(), UuidArgument.getUuid(command, "islandId")))
+                )
+            )
+        );
+    }
+
+    private int execute(CommandSourceStack command, UUID islandId) { //, Component islandName
+        Player player = (Player) command.getEntity();
+        if(player.getLevel().dimension() != Level.OVERWORLD) {
+            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.notoverworld")));
+            return Command.SINGLE_SUCCESS;
+        }
+
+        player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(playerIsland -> {
+            if(playerIsland.hasOne()) {
+                command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.accept.hasone")));
+                return;
+            }
+
+            player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
+                //Update island data
+                IslandData island = g.getIslandById(islandId.toString());
+                island.addIslandMember(player.getUUID());
+                playerIsland.setIsland(islandId.toString());
+
+                //Inform player
+                command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.accept.success").formatted(island.getOwner(player.getServer()).getName())).withStyle(ChatFormatting.GREEN), false);
+
+                //Teleport to the island
+                island.teleport(player);
+            });
+        });
+
+        return Command.SINGLE_SUCCESS;
+    }
+}

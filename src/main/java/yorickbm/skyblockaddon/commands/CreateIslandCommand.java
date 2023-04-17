@@ -16,11 +16,22 @@ import yorickbm.skyblockaddon.util.IslandData;
 import yorickbm.skyblockaddon.util.LanguageFile;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CreateIslandCommand {
 
     public CreateIslandCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("island").then(Commands.literal("create").executes((command) -> { //.then(Commands.argument("name", MessageArgument.message()))
+        dispatcher.register(
+                Commands.literal("island")
+                    .requires(source -> {
+                        if(source.getEntity() instanceof Player player) {
+                            AtomicBoolean hasOne = new AtomicBoolean(false);
+                            player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> hasOne.set(i.hasOne()));
+                            return !hasOne.get();
+                        }
+                        return false;
+                    })
+                    .then(Commands.literal("create").executes((command) -> { //.then(Commands.argument("name", MessageArgument.message()))
             return execute(command.getSource()); //, MessageArgument.getMessage(command, "name")
         })));
     }
