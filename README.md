@@ -1,4 +1,4 @@
-# SkyblockAddon
+# Sky Vaulters Support
 For the modpack "Vault Hunters S3" by Iskall85, this mod provides a server utility that enables multiplayer island generation and protection.
 This mod can be used without changing the client-side modpack, the mod can be installed within the server mods to use.
 
