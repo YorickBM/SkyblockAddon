@@ -54,24 +54,24 @@ public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
                 case 10:
                     item = new ItemStack(Items.ENDER_EYE);
                     item.setHoverName(ServerHelper.formattedText("Teleport", ChatFormatting.BOLD, ChatFormatting.BLUE));
-                    ServerHelper.addLore(item, ServerHelper.formattedText(" "), ServerHelper.formattedText("♦ Teleport to your islands spawn location.", ChatFormatting.GRAY));
+                    ServerHelper.addLore(item, ServerHelper.formattedText(" "), ServerHelper.formattedText("\\u{2726} Teleport to your islands spawn location.", ChatFormatting.GRAY));
                     break;
                 case 16:
                     if(!this.data.isOwner(player.getUUID())) {
                         item = new ItemStack(Items.BARRIER);
                         item.setHoverName(ServerHelper.formattedText("Leave", ChatFormatting.BOLD, ChatFormatting.RED));
-                        ServerHelper.addLore(item, ServerHelper.formattedText(" "), ServerHelper.formattedText("♦ Leave this island and teleport to spawn.", ChatFormatting.GRAY));
+                        ServerHelper.addLore(item, ServerHelper.formattedText(" "), ServerHelper.formattedText("\\u{2726} Leave this island and teleport to spawn.", ChatFormatting.GRAY));
                         break;
                     }
                     item = new ItemStack(Items.ANVIL);
                     item.setHoverName(ServerHelper.formattedText("Settings", ChatFormatting.BOLD, ChatFormatting.BLUE));
-                    ServerHelper.addLore(item, ServerHelper.formattedText(" "), ServerHelper.formattedText("♦ Change the settings of your island.", ChatFormatting.GRAY));
+                    ServerHelper.addLore(item, ServerHelper.formattedText(" "), ServerHelper.formattedText("\\u{2726} Change the settings of your island.", ChatFormatting.GRAY));
 
                     break;
                 case 13:
                     item = new ItemStack(Items.CHEST);
                     item.setHoverName(ServerHelper.formattedText("Members", ChatFormatting.BOLD, ChatFormatting.BLUE));
-                    ServerHelper.addLore(item, ServerHelper.formattedText(" "), ServerHelper.formattedText("♦ Overview all islands members and invite others.", ChatFormatting.GRAY));
+                    ServerHelper.addLore(item, ServerHelper.formattedText(" "), ServerHelper.formattedText("\\u{2726} Overview all islands members and invite others.", ChatFormatting.GRAY));
 
                     break;
 

@@ -82,7 +82,7 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
                     item.setHoverName(ServerHelper.formattedText("Leave", ChatFormatting.BOLD, ChatFormatting.RED));
                     ServerHelper.addLore(item,
                             ServerHelper.formattedText(" "),
-                            ServerHelper.formattedText("♦ Leave this island and teleport to spawn.", ChatFormatting.GRAY));
+                            ServerHelper.formattedText("\\u{2726} Leave this island and teleport to spawn.", ChatFormatting.GRAY));
                     break;
 
                 case 26:

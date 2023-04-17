@@ -67,7 +67,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                                 playerName, ChatFormatting.GOLD, ChatFormatting.BOLD
                         )
                 );
-                ServerHelper.addLore(item, ServerHelper.formattedText(" "), ServerHelper.formattedText("♦ Islands current owner.", ChatFormatting.GRAY));
+                ServerHelper.addLore(item, ServerHelper.formattedText(" "), ServerHelper.formattedText("\\u{2726} Islands current owner.", ChatFormatting.GRAY));
 
                 CompoundTag tag = item.getOrCreateTag();
                 if(this.data.hasOwner()) tag.putString("SkullOwner", playerName);
@@ -90,7 +90,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                                     playerName, ChatFormatting.BLUE, ChatFormatting.BOLD
                             )
                     );
-                    ServerHelper.addLore(item, ServerHelper.formattedText(" "), ServerHelper.formattedText("♦ Regular island member.", ChatFormatting.GRAY));
+                    ServerHelper.addLore(item, ServerHelper.formattedText(" "), ServerHelper.formattedText("\\u{2726} Regular island member.", ChatFormatting.GRAY));
 
                     memberIndex += 1;
                 } else {
