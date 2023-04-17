@@ -20,7 +20,7 @@ public class ServerHelper {
     }
 
     public static Component formattedText(String text, ChatFormatting... formattings) {
-        return new TextComponent(text).setStyle(Style.EMPTY.applyFormats(formattings));
+        return new TextComponent(text).setStyle(Style.EMPTY.withItalic(false).applyFormats(formattings));
     }
 
     public static void addLore(ItemStack stack, Component... components) {
