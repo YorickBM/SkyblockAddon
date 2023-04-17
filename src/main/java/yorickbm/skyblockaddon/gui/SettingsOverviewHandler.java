@@ -41,7 +41,7 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
 
     @Override
     protected boolean isRightSlot(int slot) {
-        return slot == 0 || (slot < 45 && slot > 8 && slot % 9 != 0 && slot % 9 != 8);
+        return slot == 10 || slot == 13 || slot == 16 || slot == 26;
     }
 
     @Override
@@ -58,24 +58,31 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
                             ServerHelper.formattedText("\\u{2726} Current: UNKNOWN.", ChatFormatting.GRAY));
                     break;
 
-                case 13:
-                    item = new ItemStack(Items.CHEST);
+                case 12:
+                    item = new ItemStack(Items.IRON_BARS);
                     item.setHoverName(ServerHelper.formattedText("Permissions", ChatFormatting.BOLD, ChatFormatting.BLUE));
                     ServerHelper.addLore(item,
                             ServerHelper.formattedText(" "),
                             ServerHelper.formattedText("\\u{2726} Alter island permissions.", ChatFormatting.GRAY),
                             ServerHelper.formattedText(" "),
                             ServerHelper.formattedText("Global Permissions:", ChatFormatting.YELLOW, ChatFormatting.UNDERLINE),
-                            ServerHelper.formattedText("\\u{2726} Teleport: REQUEST"),
-                            ServerHelper.formattedText("\\u{2726} Invite: MEMBERS"),
+                            ServerHelper.formattedText("\\u{2726} Teleport: REQUEST", ChatFormatting.GRAY),
+                            ServerHelper.formattedText("\\u{2726} Invite: MEMBERS", ChatFormatting.GRAY),
                             ServerHelper.formattedText(" "),
                             ServerHelper.formattedText("Interaction Permissions:", ChatFormatting.YELLOW, ChatFormatting.UNDERLINE),
-                            ServerHelper.formattedText("\\u{2726} Place: MEMBERS"),
-                            ServerHelper.formattedText("\\u{2726} BREAK: MEMBERS"),
-                            ServerHelper.formattedText("\\u{2726} USE BLOCK: MEMBERS"),
-                            ServerHelper.formattedText("\\u{2726} USE ITEM: EVERYONE")
+                            ServerHelper.formattedText("\\u{2726} Place: MEMBERS", ChatFormatting.GRAY),
+                            ServerHelper.formattedText("\\u{2726} BREAK: MEMBERS", ChatFormatting.GRAY),
+                            ServerHelper.formattedText("\\u{2726} USE BLOCK: MEMBERS", ChatFormatting.GRAY),
+                            ServerHelper.formattedText("\\u{2726} USE ITEM: EVERYONE", ChatFormatting.GRAY)
                     );
-
+                    break;
+                case 14:
+                    item = new ItemStack(Items.RED_BED);
+                    item.setHoverName(ServerHelper.formattedText("Change Spawn", ChatFormatting.BOLD, ChatFormatting.BLUE));
+                    ServerHelper.addLore(item,
+                            ServerHelper.formattedText(" "),
+                            ServerHelper.formattedText("\\u{2726} Set spawn of your island.", ChatFormatting.GRAY),
+                            ServerHelper.formattedText("\\u{2726} Current: X, Y, Z", ChatFormatting.GRAY));
                     break;
                 case 16:
                     item = new ItemStack(Items.BARRIER);
@@ -113,9 +120,13 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
                 player.closeContainer();
                 player.getServer().execute(() -> System.out.println("OPEN BIOME MENU"));
                 return true;
-            case 13:
+            case 12:
                 player.closeContainer();
                 player.getServer().execute(() -> System.out.println("OPEN ALTER SETTINGS MENU"));
+                return true;
+            case 14:
+                player.closeContainer();
+                player.getServer().execute(() -> System.out.println("SET ISLAND NEW SPAWN"));
                 return true;
             case 16:
                 player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(pdata -> {

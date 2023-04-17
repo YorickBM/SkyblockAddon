@@ -43,7 +43,7 @@ public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
 
     @Override
     protected boolean isRightSlot(int slot) {
-        return slot == 0 || (slot < 45 && slot > 8 && slot % 9 != 0 && slot % 9 != 8);
+        return slot == 10 || slot == 13 || slot == 16;
     }
 
     @Override

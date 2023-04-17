@@ -23,7 +23,7 @@ import java.util.UUID;
 public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
 
     protected MemberOverviewHandler(int syncId, Inventory playerInventory, IslandData data) {
-        super(syncId, playerInventory, 6, data);
+        super(syncId, playerInventory, 5, data);
     }
 
     public static void openMenu(Player player, IslandData data) {
@@ -44,7 +44,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
 
     @Override
     protected boolean isRightSlot(int slot) {
-        return slot == 53 || (slot < 45 && slot > 8 && slot % 9 != 0);
+        return slot == 44;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
         for(int i = 0; i < this.inventory.getContainerSize(); i++) {
             ItemStack item = null;
 
-            if (i == 53) {
+            if (i == 44) {
                 item = new ItemStack(Items.ARROW);
                 item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED));
             } else if(i == 10) {
@@ -74,7 +74,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                 item.setTag(tag);
 
 
-            } else if(i >= 10 && i <= 43 && i%9 != 0 && i%9 != 8) {
+            } else if(i >= 10 && i <= 34 && i%9 != 0 && i%9 != 8) {
                 if(memberIndex < members.size()) {
                     CompoundTag tag = new CompoundTag();
                     String playerName = "Unknown";
@@ -108,7 +108,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
     @Override
     protected boolean handleSlotClicked(ServerPlayer player, int index, Slot slot, int clickType) {
         switch(index) {
-            case 53:
+            case 44:
                 player.closeContainer();
                 player.getServer().execute(() -> IslandOverviewHandler.openMenu(player, this.data));
                 ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, 1, 1f);
