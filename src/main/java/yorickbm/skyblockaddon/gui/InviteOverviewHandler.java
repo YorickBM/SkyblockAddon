@@ -2,8 +2,7 @@ package yorickbm.skyblockaddon.gui;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.*;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.MenuProvider;
@@ -14,11 +13,14 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
+import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.capabilities.PlayerIslandProvider;
 import yorickbm.skyblockaddon.util.IslandData;
+import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
@@ -45,7 +47,7 @@ public class InviteOverviewHandler extends ServerOnlyHandler<IslandData> {
 
     @Override
     protected boolean isRightSlot(int slot) {
-        return slot == 35;
+        return slot == 35 || (slot >= 10 && slot <= 25 && slot%9 != 0 && slot%9 != 8);
     }
 
     @Override
@@ -76,7 +78,8 @@ public class InviteOverviewHandler extends ServerOnlyHandler<IslandData> {
                                     sPlayer.getGameProfile().getName(), ChatFormatting.BLUE, ChatFormatting.BOLD
                             )
                     );
-                    ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Regular island member.", ChatFormatting.GRAY));
+                    ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Click to invite player to your island", ChatFormatting.GRAY));
+                    item.getOrCreateTagElement("skyblockaddon").putUUID("player", sPlayer.getUUID());
 
                     memberIndex += 1;
                 } else {
@@ -94,18 +97,54 @@ public class InviteOverviewHandler extends ServerOnlyHandler<IslandData> {
     @Override
     protected boolean handleSlotClicked(ServerPlayer player, int index, Slot slot, int clickType) {
         switch(index) {
-            case 44:
+            case 35:
                 player.closeContainer();
-                player.getServer().execute(() -> IslandOverviewHandler.openMenu(player, this.data));
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, 1, 1f);
+                player.getServer().execute(() -> MemberOverviewHandler.openMenu(player, this.data));
+                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
                 return true;
-            case 31:
-                player.closeContainer();
-                player.getServer().execute(() -> IslandOverviewHandler.openMenu(player, this.data));
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, 1, 1f);
-                return true;
+
+            default:
+                if(index >= 10 && index <= 25 && index%9 != 0 && index%9 != 8) {
+                    if(slot.getItem().isEmpty() || slot.getItem().getItem().equals(Items.AIR)) return false; //Item is air or empty!
+
+                    player.closeContainer();
+                    ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
+
+                    UUID uuid = slot.getItem().getTagElement("skyblockaddon").getUUID("player");
+                    ServerPlayer invitee = player.getServer().getPlayerList().getPlayer(uuid);
+                    if(invitee == null) {
+                        player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.offline"), ChatFormatting.RED), player.getUUID());
+                        return false;
+                    }
+
+                    invitee.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(s -> {
+                        if(s.hasOne()) {
+                            player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.hasone"), ChatFormatting.RED), player.getUUID());
+                            return;
+                        }
+                        player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(x -> {
+
+                            invitee.sendMessage(
+                                ServerHelper.styledText(
+                                        LanguageFile.getForKey("commands.island.invite.invitation").formatted(player.getGameProfile().getName()),
+                                        Style.EMPTY
+                                            .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island join " + x.getIslandId()))
+                                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("Click to accept invite!"))),
+                                        ChatFormatting.GREEN
+                                ),
+                                invitee.getUUID()
+                            );
+                            player.sendMessage(
+                                ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.success").formatted(invitee.getGameProfile().getName()),
+                                ChatFormatting.GREEN),
+                                player.getUUID()
+                            );
+                            return;
+                        });
+                    });
+                }
         }
 
-        return false;
+        return true;
     }
 }

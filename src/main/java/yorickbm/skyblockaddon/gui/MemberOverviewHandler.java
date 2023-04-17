@@ -14,16 +14,19 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
+import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.util.IslandData;
 import yorickbm.skyblockaddon.util.ServerHelper;
+import yorickbm.skyblockaddon.util.UsernameCache;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
 public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
 
     protected MemberOverviewHandler(int syncId, Inventory playerInventory, IslandData data) {
-        super(syncId, playerInventory, 5, data);
+        super(syncId, playerInventory, 4, data);
     }
 
     public static void openMenu(Player player, IslandData data) {
@@ -44,7 +47,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
 
     @Override
     protected boolean isRightSlot(int slot) {
-        return slot == 44;
+        return slot == 35 || slot == 31;
     }
 
     @Override
@@ -55,9 +58,13 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
         for(int i = 0; i < this.inventory.getContainerSize(); i++) {
             ItemStack item = null;
 
-            if (i == 44) {
+            if (i == 35) {
                 item = new ItemStack(Items.ARROW);
-                item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED));
+                item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED, ChatFormatting.BOLD));
+            } else if (i == 31) {
+                item = new ItemStack(Items.GREEN_BANNER);
+                item.setHoverName(ServerHelper.formattedText("Invite", ChatFormatting.GREEN, ChatFormatting.BOLD));
+                ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Invite online player to join this island.", ChatFormatting.GRAY));
             } else if(i == 10) {
                 String playerName = this.data.hasOwner() ? this.data.getOwner(player.getServer()).getName() : "Unknown";
 
@@ -67,21 +74,25 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                                 playerName, ChatFormatting.GOLD, ChatFormatting.BOLD
                         )
                 );
-                ServerHelper.addLore(item, ServerHelper.formattedText(" "), ServerHelper.formattedText("\\u{2726} Islands current owner.", ChatFormatting.GRAY));
+                ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Islands current owner.", ChatFormatting.GRAY));
 
                 CompoundTag tag = item.getOrCreateTag();
                 if(this.data.hasOwner()) tag.putString("SkullOwner", playerName);
                 item.setTag(tag);
 
 
-            } else if(i >= 10 && i <= 34 && i%9 != 0 && i%9 != 8) {
+            } else if(i > 10 && i <= 25 && i%9 != 0 && i%9 != 8) {
                 if(memberIndex < members.size()) {
                     CompoundTag tag = new CompoundTag();
                     String playerName = "Unknown";
 
                     if(this.data.hasOwner()) {
-                        playerName = player.getServer().getPlayerList().getPlayer(members.get(memberIndex)).getGameProfile().getName();
-                        tag.putString("SkullOwner", playerName);
+                        try {
+                            playerName = UsernameCache.getBlocking(members.get(memberIndex));
+                            tag.putString("SkullOwner", playerName);
+                        } catch (IOException e) {
+                            playerName = "Unknown";
+                        }
                     }
 
                     item = new ItemStack(Items.PLAYER_HEAD, 1, tag);
@@ -90,7 +101,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                                     playerName, ChatFormatting.BLUE, ChatFormatting.BOLD
                             )
                     );
-                    ServerHelper.addLore(item, ServerHelper.formattedText(" "), ServerHelper.formattedText("\\u{2726} Regular island member.", ChatFormatting.GRAY));
+                    ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Regular island member.", ChatFormatting.GRAY));
 
                     memberIndex += 1;
                 } else {
@@ -108,10 +119,15 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
     @Override
     protected boolean handleSlotClicked(ServerPlayer player, int index, Slot slot, int clickType) {
         switch(index) {
-            case 44:
+            case 35:
                 player.closeContainer();
                 player.getServer().execute(() -> IslandOverviewHandler.openMenu(player, this.data));
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, 1, 1f);
+                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
+                return true;
+            case 31:
+                player.closeContainer();
+                player.getServer().execute(() -> InviteOverviewHandler.openMenu(player, this.data));
+                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
                 return true;
         }
 

@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.events.ModEvents;
 import yorickbm.skyblockaddon.util.LanguageFile;
+import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.util.stream.Collectors;
 
@@ -41,6 +42,9 @@ public class Main {
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(new ModEvents());
+
+        //Register username cache
+        UsernameCache.initCache(20);
     }
 
     public static MinecraftServer getServer() {

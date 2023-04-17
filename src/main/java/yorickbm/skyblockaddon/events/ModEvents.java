@@ -22,6 +22,7 @@ import yorickbm.skyblockaddon.capabilities.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.PlayerIsland;
 import yorickbm.skyblockaddon.capabilities.PlayerIslandProvider;
 import yorickbm.skyblockaddon.commands.*;
+import yorickbm.skyblockaddon.util.UsernameCache;
 
 @Mod.EventBusSubscriber(modid = Main.MOD_ID)
 public class ModEvents {
@@ -34,9 +35,9 @@ public class ModEvents {
         new InviteIslandCommand(event.getDispatcher());
         new AcceptIslandCommand(event.getDispatcher());
         new TeleportIslandCommand(event.getDispatcher());
-        new IslandBiomeCommand(event.getDispatcher());
         new UndoLeaveIslandCommand(event.getDispatcher());
         new IslandCommand(event.getDispatcher());
+        new AcceptInviteCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
         LOGGER.info("Registered commands for " + Main.MOD_ID);
@@ -60,6 +61,7 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
+        UsernameCache.onPlayerLogin(event.getPlayer());
         event.getPlayer().getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> {
             if(i.hasLegacyData()) {
                 event.getPlayer().getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(w -> w.registerIslandFromLegacy(i, event.getPlayer()));

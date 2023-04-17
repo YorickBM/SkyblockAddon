@@ -23,6 +23,9 @@ public class ServerHelper {
     public static Component formattedText(String text, ChatFormatting... formattings) {
         return new TextComponent(text).setStyle(Style.EMPTY.withItalic(false).applyFormats(formattings));
     }
+    public static Component styledText(String text, Style style, ChatFormatting... formattings) {
+        return new TextComponent(text).setStyle(style.applyFormats(formattings));
+    }
 
     public static void addLore(ItemStack stack, Component... components) {
         ListTag lore = new ListTag();

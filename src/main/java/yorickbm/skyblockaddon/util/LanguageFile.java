@@ -6,7 +6,6 @@ public class LanguageFile {
     private static final HashMap<String, String> items = new HashMap<>();
 
     public static void init() {
-        items.put("commands.island.nonplayer", "This command can only be executed by a player!");
         items.put("commands.island.notoverworld", "You can only execute this command in the overworld.");
 
         items.put("commands.island.create.success", "Created your skyblock island!");
@@ -19,6 +18,7 @@ public class LanguageFile {
 
         items.put("commands.island.invite.hasone", "The player you are trying to invite already has an island!");
         items.put("commands.island.invite.hasnone", "You need to have an island to be able to invite someone.");
+        items.put("commands.island.invite.offline", "The player you are trying to invite went offline!");
         items.put("commands.island.invite.success", "You have invited %s to your island.");
         items.put("commands.island.invite.invitation", "%s has invited you to join their island. Type '/island accept' to join their island.");
 
