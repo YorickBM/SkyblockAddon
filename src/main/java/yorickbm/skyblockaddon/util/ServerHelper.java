@@ -4,6 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
@@ -27,6 +28,14 @@ public class ServerHelper {
         ListTag lore = new ListTag();
         Arrays.stream(components).toList().forEach(text -> lore.add(StringTag.valueOf(Component.Serializer.toJson(text))));
         stack.getOrCreateTagElement("display").put("Lore", lore);
+    }
+
+    public static Component combineComponents(Component... components) {
+        MutableComponent comp = components[0].plainCopy();
+        Arrays.stream(Arrays.copyOfRange(components, 1, components.length)).toList().forEach(component -> {
+            comp.append(component);
+        });
+        return comp;
     }
 
 }

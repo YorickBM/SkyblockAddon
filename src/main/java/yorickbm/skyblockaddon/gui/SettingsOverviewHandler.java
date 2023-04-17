@@ -82,7 +82,11 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
                     ServerHelper.addLore(item,
                             ServerHelper.formattedText(" "),
                             ServerHelper.formattedText("\\u{2726} Set spawn of your island.", ChatFormatting.GRAY),
-                            ServerHelper.formattedText("\\u{2726} Current: X, Y, Z", ChatFormatting.GRAY));
+                            ServerHelper.combineComponents(
+                                ServerHelper.formattedText("\\u{2726} Current: ", ChatFormatting.GRAY),
+                                    ServerHelper.formattedText(data.getSpawn().getX() + ", " + data.getSpawn().getY() + ", " + data.getSpawn().getZ(), ChatFormatting.WHITE)
+                            )
+                            );
                     break;
                 case 16:
                     item = new ItemStack(Items.BARRIER);
