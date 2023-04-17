@@ -20,9 +20,7 @@ public class AcceptInviteCommand {
     public AcceptInviteCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
             Commands.literal("island")
-            .requires(source -> source.getEntity() instanceof Player)
-            .then(
-                Commands.literal("join")
+            .then(Commands.literal("join")
                 .then(
                     Commands.argument("islandId", UuidArgument.uuid())
                     .executes((command) -> execute(command.getSource(), UuidArgument.getUuid(command, "islandId")))

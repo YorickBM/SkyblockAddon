@@ -21,34 +21,33 @@ import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.time.Instant;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LeaveIslandCommand {
 
     public LeaveIslandCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(
-                Commands.literal("island")
-                    .requires(source -> {
-                        if(source.getEntity() instanceof Player player) {
-                            AtomicBoolean hasOne = new AtomicBoolean(false);
-                            player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> hasOne.set(i.hasOne()));
-                            return hasOne.get();
-                        }
-                        return false;
-                    })
-                    .then(Commands.literal("leave").executes((command) -> {
+        dispatcher.register(Commands.literal("island").then(Commands.literal("leave").executes((command) -> { //.then(Commands.argument("name", MessageArgument.message()))
             return execute(command.getSource()); //, MessageArgument.getMessage(command, "name")
         })));
     }
 
     private int execute(CommandSourceStack command) { //, Component islandName
-        Player player = (Player) command.getEntity();
+
+        if(!(command.getEntity() instanceof Player player)) { //Executed by non-player
+            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.nonplayer")));
+            return Command.SINGLE_SUCCESS;
+        }
+
         if(player.level.dimension() != Level.OVERWORLD) {
             command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.notoverworld")));
             return Command.SINGLE_SUCCESS;
         }
 
         player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
+            if(!island.hasOne()) {
+                command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.leave.hasnone")));
+                return;
+            }
+
             player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(generator -> {
                 IslandData islandData = generator.getIslandById(island.getIslandId());
 

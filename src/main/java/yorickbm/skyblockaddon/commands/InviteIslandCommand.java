@@ -18,33 +18,32 @@ import yorickbm.skyblockaddon.util.LanguageFile;
 
 import java.util.Collection;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class InviteIslandCommand {
     public InviteIslandCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(
-                Commands.literal("island")
-                    .requires(source -> {
-                        if(source.getEntity() instanceof Player player) {
-                            AtomicBoolean hasOne = new AtomicBoolean(false);
-                            player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> hasOne.set(i.hasOne()));
-                            return hasOne.get();
-                        }
-                        return false;
-                    })
-                    .then(Commands.literal("invite").then(Commands.argument("targets", EntityArgument.players()).executes((command) -> { //.then(Commands.argument("name", MessageArgument.message()))
+        dispatcher.register(Commands.literal("island").then(Commands.literal("invite").then(Commands.argument("targets", EntityArgument.players()).executes((command) -> { //.then(Commands.argument("name", MessageArgument.message()))
             return execute(command.getSource(), EntityArgument.getPlayers(command, "targets")); //, MessageArgument.getMessage(command, "name")
         }))));
     }
 
     private int execute(CommandSourceStack command, Collection<ServerPlayer> targets) { //, Component islandName
-        Player player = (Player) command.getEntity();
+
+        if(!(command.getEntity() instanceof Player player)) { //Executed by non-player
+            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.nonplayer")));
+            return Command.SINGLE_SUCCESS;
+        }
+
         if(player.level.dimension() != Level.OVERWORLD) {
             command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.notoverworld")));
             return Command.SINGLE_SUCCESS;
         }
 
         player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
+            if(!island.hasOne()) {
+                command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.invite.hasnone")));
+                return;
+            }
+
             Optional<ServerPlayer> p = targets.stream().findFirst();
             p.ifPresent(serverPlayer -> serverPlayer.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> {
                 if (i.hasOne()) {

@@ -30,13 +30,13 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onCommandRegister(RegisterCommandsEvent event) {
+        new IslandCommand(event.getDispatcher());
         new CreateIslandCommand(event.getDispatcher());
         new LeaveIslandCommand(event.getDispatcher());
         new InviteIslandCommand(event.getDispatcher());
         new AcceptIslandCommand(event.getDispatcher());
         new TeleportIslandCommand(event.getDispatcher());
         new UndoLeaveIslandCommand(event.getDispatcher());
-        new IslandCommand(event.getDispatcher());
         new AcceptInviteCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());

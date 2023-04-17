@@ -28,7 +28,7 @@ public class IslandData {
     private UUID owner = null; //UUID Of owner
     private Vec3i spawn; //Spawn coordinates of island
     private Vec3i center; //Spawn coordinates of island
-    private String biome = "UNKNOWN";
+    private String biome = "Unknown";
 
     private final List<UUID> islandMembers = new ArrayList<>(); //List of all members of island
 
@@ -76,8 +76,8 @@ public class IslandData {
      * @param uuid UUID of p[layer you wish to add
      */
     public void addIslandMember(UUID uuid) {
+        islandMembers.add(uuid);
         if(!hasOwner()) setOwner(uuid); //Set owner
-        else islandMembers.add(uuid);
     }
 
     /**
