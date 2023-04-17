@@ -27,6 +27,9 @@ public class Main {
     public static final String VERSION = "2.1";
     private static MinecraftServer server;
 
+    public static final float UI_SOUND_VOL = 0.5f;
+    public static final float EFFECT_SOUND_VOL = 0.2f;
+
     public Main() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 

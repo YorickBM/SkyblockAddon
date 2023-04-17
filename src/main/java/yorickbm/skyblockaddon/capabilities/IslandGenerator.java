@@ -73,7 +73,12 @@ public class IslandGenerator {
                     CompoundTag tagIslands = nbt.getCompound("islands");
                     for (int i = 0; i < tagIslandIds.getInt("count"); i++) {
                         String id = tagIslandIds.getString(i + "");
-                        IslandData island = new IslandData(tagIslands.getCompound(id));
+                        CompoundTag islandTag = tagIslands.getCompound(id);
+
+                        if(!islandTag.contains("biome")) islandTag.putString("biome", "UNKNOWN");
+                        if(!islandTag.contains("center")) islandTag.put("center", islandTag.getCompound("spawn"));
+
+                        IslandData island = new IslandData(islandTag);
                         islands.put(id, island);
                     }
                 }

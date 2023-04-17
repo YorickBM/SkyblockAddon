@@ -13,6 +13,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
+import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.capabilities.PlayerIslandProvider;
 import yorickbm.skyblockaddon.commands.LeaveIslandCommand;
 import yorickbm.skyblockaddon.util.IslandData;
@@ -54,24 +55,24 @@ public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
                 case 10:
                     item = new ItemStack(Items.ENDER_EYE);
                     item.setHoverName(ServerHelper.formattedText("Teleport", ChatFormatting.BOLD, ChatFormatting.BLUE));
-                    ServerHelper.addLore(item, ServerHelper.formattedText(" "), ServerHelper.formattedText("\\u{2726} Teleport to your islands spawn location.", ChatFormatting.GRAY));
+                    ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Teleport to your islands spawn location.", ChatFormatting.GRAY));
                     break;
                 case 16:
                     if(!this.data.isOwner(player.getUUID())) {
                         item = new ItemStack(Items.BARRIER);
                         item.setHoverName(ServerHelper.formattedText("Leave", ChatFormatting.BOLD, ChatFormatting.RED));
-                        ServerHelper.addLore(item, ServerHelper.formattedText(" "), ServerHelper.formattedText("\\u{2726} Leave this island and teleport to spawn.", ChatFormatting.GRAY));
+                        ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Leave this island and teleport to spawn.", ChatFormatting.GRAY));
                         break;
                     }
                     item = new ItemStack(Items.ANVIL);
                     item.setHoverName(ServerHelper.formattedText("Settings", ChatFormatting.BOLD, ChatFormatting.BLUE));
-                    ServerHelper.addLore(item, ServerHelper.formattedText(" "), ServerHelper.formattedText("\\u{2726} Change the settings of your island.", ChatFormatting.GRAY));
+                    ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Change the settings of your island.", ChatFormatting.GRAY));
 
                     break;
                 case 13:
                     item = new ItemStack(Items.CHEST);
                     item.setHoverName(ServerHelper.formattedText("Members", ChatFormatting.BOLD, ChatFormatting.BLUE));
-                    ServerHelper.addLore(item, ServerHelper.formattedText(" "), ServerHelper.formattedText("\\u{2726} Overview all islands members and invite others.", ChatFormatting.GRAY));
+                    ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Overview all islands members and invite others.", ChatFormatting.GRAY));
 
                     break;
 
@@ -89,7 +90,7 @@ public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
 
         if (index == 0) {
             player.closeContainer();
-            ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, 1, 1f);
+            ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
             return true;
         }
 
@@ -102,7 +103,7 @@ public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
             case 13:
                 player.closeContainer();
                 player.getServer().execute(() -> MemberOverviewHandler.openMenu(player, this.data));
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, 1, 1f);
+                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
                 return true;
 
             case 16:
@@ -115,7 +116,7 @@ public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
                     player.closeContainer();
                     player.getServer().execute(() -> SettingsOverviewHandler.openMenu(player, this.data));
                 }
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, 1, 1f);
+                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
                 return true;
 
         }
