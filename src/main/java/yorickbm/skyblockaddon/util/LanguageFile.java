@@ -6,7 +6,9 @@ public class LanguageFile {
     private static final HashMap<String, String> items = new HashMap<>();
 
     public static void init() {
+        items.put("commands.island.nonplayer", "This command may only be executed by a player.");
         items.put("commands.island.notoverworld", "You can only execute this command in the overworld.");
+        items.put("commands.island.hasnone", "For this command to be executed, you require to be part of an island.");
 
         items.put("commands.island.create.success", "Created your skyblock island!");
         items.put("commands.island.create.hasone", "You already have an island, use /island tp to teleport to your island!");
@@ -21,6 +23,7 @@ public class LanguageFile {
         items.put("commands.island.invite.offline", "The player you are trying to invite went offline!");
         items.put("commands.island.invite.success", "You have invited %s to your island.");
         items.put("commands.island.invite.invitation", "%s has invited you to join their island. Type '/island accept' to join their island.");
+        items.put("commands.island.accept.invalid", "Whoops, seems like your invitation has expired!");
 
         items.put("commands.island.accept.hasone", "You already have an island!");
         items.put("commands.island.accept.success", "You have joined %s's island!");
@@ -40,10 +43,6 @@ public class LanguageFile {
         items.put("commands.island.kick.kicked", "%s has kicked you of their island!");
         items.put("commands.island.kick.success", "You have kicked %s from your island!");
         items.put("commands.island.kick.hasnone", "The player you are trying to kick is not part of your island.");
-
-        items.put("player.break.notpermitted", "You cannot break any blocks here!");
-        items.put("player.place.notpermitted", "You cannot place any blocks here!");
-        items.put("player.interact.notpermitted", "You cannot interact with any blocks here!");
 
         items.put("commands.island.biome.changed", "Your islands biome had changed too %s.");
 

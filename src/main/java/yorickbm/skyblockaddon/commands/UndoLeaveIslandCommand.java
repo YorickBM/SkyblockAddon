@@ -10,7 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.PlayerIslandProvider;
-import yorickbm.skyblockaddon.util.IslandData;
+import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.LanguageFile;
 
 import java.time.Instant;
@@ -58,16 +58,14 @@ public class UndoLeaveIslandCommand {
 
                 IslandData islandData = g.getIslandById(previous);
                 island.setIsland(previous); //Set old island back
-                if(!g.getIslandById(previous).hasOwner()) {
-                    g.getIslandById(previous).setOwner(player.getUUID());
-                }
                 islandData.addIslandMember(player.getUUID());
-                islandData.teleport(player);
 
                 if (hadPrevious)
                     command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.undo.hasone")).withStyle(ChatFormatting.GREEN), false);
                 else
                     command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.undo.success")).withStyle(ChatFormatting.GREEN), false);
+
+                islandData.teleport(player);
             });
         });
 

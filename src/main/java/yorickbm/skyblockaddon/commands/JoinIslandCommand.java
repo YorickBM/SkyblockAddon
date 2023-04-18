@@ -11,13 +11,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.PlayerIslandProvider;
-import yorickbm.skyblockaddon.util.IslandData;
+import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.LanguageFile;
 
 import java.util.UUID;
 
-public class AcceptInviteCommand {
-    public AcceptInviteCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+public class JoinIslandCommand {
+    public JoinIslandCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
             Commands.literal("island")
             .then(Commands.literal("join")
@@ -39,6 +39,10 @@ public class AcceptInviteCommand {
         player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(playerIsland -> {
             if(playerIsland.hasOne()) {
                 command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.accept.hasone")));
+                return;
+            }
+            if(!playerIsland.inviteValid(islandId.toString())) {
+                command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.accept.invalid")));
                 return;
             }
 

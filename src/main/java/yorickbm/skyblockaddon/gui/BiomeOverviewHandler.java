@@ -18,7 +18,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.Main;
-import yorickbm.skyblockaddon.util.IslandData;
+import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.List;
@@ -149,7 +149,7 @@ public class BiomeOverviewHandler extends ServerOnlyHandler<IslandData> {
                 Holder<Biome> biomeHolder = ForgeRegistries.BIOMES.getHolder(new ResourceLocation(biomeRegisterName)).get();
 
                 data.setBiome(player.getLevel(), biomeHolder, biomeRegisterName.replace("minecraft:", "").replace("_", " "));
-                player.sendMessage(ServerHelper.formattedText("Setting biome to: " + biomeRegisterName), player.getUUID());
+                player.sendMessage(ServerHelper.formattedText("Setting biome to: " + biomeRegisterName), player.getUUID()); //TODO Use language file
         }
 
         return false;

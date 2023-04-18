@@ -16,7 +16,7 @@ import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.PlayerIsland;
 import yorickbm.skyblockaddon.capabilities.PlayerIslandProvider;
-import yorickbm.skyblockaddon.util.IslandData;
+import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 

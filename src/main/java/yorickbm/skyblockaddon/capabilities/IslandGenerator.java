@@ -17,7 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.util.BuildingBlock;
-import yorickbm.skyblockaddon.util.IslandData;
+import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.NBTUtil;
 
 import java.io.IOException;
@@ -33,6 +33,7 @@ public class IslandGenerator {
     Vec3i spawnLocation = IslandGeneratorProvider.DEFAULT_SPAWN;
 
     HashMap<String, IslandData> islands = new HashMap<>();
+    HashMap<Vec3i, String> islandIdsByVec3i = new HashMap<>();
 
     /**
      * Save islands data into nbt
@@ -80,6 +81,7 @@ public class IslandGenerator {
 
                         IslandData island = new IslandData(islandTag);
                         islands.put(id, island);
+                        islandIdsByVec3i.put(island.getCenter(), id);
                     }
                 }
             }
@@ -206,7 +208,7 @@ public class IslandGenerator {
     }
 
     /**
-     * Find island data by its location for legacy conversion
+     * Find island data by its location (for legacy conversion)
      * @param location Vec3i islands spawn location
      * @return Island ID or empty if not found
      */
@@ -217,6 +219,25 @@ public class IslandGenerator {
             if(data.getSpawn() == location)
                 return island.getKey();
         }
+
+        return "";
+    }
+
+    public String getIslandIdByLocation(Vec3i location) {
+        final int d = IslandGeneratorProvider.SIZE *2 + IslandGeneratorProvider.BUFFER;
+
+        int offsetX = ((location.getX() / d)*d);
+        int offsetZ = ((location.getZ() / d)*d);
+        Vec3i calculatedCenter = new Vec3i(offsetX, 127, offsetZ);
+        System.out.println("Calculated size: " + calculatedCenter.toShortString());
+        System.out.println("Found island: " + this.islandIdsByVec3i.get(calculatedCenter));
+
+//        for(Map.Entry<String, IslandData> island : islands.entrySet()) {
+//            IslandData data = island.getValue();
+//
+//            if(data.getIslandBoundingBox().isInside(location))
+//                return island.getKey();
+//        }
 
         return "";
     }

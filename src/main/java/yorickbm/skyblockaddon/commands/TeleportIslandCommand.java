@@ -64,6 +64,7 @@ public class TeleportIslandCommand {
                         return;
                     }
 
+                    //TODO: FIx onclick command
                     command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.request.send").formatted(p.get().getGameProfile().getName())).withStyle(ChatFormatting.GREEN), false);
                     Style style = new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.request").formatted(player.getGameProfile().getName())).withStyle(ChatFormatting.GREEN).getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island accept")).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("Click to accept teleport!")));
                     p.get().sendMessage(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.request").formatted(player.getGameProfile().getName())).withStyle(style), p.get().getUUID());

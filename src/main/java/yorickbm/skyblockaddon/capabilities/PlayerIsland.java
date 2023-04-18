@@ -5,6 +5,8 @@ import net.minecraft.nbt.CompoundTag;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.time.Instant;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class PlayerIsland {
@@ -25,11 +27,58 @@ public class PlayerIsland {
 
     //New data
     private String islandId = "";
-    private String oldIslandId = ""; //Allows admin to undo island leave through commando
+    private String oldIslandId = ""; //Allows to undo island leave through commando
 
-    public long timestamp = 0;
+    private HashMap<String, long> islandInvites = new HashMap<String, long>();
+    private HashMap<UUID, long> teleportInvites = new HashMap<UUID, long>();
+
     public UUID request;
     public int requestType = -1;
+
+    /**
+     * Check if invite is valid with criteria.
+     * Within 60 minutes.
+     * @param islandId Id of island to be invited to
+     * @return Boolean
+     */
+    public boolean inviteValid(String islandId) {
+        if(!islandInvites.containsKey(islandId)) return false; //We dont have invite registered for this id
+
+        long timestamp = islandInvites.get(islandId);
+        islandInvites.remove(islandId); //One time trigger validation
+
+        return timestamp <= Instant.now().getEpochSecond() - 60 * 60; //Check if invite is not older then x seconds
+    }
+
+    /**
+     * Add island invite to player
+     * @param islandId IslandId you are inviting player for
+     */
+    public void addInvite(String islandId) {
+        islandInvites.put(islandId, Instant.now().getEpochSecond());
+    }
+
+    /**
+     * Check if teleport is still valid for player
+     * @param player Players whom request you wish to confirm
+     * @return Boolean
+     */
+    public boolean teleportValid(UUID player) {
+        if(!teleportInvites.containsKey(player)) return false; //We dont have teleport request registered for this player
+
+        long timestamp = teleportInvites.get(player);
+        teleportInvites.remove(player); //One time trigger validation
+
+        return timestamp <= Instant.now().getEpochSecond() - 60; //Check if invite is not older then x seconds
+    }
+
+    /**
+     * Add island teleport request to player for player
+     * @param player UUID of whom want to teleport
+     */
+    public void addTeleport(UUID player) {
+        teleportInvites.put(player, Instant.now().getEpochSecond());
+    }
 
     /**
      * Check if player is currently part of an island

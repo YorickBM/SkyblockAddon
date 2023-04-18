@@ -1,4 +1,4 @@
-package yorickbm.skyblockaddon.util;
+package yorickbm.skyblockaddon.islands;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.core.*;
@@ -16,6 +16,8 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import org.apache.commons.lang3.mutable.MutableInt;
 import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.capabilities.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.util.ServerHelper;
+import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class IslandData {
     private String biome = "Unknown";
 
     private final List<UUID> islandMembers = new ArrayList<>(); //List of all members of island
+    private final PermissionHandler permissionHandler;
 
     /**
      * Load island data from CompoundTag
@@ -51,6 +54,8 @@ public class IslandData {
         for (int i = 0; i < count; i++) {
             islandMembers.add(UUID.fromString(members.getString("member-"+i)));
         }
+
+        permissionHandler = new PermissionHandler(tag.getCompound("permissions"));
     }
 
     /**
@@ -60,6 +65,26 @@ public class IslandData {
         owner = playerUUID;
         center = location;
         spawn = location;
+        permissionHandler = new PermissionHandler(new CompoundTag());
+    }
+
+    /**
+     * Determine if a player has correct permission state on this island for permission
+     * @param permission Permission you wish to check
+     * @param player Player whom you check for
+     * @return Boolean if player has permissions
+     */
+    public boolean hasPermission(Permission permission, Player player) {
+        return permissionHandler.isStateAllowed(permission, isOwner(player.getUUID()) ? PermissionState.OWNER : hasMember(player.getUUID()) ? PermissionState.MEMBERS : PermissionState.EVERYONE);
+    }
+
+    /**
+     * Get state for specific permission
+     * @param permission Permission you wish to get state fpr
+     * @return PermissionState of permission
+     */
+    public PermissionState getPermission(Permission permission) {
+        return permissionHandler.permissions().get(permission);
     }
 
     /**
@@ -106,6 +131,15 @@ public class IslandData {
     public Vec3i getSpawn() {
         if(spawn == null) return Vec3i.ZERO;
         return spawn;
+    }
+
+    /**
+     * Get Vec3i for center location of island
+     * @return Vec3i
+     */
+    public Vec3i getCenter() {
+        if(center == null) return Vec3i.ZERO;
+        return center;
     }
 
     /**
@@ -174,6 +208,7 @@ public class IslandData {
         tag.put("center", clocation);
 
         tag.putString("biome", biome);
+        tag.put("permissions", permissionHandler.serialize());
 
         CompoundTag members = new CompoundTag();
         members.putInt("count",islandMembers.size());

@@ -17,7 +17,9 @@ import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.capabilities.PlayerIslandProvider;
 import yorickbm.skyblockaddon.commands.LeaveIslandCommand;
-import yorickbm.skyblockaddon.util.IslandData;
+import yorickbm.skyblockaddon.islands.IslandData;
+import yorickbm.skyblockaddon.islands.Permission;
+import yorickbm.skyblockaddon.islands.PermissionState;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
@@ -70,14 +72,38 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
                             ServerHelper.formattedText("\u00BB Alter your islands permissions.", ChatFormatting.GRAY),
                             ServerHelper.formattedText(" "),
                             ServerHelper.formattedText("Global Permissions:", ChatFormatting.YELLOW, ChatFormatting.UNDERLINE),
-                            ServerHelper.formattedText("\u2666 Teleport: REQUEST", ChatFormatting.GRAY),
-                            ServerHelper.formattedText("\u2666 Invite: MEMBERS", ChatFormatting.GRAY),
+                            ServerHelper.combineComponents(
+                                ServerHelper.formattedText("\u2666 Teleport: ", ChatFormatting.GRAY),
+                                ServerHelper.formattedText(
+                                    data.getPermission(Permission.Teleport) == PermissionState.OWNER ? "Owner Only" :
+                                    data.getPermission(Permission.Teleport) == PermissionState.MEMBERS ? "Members & Requests" :
+                                    "Everyone"
+                                    , ChatFormatting.WHITE)
+                            ),
+                            ServerHelper.combineComponents(
+                                ServerHelper.formattedText("\u2666 Invite: ", ChatFormatting.GRAY),
+                                ServerHelper.formattedText(data.getPermission(Permission.Invite).name(), ChatFormatting.WHITE)
+                            ),
                             ServerHelper.formattedText(" "),
                             ServerHelper.formattedText("Interaction Permissions:", ChatFormatting.YELLOW, ChatFormatting.UNDERLINE),
-                            ServerHelper.formattedText("\u2666 Place: MEMBERS", ChatFormatting.GRAY),
-                            ServerHelper.formattedText("\u2666 BREAK: MEMBERS", ChatFormatting.GRAY),
-                            ServerHelper.formattedText("\u2666 USE BLOCK: MEMBERS", ChatFormatting.GRAY),
-                            ServerHelper.formattedText("\u2666 USE ITEM: EVERYONE", ChatFormatting.GRAY)
+                            ServerHelper.combineComponents(
+                                ServerHelper.formattedText("\u2666 Place Block: ", ChatFormatting.GRAY),
+                                ServerHelper.formattedText(data.getPermission(Permission.PlaceBlocks).name(), ChatFormatting.WHITE)
+                            ),
+                            ServerHelper.combineComponents(
+                                ServerHelper.formattedText("\u2666 Break Block: ", ChatFormatting.GRAY),
+                                ServerHelper.formattedText(data.getPermission(Permission.BreakBlocks).name(), ChatFormatting.WHITE)
+                            ),
+                            ServerHelper.combineComponents(
+                                ServerHelper.formattedText("\u2666 Block interactions: ", ChatFormatting.GRAY),
+                                ServerHelper.formattedText(data.getPermission(Permission.InteractWithBlock).name(), ChatFormatting.WHITE)
+                            ),
+                            ServerHelper.combineComponents(
+                                ServerHelper.formattedText("\u2666 Item interactions: ", ChatFormatting.GRAY),
+                                ServerHelper.formattedText(data.getPermission(Permission.InteractWithItem).name(), ChatFormatting.WHITE)
+                            ),
+                            ServerHelper.formattedText(" "),
+                            ServerHelper.formattedText("\u00BB Click to view all permissions and modify.")
                     );
                     break;
                 case 14:

@@ -16,10 +16,9 @@ import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.capabilities.PlayerIslandProvider;
 import yorickbm.skyblockaddon.commands.LeaveIslandCommand;
-import yorickbm.skyblockaddon.util.IslandData;
+import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
-//TODO: Language file usage
 public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
 
     private IslandOverviewHandler(int syncId, Inventory playerInventory, IslandData data) {

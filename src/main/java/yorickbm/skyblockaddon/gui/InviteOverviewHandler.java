@@ -15,7 +15,7 @@ import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.capabilities.PlayerIslandProvider;
-import yorickbm.skyblockaddon.util.IslandData;
+import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
@@ -123,14 +123,14 @@ public class InviteOverviewHandler extends ServerOnlyHandler<IslandData> {
                             return;
                         }
                         player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(x -> {
-
+                            s.addInvite(x.getIslandId());
                             invitee.sendMessage(
                                 ServerHelper.styledText(
                                         LanguageFile.getForKey("commands.island.invite.invitation").formatted(player.getGameProfile().getName()),
                                         Style.EMPTY
                                             .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island join " + x.getIslandId()))
-                                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("Click to accept invite!"))),
-                                        ChatFormatting.GREEN
+                                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("Click to accept invite (Valid for 60 minutes)!"))),
+                                        ChatFormatting.GREEN //TODO: Make it use language file for hover.
                                 ),
                                 invitee.getUUID()
                             );

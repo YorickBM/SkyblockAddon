@@ -37,7 +37,7 @@ public class ModEvents {
         new AcceptIslandCommand(event.getDispatcher());
         new TeleportIslandCommand(event.getDispatcher());
         new UndoLeaveIslandCommand(event.getDispatcher());
-        new AcceptInviteCommand(event.getDispatcher());
+        new JoinIslandCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
         LOGGER.info("Registered commands for " + Main.MOD_ID);
