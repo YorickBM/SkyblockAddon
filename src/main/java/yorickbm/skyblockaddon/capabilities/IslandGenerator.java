@@ -223,21 +223,28 @@ public class IslandGenerator {
         return "";
     }
 
+    /**
+     * Get island based on player location rounded and offset by spawn
+     * If failed it loops through all islands to find island where your inside of boundingbox
+     * @param location Player Location
+     * @return IslandId or empty string
+     */
     public String getIslandIdByLocation(Vec3i location) {
         final int d = IslandGeneratorProvider.SIZE *2 + IslandGeneratorProvider.BUFFER;
 
-        int offsetX = ((location.getX() / d)*d);
-        int offsetZ = ((location.getZ() / d)*d);
-        Vec3i calculatedCenter = new Vec3i(offsetX, 127, offsetZ);
-        System.out.println("Calculated size: " + calculatedCenter.toShortString());
-        System.out.println("Found island: " + this.islandIdsByVec3i.get(calculatedCenter));
+        long offsetX = Math.round(location.getX()/(d*1.0)) + IslandGeneratorProvider.DEFAULT_SPAWN.getX();
+        long offsetZ = Math.round(location.getZ()/(d*1.0)) + IslandGeneratorProvider.DEFAULT_SPAWN.getZ();
 
-//        for(Map.Entry<String, IslandData> island : islands.entrySet()) {
-//            IslandData data = island.getValue();
-//
-//            if(data.getIslandBoundingBox().isInside(location))
-//                return island.getKey();
-//        }
+        Vec3i calculatedCenter = new Vec3i(offsetX, 121, offsetZ);
+        String islandId = this.islandIdsByVec3i.get(calculatedCenter);
+        if(islandId != null) return islandId;
+
+        for(Map.Entry<String, IslandData> island : islands.entrySet()) {
+            IslandData data = island.getValue();
+
+            if(data.getIslandBoundingBox().isInside(location))
+                return island.getKey();
+        }
 
         return "";
     }
