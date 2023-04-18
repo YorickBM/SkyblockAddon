@@ -39,6 +39,7 @@ public class InviteOverviewHandler extends ServerOnlyHandler<IslandData> {
             @Nullable
             @Override
             public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
+                Main.islandUIIds.add(syncId);
                 return new InviteOverviewHandler(syncId, inv, data);
             }
         };
@@ -69,10 +70,7 @@ public class InviteOverviewHandler extends ServerOnlyHandler<IslandData> {
                 if(memberIndex < members.size()) {
                     ServerPlayer sPlayer = members.get(memberIndex);
 
-                    CompoundTag tag = new CompoundTag();
-                    tag.putString("SkullOwner", sPlayer.getGameProfile().getName());
-
-                    item = new ItemStack(Items.PLAYER_HEAD, 1, tag);
+                    item = new ItemStack(Items.PLAYER_HEAD);
                     item.setHoverName(
                             ServerHelper.formattedText(
                                     sPlayer.getGameProfile().getName(), ChatFormatting.BLUE, ChatFormatting.BOLD
@@ -80,6 +78,10 @@ public class InviteOverviewHandler extends ServerOnlyHandler<IslandData> {
                     );
                     ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Click to invite player to your island", ChatFormatting.GRAY));
                     item.getOrCreateTagElement("skyblockaddon").putUUID("player", sPlayer.getUUID());
+
+                    CompoundTag tag = item.getOrCreateTag();
+                    if(this.data.hasOwner()) tag.putString("SkullOwner", sPlayer.getGameProfile().getName());
+                    item.setTag(tag);
 
                     memberIndex += 1;
                 } else {

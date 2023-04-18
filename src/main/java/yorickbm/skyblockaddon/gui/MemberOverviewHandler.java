@@ -39,6 +39,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
             @Nullable
             @Override
             public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
+                Main.islandUIIds.add(syncId);
                 return new MemberOverviewHandler(syncId, inv, data);
             }
         };
@@ -83,25 +84,20 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
 
             } else if(i > 10 && i <= 25 && i%9 != 0 && i%9 != 8) {
                 if(memberIndex < members.size()) {
-                    CompoundTag tag = new CompoundTag();
                     String playerName = "Unknown";
+                    try { playerName = UsernameCache.getBlocking(members.get(memberIndex)); } catch( Exception ex) {}
 
-                    if(this.data.hasOwner()) {
-                        try {
-                            playerName = UsernameCache.getBlocking(members.get(memberIndex));
-                            tag.putString("SkullOwner", playerName);
-                        } catch (IOException e) {
-                            playerName = "Unknown";
-                        }
-                    }
-
-                    item = new ItemStack(Items.PLAYER_HEAD, 1, tag);
+                    item = new ItemStack(Items.PLAYER_HEAD);
                     item.setHoverName(
                             ServerHelper.formattedText(
                                     playerName, ChatFormatting.BLUE, ChatFormatting.BOLD
                             )
                     );
                     ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Regular island member.", ChatFormatting.GRAY));
+
+                    CompoundTag tag = item.getOrCreateTag();
+                    if(this.data.hasOwner()) tag.putString("SkullOwner", playerName);
+                    item.setTag(tag);
 
                     memberIndex += 1;
                 } else {

@@ -37,6 +37,7 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
             @Nullable
             @Override
             public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
+                Main.islandUIIds.add(syncId);
                 return new SettingsOverviewHandler(syncId, inv, data);
             }
         };
@@ -69,41 +70,39 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
                     item = new ItemStack(Items.IRON_BARS);
                     item.setHoverName(ServerHelper.formattedText("Permissions", ChatFormatting.BOLD, ChatFormatting.BLUE));
                     ServerHelper.addLore(item,
-                            ServerHelper.formattedText("\u00BB Alter your islands permissions.", ChatFormatting.GRAY),
-                            ServerHelper.formattedText(" "),
                             ServerHelper.formattedText("Global Permissions:", ChatFormatting.YELLOW, ChatFormatting.UNDERLINE),
                             ServerHelper.combineComponents(
                                 ServerHelper.formattedText("\u2666 Teleport: ", ChatFormatting.GRAY),
                                 ServerHelper.formattedText(
-                                    data.getPermission(Permission.Teleport) == PermissionState.OWNER ? "Owner Only" :
+                                    data.getPermission(Permission.Teleport) == PermissionState.OWNERS ? "Owners" :
                                     data.getPermission(Permission.Teleport) == PermissionState.MEMBERS ? "Members & Requests" :
                                     "Everyone"
                                     , ChatFormatting.WHITE)
                             ),
                             ServerHelper.combineComponents(
                                 ServerHelper.formattedText("\u2666 Invite: ", ChatFormatting.GRAY),
-                                ServerHelper.formattedText(data.getPermission(Permission.Invite).name(), ChatFormatting.WHITE)
+                                ServerHelper.formattedText(data.getPermission(Permission.Invite).Camelcase(), ChatFormatting.WHITE)
                             ),
                             ServerHelper.formattedText(" "),
                             ServerHelper.formattedText("Interaction Permissions:", ChatFormatting.YELLOW, ChatFormatting.UNDERLINE),
                             ServerHelper.combineComponents(
                                 ServerHelper.formattedText("\u2666 Place Block: ", ChatFormatting.GRAY),
-                                ServerHelper.formattedText(data.getPermission(Permission.PlaceBlocks).name(), ChatFormatting.WHITE)
+                                ServerHelper.formattedText(data.getPermission(Permission.PlaceBlocks).Camelcase(), ChatFormatting.WHITE)
                             ),
                             ServerHelper.combineComponents(
                                 ServerHelper.formattedText("\u2666 Break Block: ", ChatFormatting.GRAY),
-                                ServerHelper.formattedText(data.getPermission(Permission.BreakBlocks).name(), ChatFormatting.WHITE)
+                                ServerHelper.formattedText(data.getPermission(Permission.BreakBlocks).Camelcase(), ChatFormatting.WHITE)
                             ),
                             ServerHelper.combineComponents(
                                 ServerHelper.formattedText("\u2666 Block interactions: ", ChatFormatting.GRAY),
-                                ServerHelper.formattedText(data.getPermission(Permission.InteractWithBlock).name(), ChatFormatting.WHITE)
+                                ServerHelper.formattedText(data.getPermission(Permission.InteractWithBlock).Camelcase(), ChatFormatting.WHITE)
                             ),
                             ServerHelper.combineComponents(
                                 ServerHelper.formattedText("\u2666 Item interactions: ", ChatFormatting.GRAY),
-                                ServerHelper.formattedText(data.getPermission(Permission.InteractWithItem).name(), ChatFormatting.WHITE)
+                                ServerHelper.formattedText(data.getPermission(Permission.InteractWithItem).Camelcase(), ChatFormatting.WHITE)
                             ),
                             ServerHelper.formattedText(" "),
-                            ServerHelper.formattedText("\u00BB Click to view all permissions and modify.")
+                            ServerHelper.formattedText("\u00BB Click to view all permissions and modify.", ChatFormatting.GRAY)
                     );
                     break;
                 case 14:

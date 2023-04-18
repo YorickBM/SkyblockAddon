@@ -6,6 +6,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
+import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.mixin.AbstractContainerAccessor;
 
 //TODO Prevent Extraction quick handle
@@ -22,6 +23,7 @@ public abstract class ServerOnlyHandler<T> extends AbstractContainerMenu {
 
     protected ServerOnlyHandler(int syncId, Inventory playerInventory, int rows, T data) {
         super(fromRows(rows), syncId);
+
         this.data = data;
         this.inventory = new SimpleContainer(rows * 9);
 
