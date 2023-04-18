@@ -59,21 +59,31 @@ public class LeaveIslandCommand {
     }
 
     public static void leaveIsland(IslandData islandData, PlayerIsland island, Player player) {
-        if(islandData.isOwner(player.getUUID()) && islandData.getMembers().size() > 0)
-            islandData.setOwner(islandData.getMembers().get(0));
-        else islandData.setOwner(null);
-
         islandData.removeIslandMember(player.getUUID());
-
-        island.timestamp = Instant.now().getEpochSecond();
         island.setIsland(""); //Make it empty so its NONE
+
+        player.sendMessage(
+            ServerHelper.formattedText(
+                LanguageFile.getForKey("commands.island.leave.success"),
+                ChatFormatting.GREEN),
+            player.getUUID()
+        );
 
         player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> player.teleportTo(g.getSpawnLocation().getX(), g.getSpawnLocation().getY(), g.getSpawnLocation().getZ()));
         ServerHelper.playSongToPlayer((ServerPlayer) player, SoundEvents.CHORUS_FRUIT_TELEPORT, 0.4f, 1f);
 
-        Style style = new TextComponent(LanguageFile.getForKey("commands.island.leave.undo")).withStyle(ChatFormatting.GREEN).getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island undo")).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("Click to undo leaving island...")));
-        player.sendMessage(new TextComponent(LanguageFile.getForKey("commands.island.leave.undo")).withStyle(style), player.getUUID());
-        player.sendMessage(new TextComponent(LanguageFile.getForKey("commands.island.leave.success")).withStyle(ChatFormatting.GREEN), player.getUUID());
+        island.addInvite(island.getPreviousIsland());
+        player.sendMessage(
+            ServerHelper.styledText(
+                LanguageFile.getForKey("commands.island.leave.undo").formatted(player.getGameProfile().getName()),
+                    Style.EMPTY
+                    .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island join " + island.getPreviousIsland()))
+                    .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("Click to rejoin your island (Valid for 60 minutes)!"))),
+                ChatFormatting.GREEN //TODO: Make it use language file for hover.
+            ),
+            player.getUUID()
+        );
+        return;
     }
 
 }

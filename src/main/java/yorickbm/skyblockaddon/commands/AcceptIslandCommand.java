@@ -37,8 +37,8 @@ public class AcceptIslandCommand {
         }
 
         if(!targets.stream().findFirst().isPresent()) {
-            player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.teleport.user.offline"), ChatFormatting.RED), player.getUUID());
-            return Command.SINGLE_SUCCESS; //TODO: Fix language file for this command
+            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.offline")));
+            return Command.SINGLE_SUCCESS;
         }
 
         Player requester = targets.stream().findFirst().get();
@@ -53,6 +53,8 @@ public class AcceptIslandCommand {
                 requester.sendMessage(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.success").formatted(player.getGameProfile().getName())).withStyle(ChatFormatting.GREEN), requester.getUUID());
 
                 player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> g.getIslandById(island.getIslandId()).teleport(requester));
+            } else {
+                command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.expired")));
             }
         });
 

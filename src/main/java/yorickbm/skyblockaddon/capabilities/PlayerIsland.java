@@ -29,11 +29,8 @@ public class PlayerIsland {
     private String islandId = "";
     private String oldIslandId = ""; //Allows to undo island leave through commando
 
-    private HashMap<String, long> islandInvites = new HashMap<String, long>();
-    private HashMap<UUID, long> teleportInvites = new HashMap<UUID, long>();
-
-    public UUID request;
-    public int requestType = -1;
+    private HashMap<String, Long> islandInvites = new HashMap<>();
+    private HashMap<UUID, Long> teleportInvites = new HashMap<>();
 
     /**
      * Check if invite is valid with criteria.
@@ -47,7 +44,7 @@ public class PlayerIsland {
         long timestamp = islandInvites.get(islandId);
         islandInvites.remove(islandId); //One time trigger validation
 
-        return timestamp <= Instant.now().getEpochSecond() - 60 * 60; //Check if invite is not older then x seconds
+        return timestamp >= Instant.now().getEpochSecond() - 60 * 60; //Check if invite is not older then x seconds
     }
 
     /**

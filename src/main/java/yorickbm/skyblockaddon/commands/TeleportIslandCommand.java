@@ -16,6 +16,7 @@ import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.PlayerIslandProvider;
 import yorickbm.skyblockaddon.util.LanguageFile;
+import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -41,12 +42,12 @@ public class TeleportIslandCommand {
         }
 
         player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
-            if(!island.hasOne()) {
-                command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.hasnone")));
-                return;
-            }
-
             if(targets == null || targets.isEmpty()) {
+                if(!island.hasOne()) {
+                    command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.hasnone")));
+                    return;
+                }
+
                 player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(generator -> {
                     generator.getIslandById(island.getIslandId()).teleport(player);
 
@@ -64,13 +65,23 @@ public class TeleportIslandCommand {
                         return;
                     }
 
-                    //TODO: FIx onclick command
-                    command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.request.send").formatted(p.get().getGameProfile().getName())).withStyle(ChatFormatting.GREEN), false);
-                    Style style = new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.request").formatted(player.getGameProfile().getName())).withStyle(ChatFormatting.GREEN).getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island accept")).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("Click to accept teleport!")));
-                    p.get().sendMessage(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.request").formatted(player.getGameProfile().getName())).withStyle(style), p.get().getUUID());
+                    command.sendSuccess(
+                            ServerHelper.formattedText(
+                                LanguageFile.getForKey("commands.island.teleport.user.request.send").formatted(p.get().getGameProfile().getName()),
+                                    ChatFormatting.GREEN
+                            )
+                        , false);
 
-                    i.request = player.getUUID();
-                    i.requestType = 0;
+                    p.get().sendMessage(
+                            ServerHelper.styledText(
+                                    LanguageFile.getForKey("commands.island.teleport.user.request").formatted(player.getGameProfile().getName(),player.getGameProfile().getName()),
+                                    Style.EMPTY
+                                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island accept " + player.getGameProfile().getName()))
+                                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("Click to accept teleport request (Valid for 60 seconds)!"))),
+                                    ChatFormatting.GREEN //TODO: Make it use language file for hover.
+                            ),
+                            p.get().getUUID()
+                    );
                 });
             }
         });
