@@ -5,12 +5,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.command.ConfigCommand;
@@ -22,7 +24,13 @@ import yorickbm.skyblockaddon.capabilities.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.PlayerIsland;
 import yorickbm.skyblockaddon.capabilities.PlayerIslandProvider;
 import yorickbm.skyblockaddon.commands.*;
+import yorickbm.skyblockaddon.commands.OP.GetIslandIdCommand;
+import yorickbm.skyblockaddon.commands.OP.SetPlayersIslandCommand;
+import yorickbm.skyblockaddon.islands.IslandData;
+import yorickbm.skyblockaddon.islands.Permission;
 import yorickbm.skyblockaddon.util.UsernameCache;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 @Mod.EventBusSubscriber(modid = Main.MOD_ID)
 public class ModEvents {
@@ -36,8 +44,11 @@ public class ModEvents {
         new InviteIslandCommand(event.getDispatcher());
         new AcceptIslandCommand(event.getDispatcher());
         new TeleportIslandCommand(event.getDispatcher());
-        new UndoLeaveIslandCommand(event.getDispatcher());
         new JoinIslandCommand(event.getDispatcher());
+
+        //Admin commands
+        new GetIslandIdCommand(event.getDispatcher());
+        new SetPlayersIslandCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
         LOGGER.info("Registered commands for " + Main.MOD_ID);
@@ -67,6 +78,10 @@ public class ModEvents {
                 event.getPlayer().getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(w -> w.registerIslandFromLegacy(i, event.getPlayer()));
             }
         });
+
+        event.getPlayer().getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(i -> {
+            i.getIslandIdByLocation(new Vec3i(event.getPlayer().getX(), event.getPlayer().getY(), event.getPlayer().getZ()));
+        });
     }
 
     @SubscribeEvent
@@ -87,41 +102,6 @@ public class ModEvents {
     @SubscribeEvent
     public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
         event.getPlayer().reviveCaps();
-    }
-
-    @SubscribeEvent
-    public void onPlayerBlockLeft(PlayerInteractEvent.LeftClickBlock e) {
-        islandPermissionCheck(e);
-    }
-    @SubscribeEvent
-    public void onPlayerBlockRight(PlayerInteractEvent.RightClickBlock e) {
-        islandPermissionCheck(e);
-    }
-
-    private void islandPermissionCheck(PlayerInteractEvent event) {
-        if(
-                event.getPlayer().hasPermissions(3)
-                || event.getPlayer().getLevel().dimension() != Level.OVERWORLD
-        ) return; //User is Operator or not in overworld
-
-        event.getWorld().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent( g-> {
-            Vec3i spawn = g.getSpawnLocation();
-            if((new Vec3(spawn.getX(), 0, spawn.getZ())).distanceTo(new Vec3(event.getPos().getX(), 0, event.getPos().getZ())) < 100) {
-                return;  // User is within spawn protection
-            }
-
-            event.getPlayer().getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> {
-                if(!i.hasOne()) {
-                    event.setCanceled(true);
-                    return;
-                }
-
-                Vec3i location = g.getIslandById(i.getIslandId()).getSpawn();
-                if((new Vec3(location.getX(), 0, location.getZ())).distanceTo(new Vec3(event.getPos().getX(), 0, event.getPos().getZ())) > IslandGeneratorProvider.SIZE) {
-                    event.setCanceled(true);
-                }
-            });
-        });
     }
 
     @SubscribeEvent
