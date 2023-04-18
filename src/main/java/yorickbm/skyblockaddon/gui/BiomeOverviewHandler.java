@@ -19,6 +19,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.islands.IslandData;
+import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.List;
@@ -48,6 +49,7 @@ public class BiomeOverviewHandler extends ServerOnlyHandler<IslandData> {
             @Nullable
             @Override
             public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
+                Main.islandUIIds.add(syncId);
                 return new BiomeOverviewHandler(syncId, inv, data);
             }
         };
@@ -130,11 +132,6 @@ public class BiomeOverviewHandler extends ServerOnlyHandler<IslandData> {
                 return true;
 
             case 39:
-                page = slot.getItem().getTagElement("skyblockaddon").getInt("page");
-                drawBiomes();
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
-                return true;
-
             case 41:
                 page = slot.getItem().getTagElement("skyblockaddon").getInt("page");
                 drawBiomes();
@@ -149,7 +146,9 @@ public class BiomeOverviewHandler extends ServerOnlyHandler<IslandData> {
                 Holder<Biome> biomeHolder = ForgeRegistries.BIOMES.getHolder(new ResourceLocation(biomeRegisterName)).get();
 
                 data.setBiome(player.getLevel(), biomeHolder, biomeRegisterName.replace("minecraft:", "").replace("_", " "));
-                player.sendMessage(ServerHelper.formattedText("Setting biome to: " + biomeRegisterName), player.getUUID()); //TODO Use language file
+                player.sendMessage(
+                    ServerHelper.formattedText(LanguageFile.getForKey("commands.island.biome.changed").formatted(biomeRegisterName), ChatFormatting.GREEN),
+                    player.getUUID());
         }
 
         return false;
