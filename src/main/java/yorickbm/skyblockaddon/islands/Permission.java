@@ -6,6 +6,12 @@ public enum Permission {
 
     PlaceBlocks,
     BreakBlocks,
+    TrampleFarmland,
+    EnderPearl,
+    ChorusFruit,
+    UseBed,
+    InteractWithXP,
+
     InteractWithBlock,
     InteractWithItem,
     DropItems,
