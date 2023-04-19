@@ -93,14 +93,6 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
                                 ServerHelper.formattedText("\u2666 Break Block: ", ChatFormatting.GRAY),
                                 ServerHelper.formattedText(data.getPermission(Permission.BreakBlocks).Camelcase(), ChatFormatting.WHITE)
                             ),
-                            ServerHelper.combineComponents(
-                                ServerHelper.formattedText("\u2666 Block interactions: ", ChatFormatting.GRAY),
-                                ServerHelper.formattedText(data.getPermission(Permission.InteractWithBlock).Camelcase(), ChatFormatting.WHITE)
-                            ),
-                            ServerHelper.combineComponents(
-                                ServerHelper.formattedText("\u2666 Item interactions: ", ChatFormatting.GRAY),
-                                ServerHelper.formattedText(data.getPermission(Permission.InteractWithItem).Camelcase(), ChatFormatting.WHITE)
-                            ),
                             ServerHelper.formattedText(" "),
                             ServerHelper.formattedText("\u00BB Click to view all permissions and modify.", ChatFormatting.GRAY)
                     );

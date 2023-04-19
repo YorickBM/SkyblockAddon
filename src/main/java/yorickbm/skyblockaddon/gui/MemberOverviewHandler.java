@@ -63,7 +63,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                 item = new ItemStack(Items.ARROW);
                 item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED, ChatFormatting.BOLD));
             } else if (i == 31) {
-                item = new ItemStack(Items.GREEN_BANNER);
+                item = new ItemStack(Items.OAK_BOAT);
                 item.setHoverName(ServerHelper.formattedText("Invite", ChatFormatting.GREEN, ChatFormatting.BOLD));
                 ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Invite online player to join this island.", ChatFormatting.GRAY));
             } else if(i == 10) {
