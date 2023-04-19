@@ -62,7 +62,7 @@ public class LanguageFile {
         items.put("commands.island.undo.success", "You have rejoined your previous island!");
 
         //GUI language configuration
-        items.put("guis.permissions.Teleport.title", "Teleport To Island");
+        items.put("guis.permissions.Teleport.title", "Teleport Requests");
         items.put("guis.permissions.Teleport.desc", "\u2666 Whom may accept teleport requests to your island\n\u2666 Setting this to everyone, will allow teleporting without request.");
 
         items.put("guis.permissions.Invite.title", "Invite New Members");
