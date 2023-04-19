@@ -39,12 +39,13 @@ public class PlayerIsland {
      * @return Boolean
      */
     public boolean inviteValid(String islandId) {
-        if(!islandInvites.containsKey(islandId)) return false; //We dont have invite registered for this id
-
         long timestamp = islandInvites.get(islandId);
         islandInvites.remove(islandId); //One time trigger validation
 
-        return timestamp >= Instant.now().getEpochSecond() - 60 * 60; //Check if invite is not older then x seconds
+        System.out.println("Time of invite " + timestamp + " | Now " + Instant.now().getEpochSecond());
+        System.out.println("Valid? " + timestamp + " >= " + (Instant.now().getEpochSecond() - (60 * 60)));
+
+        return timestamp != null && timestamp >= (Instant.now().getEpochSecond() - (60 * 60)); //Check if invite is not older then x seconds
     }
 
     /**
@@ -61,12 +62,10 @@ public class PlayerIsland {
      * @return Boolean
      */
     public boolean teleportValid(UUID player) {
-        if(!teleportInvites.containsKey(player)) return false; //We dont have teleport request registered for this player
-
         long timestamp = teleportInvites.get(player);
         teleportInvites.remove(player); //One time trigger validation
 
-        return timestamp <= Instant.now().getEpochSecond() - 60; //Check if invite is not older then x seconds
+        return timestamp != null && timestamp >= Instant.now().getEpochSecond() - 60; //Check if invite is not older then x seconds
     }
 
     /**

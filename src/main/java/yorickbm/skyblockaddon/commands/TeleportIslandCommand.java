@@ -64,7 +64,7 @@ public class TeleportIslandCommand {
                         command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.hasnone").formatted(p.get().getGameProfile().getName())));
                         return;
                     }
-
+                    i.addTeleport(player.getUUID());
                     command.sendSuccess(
                             ServerHelper.formattedText(
                                 LanguageFile.getForKey("commands.island.teleport.user.request.send").formatted(p.get().getGameProfile().getName()),
