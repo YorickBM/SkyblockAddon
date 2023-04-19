@@ -20,10 +20,6 @@ import yorickbm.skyblockaddon.islands.Permission;
 import yorickbm.skyblockaddon.islands.PermissionState;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
-import yorickbm.skyblockaddon.util.UsernameCache;
-
-import java.util.List;
-import java.util.UUID;
 
 public class PermissionsOverviewHandler extends ServerOnlyHandler<IslandData> {
     protected PermissionsOverviewHandler(int syncId, Inventory playerInventory, IslandData data) {
@@ -41,7 +37,7 @@ public class PermissionsOverviewHandler extends ServerOnlyHandler<IslandData> {
             @Override
             public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
                 Main.islandUIIds.add(syncId);
-                return new MemberOverviewHandler(syncId, inv, data);
+                return new PermissionsOverviewHandler(syncId, inv, data);
             }
         };
         player.openMenu(fac);
@@ -76,12 +72,12 @@ public class PermissionsOverviewHandler extends ServerOnlyHandler<IslandData> {
                             ServerHelper.formattedText("Information", ChatFormatting.YELLOW, ChatFormatting.UNDERLINE),
                             ServerHelper.combineComponents(
                                 ServerHelper.formattedText("Required group: ", ChatFormatting.GRAY),
-                                ServerHelper.formattedText(data.getPermission(permissions[permissionIndex]).Camelcase(), ChatFormatting.WHITE)
+                                ServerHelper.formattedText(this.data.getPermission(permissions[permissionIndex]).Camelcase(), ChatFormatting.WHITE)
                             ),
-                            ServerHelper.formattedText("", ChatFormatting.GRAY),
+                            ServerHelper.formattedText(" ", ChatFormatting.GRAY),
                             ServerHelper.formattedText("Description", ChatFormatting.YELLOW, ChatFormatting.UNDERLINE),
                             ServerHelper.formattedText(LanguageFile.getForKey("guis.permissions."+permissions[permissionIndex].name()+".desc"), ChatFormatting.GRAY),
-                            ServerHelper.formattedText("", ChatFormatting.GRAY),
+                            ServerHelper.formattedText(" ", ChatFormatting.GRAY),
                             ServerHelper.formattedText("\u00BB Click to change permission group", ChatFormatting.GRAY)
                     );
 
@@ -108,16 +104,11 @@ public class PermissionsOverviewHandler extends ServerOnlyHandler<IslandData> {
                 ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
                 return true;
             default:
-                if(index > 10 && index <= 25 && index%9 != 0 && index%9 != 8) {
+                if(index >= 10 && index <= 25 && index%9 != 0 && index%9 != 8) {
                     CompoundTag data = slot.getItem().getOrCreateTagElement("skyblockaddon");
                     if(!data.contains("permission")) return false;
                     Permission permission = Permission.valueOf(data.getString("permission"));
-
-                    switch(this.data.getPermission(permission)) {
-                        case EVERYONE: this.data.setPermission(permission, PermissionState.OWNERS);
-                        case OWNERS: this.data.setPermission(permission, PermissionState.MEMBERS);
-                        case MEMBERS: this.data.setPermission(permission, PermissionState.EVERYONE);
-                    }
+                    this.data.setPermission(permission,  PermissionState.fromValue(this.data.getPermission(permission).getValue() - 1));
 
                     fillInventoryWith(player); //Update items
                     ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);

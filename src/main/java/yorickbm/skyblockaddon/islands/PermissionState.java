@@ -17,9 +17,9 @@ public enum PermissionState {
 
     public static PermissionState fromValue(int value) {
         switch(value) {
-            case 3: return OWNERS;
             case 2: return MEMBERS;
-            default: return EVERYONE;
+            case 1: return EVERYONE;
+            default: return OWNERS;
         }
     }
 }

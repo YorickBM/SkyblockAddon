@@ -43,6 +43,8 @@ public class InviteIslandCommand {
             return Command.SINGLE_SUCCESS;
         }
 
+        //TODO: Invite permission check
+
         ServerPlayer invitee = targets.stream().findFirst().get();
         invitee.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(s -> {
             if(s.hasOne()) {

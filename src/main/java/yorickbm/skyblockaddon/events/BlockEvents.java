@@ -20,7 +20,7 @@ public class BlockEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.BreakBlocks, event.getPlayer())) {
-            event.getPlayer().displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.RED), true);
+            event.getPlayer().displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -32,7 +32,7 @@ public class BlockEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.PlaceBlocks, player)) {
-            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.RED), true);
+            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -44,7 +44,7 @@ public class BlockEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.TrampleFarmland, player)) {
-            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.RED), true);
+            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled

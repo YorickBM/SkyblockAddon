@@ -16,6 +16,7 @@ import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.islands.IslandData;
+import yorickbm.skyblockaddon.islands.Permission;
 import yorickbm.skyblockaddon.util.ServerHelper;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
@@ -62,7 +63,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
             if (i == 35) {
                 item = new ItemStack(Items.ARROW);
                 item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED, ChatFormatting.BOLD));
-            } else if (i == 31) {
+            } else if (i == 31 && this.data.hasPermission(Permission.Invite, player)) {
                 item = new ItemStack(Items.OAK_BOAT);
                 item.setHoverName(ServerHelper.formattedText("Invite", ChatFormatting.GREEN, ChatFormatting.BOLD));
                 ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Invite online player to join this island.", ChatFormatting.GRAY));

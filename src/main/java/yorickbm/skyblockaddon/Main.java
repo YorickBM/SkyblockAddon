@@ -92,7 +92,7 @@ public class Main {
     }
 
     public static IslandData CheckOnIsland(Player player) {
-        if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return null; //Non overworld events we ignore
+        if(player.getLevel().dimension() != Level.OVERWORLD) return null; //Non overworld events we ignore // || player.hasPermissions(3)
         AtomicReference<IslandData> island = new AtomicReference<>(null);
 
         player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(playerIsland -> {

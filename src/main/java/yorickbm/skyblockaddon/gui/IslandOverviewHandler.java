@@ -110,7 +110,7 @@ public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
                 if(!this.data.isOwner(player.getUUID())) {
                     player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(pdata -> {
                         player.closeContainer();
-                        LeaveIslandCommand.leaveIsland(this.data, pdata, player);
+                        LeaveIslandCommand.leaveIsland(this.data, pdata, player, player.getLevel());
                     });
                 } else {
                     player.closeContainer();

@@ -24,7 +24,7 @@ public class PlayerEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.EnderPearl, event.getPlayer())) {
-            event.getPlayer().displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.RED), true);
+            event.getPlayer().displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -36,7 +36,7 @@ public class PlayerEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.ChorusFruit, player)) {
-            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.RED), true);
+            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -51,7 +51,7 @@ public class PlayerEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.OpenBlocks, player)) {
-            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.RED), true);
+            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -63,7 +63,7 @@ public class PlayerEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.UseBed, event.getPlayer())) {
-            event.getPlayer().displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.RED), true);
+            event.getPlayer().displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -77,7 +77,7 @@ public class PlayerEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.InteractWithXP, player)) {
-            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.RED), true);
+            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -90,7 +90,7 @@ public class PlayerEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.UseBucket, player)) {
-            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.RED), true);
+            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -103,7 +103,7 @@ public class PlayerEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.UseBonemeal, player)) {
-            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.RED), true);
+            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -116,7 +116,7 @@ public class PlayerEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.InteractWithGroundItems, player)) {
-            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.RED), true);
+            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -128,27 +128,9 @@ public class PlayerEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.InteractWithGroundItems, player)) {
-            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.RED), true);
+            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
-    }
-
-
-    @SubscribeEvent
-    public void onItemDrop(LivingDropsEvent event) { //Not triggered for players
-        if(!(event.getEntity() instanceof Player player)) return;
-        player.sendMessage(new TextComponent("You triggered: onItemDrop"), player.getUUID());
-    }
-
-    @SubscribeEvent
-    public void onItemDestroy(PlayerDestroyItemEvent event) { // What the hell is this then?
-        if(!(event.getEntity() instanceof Player player)) return;
-        player.sendMessage(new TextComponent("You triggered: onItemDestroy"), player.getUUID());
-    }
-
-    @SubscribeEvent
-    public void onItemUse(LivingEntityUseItemEvent event) { // This is eating food, should always be allowed (Also maybe block destroyer?)
-        event.getEntity().sendMessage(new TextComponent("You triggered: onItemUse"), event.getEntity().getUUID());
     }
 }

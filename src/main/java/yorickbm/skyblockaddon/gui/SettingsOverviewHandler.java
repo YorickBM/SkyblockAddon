@@ -72,12 +72,8 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
                     ServerHelper.addLore(item,
                             ServerHelper.formattedText("Global Permissions:", ChatFormatting.YELLOW, ChatFormatting.UNDERLINE),
                             ServerHelper.combineComponents(
-                                ServerHelper.formattedText("\u2666 Teleport: ", ChatFormatting.GRAY),
-                                ServerHelper.formattedText(
-                                    data.getPermission(Permission.Teleport) == PermissionState.OWNERS ? "Owners" :
-                                    data.getPermission(Permission.Teleport) == PermissionState.MEMBERS ? "Members & Requests" :
-                                    "Everyone"
-                                    , ChatFormatting.WHITE)
+                                ServerHelper.formattedText("\u2666 Teleport Requests: ", ChatFormatting.GRAY),
+                                ServerHelper.formattedText(data.getPermission(Permission.Invite).Camelcase(), ChatFormatting.WHITE)
                             ),
                             ServerHelper.combineComponents(
                                 ServerHelper.formattedText("\u2666 Invite: ", ChatFormatting.GRAY),
@@ -163,7 +159,7 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
             case 16:
                 player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(pdata -> {
                     player.closeContainer();
-                    LeaveIslandCommand.leaveIsland(this.data, pdata, player);
+                    LeaveIslandCommand.leaveIsland(this.data, pdata, player, player.getLevel());
                 });
                 return true;
 

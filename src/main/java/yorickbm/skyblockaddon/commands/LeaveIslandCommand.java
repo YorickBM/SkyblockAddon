@@ -9,6 +9,7 @@ import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
@@ -51,14 +52,14 @@ public class LeaveIslandCommand {
             player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(generator -> {
                 IslandData islandData = generator.getIslandById(island.getIslandId());
 
-                LeaveIslandCommand.leaveIsland(islandData, island, player);
+                LeaveIslandCommand.leaveIsland(islandData, island, player, command.getLevel());
             });
         });
 
         return Command.SINGLE_SUCCESS;
     }
 
-    public static void leaveIsland(IslandData islandData, PlayerIsland island, Player player) {
+    public static void leaveIsland(IslandData islandData, PlayerIsland island, Player player, ServerLevel level) {
         islandData.removeIslandMember(player.getUUID());
         island.setIsland(""); //Make it empty so its NONE
 
@@ -69,7 +70,7 @@ public class LeaveIslandCommand {
             player.getUUID()
         );
 
-        player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> player.teleportTo(g.getSpawnLocation().getX(), g.getSpawnLocation().getY(), g.getSpawnLocation().getZ()));
+        player.teleportTo(level.getSharedSpawnPos().getX(), level.getSharedSpawnPos().getY(), level.getSharedSpawnPos().getZ());
         ServerHelper.playSongToPlayer((ServerPlayer) player, SoundEvents.CHORUS_FRUIT_TELEPORT, 0.4f, 1f);
 
         island.addInvite(island.getPreviousIsland());

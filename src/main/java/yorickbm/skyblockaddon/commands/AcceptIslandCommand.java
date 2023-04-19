@@ -49,6 +49,8 @@ public class AcceptIslandCommand {
                     return;
                 }
 
+                //TODO Invite accept request permission
+
                 command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.request.success").formatted(requester.getGameProfile().getName())).withStyle(ChatFormatting.GREEN), false);
                 requester.sendMessage(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.success").formatted(player.getGameProfile().getName())).withStyle(ChatFormatting.GREEN), requester.getUUID());
 
