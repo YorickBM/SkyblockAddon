@@ -66,8 +66,9 @@ public class PermissionHandler {
      */
     public boolean isStateAllowed(Permission permission, PermissionState state) {
         if(!permissions.containsKey(permission)) return false; //Permission not set
+
         PermissionState allowedState = permissions.get(permission);
-        return state.getValue() <= allowedState.getValue();
+        return state.getValue() >= allowedState.getValue();
     }
 
 }

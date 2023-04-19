@@ -75,7 +75,8 @@ public class IslandData {
      * @return Boolean if player has permissions
      */
     public boolean hasPermission(Permission permission, Player player) {
-        return permissionHandler.isStateAllowed(permission, isOwner(player.getUUID()) ? PermissionState.OWNERS : hasMember(player.getUUID()) ? PermissionState.MEMBERS : PermissionState.EVERYONE);
+        PermissionState stateOfPlayerOnIsland = hasMember(player.getUUID()) ? PermissionState.MEMBERS : isOwner(player.getUUID()) ? PermissionState.OWNERS : PermissionState.EVERYONE;
+        return permissionHandler.isStateAllowed(permission, stateOfPlayerOnIsland);
     }
 
     /**
