@@ -14,17 +14,21 @@ public enum Permission {
 
     EnderPearl(Items.ENDER_PEARL),
     ChorusFruit(Items.CHORUS_FRUIT),
-    InteractWithXP(Items.EXPERIENCE_BOTTLE),
-    InteractWithGroundItems(Items.EMERALD),
 
     UseBucket(Items.BUCKET),
     UseBed(Items.RED_BED),
-    UseBonemeal(Items.BONE_MEAL);
+    UseBonemeal(Items.BONE_MEAL),
+
+    InteractWithXP(Items.EXPERIENCE_BOTTLE),
+    InteractWithGroundItems(Items.EMERALD);
 
     private final Item displayItem;
+
     Permission(Item type) {
         displayItem = type;
     }
     public Item getDisplayItem() { return displayItem; }
+
+
 
 }

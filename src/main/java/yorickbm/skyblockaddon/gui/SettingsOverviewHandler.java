@@ -151,7 +151,8 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
                 return true;
             case 12:
                 player.closeContainer();
-                player.getServer().execute(() -> System.out.println("OPEN ALTER SETTINGS MENU"));
+                player.getServer().execute(() -> PermissionsOverviewHandler.openMenu(player, data));
+                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
                 return true;
             case 14:
                 player.closeContainer();

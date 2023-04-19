@@ -89,6 +89,15 @@ public class IslandData {
     }
 
     /**
+     * Change minimal state required for a specific permission
+     * @param permission Permission to be set
+     * @param state New minimal state
+     */
+    public void setPermission(Permission permission, PermissionState state) {
+        permissionHandler.permissions().put(permission, state);
+    }
+
+    /**
      * Remove player from members list, and make it the owner of the island
      * @param uuid Player you wish to make owner of island
      */

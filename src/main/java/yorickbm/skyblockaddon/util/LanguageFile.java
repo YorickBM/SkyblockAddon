@@ -6,6 +6,7 @@ public class LanguageFile {
     private static final HashMap<String, String> items = new HashMap<>();
 
     public static void init() {
+        //Command response language configurations
         items.put("commands.island.nonplayer", "This command may only be executed by a player.");
         items.put("commands.island.notoverworld", "You can only execute this command in the overworld.");
         items.put("commands.island.hasnone", "For this command to be executed, you require to be part of an island.");
@@ -59,9 +60,50 @@ public class LanguageFile {
         items.put("commands.island.undo.expired", "Your time to rejoin the island you left expired.");
         items.put("commands.island.undo.hasone", "We have left your current island for you, to rejoin your previous one!");
         items.put("commands.island.undo.success", "You have rejoined your previous island!");
+
+        //GUI language configuration
+        items.put("guis.permissions.Teleport.title", "Teleport To Island");
+        items.put("guis.permissions.Teleport.desc", "\u2666 Whom may accept teleport requests to your island\n\u2666 Setting this to everyone, will allow teleporting without request.");
+
+        items.put("guis.permissions.Invite.title", "Invite New Members");
+        items.put("guis.permissions.Invite.desc", "\u2666 Allow to invite new members to your island\n\u2666 Setting this to everyone, will allow joining without invite.");
+
+        items.put("guis.permissions.PlaceBlocks.title", "Place Blockss");
+        items.put("guis.permissions.PlaceBlocks.desc", "\u2666 Place any form of block on your island");
+
+        items.put("guis.permissions.BreakBlocks.title", "Break Blocks");
+        items.put("guis.permissions.BreakBlocks.desc", "\u2666 Break any form of block on your island");
+
+        items.put("guis.permissions.TrampleFarmland.title", "Trample Farmland");
+        items.put("guis.permissions.TrampleFarmland.desc", "\u2666 Trample farmland by jumping on top of it");
+
+        items.put("guis.permissions.OpenBlocks.title", "Interact With Blocks");
+        items.put("guis.permissions.OpenBlocks.desc", "\u2666 Interact with blocks on your island\n\u2666 I.E Chests, Storage Interfaces\n\u2666 Does not include redstone items");
+
+        items.put("guis.permissions.EnderPearl.title", "Use EnderPearl");
+        items.put("guis.permissions.EnderPearl.desc", "\u2666 Use an enderpearl on your island to teleport");
+
+        items.put("guis.permissions.ChorusFruit.title", "Use ChorusFruit");
+        items.put("guis.permissions.ChorusFruit.desc", "\u2666 Use chorusfruit on your island to teleport");
+
+        items.put("guis.permissions.InteractWithXP.title", "Collect XP Orbs");
+        items.put("guis.permissions.InteractWithXP.desc", "\u2666 Gain XP levels from XP orbs on your island");
+
+        items.put("guis.permissions.InteractWithGroundItems.title", "Interact With Ground Items");
+        items.put("guis.permissions.InteractWithGroundItems.desc", "\u2666 Pickup and drop items on your island");
+
+        items.put("guis.permissions.UseBucket.title", "Use Bucket");
+        items.put("guis.permissions.UseBucket.desc", "\u2666 Empty and or fill a bucket with fluids on your island\n\u2666 I.E. Water, Lava");
+
+        items.put("guis.permissions.UseBed.title", "Sleep in Bed");
+        items.put("guis.permissions.UseBed.desc", "\u2666 Sleep within a bed on your island\n\u2666 Will also set their respawn point");
+
+        items.put("guis.permissions.UseBonemeal.title", "Use Bonemeal");
+        items.put("guis.permissions.UseBonemeal.desc", "\u2666 Use bonemeal, this includes all possible usages of bonemeal\n\u2666 I.E. Crops, Moss blocks");
     }
 
     public static String getForKey(String key) {
+        if(!items.containsKey(key)) return key;
         return items.get(key);
     }
 
