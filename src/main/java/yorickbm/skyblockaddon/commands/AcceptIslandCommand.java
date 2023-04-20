@@ -12,7 +12,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
+import yorickbm.skyblockaddon.islands.Permission;
 import yorickbm.skyblockaddon.util.LanguageFile;
+import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.Collection;
 
@@ -35,28 +37,34 @@ public class AcceptIslandCommand {
             return Command.SINGLE_SUCCESS;
         }
 
-        if(!targets.stream().findFirst().isPresent()) {
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.offline")));
-            return Command.SINGLE_SUCCESS;
-        }
+        player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
+            player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
 
-        Player requester = targets.stream().findFirst().get();
-        player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
-            if(island.teleportValid(requester.getUUID())) {
-                if(requester.getLevel().dimension() != Level.OVERWORLD) {
-                    command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.request.notoverworld").formatted(requester.getGameProfile().getName())));
+                if(!g.getIslandById(island.getIslandId()).hasPermission(Permission.Teleport, player)) {
+                    player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.teleport.user.request.nopermission"), ChatFormatting.RED), player.getUUID());
                     return;
                 }
 
-                //TODO Invite accept request permission
+                if(!targets.stream().findFirst().isPresent()) {
+                    command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.offline")));
+                    return;
+                }
 
-                command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.request.success").formatted(requester.getGameProfile().getName())).withStyle(ChatFormatting.GREEN), false);
-                requester.sendMessage(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.success").formatted(player.getGameProfile().getName())).withStyle(ChatFormatting.GREEN), requester.getUUID());
+                Player requester = targets.stream().findFirst().get();
+                if(island.teleportValid(requester.getUUID())) {
+                    if(requester.getLevel().dimension() != Level.OVERWORLD) {
+                        command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.request.notoverworld").formatted(requester.getGameProfile().getName())));
+                        return;
+                    }
 
-                player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> g.getIslandById(island.getIslandId()).teleport(requester));
-            } else {
-                command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.expired")));
-            }
+                    command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.request.success").formatted(requester.getGameProfile().getName())).withStyle(ChatFormatting.GREEN), false);
+                    requester.sendMessage(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.success").formatted(player.getGameProfile().getName())).withStyle(ChatFormatting.GREEN), requester.getUUID());
+
+                    player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> g.getIslandById(island.getIslandId()).teleport(requester));
+                } else {
+                    command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.expired")));
+                }
+            });
         });
 
         return Command.SINGLE_SUCCESS;
