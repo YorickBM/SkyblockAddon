@@ -1,23 +1,46 @@
 package yorickbm.skyblockaddon.gui.travel;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.capabilities.PlayerIsland;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
+import yorickbm.skyblockaddon.gui.island.BiomeOverviewHandler;
+import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 public class IslandTravelOverviewHandler extends ServerOnlyHandler<PlayerIsland> {
     protected IslandTravelOverviewHandler(int syncId, Inventory playerInventory, PlayerIsland data) {
         super(syncId, playerInventory, 3, data);
+    }
+
+    public static void openMenu(Player player, PlayerIsland data) {
+        MenuProvider fac = new MenuProvider() {
+            @Override
+            public Component getDisplayName() {
+                return new TextComponent("Island Traveller");
+            }
+
+            @Nullable
+            @Override
+            public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
+                Main.islandUIIds.add(syncId);
+                return new IslandTravelOverviewHandler(syncId, inv, data);
+            }
+        };
+        player.openMenu(fac);
     }
 
     @Override

@@ -18,14 +18,14 @@ import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.islands.IslandData;
+import yorickbm.skyblockaddon.islands.Permission;
+import yorickbm.skyblockaddon.islands.PermissionState;
 import yorickbm.skyblockaddon.util.BuildingBlock;
 import yorickbm.skyblockaddon.util.NBTUtil;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class IslandGenerator {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -298,5 +298,12 @@ public class IslandGenerator {
      */
     public IslandData getIslandById(String islandId) {
         return islands.get(islandId);
+    }
+
+    public List<IslandData> getPublicTeleportIslands() {
+        return  islands.values().stream().filter(island -> island.getPermission(Permission.Teleport) == PermissionState.EVERYONE).collect(Collectors.toUnmodifiableList());
+    }
+    public List<IslandData> getPublicInviteIslands() {
+        return  islands.values().stream().filter(island -> island.getPermission(Permission.Invite) == PermissionState.EVERYONE).collect(Collectors.toUnmodifiableList());
     }
 }
