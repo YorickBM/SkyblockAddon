@@ -6,6 +6,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
+import yorickbm.skyblockaddon.Main;
 
 //TODO Prevent Extraction quick handle
 //TODO Prevent inventory sort
@@ -79,6 +80,19 @@ public abstract class ServerOnlyHandler<T> extends AbstractContainerMenu {
 
 
         fillInventoryWith(playerInventory.player);
+    }
+
+    /**
+     * Override default setting to register every item with mod id within its NBT data.
+     * This is done, so on close of menu players inventory can be cleared of items taken from GUI from this mod
+     * @param p_182407_ Inventory slot index
+     * @param p_182408_ Item State
+     * @param p_182409_ ItemStack
+     */
+    @Override
+    public void setItem(int p_182407_, int p_182408_, ItemStack p_182409_) {
+        p_182409_.getOrCreateTagElement(Main.MOD_ID); //Put our mod ID as tag
+        super.setItem(p_182407_, p_182408_, p_182409_);
     }
 
     /**

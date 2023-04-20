@@ -2,6 +2,7 @@ package yorickbm.skyblockaddon.events;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.*;
@@ -52,6 +53,16 @@ public class PlayerEvents {
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
+    }
+
+    @SubscribeEvent
+    public void onContainerClose(PlayerContainerEvent.Close event) {
+        if(!Main.islandUIIds.contains(event.getContainer().containerId)) return; //Its not an island GUI so we ignore event
+
+        //Remove all items containing skyblockaddon tag
+        event.getPlayer().inventoryMenu.slots.forEach(slot -> {
+            if(slot.getItem().getTagElement(Main.MOD_ID) != null) event.getPlayer().inventoryMenu.setItem(slot.index, 0, ItemStack.EMPTY);
+        });
     }
 
     @SubscribeEvent
