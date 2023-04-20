@@ -62,8 +62,8 @@ public class GetIslandIdCommand {
                     LanguageFile.getForKey("commands.island.admin.getId.success").formatted(targets.stream().findFirst().get().getGameProfile().getName()),
                     Style.EMPTY
                             .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, i.getIslandId()))
-                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("Click to copy!"))),
-                    ChatFormatting.GREEN //TODO: Make it use language file for hover.
+                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(LanguageFile.getForKey("chat.hover.copy")))),
+                    ChatFormatting.GREEN
                 ),
                     player.getUUID()
             );

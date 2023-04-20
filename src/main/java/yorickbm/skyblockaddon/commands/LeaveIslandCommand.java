@@ -77,8 +77,8 @@ public class LeaveIslandCommand {
                 LanguageFile.getForKey("commands.island.leave.undo").formatted(player.getGameProfile().getName()),
                     Style.EMPTY
                     .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island join " + island.getPreviousIsland()))
-                    .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("Click to rejoin your island (Valid for 60 minutes)!"))),
-                ChatFormatting.GREEN //TODO: Make it use language file for hover.
+                    .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(LanguageFile.getForKey("chat.hover.run.rejoin")))),
+                ChatFormatting.GREEN
             ),
             player.getUUID()
         );

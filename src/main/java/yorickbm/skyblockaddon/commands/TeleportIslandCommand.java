@@ -77,8 +77,8 @@ public class TeleportIslandCommand {
                                     LanguageFile.getForKey("commands.island.teleport.user.request").formatted(player.getGameProfile().getName(),player.getGameProfile().getName()),
                                     Style.EMPTY
                                         .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island accept " + player.getGameProfile().getName()))
-                                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("Click to accept teleport request (Valid for 60 seconds)!"))),
-                                    ChatFormatting.GREEN //TODO: Make it use language file for hover.
+                                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(LanguageFile.getForKey("chat.hover.run.teleport")))),
+                                    ChatFormatting.GREEN
                             ),
                             p.get().getUUID()
                     );

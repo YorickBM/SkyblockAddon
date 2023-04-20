@@ -6,6 +6,12 @@ public class LanguageFile {
     private static final HashMap<String, String> items = new HashMap<>();
 
     public static void init() {
+        //Chat language configurations
+        items.put("chat.hover.copy", "Click to copy!");
+        items.put("chat.hover.run.invite", "Click to accept invite (Valid for 60 minutes)!");
+        items.put("chat.hover.run.teleport", "Click to accept teleport request (Valid for 60 seconds)!");
+        items.put("chat.hover.run.rejoin", "Click to rejoin your island (Valid for 60 minutes)!");
+
         //Command response language configurations
         items.put("commands.island.nonplayer", "This command may only be executed by a player.");
         items.put("commands.island.notoverworld", "You can only execute this command in the overworld.");
@@ -28,6 +34,7 @@ public class LanguageFile {
 
         items.put("commands.island.invite.hasone", "The player you are trying to invite already has an island!");
         items.put("commands.island.invite.hasnone", "You need to have an island to be able to invite someone.");
+        items.put("commands.island.invite.nopermission", "You are not permitted to take this action, sorry.");
         items.put("commands.island.invite.offline", "The player you are trying to invite went offline!");
         items.put("commands.island.invite.success", "You have invited %s to your island.");
         items.put("commands.island.invite.invitation", "%s has invited you to join their island. Click this message, to join their island!");
@@ -41,6 +48,7 @@ public class LanguageFile {
         items.put("commands.island.teleport.user.notfound", "We could not find the players island you are trying to teleport to.");
         items.put("commands.island.teleport.user.hasnone", "%s does not have an island to teleport too!");
         items.put("commands.island.teleport.user.success", "You have teleported to %s's island.");
+        items.put("commands.island.teleport.user.request.nopermission", "You are not permitted to take this action, sorry.");
         items.put("commands.island.teleport.user.request", "%s wants to teleport to your island. Click this message, to accept teleport request.");
         items.put("commands.island.teleport.user.request.send", "You have requested to teleport to %s's island!");
         items.put("commands.island.teleport.user.request.success", "We have teleported %s to your island.");

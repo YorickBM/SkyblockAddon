@@ -132,8 +132,8 @@ public class InviteOverviewHandler extends ServerOnlyHandler<IslandData> {
                                         LanguageFile.getForKey("commands.island.invite.invitation").formatted(player.getGameProfile().getName()),
                                         Style.EMPTY
                                             .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island join " + x.getIslandId()))
-                                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("Click to accept invite (Valid for 60 minutes)!"))),
-                                        ChatFormatting.GREEN //TODO: Make it use language file for hover.
+                                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(LanguageFile.getForKey("chat.hover.run.invite")))),
+                                        ChatFormatting.GREEN
                                 ),
                                 invitee.getUUID()
                             );
