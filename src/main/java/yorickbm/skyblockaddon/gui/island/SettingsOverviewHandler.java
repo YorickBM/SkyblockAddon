@@ -1,4 +1,4 @@
-package yorickbm.skyblockaddon.gui;
+package yorickbm.skyblockaddon.gui.island;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Vec3i;
@@ -15,11 +15,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.Main;
-import yorickbm.skyblockaddon.capabilities.PlayerIslandProvider;
+import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.commands.LeaveIslandCommand;
+import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.islands.Permission;
-import yorickbm.skyblockaddon.islands.PermissionState;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {

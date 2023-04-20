@@ -13,12 +13,11 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import yorickbm.skyblockaddon.capabilities.PlayerIslandProvider;
+import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.Collection;
-import java.util.Optional;
 
 public class InviteIslandCommand {
     public InviteIslandCommand(CommandDispatcher<CommandSourceStack> dispatcher) {

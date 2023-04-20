@@ -1,6 +1,7 @@
 package yorickbm.skyblockaddon.islands;
 
 import net.minecraft.nbt.CompoundTag;
+
 import java.util.HashMap;
 import java.util.stream.Collectors;
 

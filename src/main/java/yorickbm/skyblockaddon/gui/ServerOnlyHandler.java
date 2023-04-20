@@ -6,8 +6,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
-import yorickbm.skyblockaddon.Main;
-import yorickbm.skyblockaddon.mixin.AbstractContainerAccessor;
 
 //TODO Prevent Extraction quick handle
 //TODO Prevent inventory sort

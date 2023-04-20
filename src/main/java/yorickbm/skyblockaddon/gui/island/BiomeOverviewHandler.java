@@ -1,4 +1,4 @@
-package yorickbm.skyblockaddon.gui;
+package yorickbm.skyblockaddon.gui.island;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -18,6 +18,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.Main;
+import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;

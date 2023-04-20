@@ -1,4 +1,4 @@
-package yorickbm.skyblockaddon.capabilities;
+package yorickbm.skyblockaddon.capabilities.Providers;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -11,6 +11,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import yorickbm.skyblockaddon.capabilities.IslandGenerator;
 
 public class IslandGeneratorProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
     public static Capability<IslandGenerator> ISLAND_GENERATOR = CapabilityManager.get(new CapabilityToken<>() {

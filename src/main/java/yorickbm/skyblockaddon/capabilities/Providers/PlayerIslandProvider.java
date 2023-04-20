@@ -1,4 +1,4 @@
-package yorickbm.skyblockaddon.capabilities;
+package yorickbm.skyblockaddon.capabilities.Providers;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -10,6 +10,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import yorickbm.skyblockaddon.capabilities.PlayerIsland;
 
 public class PlayerIslandProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
