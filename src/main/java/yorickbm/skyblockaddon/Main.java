@@ -59,7 +59,7 @@ public class Main {
         MinecraftForge.EVENT_BUS.register(new PlayerEvents());
 
         //Register username cache
-        UsernameCache.initCache(20);
+        UsernameCache.initCache(120);
     }
 
     public static MinecraftServer getServer() {

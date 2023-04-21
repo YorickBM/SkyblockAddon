@@ -42,7 +42,8 @@ public class PlayerEvents {
 
     @SubscribeEvent
     public void onContainerOpenEvent(PlayerContainerEvent.Open event) {
-        if(Main.islandUIIds.contains(event.getContainer().containerId)) return; //Its an island GUI so we ignore event
+        if(event.getContainer().getItems().get(0).getTagElement(Main.MOD_ID) != null) return; //Its an island GUI so we ignore event
+        //if(Main.islandUIIds.contains(event.getContainer().containerId)) return; //Its an island GUI so we ignore event
 
         if(!(event.getEntity() instanceof Player player)) return;
         IslandData island = Main.CheckOnIsland(player);
@@ -50,7 +51,8 @@ public class PlayerEvents {
 
         if(!island.hasPermission(Permission.OpenBlocks, player)) {
             player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
-            event.setCanceled(true);
+            player.closeContainer();
+            //event.setCanceled(true); Not possible for this event?
         }
         //Has permission so event should not be canceled
     }
