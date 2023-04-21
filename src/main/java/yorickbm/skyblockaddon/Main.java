@@ -92,13 +92,13 @@ public class Main {
     }
 
     public static IslandData CheckOnIsland(Player player) {
-        if(player.getLevel().dimension() != Level.OVERWORLD) return null; //Non overworld events we ignore // || player.hasPermissions(3)
+        if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return null; //Non overworld events we ignore //
         AtomicReference<IslandData> island = new AtomicReference<>(null);
 
         player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(playerIsland -> {
             player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(islandGenerator -> {
 
-                String islandIdOn = islandGenerator.getIslandIdByLocation(new Vec3i(player.getX(), 0, player.getZ()));
+                String islandIdOn = islandGenerator.getIslandIdByLocation(new Vec3i(player.getX(), 121, player.getZ()));
                 if(islandIdOn == null || islandIdOn == "") return; //Not on an island so we do not affect permission
 
                 island.set(islandGenerator.getIslandById(islandIdOn));
