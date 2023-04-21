@@ -42,9 +42,6 @@ public class PlayerIsland {
         Object timestamp = islandInvites.get(islandId);
         islandInvites.remove(islandId); //One time trigger validation
 
-        System.out.println("Time of invite " + timestamp + " | Now " + Instant.now().getEpochSecond());
-        System.out.println("Valid? " + timestamp + " >= " + (Instant.now().getEpochSecond() - (60 * 60)));
-
         return timestamp != null && (long)timestamp >= (Instant.now().getEpochSecond() - (60 * 60)); //Check if invite is not older then x seconds
     }
 

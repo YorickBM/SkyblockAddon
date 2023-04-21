@@ -102,7 +102,6 @@ public class IslandData {
      * @param uuid Player you wish to make owner of island
      */
     public void setOwner(UUID uuid) {
-        System.out.println("SETTING NEW OWNER");
         islandMembers.remove(uuid);
         owner = uuid;
     }
@@ -112,8 +111,6 @@ public class IslandData {
      * @param uuid UUID of p[layer you wish to add
      */
     public void addIslandMember(UUID uuid) {
-        System.out.println("ADDING ISLAND MEMBER");
-
         islandMembers.add(uuid);
         if(!hasOwner()) setOwner(uuid); //Set owner
     }
@@ -123,11 +120,14 @@ public class IslandData {
      * @param uuid UUID of player you wish to remove
      * @return True or false if player was part of island
      */
-    public boolean removeIslandMember(UUID uuid) {
-        if(isOwner(uuid) && islandMembers.size() > 0) setOwner(islandMembers.get(0)); //Set new owner if necessary
-        if(!islandMembers.contains(uuid)) return false;
-        islandMembers.remove(uuid);
-        return true;
+    public void removeIslandMember(UUID uuid) {
+        if(isOwner(uuid) && islandMembers.size() > 0)
+            setOwner(islandMembers.get(0)); //Set new owner if necessary
+        else if(isOwner(uuid))
+            setOwner(null);
+
+        if(islandMembers.contains(uuid))
+            islandMembers.remove(uuid);
     }
 
     /**

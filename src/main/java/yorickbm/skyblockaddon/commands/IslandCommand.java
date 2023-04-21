@@ -10,6 +10,7 @@ import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.gui.island.IslandOverviewHandler;
+import yorickbm.skyblockaddon.gui.travel.IslandTravelOverviewHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.LanguageFile;
 
@@ -34,6 +35,7 @@ public class IslandCommand {
         player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
             if (!island.hasOne()) {
                 command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.hasnone")));
+                IslandTravelOverviewHandler.openMenu(player, island);
                 return;
             }
 

@@ -73,7 +73,7 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
                             ServerHelper.formattedText("Global Permissions:", ChatFormatting.YELLOW, ChatFormatting.UNDERLINE),
                             ServerHelper.combineComponents(
                                 ServerHelper.formattedText("\u2666 Teleport Requests: ", ChatFormatting.GRAY),
-                                ServerHelper.formattedText(data.getPermission(Permission.Invite).Camelcase(), ChatFormatting.WHITE)
+                                ServerHelper.formattedText(data.getPermission(Permission.Teleport).Camelcase(), ChatFormatting.WHITE)
                             ),
                             ServerHelper.combineComponents(
                                 ServerHelper.formattedText("\u2666 Invite: ", ChatFormatting.GRAY),

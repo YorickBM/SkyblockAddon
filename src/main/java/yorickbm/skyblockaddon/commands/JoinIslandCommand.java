@@ -7,12 +7,15 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.UuidArgument;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.LanguageFile;
+import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.UUID;
 
@@ -53,6 +56,7 @@ public class JoinIslandCommand {
                 playerIsland.setIsland(islandId.toString());
 
                 //Inform player
+                ServerHelper.playSongToPlayer((ServerPlayer) player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
                 command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.accept.success").formatted(island.getOwner(player.getServer()).getName())).withStyle(ChatFormatting.GREEN), false);
 
                 //Teleport to the island

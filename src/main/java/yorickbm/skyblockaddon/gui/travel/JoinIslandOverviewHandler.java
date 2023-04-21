@@ -25,6 +25,7 @@ import yorickbm.skyblockaddon.capabilities.PlayerIsland;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
+import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
@@ -45,7 +46,7 @@ public class JoinIslandOverviewHandler extends ServerOnlyHandler<IslandGenerator
 
         this.server = playerInventory.player.getServer();
         this.islands = data.getPublicInviteIslands();
-        this.pages = (int) Math.ceil((islands.size()-1)/14.0);
+        this.pages = (int) Math.ceil((islands.size())/14.0);
 
         this.data2 = data2;
 
@@ -151,19 +152,25 @@ public class JoinIslandOverviewHandler extends ServerOnlyHandler<IslandGenerator
 
             case 39:
             case 41:
+                if(!slot.getItem().getOrCreateTagElement("skyblockaddon").contains("page")) return false; //Its not a page item;
+
                 page = slot.getItem().getTagElement("skyblockaddon").getInt("page");
                 drawIslands();
                 ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
                 return true;
 
             default:
+                if(slot.getItem().isEmpty()) return false; //Empty slot clicked
                 player.closeContainer();
+                ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
 
                 String islandId = slot.getItem().getTagElement("skyblockaddon").getString("islandid");
                 IslandData island = this.data.getIslandById(islandId);
 
                 island.addIslandMember(player.getUUID());
                 data2.setIsland(islandId);
+
+                player.sendMessage(new TextComponent(LanguageFile.getForKey("guis.island.join").formatted(island.getOwner(player.getServer()).getName())).withStyle(ChatFormatting.GREEN), player.getUUID());
                 island.teleport(player);
         }
 
