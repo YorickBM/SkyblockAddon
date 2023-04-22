@@ -72,6 +72,8 @@ public class LanguageFile {
         //GUI language configuration
         items.put("guis.island.join", "You have joined %s's island!");
 
+        items.put("guis.island.setspawn.notallowed", "Sorry you are not allowed to set your spawn outside of your own island.");
+
         items.put("guis.permissions.Teleport.title", "Teleport Requests");
         items.put("guis.permissions.Teleport.desc", "\u2666 Whom may accept teleport requests to your island\n\u2666 Setting this to everyone, will allow teleporting without request.");
 

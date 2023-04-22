@@ -20,6 +20,7 @@ import yorickbm.skyblockaddon.commands.LeaveIslandCommand;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.islands.Permission;
+import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
@@ -152,6 +153,11 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
                 return true;
             case 14:
                 player.closeContainer();
+                if(!this.data.getIslandBoundingBox().isInside(player.blockPosition())) {
+                    ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_BREAK, 3f, 1f);
+                    player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("guis.island.setspawn.notallowed"), ChatFormatting.RED), player.getUUID());
+                    return false;
+                }
                 ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
 
                 data.setSpawn(new Vec3i(player.position().x, player.position().y, player.position().z));
