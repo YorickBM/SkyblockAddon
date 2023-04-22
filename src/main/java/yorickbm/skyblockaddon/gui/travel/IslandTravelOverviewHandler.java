@@ -17,8 +17,6 @@ import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.capabilities.PlayerIsland;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
-import yorickbm.skyblockaddon.gui.island.BiomeOverviewHandler;
-import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 public class IslandTravelOverviewHandler extends ServerOnlyHandler<PlayerIsland> {

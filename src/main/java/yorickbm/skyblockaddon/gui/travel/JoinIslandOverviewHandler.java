@@ -15,9 +15,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.capabilities.IslandGenerator;
@@ -27,7 +24,6 @@ import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
-import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;

@@ -1,18 +1,22 @@
 package yorickbm.skyblockaddon;
 
 import net.minecraft.core.Vec3i;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
@@ -36,11 +40,12 @@ public class Main {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "skyblockaddon";
-    public static final String VERSION = "2.1";
-    private static MinecraftServer server;
+    public static final String VERSION = "3.1";
 
     public static final float UI_SOUND_VOL = 0.5f;
     public static final float EFFECT_SOUND_VOL = 0.2f;
+    public static List<Item> Allowed_Clickable_Blocks = new ArrayList<>();
+    public static List<Item> Allowed_Clickable_Items = new ArrayList<>();
 
     public static List<Integer> islandUIIds = new ArrayList<>();
 
@@ -54,6 +59,7 @@ public class Main {
         LanguageFile.init();
 
         // Register ourselves for server and other game events we are interested in
+        MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ModEvents());
         MinecraftForge.EVENT_BUS.register(new BlockEvents());
         MinecraftForge.EVENT_BUS.register(new PlayerEvents());
@@ -62,20 +68,12 @@ public class Main {
         UsernameCache.initCache(120);
     }
 
-    public static MinecraftServer getServer() {
-        return server;
-    }
-
     private void setup(final FMLCommonSetupEvent event) {
         //PRE INIT
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {
         // some example code to dispatch IMC to another mod
-//        InterModComms.sendTo("skyblockaddon", "hello world", () -> {
-//            LOGGER.info("Hello world from the MDK");
-//            return "Hello world";
-//        });
     }
 
     private void processIMC(final InterModProcessEvent event) {
@@ -88,6 +86,23 @@ public class Main {
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
+        //Whitelist inventories
+        Allowed_Clickable_Blocks.add(Items.ENDER_CHEST);
+        if(ModList.get().isLoaded("sophisticatedbackpacks")) {
+            ForgeRegistries.ITEMS.getHolder(new ResourceLocation("sophisticatedbackpacks:backpack"))
+                    .ifPresentOrElse(h -> Allowed_Clickable_Items.add(h.value()), () -> LOGGER.warn("Could not find item sophisticatedbackpacks:backpack"));
+            ForgeRegistries.ITEMS.getHolder(new ResourceLocation("sophisticatedbackpacks:iron_backpack"))
+                    .ifPresentOrElse(h -> Allowed_Clickable_Items.add(h.value()), () -> LOGGER.warn("Could not find item sophisticatedbackpacks:iron_backpack"));
+            ForgeRegistries.ITEMS.getHolder(new ResourceLocation("sophisticatedbackpacks:gold_backpack"))
+                    .ifPresentOrElse(h -> Allowed_Clickable_Items.add(h.value()), () -> LOGGER.warn("Could not find item sophisticatedbackpacks:gold_backpack"));
+            ForgeRegistries.ITEMS.getHolder(new ResourceLocation("sophisticatedbackpacks:diamond_backpack"))
+                    .ifPresentOrElse(h -> Allowed_Clickable_Items.add(h.value()), () -> LOGGER.warn("Could not find item sophisticatedbackpacks:diamond_backpack"));
+            ForgeRegistries.ITEMS.getHolder(new ResourceLocation("sophisticatedbackpacks:netherite_backpack"))
+                    .ifPresentOrElse(h -> Allowed_Clickable_Items.add(h.value()), () -> LOGGER.warn("Could not find item sophisticatedbackpacks:netherite_backpack"));
+
+            LOGGER.info("Vaulthunters Skyblock addon loaded 'sophisticated backpacks' items into allowed items.");
+        }
+
         LOGGER.info("Vaulthunters Skyblock addon v"+VERSION+" has loaded!");
     }
 
@@ -95,15 +110,14 @@ public class Main {
         if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return null; //Non overworld events we ignore //
         AtomicReference<IslandData> island = new AtomicReference<>(null);
 
-        player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(playerIsland -> {
+        player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(playerIsland ->
             player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(islandGenerator -> {
 
-                String islandIdOn = islandGenerator.getIslandIdByLocation(new Vec3i(player.getX(), 121, player.getZ()));
-                if(islandIdOn == null || islandIdOn == "") return; //Not on an island so we do not affect permission
+            String islandIdOn = islandGenerator.getIslandIdByLocation(new Vec3i(player.getX(), 121, player.getZ()));
+            if(islandIdOn == null || islandIdOn.equals("")) return; //Not on an island so we do not affect permission
 
-                island.set(islandGenerator.getIslandById(islandIdOn));
-            });
-        });
+            island.set(islandGenerator.getIslandById(islandIdOn));
+        }));
 
         return island.get(); //Not any island
     }
