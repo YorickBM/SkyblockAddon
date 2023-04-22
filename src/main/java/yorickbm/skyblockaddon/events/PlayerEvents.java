@@ -150,10 +150,12 @@ public class PlayerEvents {
                 player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
                 event.setCancellationResult(InteractionResult.FAIL);
 
+                //Clone villager to prevent Easy Villagers pickup
                 Villager clone = new Villager(EntityType.VILLAGER, villager.level);
                 clone.deserializeNBT(villager.serializeNBT());
                 clone.setUUID(Mth.createInsecureUUID(new Random()));
 
+                //Delete clicked villager, spawn its clone
                 villager.discard();
                 player.getLevel().addFreshEntity(clone);
 
