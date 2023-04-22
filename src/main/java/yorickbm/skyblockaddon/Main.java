@@ -102,6 +102,9 @@ public class Main {
 
             LOGGER.info("Vaulthunters Skyblock addon loaded 'sophisticated backpacks' items into allowed items.");
         }
+        if(ModList.get().isLoaded("easy_villagers")) {
+            LOGGER.info("Vaulthunters Skyblock addon loaded 'easy villagers' pickup villager protection for islands.");
+        }
 
         LOGGER.info("Vaulthunters Skyblock addon v"+VERSION+" has loaded!");
     }

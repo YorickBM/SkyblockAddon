@@ -1,8 +1,15 @@
 package yorickbm.skyblockaddon.events;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.VillagerData;
+import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -11,12 +18,16 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.*;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.islands.Permission;
 import yorickbm.skyblockaddon.util.ServerHelper;
+
+import java.util.Random;
+import java.util.UUID;
 
 /**
  * Event Source: https://forge.gemwire.uk/wiki/Events
@@ -101,7 +112,7 @@ public class PlayerEvents {
         //Has permission so event should not be canceled
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onItemPickup(EntityItemPickupEvent event) {
         if(!(event.getEntity() instanceof Player player)) return;
         IslandData island = Main.CheckOnIsland(player);
@@ -113,7 +124,7 @@ public class PlayerEvents {
         }
         //Has permission so event should not be canceled
     }
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onItemDrop(ItemTossEvent event) {
         if(!(event.getEntity() instanceof Player player)) return;
         IslandData island = Main.CheckOnIsland(player);
@@ -126,7 +137,32 @@ public class PlayerEvents {
         //Has permission so event should not be canceled
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
+        Player player = event.getPlayer();
+        Entity entity = event.getTarget();
+
+        if(entity instanceof Villager villager && player.isShiftKeyDown() && ModList.get().isLoaded("easy_villagers")) {
+            IslandData island = Main.CheckOnIsland(player);
+            if(island == null) return; //We Shall do Nothing
+
+            if(!island.hasPermission(Permission.OpenBlocks, player)) {
+                player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
+                event.setCancellationResult(InteractionResult.FAIL);
+
+                Villager clone = new Villager(EntityType.VILLAGER, villager.level);
+                clone.deserializeNBT(villager.serializeNBT());
+                clone.setUUID(Mth.createInsecureUUID(new Random()));
+
+                villager.discard();
+                player.getLevel().addFreshEntity(clone);
+
+                event.setCanceled(true);
+            }
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onBlockInteractRBlock(PlayerInteractEvent.RightClickBlock event) {
         Player player = event.getPlayer();
         Block block = player.getLevel().getBlockState(event.getPos()).getBlock();
@@ -134,7 +170,7 @@ public class PlayerEvents {
 
         event.setCanceled(HandleBlockClick(player, block.asItem(), handItem.getItem()));
     }
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onBlockInteractREmpty(PlayerInteractEvent.RightClickEmpty event) {
         Player player = event.getPlayer();
         Block block = player.getLevel().getBlockState(event.getPos()).getBlock();

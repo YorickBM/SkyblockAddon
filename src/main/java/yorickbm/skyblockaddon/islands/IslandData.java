@@ -113,6 +113,7 @@ public class IslandData {
     public void addIslandMember(UUID uuid) {
         islandMembers.add(uuid);
         if(!hasOwner()) setOwner(uuid); //Set owner
+        if(isOwner(uuid)) islandMembers.remove(uuid);
     }
 
     /**
