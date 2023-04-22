@@ -75,7 +75,7 @@ public final class UsernameCache {
         Loader() {
         }
 
-        private static final String USERNAME_API_URL = "https://api.mojang.com/user/profiles/%s/names";
+        private static final String USERNAME_API_URL = "https://api.mojang.com/user/profile/%s";
         private static final CharMatcher DASH_MATCHER = CharMatcher.is('-');
 
         @Override
@@ -83,37 +83,21 @@ public final class UsernameCache {
             String uuidString = DASH_MATCHER.removeFrom(uuid.toString());
             try (BufferedReader reader = Resources.asCharSource(new URL(String.format(USERNAME_API_URL, uuidString)), StandardCharsets.UTF_8).openBufferedStream()) {
                 JsonReader json = new JsonReader(reader);
-                json.beginArray();
-
                 String name = null;
-                long when = 0;
 
+                json.beginObject();
                 while (json.hasNext()) {
-                    String nameObj = null;
-                    long timeObj = 0;
-                    json.beginObject();
-                    while (json.hasNext()) {
-                        String key = json.nextName();
-                        switch (key) {
-                            case "name":
-                                nameObj = json.nextString();
-                                break;
-                            case "changedToAt":
-                                timeObj = json.nextLong();
-                                break;
-                            default:
-                                json.skipValue();
-                                break;
-                        }
-                    }
-                    json.endObject();
-
-                    if (nameObj != null && timeObj >= when) {
-                        name = nameObj;
+                    String key = json.nextName();
+                    switch (key) {
+                        case "name":
+                            name = json.nextString();
+                            break;
+                        default:
+                            json.skipValue();
+                            break;
                     }
                 }
-
-                json.endArray();
+                json.endObject();
 
                 if (name == null) {
                     throw new IOException("Failed connecting to the Mojang API");
