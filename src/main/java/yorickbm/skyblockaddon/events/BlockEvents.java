@@ -15,6 +15,8 @@ import yorickbm.skyblockaddon.util.ServerHelper;
 public class BlockEvents {
     @SubscribeEvent
     public void onBlockBreak(BlockEvent.BreakEvent event) {
+        if(Main.Allowed_Fake_Player.contains(event.getPlayer().getType())) return; //This entity is allowed to override this event
+
         IslandData island = Main.CheckOnIsland(event.getPlayer());
         if(island == null) return; //We Shall do Nothing
 
@@ -26,7 +28,9 @@ public class BlockEvents {
     }
     @SubscribeEvent
     public void onBlockPlace(BlockEvent.EntityPlaceEvent event) {
+        if(Main.Allowed_Fake_Player.contains(event.getEntity().getType())) return; //This entity is allowed to override this event
         if(!(event.getEntity() instanceof Player player)) return;
+
         IslandData island = Main.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
@@ -39,6 +43,7 @@ public class BlockEvents {
     @SubscribeEvent
     public void onTrampleEvent(BlockEvent.FarmlandTrampleEvent event) {
         if(!(event.getEntity() instanceof Player player)) return;
+
         IslandData island = Main.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
