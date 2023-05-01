@@ -1,15 +1,11 @@
 package yorickbm.skyblockaddon.events;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.Style;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.npc.VillagerData;
-import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -27,7 +23,6 @@ import yorickbm.skyblockaddon.islands.Permission;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.Random;
-import java.util.UUID;
 
 /**
  * Event Source: https://forge.gemwire.uk/wiki/Events
@@ -39,6 +34,7 @@ public class PlayerEvents {
     @SubscribeEvent
     public void onEnderPearl(EntityTeleportEvent.EnderPearl event) {
         IslandData island = Main.CheckOnIsland(event.getPlayer());
+        System.out.println("Event trigger onEnderPearl");
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.EnderPearl, event.getPlayer())) {
@@ -51,6 +47,7 @@ public class PlayerEvents {
     public void onChorusFruit(EntityTeleportEvent.ChorusFruit event) {
         if(!(event.getEntity() instanceof Player player)) return;
         IslandData island = Main.CheckOnIsland(player);
+        System.out.println("Event trigger onChorusFruit");
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.ChorusFruit, player)) {
@@ -63,6 +60,8 @@ public class PlayerEvents {
     @SubscribeEvent
     public void onPlayerSleepInBed(PlayerSleepInBedEvent event) {
         IslandData island = Main.CheckOnIsland(event.getPlayer());
+
+        System.out.println("Event trigger onPlayerSleepInBed");
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.UseBed, event.getPlayer())) {
@@ -77,6 +76,8 @@ public class PlayerEvents {
         if(!(event.getEntity() instanceof Player player)) return;
 
         IslandData island = Main.CheckOnIsland(player);
+
+        System.out.println("Event trigger onPlayerXP");
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.InteractWithXP, player)) {
@@ -90,6 +91,8 @@ public class PlayerEvents {
     public void onUseBucket(FillBucketEvent event) {
         if(!(event.getEntity() instanceof Player player)) return;
         IslandData island = Main.CheckOnIsland(player);
+
+        System.out.println("Event trigger onUseBucket");
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.UseBucket, player)) {
@@ -103,6 +106,8 @@ public class PlayerEvents {
     public void onBonemeal(BonemealEvent event) {
         if(!(event.getEntity() instanceof Player player)) return;
         IslandData island = Main.CheckOnIsland(player);
+
+        System.out.println("Event trigger onBonemeal");
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.UseBonemeal, player)) {
@@ -112,10 +117,12 @@ public class PlayerEvents {
         //Has permission so event should not be canceled
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    @SubscribeEvent
     public void onItemPickup(EntityItemPickupEvent event) {
         if(!(event.getEntity() instanceof Player player)) return;
         IslandData island = Main.CheckOnIsland(player);
+
+        System.out.println("Event trigger onItemPickup");
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.InteractWithGroundItems, player)) {
@@ -124,10 +131,12 @@ public class PlayerEvents {
         }
         //Has permission so event should not be canceled
     }
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    @SubscribeEvent
     public void onItemDrop(ItemTossEvent event) {
         if(!(event.getEntity() instanceof Player player)) return;
         IslandData island = Main.CheckOnIsland(player);
+
+        System.out.println("Event trigger onItemDrop");
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.InteractWithGroundItems, player)) {
@@ -141,6 +150,8 @@ public class PlayerEvents {
     public void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
         Player player = event.getPlayer();
         Entity entity = event.getTarget();
+
+        System.out.println("Event trigger onEntityInteract");
 
         if(entity instanceof Villager villager && player.isShiftKeyDown() && ModList.get().isLoaded("easy_villagers")) {
             IslandData island = Main.CheckOnIsland(player);
@@ -164,7 +175,7 @@ public class PlayerEvents {
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    @SubscribeEvent
     public void onBlockInteractRBlock(PlayerInteractEvent.RightClickBlock event) {
         Player player = event.getPlayer();
         Block block = player.getLevel().getBlockState(event.getPos()).getBlock();
@@ -172,17 +183,30 @@ public class PlayerEvents {
 
         event.setCanceled(HandleBlockClick(player, block.asItem(), handItem.getItem()));
     }
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    @SubscribeEvent
     public void onBlockInteractREmpty(PlayerInteractEvent.RightClickEmpty event) {
         Player player = event.getPlayer();
         Block block = player.getLevel().getBlockState(event.getPos()).getBlock();
 
         event.setCanceled(HandleBlockClick(player, block.asItem(), Items.AIR));
     }
+    @SubscribeEvent
+    public void onBlockInteractLBlock(PlayerInteractEvent.LeftClickBlock event) {
+        Player player = event.getPlayer();
+        Block block = player.getLevel().getBlockState(event.getPos()).getBlock();
+        ItemStack handItem = player.getMainHandItem();
+
+        if(Main.Left_Clickable_Blocks.contains(block.asItem()))
+            event.setCanceled(HandleBlockClick(player, block.asItem(), handItem.getItem()));
+    }
 
     private boolean HandleBlockClick(Player player, Item itemClickedOn, Item itemClickedWith) {
-        if(Main.Allowed_Clickable_Items.contains(itemClickedWith) && itemClickedOn == Items.AIR) return false; //Clicking on item is allowed.
-        if(Main.Allowed_Clickable_Blocks.contains(itemClickedOn)) return false; //Clicking on item is allowed.
+        if(Main.Allowed_Clickable_Items.contains(itemClickedWith) && itemClickedOn == Items.AIR) {
+            return false; //Clicking on item is allowed.
+        }
+        if(Main.Allowed_Clickable_Blocks.contains(itemClickedOn)) {
+            return false; //Clicking on item is allowed.
+        }
 
         IslandData island = Main.CheckOnIsland(player);
         if(island == null) return false; //We Shall do Nothing

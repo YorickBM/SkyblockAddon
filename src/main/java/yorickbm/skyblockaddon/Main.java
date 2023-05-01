@@ -2,6 +2,7 @@ package yorickbm.skyblockaddon;
 
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -29,6 +30,7 @@ import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -46,6 +48,8 @@ public class Main {
     public static final float EFFECT_SOUND_VOL = 0.2f;
     public static List<Item> Allowed_Clickable_Blocks = new ArrayList<>();
     public static List<Item> Allowed_Clickable_Items = new ArrayList<>();
+    public static List<Item> Left_Clickable_Blocks = new ArrayList<>();
+    public static List<EntityType> Allowed_Fake_Player = new ArrayList<>();
 
     public static List<Integer> islandUIIds = new ArrayList<>();
 
@@ -86,6 +90,28 @@ public class Main {
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
+        registerMods();
+        LOGGER.info("Vaulthunters Skyblock addon v"+VERSION+" has loaded!");
+    }
+
+    public static IslandData CheckOnIsland(Player player) {
+        if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return null; //Non overworld events we ignore //
+        AtomicReference<IslandData> island = new AtomicReference<>(null);
+
+        player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(playerIsland ->
+            player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(islandGenerator -> {
+
+            String islandIdOn = islandGenerator.getIslandIdByLocation(new Vec3i(player.getX(), 121, player.getZ()));
+            System.out.println("User is on island: '" + islandIdOn + "'");
+            if(islandIdOn == null || islandIdOn.equals("")) return; //Not on an island so we do not affect permission
+
+            island.set(islandGenerator.getIslandById(islandIdOn));
+        }));
+
+        return island.get(); //Not any island
+    }
+
+    private void registerMods() {
         //Whitelist inventories
         Allowed_Clickable_Blocks.add(Items.ENDER_CHEST);
         if(ModList.get().isLoaded("sophisticatedbackpacks")) {
@@ -105,23 +131,55 @@ public class Main {
         if(ModList.get().isLoaded("easy_villagers")) {
             LOGGER.info("Vaulthunters Skyblock addon loaded 'easy villagers' pickup villager protection for islands.");
         }
+        if(ModList.get().isLoaded("storagedrawers")) {
+            //Controller, slave & compacting drawe
+            register("storagedrawers", Left_Clickable_Blocks,
+                    "compacting_drawers_3",
+                    "controller",
+                    "controller_slave"
+                );
 
-        LOGGER.info("Vaulthunters Skyblock addon v"+VERSION+" has loaded!");
+            //Basic drawers for different wood types
+            String[] draw_types = new String[]{"%s_full_drawers_1", "%s_full_drawers_2", "%s_full_drawers_4", "%s_half_drawers_1", "%s_half_drawers_2", "%s_half_drawers_4"};
+            Arrays.stream(draw_types).forEach(s -> register("storagedrawers", Left_Clickable_Blocks, s.formatted("oak")));
+            Arrays.stream(draw_types).forEach(s -> register("storagedrawers", Left_Clickable_Blocks, s.formatted("spruce")));
+            Arrays.stream(draw_types).forEach(s -> register("storagedrawers", Left_Clickable_Blocks, s.formatted("birch")));
+            Arrays.stream(draw_types).forEach(s -> register("storagedrawers", Left_Clickable_Blocks, s.formatted("jungle")));
+            Arrays.stream(draw_types).forEach(s -> register("storagedrawers", Left_Clickable_Blocks, s.formatted("acacia")));
+            Arrays.stream(draw_types).forEach(s -> register("storagedrawers", Left_Clickable_Blocks, s.formatted("dark_oak")));
+            Arrays.stream(draw_types).forEach(s -> register("storagedrawers", Left_Clickable_Blocks, s.formatted("crimson")));
+            Arrays.stream(draw_types).forEach(s -> register("storagedrawers", Left_Clickable_Blocks, s.formatted("warped")));
+
+            LOGGER.info("Vaulthunters Skyblock addon loaded 'storage drawers' left-click protection for islands.");
+        }
+        if(ModList.get().isLoaded("framedcompactdrawers")) {
+            //Different framed drawers
+            register("framedcompactdrawers", Left_Clickable_Blocks,
+                    "framed_compact_drawer",
+                    "framed_drawer_controller",
+                    "framed_slave",
+                    "framed_full_one",
+                    "framed_full_two",
+                    "framed_full_four",
+                    "framed_half_one",
+                    "framed_half_two",
+                    "framed_half_four"
+                );
+
+            LOGGER.info("Vaulthunters Skyblock addon loaded 'framed compact drawers' left-click protection for islands.");
+        }
+
+        if(ModList.get().isLoaded("create")) {
+            ForgeRegistries.ENTITIES.getHolder(new ResourceLocation("create:deployer"))
+                    .ifPresentOrElse(e -> Allowed_Fake_Player.add(e.value()), () -> LOGGER.warn("Could not find entity create:deployer"));
+            LOGGER.info("Vaulthunters Skyblock addon loaded 'create' allow deployers for islands.");
+        }
     }
 
-    public static IslandData CheckOnIsland(Player player) {
-        if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return null; //Non overworld events we ignore //
-        AtomicReference<IslandData> island = new AtomicReference<>(null);
-
-        player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(playerIsland ->
-            player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(islandGenerator -> {
-
-            String islandIdOn = islandGenerator.getIslandIdByLocation(new Vec3i(player.getX(), 121, player.getZ()));
-            if(islandIdOn == null || islandIdOn.equals("")) return; //Not on an island so we do not affect permission
-
-            island.set(islandGenerator.getIslandById(islandIdOn));
-        }));
-
-        return island.get(); //Not any island
+    private void register(String modId, List<Item> list, String ...items) {
+        for(String item : items) {
+            ForgeRegistries.ITEMS.getHolder(new ResourceLocation(modId + ":" + item))
+                    .ifPresentOrElse(h -> list.add(h.value()), () -> LOGGER.warn("Could not find item "+modId+":"+item));
+        }
     }
 }
