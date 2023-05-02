@@ -42,7 +42,7 @@ public class Main {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "skyblockaddon";
-    public static final String VERSION = "3.1";
+    public static final String VERSION = "4.0";
 
     public static final float UI_SOUND_VOL = 0.5f;
     public static final float EFFECT_SOUND_VOL = 0.2f;
