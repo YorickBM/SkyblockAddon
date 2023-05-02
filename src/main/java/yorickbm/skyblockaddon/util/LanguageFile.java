@@ -6,6 +6,9 @@ public class LanguageFile {
     private static final HashMap<String, String> items = new HashMap<>();
 
     public static void init() {
+        //Toolbar overlay
+        items.put("toolbar.overlay.nothere", "Sorry, you cannot do this here.");
+
         //Chat language configurations
         items.put("chat.hover.copy", "Click to copy!");
         items.put("chat.hover.run.invite", "Click to accept invite (Valid for 60 minutes)!");

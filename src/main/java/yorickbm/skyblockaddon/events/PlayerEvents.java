@@ -20,6 +20,7 @@ import net.minecraftforge.fml.ModList;
 import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.islands.Permission;
+import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.Random;
@@ -34,11 +35,10 @@ public class PlayerEvents {
     @SubscribeEvent
     public void onEnderPearl(EntityTeleportEvent.EnderPearl event) {
         IslandData island = Main.CheckOnIsland(event.getPlayer());
-        System.out.println("Event trigger onEnderPearl");
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.EnderPearl, event.getPlayer())) {
-            event.getPlayer().displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
+            event.getPlayer().displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -46,12 +46,12 @@ public class PlayerEvents {
     @SubscribeEvent
     public void onChorusFruit(EntityTeleportEvent.ChorusFruit event) {
         if(!(event.getEntity() instanceof Player player)) return;
+
         IslandData island = Main.CheckOnIsland(player);
-        System.out.println("Event trigger onChorusFruit");
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.ChorusFruit, player)) {
-            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
+            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -60,12 +60,10 @@ public class PlayerEvents {
     @SubscribeEvent
     public void onPlayerSleepInBed(PlayerSleepInBedEvent event) {
         IslandData island = Main.CheckOnIsland(event.getPlayer());
-
-        System.out.println("Event trigger onPlayerSleepInBed");
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.UseBed, event.getPlayer())) {
-            event.getPlayer().displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
+            event.getPlayer().displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -76,12 +74,10 @@ public class PlayerEvents {
         if(!(event.getEntity() instanceof Player player)) return;
 
         IslandData island = Main.CheckOnIsland(player);
-
-        System.out.println("Event trigger onPlayerXP");
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.InteractWithXP, player)) {
-            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
+            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -90,13 +86,12 @@ public class PlayerEvents {
     @SubscribeEvent
     public void onUseBucket(FillBucketEvent event) {
         if(!(event.getEntity() instanceof Player player)) return;
-        IslandData island = Main.CheckOnIsland(player);
 
-        System.out.println("Event trigger onUseBucket");
+        IslandData island = Main.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.UseBucket, player)) {
-            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
+            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -105,13 +100,12 @@ public class PlayerEvents {
     @SubscribeEvent
     public void onBonemeal(BonemealEvent event) {
         if(!(event.getEntity() instanceof Player player)) return;
-        IslandData island = Main.CheckOnIsland(player);
 
-        System.out.println("Event trigger onBonemeal");
+        IslandData island = Main.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.UseBonemeal, player)) {
-            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
+            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -120,13 +114,12 @@ public class PlayerEvents {
     @SubscribeEvent
     public void onItemPickup(EntityItemPickupEvent event) {
         if(!(event.getEntity() instanceof Player player)) return;
-        IslandData island = Main.CheckOnIsland(player);
 
-        System.out.println("Event trigger onItemPickup");
+        IslandData island = Main.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.InteractWithGroundItems, player)) {
-            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
+            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -134,13 +127,12 @@ public class PlayerEvents {
     @SubscribeEvent
     public void onItemDrop(ItemTossEvent event) {
         if(!(event.getEntity() instanceof Player player)) return;
-        IslandData island = Main.CheckOnIsland(player);
 
-        System.out.println("Event trigger onItemDrop");
+        IslandData island = Main.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.InteractWithGroundItems, player)) {
-            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
+            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -151,14 +143,12 @@ public class PlayerEvents {
         Player player = event.getPlayer();
         Entity entity = event.getTarget();
 
-        System.out.println("Event trigger onEntityInteract");
-
         if(entity instanceof Villager villager && player.isShiftKeyDown() && ModList.get().isLoaded("easy_villagers")) {
             IslandData island = Main.CheckOnIsland(player);
             if(island == null) return; //We Shall do Nothing
 
             if(!island.hasPermission(Permission.OpenBlocks, player)) {
-                player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
+                player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
                 event.setCancellationResult(InteractionResult.FAIL);
 
                 //Clone villager to prevent Easy Villagers pickup
@@ -212,7 +202,7 @@ public class PlayerEvents {
         if(island == null) return false; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.OpenBlocks, player)) {
-            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
+            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             return true;
         }
         return false;

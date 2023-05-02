@@ -7,6 +7,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import yorickbm.skyblockaddon.Main;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.islands.Permission;
+import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 /**
@@ -21,7 +22,7 @@ public class BlockEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.BreakBlocks, event.getPlayer())) {
-            event.getPlayer().displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
+            event.getPlayer().displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -35,7 +36,7 @@ public class BlockEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.PlaceBlocks, player)) {
-            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
+            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -48,7 +49,7 @@ public class BlockEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.hasPermission(Permission.TrampleFarmland, player)) {
-            player.displayClientMessage(ServerHelper.formattedText("You cannot do this here.", ChatFormatting.DARK_RED), true);
+            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
