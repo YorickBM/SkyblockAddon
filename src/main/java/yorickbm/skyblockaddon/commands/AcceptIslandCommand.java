@@ -12,7 +12,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
-import yorickbm.skyblockaddon.islands.Permission;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
@@ -40,7 +39,7 @@ public class AcceptIslandCommand {
         player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
             player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
 
-                if(!g.getIslandById(island.getIslandId()).hasPermission(Permission.Teleport, player)) {
+                if(!g.getIslandById(island.getIslandId()).isAdmin(player.getUUID())) {
                     player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.teleport.user.request.nopermission"), ChatFormatting.RED), player.getUUID());
                     return;
                 }

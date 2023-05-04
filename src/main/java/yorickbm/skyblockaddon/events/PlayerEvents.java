@@ -1,26 +1,35 @@
 package yorickbm.skyblockaddon.events;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
-import yorickbm.skyblockaddon.Main;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.islands.IslandData;
-import yorickbm.skyblockaddon.islands.Permission;
+import yorickbm.skyblockaddon.islands.Permissions;
 import yorickbm.skyblockaddon.util.LanguageFile;
+import yorickbm.skyblockaddon.util.ModIntegrationHandler;
+import yorickbm.skyblockaddon.util.MouseButton;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.Random;
@@ -34,23 +43,25 @@ import java.util.Random;
 public class PlayerEvents {
     @SubscribeEvent
     public void onEnderPearl(EntityTeleportEvent.EnderPearl event) {
-        IslandData island = Main.CheckOnIsland(event.getPlayer());
+        if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
+
+        IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
-        if(!island.hasPermission(Permission.EnderPearl, event.getPlayer())) {
-            event.getPlayer().displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+        if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.UseEnderpearl, player.getUUID()).isAllowed()) {
+            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
     }
     @SubscribeEvent
     public void onChorusFruit(EntityTeleportEvent.ChorusFruit event) {
-        if(!(event.getEntity() instanceof Player player)) return;
+        if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
 
-        IslandData island = Main.CheckOnIsland(player);
+        IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
-        if(!island.hasPermission(Permission.ChorusFruit, player)) {
+        if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.UseChorusfruit, player.getUUID()).isAllowed()) {
             player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
@@ -59,24 +70,26 @@ public class PlayerEvents {
 
     @SubscribeEvent
     public void onPlayerSleepInBed(PlayerSleepInBedEvent event) {
-        IslandData island = Main.CheckOnIsland(event.getPlayer());
+        if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
+
+        IslandData island = SkyblockAddon.CheckOnIsland(event.getPlayer());
         if(island == null) return; //We Shall do Nothing
 
-        if(!island.hasPermission(Permission.UseBed, event.getPlayer())) {
+        if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.UseBed, player.getUUID()).isAllowed()) {
             event.getPlayer().displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
-            event.setCanceled(true);
+            event.setResult(Player.BedSleepingProblem.OTHER_PROBLEM);
         }
         //Has permission so event should not be canceled
     }
 
     @SubscribeEvent
     public void onPlayerXP(PlayerXpEvent.PickupXp event) {
-        if(!(event.getEntity() instanceof Player player)) return;
+        if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
 
-        IslandData island = Main.CheckOnIsland(player);
+        IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
-        if(!island.hasPermission(Permission.InteractWithXP, player)) {
+        if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.CollectXP, player.getUUID()).isAllowed()) {
             player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
@@ -85,12 +98,12 @@ public class PlayerEvents {
 
     @SubscribeEvent
     public void onUseBucket(FillBucketEvent event) {
-        if(!(event.getEntity() instanceof Player player)) return;
+        if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
 
-        IslandData island = Main.CheckOnIsland(player);
+        IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
-        if(!island.hasPermission(Permission.UseBucket, player)) {
+        if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.UseBucket, player.getUUID()).isAllowed()) {
             player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
@@ -99,12 +112,12 @@ public class PlayerEvents {
 
     @SubscribeEvent
     public void onBonemeal(BonemealEvent event) {
-        if(!(event.getEntity() instanceof Player player)) return;
+        if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
 
-        IslandData island = Main.CheckOnIsland(player);
+        IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
-        if(!island.hasPermission(Permission.UseBonemeal, player)) {
+        if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.UseBonemeal, player.getUUID()).isAllowed()) {
             player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
@@ -113,12 +126,12 @@ public class PlayerEvents {
 
     @SubscribeEvent
     public void onItemPickup(EntityItemPickupEvent event) {
-        if(!(event.getEntity() instanceof Player player)) return;
+        if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
 
-        IslandData island = Main.CheckOnIsland(player);
+        IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
-        if(!island.hasPermission(Permission.InteractWithGroundItems, player)) {
+        if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.InteractWithGroundItems, player.getUUID()).isAllowed()) {
             player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
@@ -126,12 +139,12 @@ public class PlayerEvents {
     }
     @SubscribeEvent
     public void onItemDrop(ItemTossEvent event) {
-        if(!(event.getEntity() instanceof Player player)) return;
+        if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
 
-        IslandData island = Main.CheckOnIsland(player);
+        IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
-        if(!island.hasPermission(Permission.InteractWithGroundItems, player)) {
+        if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.InteractWithGroundItems, player.getUUID()).isAllowed()) {
             player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
@@ -144,10 +157,10 @@ public class PlayerEvents {
         Entity entity = event.getTarget();
 
         if(entity instanceof Villager villager && player.isShiftKeyDown() && ModList.get().isLoaded("easy_villagers")) {
-            IslandData island = Main.CheckOnIsland(player);
+            IslandData island = SkyblockAddon.CheckOnIsland(player);
             if(island == null) return; //We Shall do Nothing
 
-            if(!island.hasPermission(Permission.OpenBlocks, player)) {
+            if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.InteractWithBlocks, player.getUUID()).isAllowed()) {
                 player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
                 event.setCancellationResult(InteractionResult.FAIL);
 
@@ -167,42 +180,57 @@ public class PlayerEvents {
 
     @SubscribeEvent
     public void onBlockInteractRBlock(PlayerInteractEvent.RightClickBlock event) {
-        Player player = event.getPlayer();
-        Block block = player.getLevel().getBlockState(event.getPos()).getBlock();
-        ItemStack handItem = player.getMainHandItem();
+       if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
 
-        event.setCanceled(HandleBlockClick(player, block.asItem(), handItem.getItem()));
+        if(player.isSecondaryUseActive() && !event.getItemStack().isEmpty()) return; //Secondary use is allowed
+
+        event.setCanceled(HandleBlockClick(player, event.getPos(), MouseButton.RightClick, event.getItemStack()));
     }
     @SubscribeEvent
     public void onBlockInteractREmpty(PlayerInteractEvent.RightClickEmpty event) {
-        Player player = event.getPlayer();
-        Block block = player.getLevel().getBlockState(event.getPos()).getBlock();
+       if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
 
-        event.setCanceled(HandleBlockClick(player, block.asItem(), Items.AIR));
+        event.setCanceled(HandleBlockClick(player, event.getPos(), MouseButton.RightClick, event.getItemStack()));
     }
     @SubscribeEvent
     public void onBlockInteractLBlock(PlayerInteractEvent.LeftClickBlock event) {
-        Player player = event.getPlayer();
-        Block block = player.getLevel().getBlockState(event.getPos()).getBlock();
-        ItemStack handItem = player.getMainHandItem();
+       if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
 
-        if(Main.Left_Clickable_Blocks.contains(block.asItem()))
-            event.setCanceled(HandleBlockClick(player, block.asItem(), handItem.getItem()));
+        event.setCanceled(HandleBlockClick(player, event.getPos(), MouseButton.LeftClick, event.getItemStack()));
+    }
+    @SubscribeEvent
+    public void onBlockInteractLEmpty(PlayerInteractEvent.LeftClickEmpty event) {
+       if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
+
+        event.setCanceled(HandleBlockClick(player, event.getPos(), MouseButton.LeftClick, event.getItemStack()));
     }
 
-    private boolean HandleBlockClick(Player player, Item itemClickedOn, Item itemClickedWith) {
-        if(Main.Allowed_Clickable_Items.contains(itemClickedWith) && itemClickedOn == Items.AIR) {
-            return false; //Clicking on item is allowed.
-        }
-        if(Main.Allowed_Clickable_Blocks.contains(itemClickedOn)) {
-            return false; //Clicking on item is allowed.
-        }
+    private boolean HandleBlockClick(ServerPlayer player, BlockPos posClicked, MouseButton button, ItemStack triggerItem) {
+        BlockEntity blockEntity = player.getLevel().getBlockEntity(posClicked); //Get block entity
+        Block block = player.getLevel().getBlockState(posClicked).getBlock(); //Get block
 
-        IslandData island = Main.CheckOnIsland(player);
+        Permissions permission = blockEntity != null ? ModIntegrationHandler.getPermissionForBlockEntity(blockEntity) : ModIntegrationHandler.getPermissionForBlock(block);
+        if(permission == null) return false; //Block type is not blocked by our permissions to be clicked on
+
+        IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return false; //We Shall do Nothing
 
-        if(!island.hasPermission(Permission.OpenBlocks, player)) {
+        if(!island.isOwner(player.getUUID()) && !island.getPermission(permission, player.getUUID())
+            .isAllowed(block.asItem())) {
             player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+
+            //Update doors
+            if (block instanceof DoorBlock) {
+                DoubleBlockHalf half = player.getLevel().getBlockState(posClicked).getValue(DoorBlock.HALF);
+                if (half == DoubleBlockHalf.LOWER) {
+                    BlockState other = player.getLevel().getBlockState(posClicked.above());
+                    ServerHelper.SendPacket(player, new ClientboundBlockUpdatePacket(posClicked.above(), other));
+                } else {
+                    BlockState other = player.getLevel().getBlockState(posClicked.below());
+                    ServerHelper.SendPacket(player, new ClientboundBlockUpdatePacket(posClicked.below(), other));
+                }
+            }
+
             return true;
         }
         return false;
@@ -210,11 +238,11 @@ public class PlayerEvents {
 
     @SubscribeEvent
     public void onContainerClose(PlayerContainerEvent.Close event) {
-        if(!Main.islandUIIds.contains(event.getContainer().containerId)) return; //Its not an island GUI so we ignore event
+        if(!SkyblockAddon.islandUIIds.contains(event.getContainer().containerId)) return; //Its not an island GUI so we ignore event
 
         //Remove all items containing skyblockaddon tag
         event.getPlayer().inventoryMenu.slots.forEach(slot -> {
-            if(slot.getItem().getTagElement(Main.MOD_ID) != null) event.getPlayer().inventoryMenu.setItem(slot.index, 0, ItemStack.EMPTY);
+            if(slot.getItem().getTagElement(SkyblockAddon.MOD_ID) != null) event.getPlayer().inventoryMenu.setItem(slot.index, 0, ItemStack.EMPTY);
         });
     }
 

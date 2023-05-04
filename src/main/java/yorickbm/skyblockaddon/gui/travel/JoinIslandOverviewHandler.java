@@ -16,7 +16,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
-import yorickbm.skyblockaddon.Main;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.IslandGenerator;
 import yorickbm.skyblockaddon.capabilities.PlayerIsland;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
@@ -61,7 +61,7 @@ public class JoinIslandOverviewHandler extends ServerOnlyHandler<IslandGenerator
             public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
                 AtomicReference<JoinIslandOverviewHandler> handler = new AtomicReference<>(null);
                 player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> handler.set(new JoinIslandOverviewHandler(syncId, inv, g, data)));
-                if(handler.get() != null) Main.islandUIIds.add(syncId);
+                if(handler.get() != null) SkyblockAddon.islandUIIds.add(syncId);
 
                 return handler.get();
             }
@@ -143,7 +143,7 @@ public class JoinIslandOverviewHandler extends ServerOnlyHandler<IslandGenerator
             case 44:
                 player.closeContainer();
                 player.getServer().execute(() -> IslandTravelOverviewHandler.openMenu(player, data2));
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
+                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
 
             case 39:
@@ -152,7 +152,7 @@ public class JoinIslandOverviewHandler extends ServerOnlyHandler<IslandGenerator
 
                 page = slot.getItem().getTagElement("skyblockaddon").getInt("page");
                 drawIslands();
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
+                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
 
             default:

@@ -13,7 +13,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
-import yorickbm.skyblockaddon.Main;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.PlayerIsland;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
@@ -34,7 +34,7 @@ public class IslandTravelOverviewHandler extends ServerOnlyHandler<PlayerIsland>
             @Nullable
             @Override
             public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
-                Main.islandUIIds.add(syncId);
+                SkyblockAddon.islandUIIds.add(syncId);
                 return new IslandTravelOverviewHandler(syncId, inv, data);
             }
         };
@@ -80,7 +80,7 @@ public class IslandTravelOverviewHandler extends ServerOnlyHandler<PlayerIsland>
             if(!data.hasOne()) {
                 player.closeContainer();
                 player.getServer().execute(() -> JoinIslandOverviewHandler.openMenu(player, this.data));
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
+                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
             } else {
                 player.closeContainer();
                 player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> g.getIslandById(data.getIslandId()).teleport(player));
@@ -88,7 +88,7 @@ public class IslandTravelOverviewHandler extends ServerOnlyHandler<PlayerIsland>
         } else if(index == 15) {
             player.closeContainer();
             player.getServer().execute(() -> TeleportIslandOverviewHandler.openMenu(player, this.data));
-            ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
+            ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
         }
         return true;
     }

@@ -11,15 +11,15 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import yorickbm.skyblockaddon.Main;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.islands.IslandData;
-import yorickbm.skyblockaddon.islands.Permission;
-import yorickbm.skyblockaddon.islands.PermissionState;
+import yorickbm.skyblockaddon.islands.PermissionGroup;
 import yorickbm.skyblockaddon.util.BuildingBlock;
 import yorickbm.skyblockaddon.util.NBTUtil;
 
@@ -41,7 +41,7 @@ public class IslandGenerator {
      * @param nbt CompoundTag with all data
      */
     public void saveNBTData(CompoundTag nbt) {
-        nbt.putInt("nbt-v", 2);
+        nbt.putInt("nbt-v", 3);
         nbt.put("lastIsland", NBTUtil.Vec3iToNBT(lastLocation));
         nbt.put("spawn", NBTUtil.Vec3iToNBT(spawnLocation));
 
@@ -66,26 +66,50 @@ public class IslandGenerator {
      */
     public void loadNBTData(CompoundTag nbt) {
         if(nbt.contains("nbt-v")) {
-            // Load NBT, based on stored NBT version type (Allows for dynamic further changes)
-            switch (nbt.getInt("nbt-v")) {
-                case 2 -> {
-                    lastLocation = NBTUtil.NBTToVec3i(nbt.getCompound("lastIsland"));
-                    spawnLocation = NBTUtil.NBTToVec3i(nbt.getCompound("spawn"));
-                    CompoundTag tagIslandIds = nbt.getCompound("islandIds");
-                    CompoundTag tagIslands = nbt.getCompound("islands");
-                    for (int i = 0; i < tagIslandIds.getInt("count"); i++) {
-                        String id = tagIslandIds.getString(i + "");
-                        CompoundTag islandTag = tagIslands.getCompound(id);
+            // Alter NBT data if needed
+            int version = nbt.getInt("nbt-v");
 
-                        if(!islandTag.contains("biome")) islandTag.putString("biome", "UNKNOWN");
-                        if(!islandTag.contains("center")) islandTag.put("center", islandTag.getCompound("spawn"));
+            lastLocation = NBTUtil.NBTToVec3i(nbt.getCompound("lastIsland"));
+            spawnLocation = NBTUtil.NBTToVec3i(nbt.getCompound("spawn"));
+            CompoundTag tagIslandIds = nbt.getCompound("islandIds");
+            CompoundTag tagIslands = nbt.getCompound("islands");
 
-                        IslandData island = new IslandData(islandTag);
-                        islands.put(id, island);
-                        islandIdsByVec3i.put(island.getCenter(), id);
-                    }
+            LOGGER.info("[skyblockaddon] Loading islands from data: " + tagIslandIds.getInt("count"));
+            for (int i = 0; i < tagIslandIds.getInt("count"); i++) {
+                String id = tagIslandIds.getString(i + "");
+                CompoundTag islandTag = tagIslands.getCompound(id);
+
+                //Generate default NBT values
+                if(!islandTag.contains("biome")) islandTag.putString("biome", "UNKNOWN");
+                if(!islandTag.contains("center")) islandTag.put("center", islandTag.getCompound("spawn"));
+
+                //Generate default permission groups
+                if(!islandTag.contains("permissions")) {
+                    CompoundTag groups = new CompoundTag();
+                    groups.putInt("count", 6);
+                    groups.putString("group-" + 0, "Admin");
+                    groups.putString("group-" + 1, "Members");
+                    groups.putString("group-" + 2, "Default");
+                    groups.putString("group-" + 3, "Friends");
+                    groups.putString("group-" + 4, "Coop");
+                    groups.putString("group-" + 5, "Miscellaneous");
+
+                    CompoundTag permissionData = new CompoundTag();
+                    permissionData.put("groups", groups);
+                    permissionData.put("Admin", new PermissionGroup("Admin", Items.RED_MUSHROOM_BLOCK, true).serialize());
+                    permissionData.put("Members", new PermissionGroup("Members", Items.BROWN_MUSHROOM_BLOCK, true).serialize());
+                    permissionData.put("Default", new PermissionGroup("Default", Items.MUSHROOM_STEM,false).serialize());
+                    permissionData.put("Friends", new PermissionGroup("Friends", Items.PAPER, false).serialize());
+                    permissionData.put("Coop", new PermissionGroup("Coop", Items.PAPER,false).serialize());
+                    permissionData.put("Miscellaneous", new PermissionGroup("Miscellaneous", Items.MUSIC_DISC_13,false).serialize());
+                    islandTag.put("permissions", permissionData);
                 }
+
+                IslandData island = new IslandData(islandTag);
+                islands.put(id, island);
+                islandIdsByVec3i.put(island.getCenter(), id);
             }
+            LOGGER.info("[skyblockaddon] Finished loading islands!");
         } else {
             //Make sure old version NBT can still be loaded
             if(nbt.contains("loc-x"))
@@ -128,7 +152,7 @@ public class IslandGenerator {
     public Vec3i genIsland(ServerLevel worldServer) throws IOException {
 
         MinecraftServer server = worldServer.getServer();
-        Resource rs = server.getResourceManager().getResource(new ResourceLocation(Main.MOD_ID, "structures/island.nbt"));
+        Resource rs = server.getResourceManager().getResource(new ResourceLocation(SkyblockAddon.MOD_ID, "structures/island.nbt"));
         CompoundTag nbt = NbtIo.readCompressed(rs.getInputStream());
 
         ListTag paletteNbt = nbt.getList("palette", 10);
@@ -242,9 +266,7 @@ public class IslandGenerator {
 
         for(Map.Entry<String, IslandData> island : islands.entrySet()) {
             IslandData data = island.getValue();
-
-            if(data.getIslandBoundingBox().isInside(location))
-                return island.getKey();
+            if(data.getIslandBoundingBox().isInside(location)) return island.getKey();
         }
 
         return "";
@@ -261,12 +283,12 @@ public class IslandGenerator {
 
         //Register island or collect island if already exists
         if(islandId.equals("")) {
-            data = new IslandData(null, Vec3i.ZERO);
+            data = new IslandData(null, i.getLocation());
             islandId = registerIsland(data);
-            LOGGER.info("New legacy island created from " + player.getGameProfile().getName() + " ("+islandId+")");
+            LOGGER.info("[skyblockaddon] New legacy island created from " + player.getGameProfile().getName() + " ("+islandId+")");
         }
         else {
-            LOGGER.info("Added legacy user " + player.getGameProfile().getName() + " to island "+islandId+".");
+            LOGGER.info("[skyblockaddon] Added legacy user " + player.getGameProfile().getName() + " to island "+islandId+".");
             data = islands.get(islandId);
         }
 
@@ -274,7 +296,7 @@ public class IslandGenerator {
         if(i.isOwner()) data.setOwner(player.getUUID());
         else data.addIslandMember(player.getUUID());
 
-        if(data.getSpawn() == Vec3i.ZERO || data.getSpawn().distToCenterSqr(0,0,0) <= 4) data.setSpawn(i.getLocation());
+        if(data.getSpawn() == Vec3i.ZERO || data.getSpawn().distToCenterSqr(0,0,0) <= 4) { data.setSpawn(i.getLocation()); }
 
         //Update player information
         i.setIsland(islandId);
@@ -301,9 +323,13 @@ public class IslandGenerator {
     }
 
     public List<IslandData> getPublicTeleportIslands() {
-        return  islands.values().stream().filter(island -> island.getPermission(Permission.Teleport) == PermissionState.EVERYONE).collect(Collectors.toUnmodifiableList());
+        return  islands.values().stream()
+                .filter(island -> island.hasOwner())
+                .collect(Collectors.toUnmodifiableList());
     }
     public List<IslandData> getPublicInviteIslands() {
-        return  islands.values().stream().filter(island -> island.getPermission(Permission.Invite) == PermissionState.EVERYONE).collect(Collectors.toUnmodifiableList());
+        return  islands.values().stream()
+                .filter(island -> island.hasOwner())
+                .collect(Collectors.toUnmodifiableList());
     }
 }

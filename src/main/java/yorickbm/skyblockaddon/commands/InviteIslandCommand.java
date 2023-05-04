@@ -15,7 +15,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
-import yorickbm.skyblockaddon.islands.Permission;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
@@ -41,7 +40,7 @@ public class InviteIslandCommand {
 
         player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent( world -> {
             player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(x -> {
-                if(!world.getIslandById(x.getIslandId()).hasPermission(Permission.Invite, player)) {
+                if(!world.getIslandById(x.getIslandId()).isAdmin(player.getUUID())) {
                     player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.nopermission"), ChatFormatting.RED), player.getUUID());
                     return;
                 }

@@ -1,12 +1,14 @@
 package yorickbm.skyblockaddon.events;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import yorickbm.skyblockaddon.Main;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.islands.IslandData;
-import yorickbm.skyblockaddon.islands.Permission;
+import yorickbm.skyblockaddon.islands.Permissions;
+import yorickbm.skyblockaddon.islands.permissions.Permission;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
@@ -14,14 +16,15 @@ import yorickbm.skyblockaddon.util.ServerHelper;
  * Event Source: https://forge.gemwire.uk/wiki/Events
  */
 public class BlockEvents {
+
     @SubscribeEvent
     public void onBlockBreak(BlockEvent.BreakEvent event) {
-        if(Main.Allowed_Fake_Player.contains(event.getPlayer().getType())) return; //This entity is allowed to override this event
+        if(!(event.getPlayer() instanceof ServerPlayer player) || event.getPlayer() instanceof FakePlayer) return; //Allow fake players
 
-        IslandData island = Main.CheckOnIsland(event.getPlayer());
+        IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
-        if(!island.hasPermission(Permission.BreakBlocks, event.getPlayer())) {
+        if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.DestroyBlocks, player.getUUID()).isAllowed()) {
             event.getPlayer().displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
@@ -29,13 +32,15 @@ public class BlockEvents {
     }
     @SubscribeEvent
     public void onBlockPlace(BlockEvent.EntityPlaceEvent event) {
-        if(Main.Allowed_Fake_Player.contains(event.getEntity().getType())) return; //This entity is allowed to override this event
-        if(!(event.getEntity() instanceof Player player)) return;
+        if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
 
-        IslandData island = Main.CheckOnIsland(player);
-        if(island == null) return; //We Shall do Nothing
+        IslandData island = SkyblockAddon.CheckOnIsland(player);
+        if(island == null) {
+            return; //We Shall do Nothing
+        }
 
-        if(!island.hasPermission(Permission.PlaceBlocks, player)) {
+        Permission permission = island.getPermission(Permissions.PlaceBlocks, player.getUUID());
+        if(!island.isOwner(player.getUUID()) && !permission.isAllowed()) {
             player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
@@ -43,12 +48,12 @@ public class BlockEvents {
     }
     @SubscribeEvent
     public void onTrampleEvent(BlockEvent.FarmlandTrampleEvent event) {
-        if(!(event.getEntity() instanceof Player player)) return;
+        if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
 
-        IslandData island = Main.CheckOnIsland(player);
+        IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
-        if(!island.hasPermission(Permission.TrampleFarmland, player)) {
+        if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.TrampleFarmland, player.getUUID()).isAllowed()) {
             player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }

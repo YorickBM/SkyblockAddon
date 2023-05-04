@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -18,6 +19,9 @@ import java.util.Arrays;
 public class ServerHelper {
     public static void playSongToPlayer(ServerPlayer player, SoundEvent event, float vol, float pitch) {
         player.connection.send(new ClientboundSoundPacket(event, SoundSource.PLAYERS, player.position().x, player.position().y, player.position().z, vol, pitch));
+    }
+    public static void SendPacket(ServerPlayer player, Packet<?> packet) {
+        player.connection.send(packet);
     }
 
     public static Component formattedText(String text, ChatFormatting... formattings) {
@@ -40,5 +44,4 @@ public class ServerHelper {
         });
         return comp;
     }
-
 }

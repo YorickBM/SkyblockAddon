@@ -14,12 +14,12 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
-import yorickbm.skyblockaddon.Main;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.commands.LeaveIslandCommand;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
+import yorickbm.skyblockaddon.gui.permission.PermissionGroupOverviewHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
-import yorickbm.skyblockaddon.islands.Permission;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
@@ -38,7 +38,7 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
             @Nullable
             @Override
             public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
-                Main.islandUIIds.add(syncId);
+                SkyblockAddon.islandUIIds.add(syncId);
                 return new SettingsOverviewHandler(syncId, inv, data);
             }
         };
@@ -71,27 +71,7 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
                     item = new ItemStack(Items.IRON_BARS);
                     item.setHoverName(ServerHelper.formattedText("Permissions", ChatFormatting.BOLD, ChatFormatting.BLUE));
                     ServerHelper.addLore(item,
-                            ServerHelper.formattedText("Global Permissions:", ChatFormatting.YELLOW, ChatFormatting.UNDERLINE),
-                            ServerHelper.combineComponents(
-                                ServerHelper.formattedText("\u2666 Teleport Requests: ", ChatFormatting.GRAY),
-                                ServerHelper.formattedText(data.getPermission(Permission.Teleport).Camelcase(), ChatFormatting.WHITE)
-                            ),
-                            ServerHelper.combineComponents(
-                                ServerHelper.formattedText("\u2666 Invite: ", ChatFormatting.GRAY),
-                                ServerHelper.formattedText(data.getPermission(Permission.Invite).Camelcase(), ChatFormatting.WHITE)
-                            ),
-                            ServerHelper.formattedText(" "),
-                            ServerHelper.formattedText("Interaction Permissions:", ChatFormatting.YELLOW, ChatFormatting.UNDERLINE),
-                            ServerHelper.combineComponents(
-                                ServerHelper.formattedText("\u2666 Place Block: ", ChatFormatting.GRAY),
-                                ServerHelper.formattedText(data.getPermission(Permission.PlaceBlocks).Camelcase(), ChatFormatting.WHITE)
-                            ),
-                            ServerHelper.combineComponents(
-                                ServerHelper.formattedText("\u2666 Break Block: ", ChatFormatting.GRAY),
-                                ServerHelper.formattedText(data.getPermission(Permission.BreakBlocks).Camelcase(), ChatFormatting.WHITE)
-                            ),
-                            ServerHelper.formattedText(" "),
-                            ServerHelper.formattedText("\u00BB Click to view all permissions and modify.", ChatFormatting.GRAY)
+                            ServerHelper.formattedText("\u00BB Click to view all permission groups and modify.", ChatFormatting.GRAY)
                     );
                     break;
                 case 14:
@@ -136,7 +116,7 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
 
         if (index == 0) {
             player.closeContainer();
-            ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
+            ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
             return true;
         }
 
@@ -144,12 +124,12 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
             case 10:
                 player.closeContainer();
                 player.getServer().execute(() -> BiomeOverviewHandler.openMenu(player, data));
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
+                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
             case 12:
                 player.closeContainer();
-                player.getServer().execute(() -> PermissionsOverviewHandler.openMenu(player, data));
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
+                player.getServer().execute(() -> PermissionGroupOverviewHandler.openMenu(player, data));
+                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
             case 14:
                 player.closeContainer();
@@ -172,7 +152,7 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
             case 26:
                 player.closeContainer();
                 player.getServer().execute(() -> IslandOverviewHandler.openMenu(player, this.data));
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
+                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
         }
 

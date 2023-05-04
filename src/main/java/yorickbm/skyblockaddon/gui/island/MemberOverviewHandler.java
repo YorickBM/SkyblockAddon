@@ -14,10 +14,9 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
-import yorickbm.skyblockaddon.Main;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
-import yorickbm.skyblockaddon.islands.Permission;
 import yorickbm.skyblockaddon.util.ServerHelper;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
@@ -40,7 +39,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
             @Nullable
             @Override
             public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
-                Main.islandUIIds.add(syncId);
+                SkyblockAddon.islandUIIds.add(syncId);
                 return new MemberOverviewHandler(syncId, inv, data);
             }
         };
@@ -63,7 +62,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
             if (i == 35) {
                 item = new ItemStack(Items.ARROW);
                 item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED, ChatFormatting.BOLD));
-            } else if (i == 31 && this.data.hasPermission(Permission.Invite, player)) {
+            } else if (i == 31 && this.data.isAdmin(player.getUUID())) {
                 item = new ItemStack(Items.OAK_BOAT);
                 item.setHoverName(ServerHelper.formattedText("Invite", ChatFormatting.GREEN, ChatFormatting.BOLD));
                 ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Invite online player to join this island.", ChatFormatting.GRAY));
@@ -119,12 +118,12 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
             case 35:
                 player.closeContainer();
                 player.getServer().execute(() -> IslandOverviewHandler.openMenu(player, this.data));
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
+                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
             case 31:
                 player.closeContainer();
                 player.getServer().execute(() -> InviteOverviewHandler.openMenu(player, this.data));
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
+                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
         }
 

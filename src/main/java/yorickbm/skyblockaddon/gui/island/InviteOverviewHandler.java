@@ -13,7 +13,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
-import yorickbm.skyblockaddon.Main;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
@@ -40,7 +40,7 @@ public class InviteOverviewHandler extends ServerOnlyHandler<IslandData> {
             @Nullable
             @Override
             public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
-                Main.islandUIIds.add(syncId);
+                SkyblockAddon.islandUIIds.add(syncId);
                 return new InviteOverviewHandler(syncId, inv, data);
             }
         };
@@ -103,7 +103,7 @@ public class InviteOverviewHandler extends ServerOnlyHandler<IslandData> {
             case 35:
                 player.closeContainer();
                 player.getServer().execute(() -> MemberOverviewHandler.openMenu(player, this.data));
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
+                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
 
             default:

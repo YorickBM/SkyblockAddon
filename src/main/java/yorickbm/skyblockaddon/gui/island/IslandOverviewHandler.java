@@ -13,7 +13,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
-import yorickbm.skyblockaddon.Main;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.commands.LeaveIslandCommand;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
@@ -36,7 +36,7 @@ public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
             @Nullable
             @Override
             public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
-                Main.islandUIIds.add(syncId);
+                SkyblockAddon.islandUIIds.add(syncId);
                 return new IslandOverviewHandler(syncId, inv, data);
             }
         };
@@ -59,7 +59,7 @@ public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
                     ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Teleport to your islands spawn location.", ChatFormatting.GRAY));
                     break;
                 case 16:
-                    if(!this.data.isOwner(player.getUUID())) {
+                    if(!this.data.isAdmin(player.getUUID())) {
                         item = new ItemStack(Items.BARRIER);
                         item.setHoverName(ServerHelper.formattedText("Leave", ChatFormatting.BOLD, ChatFormatting.RED));
                         ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Leave this island and teleport to spawn.", ChatFormatting.GRAY));
@@ -91,7 +91,7 @@ public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
 
         if (index == 0) {
             player.closeContainer();
-            ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
+            ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
             return true;
         }
 
@@ -104,7 +104,7 @@ public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
             case 13:
                 player.closeContainer();
                 player.getServer().execute(() -> MemberOverviewHandler.openMenu(player, this.data));
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
+                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
 
             case 16:
@@ -117,7 +117,7 @@ public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
                     player.closeContainer();
                     player.getServer().execute(() -> SettingsOverviewHandler.openMenu(player, this.data));
                 }
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, Main.UI_SOUND_VOL, 1f);
+                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
 
         }

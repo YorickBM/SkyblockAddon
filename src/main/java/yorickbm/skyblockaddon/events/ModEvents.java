@@ -1,7 +1,7 @@
 package yorickbm.skyblockaddon.events;
 
-import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.command.ConfigCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import yorickbm.skyblockaddon.Main;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.IslandGenerator;
 import yorickbm.skyblockaddon.capabilities.PlayerIsland;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
@@ -24,7 +24,7 @@ import yorickbm.skyblockaddon.commands.OP.GetIslandIdCommand;
 import yorickbm.skyblockaddon.commands.OP.SetPlayersIslandCommand;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
-@Mod.EventBusSubscriber(modid = Main.MOD_ID)
+@Mod.EventBusSubscriber(modid = SkyblockAddon.MOD_ID)
 public class ModEvents {
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -44,7 +44,7 @@ public class ModEvents {
         new SetPlayersIslandCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
-        LOGGER.info("Registered commands for " + Main.MOD_ID);
+        LOGGER.info("Registered commands for " + SkyblockAddon.MOD_ID);
     }
 
     @SubscribeEvent
@@ -52,7 +52,7 @@ public class ModEvents {
         if(!(event.getObject() instanceof Player)) return;
         if(event.getObject().getCapability(PlayerIslandProvider.PLAYER_ISLAND).isPresent()) return;
 
-        event.addCapability(new ResourceLocation(Main.MOD_ID, "islanddata"), new PlayerIslandProvider());
+        event.addCapability(new ResourceLocation(SkyblockAddon.MOD_ID, "islanddata"), new PlayerIslandProvider());
     }
 
     @SubscribeEvent
@@ -60,7 +60,7 @@ public class ModEvents {
         if(event.getObject().dimension() != Level.OVERWORLD) return;
         if(event.getObject().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).isPresent()) return;
 
-        event.addCapability(new ResourceLocation(Main.MOD_ID, "properties"), new IslandGeneratorProvider());
+        event.addCapability(new ResourceLocation(SkyblockAddon.MOD_ID, "properties"), new IslandGeneratorProvider());
     }
 
     @SubscribeEvent
@@ -70,11 +70,20 @@ public class ModEvents {
             if(i.hasLegacyData()) {
                 event.getPlayer().getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(w -> w.registerIslandFromLegacy(i, event.getPlayer()));
             }
+
+            event.getPlayer().getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(x -> {
+                String oldId = i.getIslandId();
+                if(oldId.length() >= 3 && x.getIslandById(oldId) == null) {
+                    i.setIsland(""); //Reset the island, since it does not exist!
+                    LOGGER.info("[skyblockaddon] " + event.getPlayer().getGameProfile().getName() +" joined with being part of island does not exist anymore. (" + oldId + ")");
+
+                    ServerLevel level = (ServerLevel) event.getPlayer().getLevel();
+                    event.getPlayer().teleportTo(level.getSharedSpawnPos().getX(), level.getSharedSpawnPos().getY(), level.getSharedSpawnPos().getZ());
+                }
+            });
         });
 
-        event.getPlayer().getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(i -> {
-            i.getIslandIdByLocation(new Vec3i(event.getPlayer().getX(), event.getPlayer().getY(), event.getPlayer().getZ()));
-        });
+
     }
 
     @SubscribeEvent

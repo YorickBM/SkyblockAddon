@@ -8,32 +8,42 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeResolver;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import org.apache.commons.lang3.mutable.MutableInt;
-import yorickbm.skyblockaddon.Main;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.islands.permissions.Permission;
 import yorickbm.skyblockaddon.util.ServerHelper;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class IslandData {
 
+    private static final Logger LOGGER = LogManager.getLogger();
     private UUID owner = null; //UUID Of owner
     private Vec3i spawn; //Spawn coordinates of island
     private Vec3i center; //Spawn coordinates of island
     private String biome = "Unknown";
 
-    private final List<UUID> islandMembers = new ArrayList<>(); //List of all members of island
-    private final PermissionHandler permissionHandler;
+    private PermissionGroup Admin;
+    private PermissionGroup Members;
+    private PermissionGroup Default;
+    private final List<PermissionGroup> permissionGroups = new ArrayList<>();
 
     /**
      * Load island data from CompoundTag
@@ -47,15 +57,34 @@ public class IslandData {
         CompoundTag clocation = (CompoundTag) tag.get("center");
         center = new Vec3i(clocation.getInt("x"),clocation.getInt("y"),clocation.getInt("z"));
 
+        if(center.distToCenterSqr(0,0,0) <= 4) center = spawn; //Island center was set at 0, 0, 0 not possible!
+
         biome = tag.getString("biome");
 
-        CompoundTag members = (CompoundTag) tag.get("members");
-        int count = members.getInt("count");
-        for (int i = 0; i < count; i++) {
-            islandMembers.add(UUID.fromString(members.getString("member-"+i)));
+        CompoundTag permissionData = (CompoundTag) tag.get("permissions");
+        CompoundTag groups = (CompoundTag) permissionData.get("groups");
+        int gCount = groups.getInt("count");
+        for (int i = 0; i < gCount; i++) {
+            PermissionGroup group = new PermissionGroup(permissionData.getCompound(groups.getString("group-"+i)));
+            if(!group.canBeRemoved()) {
+                switch (group.getName()) {
+                    case "Admin" -> this.Admin = group;
+                    case "Members" -> this.Members = group;
+                    case "Default" -> this.Default = group;
+                }
+            }
+
+            permissionGroups.add(group);
         }
 
-        permissionHandler = new PermissionHandler(tag.getCompound("permissions"));
+        //Load legacy member data into permission member group
+        if(tag.contains("members")) {
+            CompoundTag members = tag.getCompound("members");
+            for(int x = 0; x < members.getInt("count"); x++) {
+                UUID member = members.getUUID("member-" + x);
+                this.Members.addMember(member);
+            }
+        }
     }
 
     /**
@@ -65,36 +94,16 @@ public class IslandData {
         owner = playerUUID;
         center = location;
         spawn = location;
-        permissionHandler = new PermissionHandler(new CompoundTag());
-    }
 
-    /**
-     * Determine if a player has correct permission state on this island for permission
-     * @param permission Permission you wish to check
-     * @param player Player whom you check for
-     * @return Boolean if player has permissions
-     */
-    public boolean hasPermission(Permission permission, Player player) {
-        PermissionState stateOfPlayerOnIsland = hasMember(player.getUUID()) ? PermissionState.MEMBERS : isOwner(player.getUUID()) ? PermissionState.OWNERS : PermissionState.EVERYONE;
-        return permissionHandler.isStateAllowed(permission, stateOfPlayerOnIsland);
-    }
-
-    /**
-     * Get state for specific permission
-     * @param permission Permission you wish to get state fpr
-     * @return PermissionState of permission
-     */
-    public PermissionState getPermission(Permission permission) {
-        return permissionHandler.permissions().get(permission);
-    }
-
-    /**
-     * Change minimal state required for a specific permission
-     * @param permission Permission to be set
-     * @param state New minimal state
-     */
-    public void setPermission(Permission permission, PermissionState state) {
-        permissionHandler.permissions().put(permission, state);
+        this.Admin = new PermissionGroup("Admin", Items.RED_MUSHROOM_BLOCK, true);
+        this.Members = new PermissionGroup("Members", Items.BROWN_MUSHROOM_BLOCK, true);
+        this.Default = new PermissionGroup("Default", Items.MUSHROOM_STEM,false);
+        permissionGroups.add(this.Admin);
+        permissionGroups.add(this.Members);
+        permissionGroups.add(this.Default);
+        permissionGroups.add(new PermissionGroup("Friends", Items.PAPER, false));
+        permissionGroups.add(new PermissionGroup("Coop", Items.PAPER,false));
+        permissionGroups.add(new PermissionGroup("Miscellaneous", Items.MUSIC_DISC_13,false));
     }
 
     /**
@@ -102,7 +111,7 @@ public class IslandData {
      * @param uuid Player you wish to make owner of island
      */
     public void setOwner(UUID uuid) {
-        islandMembers.remove(uuid);
+        this.Members.removeMember(uuid);
         owner = uuid;
     }
 
@@ -111,9 +120,10 @@ public class IslandData {
      * @param uuid UUID of p[layer you wish to add
      */
     public void addIslandMember(UUID uuid) {
-        islandMembers.add(uuid);
+        this.Members.addMember(uuid);
+
         if(!hasOwner()) setOwner(uuid); //Set owner
-        if(isOwner(uuid)) islandMembers.remove(uuid);
+        if(isOwner(uuid)) this.Members.removeMember(uuid);
     }
 
     /**
@@ -122,13 +132,13 @@ public class IslandData {
      * @return True or false if player was part of island
      */
     public void removeIslandMember(UUID uuid) {
-        if(isOwner(uuid) && islandMembers.size() > 0)
-            setOwner(islandMembers.get(0)); //Set new owner if necessary
+        if(isOwner(uuid) && this.Members.getMembers().size() > 0)
+            setOwner(this.Members.getMembers().get(0)); //Set new owner if necessary
         else if(isOwner(uuid))
             setOwner(null);
 
-        if(islandMembers.contains(uuid))
-            islandMembers.remove(uuid);
+        if(this.Members.getMembers().contains(uuid))
+            this.Members.removeMember(uuid);
     }
 
     /**
@@ -168,29 +178,12 @@ public class IslandData {
     }
 
     /**
-     * Check if island is leaveable, or should be removed as the last player is leaving
-     * @return True or false based on fact if the player may leave or requires to delete
-     */
-    public boolean canLeave() {
-        return islandMembers.size() >= 1;
-    }
-
-    /**
      * Check if UUID is part of island members and by indication not owner
      * @param uuid UUID of player you wish to check
      * @return True or False based on fact if player is member of island
      */
     public boolean hasMember(UUID uuid) {
-        return islandMembers.contains(uuid);
-    }
-
-    /**
-     * Check if island has any member and/or owner part of the island.
-     * If not island could be pured I.E
-     * @return True or False
-     */
-    public boolean hasSomeone() {
-        return owner != null || islandMembers.size() > 0;
+        return this.Admin.getMembers().contains(uuid) || this.Members.getMembers().contains(uuid);
     }
 
     /**
@@ -198,7 +191,7 @@ public class IslandData {
      * @return List of UUID's
      */
     public List<UUID> getMembers() {
-        return islandMembers;
+        return Stream.concat(this.Admin.getMembers().stream(), this.Members.getMembers().stream()).collect(Collectors.toList());
     }
 
     /**
@@ -223,13 +216,16 @@ public class IslandData {
         tag.put("center", clocation);
 
         tag.putString("biome", biome);
-        tag.put("permissions", permissionHandler.serialize());
 
-        CompoundTag members = new CompoundTag();
-        members.putInt("count",islandMembers.size());
-        for(int i = 0; i < islandMembers.size(); i++)
-            members.putString("member-"+i, islandMembers.get(i).toString());
-        tag.put("members", members);
+        CompoundTag permissionData = new CompoundTag();
+        CompoundTag groups = new CompoundTag();
+        groups.putInt("count",permissionGroups.size());
+        for(int i = 0; i < permissionGroups.size(); i++) {
+            groups.putString("group-" + i, permissionGroups.get(i).getName());
+            permissionData.put(permissionGroups.get(i).getName(), permissionGroups.get(i).serialize());
+        }
+        permissionData.put("groups", groups);
+        tag.put("permissions", permissionData);
 
         return tag;
     }
@@ -240,7 +236,7 @@ public class IslandData {
      */
     public void teleport(Player player) {
         player.teleportTo(spawn.getX(), spawn.getY(), spawn.getZ());
-        ServerHelper.playSongToPlayer((ServerPlayer) player, SoundEvents.ENDERMAN_TELEPORT, Main.EFFECT_SOUND_VOL, 1f);
+        ServerHelper.playSongToPlayer((ServerPlayer) player, SoundEvents.ENDERMAN_TELEPORT, SkyblockAddon.EFFECT_SOUND_VOL, 1f);
     }
 
     /**
@@ -317,6 +313,46 @@ public class IslandData {
     }
 
     /**
+     * Get permission from group player is part of, if no group then default permission group will be used.
+     * @param permission Permission you wish to retrieve
+     * @param player Players UUID who's group you wish to use
+     * @return Permission for user
+     */
+    public Permission getPermission(Permissions permission, UUID player) {
+        return getGroupForPlayer(player).getPermission(permission);
+    }
+
+    /**
+     * Get permission group player is listed for.
+     * @param player
+     * @return
+     */
+    public PermissionGroup getGroupForPlayer(UUID player) {
+        Optional<PermissionGroup> group = permissionGroups.stream().filter(g -> g.hasMember(player)).findFirst();
+        if(group.isEmpty()) group = Optional.of(this.Default);
+
+        return group.get();
+    }
+
+    /**
+     * Get all permission groups made for island
+     * @return List of groups
+     */
+    public List<PermissionGroup> getPermissionGroups() {
+        return this.permissionGroups;
+    }
+
+    /**
+     * Check if player is part of the Admin Group of an island
+     * @param player UUID of player you wish to check if he/she is an admin.
+     * @return Boolean
+     */
+    public boolean isAdmin(UUID player) {
+        if(isOwner(player)) return true;
+        return this.Admin.hasMember(player);
+    }
+
+    /**
      * Biome Modification Utilities
      */
     private static int quantize(int p_261998_) {
@@ -338,5 +374,10 @@ public class IslandData {
                 return holder;
             }
         };
+    }
+
+    @Override
+    public String toString() {
+        return "\"center\"=\"%s\",\"hasOwner\"=\"%s\"".formatted(this.getCenter(), this.hasOwner());
     }
 }

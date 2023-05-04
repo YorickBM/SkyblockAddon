@@ -92,8 +92,12 @@ public class LanguageFile {
         items.put("guis.permissions.TrampleFarmland.title", "Trample Farmland");
         items.put("guis.permissions.TrampleFarmland.desc", "\u2666 Trample farmland by jumping on top of it");
 
+
         items.put("guis.permissions.OpenBlocks.title", "Interact With Blocks");
-        items.put("guis.permissions.OpenBlocks.desc", "\u2666 Interact with blocks on your island\n\u2666 I.E Chests, Storage Interfaces\n\u2666 Does not include redstone items");
+        items.put("guis.permissions.OpenBlocks.desc", "\u2666 Interact with blocks on your island\n\u2666 I.E Chests, Storage Interfaces");
+
+        items.put("guis.permissions.UseRedstone.title", "Interact With Redstone");
+        items.put("guis.permissions.UseRedstone.desc", "\u2666 Interact with redstone on your island\n\u2666 I.E Buttons, Levers, Repeaters");
 
         items.put("guis.permissions.EnderPearl.title", "Use EnderPearl");
         items.put("guis.permissions.EnderPearl.desc", "\u2666 Use an enderpearl on your island to teleport");
