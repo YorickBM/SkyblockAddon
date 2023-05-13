@@ -53,6 +53,8 @@ public class CreateIslandCommand {
                                 return;
                             }
 
+                            command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.create.generating")).withStyle(ChatFormatting.GREEN), true);
+
                             IslandData islandData = new IslandData(player.getUUID(), vec);
                             String id = generator.registerIsland(islandData);
                             island.setIsland(id);

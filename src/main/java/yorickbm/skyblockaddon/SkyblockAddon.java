@@ -33,6 +33,9 @@ import java.util.stream.Collectors;
 @Mod(SkyblockAddon.MOD_ID)
 public class SkyblockAddon {
 
+    //TODO: Add member to group
+    //TODO: Public / Private / Closed island
+
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "skyblockaddon";
@@ -40,7 +43,6 @@ public class SkyblockAddon {
 
     public static final float UI_SOUND_VOL = 0.5f;
     public static final float EFFECT_SOUND_VOL = 0.2f;
-    public static List<EntityType> Allowed_Fake_Player = new ArrayList<>();
 
     public static List<Integer> islandUIIds = new ArrayList<>();
 

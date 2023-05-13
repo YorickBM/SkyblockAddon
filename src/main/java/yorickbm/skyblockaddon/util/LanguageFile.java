@@ -28,6 +28,7 @@ public class LanguageFile {
         items.put("commands.island.admin.setId.teleport", "We are teleporting you to your new island...");
 
         items.put("commands.island.create.success", "Created your skyblock island!");
+        items.put("commands.island.create.generating", "We are generating your island, this may take some time. Please be patient.");
         items.put("commands.island.create.hasone", "You already have an island, use /island tp to teleport to your island!");
         items.put("commands.island.create.fail", "We could not create your island! Try again later.");
 
