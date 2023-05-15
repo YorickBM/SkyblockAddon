@@ -30,6 +30,7 @@ public class LanguageFile {
         items.put("commands.island.create.success", "Created your skyblock island!");
         items.put("commands.island.create.hasone", "You already have an island, use /island tp to teleport to your island!");
         items.put("commands.island.create.fail", "We could not create your island! Try again later.");
+        items.put("commands.island.create.delay", "Please wait %s seconds before executing this command again.");
 
         items.put("commands.island.leave.hasnone", "You do not have an island yet!");
         items.put("commands.island.leave.success", "You have left your island...");

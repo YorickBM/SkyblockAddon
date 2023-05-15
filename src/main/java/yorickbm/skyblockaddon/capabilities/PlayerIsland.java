@@ -31,6 +31,7 @@ public class PlayerIsland {
 
     private HashMap<String, Long> islandInvites = new HashMap<>();
     private HashMap<UUID, Long> teleportInvites = new HashMap<>();
+    private long creationTimestamp = Instant.now().getEpochSecond() - 220;
 
     /**
      * Check if invite is valid with criteria.
@@ -63,6 +64,16 @@ public class PlayerIsland {
         teleportInvites.remove(player); //One time trigger validation
 
         return timestamp != null && (long)timestamp >= Instant.now().getEpochSecond() - 60; //Check if invite is not older then x seconds
+    }
+
+    /**
+     * Determine if island island can be created or wait is required
+     * @return wait time
+     */
+    public long CreateIslandDelay() {
+        long delay = creationTimestamp - (Instant.now().getEpochSecond() - 120); //Check if last attempt is  older then x seconds
+        if(delay <= 0) creationTimestamp = Instant.now().getEpochSecond();
+        return delay;
     }
 
     /**
