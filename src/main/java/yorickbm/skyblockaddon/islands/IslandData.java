@@ -132,13 +132,17 @@ public class IslandData {
      * @return True or false if player was part of island
      */
     public void removeIslandMember(UUID uuid) {
-        if(isOwner(uuid) && this.Members.getMembers().size() > 0)
+        if(isOwner(uuid) && this.Admin.getMembers().size() > 0)
+            setOwner(this.Admin.getMembers().get(0)); //Set new owner if necessary
+        else if(isOwner(uuid) && this.Members.getMembers().size() > 0)
             setOwner(this.Members.getMembers().get(0)); //Set new owner if necessary
         else if(isOwner(uuid))
             setOwner(null);
 
         if(this.Members.getMembers().contains(uuid))
             this.Members.removeMember(uuid);
+        if(this.Admin.getMembers().contains(uuid))
+            this.Admin.removeMember(uuid);
     }
 
     /**

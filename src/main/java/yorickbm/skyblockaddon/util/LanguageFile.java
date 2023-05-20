@@ -31,6 +31,8 @@ public class LanguageFile {
         items.put("commands.island.create.generating", "We are generating your island, this may take some time. Please be patient.");
         items.put("commands.island.create.hasone", "You already have an island, use /island tp to teleport to your island!");
         items.put("commands.island.create.fail", "We could not create your island! Try again later.");
+        items.put("commands.island.create.delay", "Please wait %s seconds before executing this command again.");
+        items.put("commands.island.create.generating", "We are generating your island, please be patient...");
 
         items.put("commands.island.leave.hasnone", "You do not have an island yet!");
         items.put("commands.island.leave.success", "You have left your island...");

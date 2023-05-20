@@ -44,6 +44,12 @@ public class CreateIslandCommand {
                 return;
             }
 
+            long delay = island.CreateIslandDelay();
+            if(delay > 0) {
+                command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.create.delay").formatted(delay)));
+                return;
+            }
+
             player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(generator -> {
                     Thread asyncIslandGen = new Thread(() -> {
                         try {
@@ -52,6 +58,7 @@ public class CreateIslandCommand {
                                 command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.create.fail")));
                                 return;
                             }
+                            player.sendMessage(new TextComponent(LanguageFile.getForKey("commands.island.create.generating")).withStyle(ChatFormatting.GREEN), player.getUUID());
 
                             command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.create.generating")).withStyle(ChatFormatting.GREEN), true);
 
