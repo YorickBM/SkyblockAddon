@@ -26,6 +26,7 @@ import yorickbm.skyblockaddon.util.ServerHelper;
 import java.util.List;
 
 public class PermissionsOverviewHandler extends ServerOnlyHandler<Pair<IslandData, PermissionGroup>> {
+
     protected PermissionsOverviewHandler(int syncId, Inventory playerInventory, Pair<IslandData, PermissionGroup> data) {
         super(syncId, playerInventory, 4, data);
     }
@@ -34,7 +35,7 @@ public class PermissionsOverviewHandler extends ServerOnlyHandler<Pair<IslandDat
         MenuProvider fac = new MenuProvider() {
             @Override
             public Component getDisplayName() {
-                return new TextComponent(data.getA().getOwner(player.getServer()).getName() + "'s island");
+                return new TextComponent(data.getB().getName() + " permissions");
             }
 
             @Nullable
@@ -49,7 +50,7 @@ public class PermissionsOverviewHandler extends ServerOnlyHandler<Pair<IslandDat
 
     @Override
     protected boolean isRightSlot(int slot) {
-        return slot == 35 || slot == 31 || (slot >= 10 && slot <= 25 && slot%9 != 0 && slot%9 != 8);
+        return slot == 35 || slot == 31 || slot == 27 || (slot >= 10 && slot <= 25 && slot%9 != 0 && slot%9 != 8);
     }
 
     @Override
@@ -63,6 +64,9 @@ public class PermissionsOverviewHandler extends ServerOnlyHandler<Pair<IslandDat
             if (i == 35) {
                 item = new ItemStack(Items.ARROW);
                 item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED, ChatFormatting.BOLD));
+            } else if(i == 27 && this.data.getB().canBeRemoved()) {
+                item = new ItemStack(Items.PLAYER_HEAD);
+                item.setHoverName(ServerHelper.formattedText("Members", ChatFormatting.BLUE, ChatFormatting.BOLD));
             } else if(i >= 10 && i <= 25 && i%9 != 0 && i%9 != 8) {
                 if(permissionIndex < permissions.size()) {
                     item = permissions.get(permissionIndex).getItemStack();
@@ -87,6 +91,13 @@ public class PermissionsOverviewHandler extends ServerOnlyHandler<Pair<IslandDat
                 player.closeContainer();
                 player.getServer().execute(() -> PermissionGroupOverviewHandler.openMenu(player, this.data.getA()));
                 ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
+                return true;
+            case 27:
+                if(this.data.getB().canBeRemoved()) {
+                    player.closeContainer();
+                    player.getServer().execute(() -> PermissionGroupMemberOverviewHandler.openMenu(player, this.data));
+                    ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
+                }
                 return true;
             default:
                 if(index >= 10 && index <= 25 && index%9 != 0 && index%9 != 8) {

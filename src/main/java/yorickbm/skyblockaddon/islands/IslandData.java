@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -188,6 +189,16 @@ public class IslandData {
      */
     public boolean hasMember(UUID uuid) {
         return this.Admin.getMembers().contains(uuid) || this.Members.getMembers().contains(uuid);
+    }
+
+    public boolean partOfAnyGroup(UUID uuid) {
+        AtomicBoolean isOf = new AtomicBoolean(false);
+
+        this.permissionGroups.forEach(pg -> {
+            if(pg.hasMember(uuid)) isOf.set(true);
+        });
+
+        return isOf.get();
     }
 
     /**

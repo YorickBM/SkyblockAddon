@@ -43,7 +43,7 @@ public class PermissionGroupMemberOverviewHandler extends ServerOnlyHandler<Pair
         MenuProvider fac = new MenuProvider() {
             @Override
             public Component getDisplayName() {
-                return new TextComponent(data.getB().getName() + " Members");
+                return new TextComponent(data.getB().getName() + " member(s)");
             }
 
             @Nullable
@@ -58,7 +58,7 @@ public class PermissionGroupMemberOverviewHandler extends ServerOnlyHandler<Pair
 
     @Override
     protected boolean isRightSlot(int slot) {
-        return slot == 44 || slot == 39 || slot == 41 || (slot >= 10 && slot <= 34 && slot%9 != 0 && slot%9 != 8);
+        return slot == 44 || slot == 39 || slot == 36 || slot == 41 || (slot >= 10 && slot <= 34 && slot%9 != 0 && slot%9 != 8);
     }
 
     @Override
@@ -69,6 +69,9 @@ public class PermissionGroupMemberOverviewHandler extends ServerOnlyHandler<Pair
             if (i == 44) {
                 item = new ItemStack(Items.ARROW);
                 item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED, ChatFormatting.BOLD));
+            } else if(i == 36 && this.data.getB().canBeRemoved()) {
+                item = new ItemStack(Items.OAK_BOAT);
+                item.setHoverName(ServerHelper.formattedText("Add player", ChatFormatting.GREEN, ChatFormatting.BOLD));
             } else if(i >= 10 && i <= 34 && i%9 != 0 && i%9 != 8) {
                 //BIOME So keep empty
             } else {
@@ -126,7 +129,7 @@ public class PermissionGroupMemberOverviewHandler extends ServerOnlyHandler<Pair
         else setItem(41, 0, new ItemStack(Items.GRAY_STAINED_GLASS_PANE).setHoverName(new TextComponent("")));
 
         ItemStack info = new ItemStack(Items.BOOK);
-        info.setHoverName(ServerHelper.formattedText("Page " + (this.page + 1) + "/" + this.pages));
+        info.setHoverName(ServerHelper.formattedText("Page " + (this.page + 1) + "/" + (this.pages+1)));
         setItem(40, 0, info);
     }
 
@@ -137,6 +140,14 @@ public class PermissionGroupMemberOverviewHandler extends ServerOnlyHandler<Pair
                 player.closeContainer();
                 player.getServer().execute(() -> PermissionsOverviewHandler.openMenu(player, this.data));
                 ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
+                return true;
+
+            case 36:
+                if(this.data.getB().canBeRemoved()) {
+                    player.closeContainer();
+                    player.getServer().execute(() -> PermissionGroupMemberInviteOverviewHandler.openMenu(player, this.data));
+                    ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
+                }
                 return true;
 
             case 39:
