@@ -55,6 +55,12 @@ public class PermissionGroup {
                 LOGGER.error(ex);
             }
         }
+
+        CompoundTag members = tag.getCompound("members");
+        members.putInt("count", this.members.size());
+        for(int i = 0; i < members.getInt("count"); i++) {
+            this.members.add(members.getUUID("member-" + i));
+        }
     }
 
     public CompoundTag serialize() {
