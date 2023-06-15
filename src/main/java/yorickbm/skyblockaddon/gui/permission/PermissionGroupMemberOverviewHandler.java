@@ -17,6 +17,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import oshi.util.tuples.Pair;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
+import yorickbm.skyblockaddon.gui.island.InviteOverviewHandler;
 import yorickbm.skyblockaddon.gui.island.SettingsOverviewHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.islands.PermissionGroup;
@@ -159,9 +160,15 @@ public class PermissionGroupMemberOverviewHandler extends ServerOnlyHandler<Pair
 
             default:
                 if(!slot.getItem().getTagElement("skyblockaddon").contains("member")) return false;
-                ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
-
                 UUID member = UUID.fromString(slot.getItem().getTagElement("skyblockaddon").getString("member"));
+
+                if(!this.data.getB().canBeRemoved()) {
+                    player.closeContainer();
+                    player.getServer().execute(() -> PermissionRoleMembersOverviewHandler.openMenu(player, new Pair<>(member, this.data)));
+                    ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
+                    return true;
+                }
+                ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
                 this.data.getB().removeMember(member);
                 drawMembers();
         }

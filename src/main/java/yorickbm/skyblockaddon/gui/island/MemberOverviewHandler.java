@@ -48,7 +48,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
 
     @Override
     protected boolean isRightSlot(int slot) {
-        return slot == 35 || slot == 31;
+        return slot == 35 || slot == 31 || (slot > 10 && slot <= 25 && slot%9 != 0 && slot%9 != 8) ;
     }
 
     @Override
@@ -125,8 +125,10 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                 player.getServer().execute(() -> InviteOverviewHandler.openMenu(player, this.data));
                 ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
-        }
+            default:
+                if(!this.data.isAdmin(player.getUUID())) return false;
 
-        return false;
+                return true;
+        }
     }
 }

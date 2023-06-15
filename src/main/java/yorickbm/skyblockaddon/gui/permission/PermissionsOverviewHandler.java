@@ -17,6 +17,8 @@ import org.jetbrains.annotations.Nullable;
 import oshi.util.tuples.Pair;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
+import yorickbm.skyblockaddon.gui.island.InviteOverviewHandler;
+import yorickbm.skyblockaddon.gui.island.MemberOverviewHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.islands.PermissionGroup;
 import yorickbm.skyblockaddon.islands.Permissions;
@@ -64,7 +66,7 @@ public class PermissionsOverviewHandler extends ServerOnlyHandler<Pair<IslandDat
             if (i == 35) {
                 item = new ItemStack(Items.ARROW);
                 item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED, ChatFormatting.BOLD));
-            } else if(i == 27 && this.data.getB().canBeRemoved()) {
+            } else if(i == 27 && (this.data.getB().canBeRemoved() || this.data.getB().getName().equals("Members") || this.data.getB().getName().equals("Admin"))) {
                 item = new ItemStack(Items.PLAYER_HEAD);
                 item.setHoverName(ServerHelper.formattedText("Members", ChatFormatting.BLUE, ChatFormatting.BOLD));
             } else if(i >= 10 && i <= 25 && i%9 != 0 && i%9 != 8) {
@@ -96,6 +98,10 @@ public class PermissionsOverviewHandler extends ServerOnlyHandler<Pair<IslandDat
                 if(this.data.getB().canBeRemoved()) {
                     player.closeContainer();
                     player.getServer().execute(() -> PermissionGroupMemberOverviewHandler.openMenu(player, this.data));
+                    ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
+                } else if(this.data.getB().getName().equals("Members") || this.data.getB().getName().equals("Admin")) {
+                    player.closeContainer();
+                    player.getServer().execute(() -> MemberOverviewHandler.openMenu(player, this.data.getA()));
                     ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 }
                 return true;
