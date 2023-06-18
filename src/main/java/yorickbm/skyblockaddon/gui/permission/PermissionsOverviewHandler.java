@@ -17,7 +17,6 @@ import org.jetbrains.annotations.Nullable;
 import oshi.util.tuples.Pair;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
-import yorickbm.skyblockaddon.gui.island.InviteOverviewHandler;
 import yorickbm.skyblockaddon.gui.island.MemberOverviewHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.islands.PermissionGroup;

@@ -7,7 +7,6 @@ import net.minecraft.world.item.Items;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.util.LanguageFile;
-import yorickbm.skyblockaddon.util.MouseButton;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.ArrayList;

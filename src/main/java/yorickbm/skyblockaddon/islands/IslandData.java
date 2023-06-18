@@ -15,8 +15,6 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import org.apache.commons.lang3.mutable.MutableInt;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.islands.permissions.Permission;
@@ -35,11 +33,11 @@ import java.util.stream.Stream;
 
 public class IslandData {
 
-    private static final Logger LOGGER = LogManager.getLogger();
     private UUID owner = null; //UUID Of owner
     private Vec3i spawn; //Spawn coordinates of island
     private Vec3i center; //Spawn coordinates of island
     private String biome = "Unknown";
+    private boolean travelability = false;
 
     private PermissionGroup Admin;
     private PermissionGroup Members;
@@ -61,6 +59,7 @@ public class IslandData {
         if(center.distToCenterSqr(0,0,0) <= 4) center = spawn; //Island center was set at 0, 0, 0 not possible!
 
         biome = tag.getString("biome");
+        travelability = tag.getBoolean("travelability");
 
         CompoundTag permissionData = (CompoundTag) tag.get("permissions");
         CompoundTag groups = (CompoundTag) permissionData.get("groups");
@@ -117,6 +116,24 @@ public class IslandData {
     }
 
     /**
+     * Change player permission group membership from member to admin
+     * @param uuid - Player to switch
+     */
+    public void makeAdmin(UUID uuid) {
+        this.Admin.addMember(uuid);
+        this.Members.removeMember(uuid);
+    }
+
+    /**
+     * Change player permission group membership from admin to member
+     * @param uuid - Player to switch
+     */
+    public void removeAdmin(UUID uuid) {
+        this.Members.addMember(uuid);
+        this.Admin.removeMember(uuid);
+    }
+
+    /**
      * Add member to island by UUID
      * @param uuid UUID of p[layer you wish to add
      */
@@ -130,7 +147,6 @@ public class IslandData {
     /**
      * Remove member from island by uuid
      * @param uuid UUID of player you wish to remove
-     * @return True or false if player was part of island
      */
     public void removeIslandMember(UUID uuid) {
         if(isOwner(uuid) && this.Admin.getMembers().size() > 0)
@@ -231,6 +247,7 @@ public class IslandData {
         tag.put("center", clocation);
 
         tag.putString("biome", biome);
+        tag.putBoolean("travelability", travelability);
 
         CompoundTag permissionData = new CompoundTag();
         CompoundTag groups = new CompoundTag();
@@ -265,7 +282,7 @@ public class IslandData {
                 if(player != null) return player.getGameProfile();
                 else return new GameProfile(owner, UsernameCache.getBlocking(owner));
             }
-        } catch (IOException e) {} //API will fail on offline servers
+        } catch (IOException ignored) {} //API will fail on offline servers
         return new GameProfile(UUID.randomUUID(), "Unknown");
     }
 
@@ -330,7 +347,7 @@ public class IslandData {
     /**
      * Get permission from group player is part of, if no group then default permission group will be used.
      * @param permission Permission you wish to retrieve
-     * @param player Players UUID who's group you wish to use
+     * @param player Players UUID whose group you wish to use
      * @return Permission for user
      */
     public Permission getPermission(Permissions permission, UUID player) {
@@ -339,8 +356,8 @@ public class IslandData {
 
     /**
      * Get permission group player is listed for.
-     * @param player
-     * @return
+     * @param player Whom you want to retrieve info from
+     * @return Permission group player is part of
      */
     public PermissionGroup getGroupForPlayer(UUID player) {
         Optional<PermissionGroup> group = permissionGroups.stream().filter(g -> g.hasMember(player)).findFirst();
@@ -395,4 +412,21 @@ public class IslandData {
     public String toString() {
         return "\"center\"=\"%s\",\"hasOwner\"=\"%s\"".formatted(this.getCenter(), this.hasOwner());
     }
+
+    /**
+     * Is the island public
+     * @return boolean
+     */
+    public boolean getTravelability() {
+        return travelability;
+    }
+
+    /**
+     * Set the island public or private
+     * @param bool - Should island be public?
+     */
+    public void setTravelability(boolean bool) {
+        travelability = bool;
+    }
+
 }

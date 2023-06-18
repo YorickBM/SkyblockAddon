@@ -13,19 +13,15 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.registries.ForgeRegistries;
 import oshi.util.tuples.Pair;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
-import yorickbm.skyblockaddon.gui.island.InviteOverviewHandler;
-import yorickbm.skyblockaddon.gui.island.SettingsOverviewHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.islands.PermissionGroup;
 import yorickbm.skyblockaddon.util.ServerHelper;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
 import javax.annotation.Nullable;
-import java.util.List;
 import java.util.UUID;
 
 public class PermissionGroupMemberOverviewHandler extends ServerOnlyHandler<Pair<IslandData, PermissionGroup>> {
@@ -162,12 +158,6 @@ public class PermissionGroupMemberOverviewHandler extends ServerOnlyHandler<Pair
                 if(!slot.getItem().getTagElement("skyblockaddon").contains("member")) return false;
                 UUID member = UUID.fromString(slot.getItem().getTagElement("skyblockaddon").getString("member"));
 
-                if(!this.data.getB().canBeRemoved()) {
-                    player.closeContainer();
-                    player.getServer().execute(() -> PermissionRoleMembersOverviewHandler.openMenu(player, new Pair<>(member, this.data)));
-                    ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
-                    return true;
-                }
                 ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
                 this.data.getB().removeMember(member);
                 drawMembers();

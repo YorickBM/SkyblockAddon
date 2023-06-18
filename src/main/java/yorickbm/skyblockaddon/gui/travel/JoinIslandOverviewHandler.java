@@ -25,6 +25,7 @@ import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -41,7 +42,7 @@ public class JoinIslandOverviewHandler extends ServerOnlyHandler<IslandGenerator
         super(syncId, playerInventory, 5, data);
 
         this.server = playerInventory.player.getServer();
-        this.islands = data.getPublicInviteIslands();
+        this.islands = new ArrayList<>();
         this.pages = (int) Math.ceil((islands.size())/14.0);
 
         this.data2 = data2;

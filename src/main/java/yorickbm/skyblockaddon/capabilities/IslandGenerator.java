@@ -25,7 +25,6 @@ import yorickbm.skyblockaddon.util.NBTUtil;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class IslandGenerator {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -67,7 +66,6 @@ public class IslandGenerator {
     public void loadNBTData(CompoundTag nbt) {
         if(nbt.contains("nbt-v")) {
             // Alter NBT data if needed
-            int version = nbt.getInt("nbt-v");
 
             lastLocation = NBTUtil.NBTToVec3i(nbt.getCompound("lastIsland"));
             spawnLocation = NBTUtil.NBTToVec3i(nbt.getCompound("spawn"));
@@ -81,6 +79,7 @@ public class IslandGenerator {
 
                 //Generate default NBT values
                 if(!islandTag.contains("biome")) islandTag.putString("biome", "UNKNOWN");
+                if(!islandTag.contains("travelability")) islandTag.putBoolean("travelability", false);
                 if(!islandTag.contains("center")) islandTag.put("center", islandTag.getCompound("spawn"));
 
                 //Generate default permission groups
@@ -250,7 +249,7 @@ public class IslandGenerator {
 
     /**
      * Get island based on player location rounded and offset by spawn
-     * If failed it loops through all islands to find island where your inside of boundingbox
+     * If failed it loops through all islands to find island where your inside bounding box
      * @param location Player Location
      * @return IslandId or empty string
      */
@@ -324,12 +323,8 @@ public class IslandGenerator {
 
     public List<IslandData> getPublicTeleportIslands() {
         return  islands.values().stream()
-                .filter(island -> island.hasOwner())
-                .collect(Collectors.toUnmodifiableList());
-    }
-    public List<IslandData> getPublicInviteIslands() {
-        return  islands.values().stream()
-                .filter(island -> island.hasOwner())
-                .collect(Collectors.toUnmodifiableList());
+                .filter(IslandData::hasOwner)
+                .filter(IslandData::getTravelability)
+                .toList();
     }
 }

@@ -75,6 +75,9 @@ public class LanguageFile {
         items.put("commands.island.undo.hasone", "We have left your current island for you, to rejoin your previous one!");
         items.put("commands.island.undo.success", "You have rejoined your previous island!");
 
+        //GUI Actions
+        items.put("island.member.kick", "Sorry, you have been kicked of the island.");
+
         //GUI language configuration
         items.put("guis.island.join", "You have joined %s's island!");
 
@@ -86,7 +89,7 @@ public class LanguageFile {
         items.put("guis.permissions.Invite.title", "Invite New Members");
         items.put("guis.permissions.Invite.desc", "\u2666 Allow to invite new members to your island\n\u2666 Setting this to everyone, will allow joining without invite.");
 
-        items.put("guis.permissions.PlaceBlocks.title", "Place Blockss");
+        items.put("guis.permissions.PlaceBlocks.title", "Place Blocks");
         items.put("guis.permissions.PlaceBlocks.desc", "\u2666 Place any form of block on your island");
 
         items.put("guis.permissions.BreakBlocks.title", "Break Blocks");

@@ -15,8 +15,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.capabilities.PlayerIsland;
+import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
+import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
@@ -88,16 +92,45 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                     try { playerName = UsernameCache.getBlocking(members.get(memberIndex)); } catch( Exception ex) {}
 
                     item = new ItemStack(Items.PLAYER_HEAD);
-                    item.setHoverName(
-                            ServerHelper.formattedText(
-                                    playerName, ChatFormatting.BLUE, ChatFormatting.BOLD
-                            )
-                    );
-                    ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Regular island member.", ChatFormatting.GRAY));
+                    item.setHoverName(ServerHelper.formattedText(playerName, ChatFormatting.BLUE, ChatFormatting.BOLD));
 
                     CompoundTag tag = item.getOrCreateTag();
                     if(this.data.hasOwner()) tag.putString("SkullOwner", playerName);
                     item.setTag(tag);
+
+                    if(!playerName.equals("Unknown") && this.data.isAdmin(player.getUUID())) {
+                        UUID member = player.getServer().getPlayerList().getPlayerByName(playerName).getUUID();
+                        item.getOrCreateTagElement("skyblockaddon").putString("member", member.toString()); //Put member in item NBT for click event
+
+                        if(this.data.isAdmin(member)) {
+                            ServerHelper.addLore(item,
+                                ServerHelper.formattedText("\u00BB Island admin.", ChatFormatting.GRAY),
+                                    ServerHelper.formattedText("", ChatFormatting.GRAY),
+                                    ServerHelper.formattedText("\u00BB Right-click to demote to member", ChatFormatting.GRAY)
+                            );
+                            item.setHoverName(ServerHelper.formattedText(playerName, ChatFormatting.RED, ChatFormatting.BOLD));
+
+                        } else {
+                            ServerHelper.addLore(item,
+                                ServerHelper.formattedText("\u00BB Island member.", ChatFormatting.GRAY),
+                                ServerHelper.formattedText("", ChatFormatting.GRAY),
+                                ServerHelper.formattedText("\u00BB Right-click to kick player from island", ChatFormatting.GRAY),
+                                ServerHelper.formattedText("\u00BB Left-click to promote to admin", ChatFormatting.GRAY)
+                            );
+                        }
+                    } else if(!playerName.equals("Unknown")) {
+                        UUID member = player.getServer().getPlayerList().getPlayerByName(playerName).getUUID();
+                        if(this.data.isAdmin(member)) {
+                            ServerHelper.addLore(item,
+                                    ServerHelper.formattedText("\u00BB Island admin.", ChatFormatting.GRAY)
+                            );
+                            item.setHoverName(ServerHelper.formattedText(playerName, ChatFormatting.RED, ChatFormatting.BOLD));
+                        } else {
+                            ServerHelper.addLore(item,
+                                    ServerHelper.formattedText("\u00BB Island member.", ChatFormatting.GRAY)
+                            );
+                        }
+                    }
 
                     memberIndex += 1;
                 } else {
@@ -127,7 +160,38 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                 return true;
             default:
                 if(!this.data.isAdmin(player.getUUID())) return false;
+                UUID member = UUID.fromString(slot.getItem().getTagElement("skyblockaddon").getString("member"));
 
+                if(!this.data.isAdmin(member))
+                    switch(clickType) {
+                        case 1:
+                            Player member_player = player.getServer().getPlayerList().getPlayer(member);
+                            player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
+                                this.data.removeIslandMember(member);
+                                island.setIsland("");
+
+                                if (member_player != null) {
+                                    member_player.teleportTo(player.getLevel().getSharedSpawnPos().getX(), player.getLevel().getSharedSpawnPos().getY(), player.getLevel().getSharedSpawnPos().getZ());
+                                    member_player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("island.member.kick")), member);
+                                }
+                            });
+                            break;
+
+                        case 0:
+                            this.data.makeAdmin(member);
+                            break;
+                    }
+                else
+                    switch (clickType) {
+                        case 1:
+                            this.data.removeAdmin(member);
+                            break;
+                        case 0:
+                            break;
+                    }
+
+                ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
+                this.fillInventoryWith(player);
                 return true;
         }
     }

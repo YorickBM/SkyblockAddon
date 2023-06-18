@@ -159,13 +159,13 @@ public abstract class ServerOnlyHandler<T> extends AbstractContainerMenu {
     /**
      * This function is executed upon Inventory Open
      * Will fill it with initial items
-     * @param player - Player whom opens inventory
+     * @param player - Player who opens inventory
      */
     protected abstract void fillInventoryWith(Player player);
 
     /**
      * Function gets executed when an item slot is clicked
-     * @param player - Whom clicked item
+     * @param player - Who clicked item
      * @param index - Index of item
      * @param slot - Slot which is clicked
      * @param clickType - 0 for left click, 1 for right click

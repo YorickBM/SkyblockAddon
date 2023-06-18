@@ -15,8 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.SkyblockAddon;
-import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
-import yorickbm.skyblockaddon.commands.LeaveIslandCommand;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.gui.permission.PermissionGroupOverviewHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
@@ -91,10 +89,17 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
                         );
                     break;
                 case 16:
-                    item = new ItemStack(Items.BARRIER);
-                    item.setHoverName(ServerHelper.formattedText("Leave", ChatFormatting.BOLD, ChatFormatting.RED));
+                    item = new ItemStack(Items.OAK_BOAT);
+                    item.setHoverName(ServerHelper.formattedText("Island Travels", ChatFormatting.BOLD, ChatFormatting.BLUE));
                     ServerHelper.addLore(item,
-                            ServerHelper.formattedText("\u00BB Leave this island and teleport to spawn.", ChatFormatting.GRAY));
+                            ServerHelper.formattedText("\u00BB Change visibility of your island.", ChatFormatting.GRAY),
+                            ServerHelper.formattedText(" "),
+                            ServerHelper.combineComponents(
+                                    ServerHelper.formattedText("\u2666 Current: ", ChatFormatting.GRAY),
+                                    ServerHelper.formattedText(this.data.getTravelability() ? "Public" : "Private", ChatFormatting.WHITE)
+                            ),
+                            ServerHelper.formattedText("\u2666 Click to change!", ChatFormatting.GRAY)
+                            );
                     break;
 
                 case 26:
@@ -143,10 +148,9 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
                 data.setSpawn(new Vec3i(player.position().x, player.position().y, player.position().z));
                 return true;
             case 16:
-                player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(pdata -> {
-                    player.closeContainer();
-                    LeaveIslandCommand.leaveIsland(this.data, pdata, player, player.getLevel());
-                });
+                this.data.setTravelability(!this.data.getTravelability());
+                fillInventoryWith(player);
+                ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_BREAK, 3f, 1f);
                 return true;
 
             case 26:

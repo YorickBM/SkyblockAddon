@@ -45,42 +45,66 @@ public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
 
     @Override
     protected boolean isRightSlot(int slot) {
-        return slot == 10 || slot == 13 || slot == 16;
+        return slot >= 10 && slot <= 16;
     }
 
     @Override
     protected void fillInventoryWith(Player player) {
         for(int i = 0; i < this.inventory.getContainerSize(); i++) {
             ItemStack item = null;
-            switch(i) {
-                case 10:
-                    item = new ItemStack(Items.ENDER_EYE);
-                    item.setHoverName(ServerHelper.formattedText("Teleport", ChatFormatting.BOLD, ChatFormatting.BLUE));
-                    ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Teleport to your islands spawn location.", ChatFormatting.GRAY));
-                    break;
-                case 16:
-                    if(!this.data.isAdmin(player.getUUID())) {
+
+            if(this.data.isAdmin(player.getUUID())) {
+                switch (i) {
+
+                    case 10:
+                        item = new ItemStack(Items.ENDER_EYE);
+                        item.setHoverName(ServerHelper.formattedText("Teleport", ChatFormatting.BOLD, ChatFormatting.BLUE));
+                        ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Teleport to your islands spawn location.", ChatFormatting.GRAY));
+                        break;
+                    case 12:
+                        item = new ItemStack(Items.CHEST);
+                        item.setHoverName(ServerHelper.formattedText("Members", ChatFormatting.BOLD, ChatFormatting.BLUE));
+                        ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Overview all islands members and invite others.", ChatFormatting.GRAY));
+                        break;
+                    case 14:
+                        item = new ItemStack(Items.ANVIL);
+                        item.setHoverName(ServerHelper.formattedText("Settings", ChatFormatting.BOLD, ChatFormatting.BLUE));
+                        ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Change the settings of your island.", ChatFormatting.GRAY));
+                        break;
+                    case 16:
                         item = new ItemStack(Items.BARRIER);
                         item.setHoverName(ServerHelper.formattedText("Leave", ChatFormatting.BOLD, ChatFormatting.RED));
                         ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Leave this island and teleport to spawn.", ChatFormatting.GRAY));
                         break;
-                    }
-                    item = new ItemStack(Items.ANVIL);
-                    item.setHoverName(ServerHelper.formattedText("Settings", ChatFormatting.BOLD, ChatFormatting.BLUE));
-                    ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Change the settings of your island.", ChatFormatting.GRAY));
 
-                    break;
-                case 13:
-                    item = new ItemStack(Items.CHEST);
-                    item.setHoverName(ServerHelper.formattedText("Members", ChatFormatting.BOLD, ChatFormatting.BLUE));
-                    ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Overview all islands members and invite others.", ChatFormatting.GRAY));
+                    default:
+                        item = new ItemStack(Items.GRAY_STAINED_GLASS_PANE);
+                        item.setHoverName(new TextComponent(""));
+                        break;
+                }
+            } else {
+                switch (i) {
+                    case 10:
+                        item = new ItemStack(Items.ENDER_EYE);
+                        item.setHoverName(ServerHelper.formattedText("Teleport", ChatFormatting.BOLD, ChatFormatting.BLUE));
+                        ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Teleport to your islands spawn location.", ChatFormatting.GRAY));
+                        break;
+                    case 16:
+                        item = new ItemStack(Items.BARRIER);
+                        item.setHoverName(ServerHelper.formattedText("Leave", ChatFormatting.BOLD, ChatFormatting.RED));
+                        ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Leave this island and teleport to spawn.", ChatFormatting.GRAY));
+                        break;
+                    case 13:
+                        item = new ItemStack(Items.CHEST);
+                        item.setHoverName(ServerHelper.formattedText("Members", ChatFormatting.BOLD, ChatFormatting.BLUE));
+                        ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Overview all islands members and invite others.", ChatFormatting.GRAY));
+                        break;
 
-                    break;
-
-                default:
-                    item = new ItemStack(Items.GRAY_STAINED_GLASS_PANE);
-                    item.setHoverName(new TextComponent(""));
-                    break;
+                    default:
+                        item = new ItemStack(Items.GRAY_STAINED_GLASS_PANE);
+                        item.setHoverName(new TextComponent(""));
+                        break;
+                }
             }
             setItem(i, 0, item);
         }
@@ -95,33 +119,51 @@ public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
             return true;
         }
 
-        switch(index) {
-            case 10:
-                player.closeContainer();
-                this.data.teleport(player);
-                return true;
+        if(this.data.isAdmin(player.getUUID())) {
+            switch (index) {
 
-            case 13:
-                player.closeContainer();
-                player.getServer().execute(() -> MemberOverviewHandler.openMenu(player, this.data));
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
-                return true;
-
-            case 16:
-                if(!this.data.isOwner(player.getUUID())) {
+                case 10:
+                    player.closeContainer();
+                    this.data.teleport(player);
+                    return true;
+                case 12:
+                    player.closeContainer();
+                    player.getServer().execute(() -> MemberOverviewHandler.openMenu(player, this.data));
+                    ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
+                    return true;
+                case 14:
+                    player.closeContainer();
+                    player.getServer().execute(() -> SettingsOverviewHandler.openMenu(player, this.data));
+                    ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
+                    return true;
+                case 16:
                     player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(pdata -> {
                         player.closeContainer();
                         LeaveIslandCommand.leaveIsland(this.data, pdata, player, player.getLevel());
                     });
-                } else {
+                    ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
+                    return true;
+            }
+        } else {
+            switch (index) {
+                case 10:
                     player.closeContainer();
-                    player.getServer().execute(() -> SettingsOverviewHandler.openMenu(player, this.data));
-                }
-                ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
-                return true;
-
+                    this.data.teleport(player);
+                    return true;
+                case 13:
+                    player.closeContainer();
+                    player.getServer().execute(() -> MemberOverviewHandler.openMenu(player, this.data));
+                    ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
+                    return true;
+                case 16:
+                    player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(pdata -> {
+                        player.closeContainer();
+                        LeaveIslandCommand.leaveIsland(this.data, pdata, player, player.getLevel());
+                    });
+                    ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
+                    return true;
+            }
         }
-
-        return true;
+        return false;
     }
 }
