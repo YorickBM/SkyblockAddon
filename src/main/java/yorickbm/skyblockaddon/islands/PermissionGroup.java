@@ -57,7 +57,6 @@ public class PermissionGroup {
         }
 
         CompoundTag members = tag.getCompound("members");
-        members.putInt("count", this.members.size());
         for(int i = 0; i < members.getInt("count"); i++) {
             this.members.add(members.getUUID("member-" + i));
         }

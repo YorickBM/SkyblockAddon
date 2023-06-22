@@ -38,6 +38,7 @@ public class ModEvents {
         new TeleportIslandCommand(event.getDispatcher());
         new JoinIslandCommand(event.getDispatcher());
         new IslandTravelCommand(event.getDispatcher());
+        new SpawnCommand(event.getDispatcher());
 
         //Admin commands
         new GetIslandIdCommand(event.getDispatcher());

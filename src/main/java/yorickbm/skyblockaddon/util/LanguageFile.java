@@ -16,6 +16,7 @@ public class LanguageFile {
         items.put("chat.hover.run.rejoin", "Click to rejoin your island (Valid for 60 minutes)!");
 
         //Command response language configurations
+        items.put("commands.spawn.teleport", "Teleporting you to spawn, this may take a second.");
         items.put("commands.island.nonplayer", "This command may only be executed by a player.");
         items.put("commands.island.notoverworld", "You can only execute this command in the overworld.");
         items.put("commands.island.hasnone", "For this command to be executed, you require to be part of an island.");
