@@ -39,7 +39,7 @@ public class AcceptIslandCommand {
         player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
             player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
 
-                if(!g.getIslandById(island.getIslandId()).isAdmin(player.getUUID())) {
+                if(!g.getIslandById(island.getIslandId()).isMember(player.getUUID())) {
                     player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.teleport.user.request.nopermission"), ChatFormatting.RED), player.getUUID());
                     return;
                 }
