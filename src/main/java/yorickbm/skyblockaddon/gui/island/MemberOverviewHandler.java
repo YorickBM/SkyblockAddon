@@ -106,7 +106,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                             ServerHelper.addLore(item,
                                 ServerHelper.formattedText("\u00BB Island admin.", ChatFormatting.GRAY),
                                     ServerHelper.formattedText("", ChatFormatting.GRAY),
-                                    ServerHelper.formattedText("\u00BB Right-click to demote to member", ChatFormatting.GRAY)
+                                    ServerHelper.formattedText("\u2666 Right-click to demote to member", ChatFormatting.GRAY)
                             );
                             item.setHoverName(ServerHelper.formattedText(playerName, ChatFormatting.RED, ChatFormatting.BOLD));
 
@@ -114,8 +114,8 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                             ServerHelper.addLore(item,
                                 ServerHelper.formattedText("\u00BB Island member.", ChatFormatting.GRAY),
                                 ServerHelper.formattedText("", ChatFormatting.GRAY),
-                                ServerHelper.formattedText("\u00BB Right-click to kick player from island", ChatFormatting.GRAY),
-                                ServerHelper.formattedText("\u00BB Left-click to promote to admin", ChatFormatting.GRAY)
+                                ServerHelper.formattedText("\u2666 Right-click to kick player from island", ChatFormatting.GRAY),
+                                ServerHelper.formattedText("\u2666 Left-click to promote to admin", ChatFormatting.GRAY)
                             );
                         }
                     } else if(!playerName.equals("Unknown")) {
