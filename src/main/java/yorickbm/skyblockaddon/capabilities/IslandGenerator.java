@@ -83,7 +83,7 @@ public class IslandGenerator {
                 if(!islandTag.contains("center")) islandTag.put("center", islandTag.getCompound("spawn"));
 
                 //Generate default permission groups
-                if(!islandTag.contains("permissions")) {
+                if(!islandTag.contains("permissions") || !islandTag.getCompound("permissions").contains("groups")) {
                     CompoundTag groups = new CompoundTag();
                     groups.putInt("count", 6);
                     groups.putString("group-" + 0, "Admin");
@@ -104,7 +104,7 @@ public class IslandGenerator {
                     islandTag.put("permissions", permissionData);
                 }
 
-                IslandData island = new IslandData(islandTag);
+                IslandData island = new IslandData(islandTag, id);
                 islands.put(id, island);
                 islandIdsByVec3i.put(island.getCenter(), id);
             }
