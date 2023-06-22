@@ -67,7 +67,15 @@ public class PermissionGroupOverviewHandler extends ServerOnlyHandler<IslandData
                     item.getOrCreateTagElement(SkyblockAddon.MOD_ID).putString("group", groups.get(groupIndex).getName());
 
                     //TODO: Custom description options.
-                    ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Click to alter permissions for group, or add players.", ChatFormatting.GRAY));
+                    if(groups.get(groupIndex).getName().equals("Default")) {
+                        ServerHelper.addLore(item,
+                                ServerHelper.formattedText("\u00BB Click to alter permissions that are used by default for players!", ChatFormatting.GRAY),
+                                ServerHelper.formattedText(" ", ChatFormatting.GRAY),
+                                ServerHelper.formattedText("\u2666 These permissions are for anyone NOT put within a different group.", ChatFormatting.GRAY)
+                        );
+                    } else {
+                        ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Click to alter permissions for group, or add players.", ChatFormatting.GRAY));
+                    }
 
                     groupIndex += 1;
                 } else {
