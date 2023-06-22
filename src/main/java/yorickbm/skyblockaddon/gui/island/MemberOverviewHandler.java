@@ -99,7 +99,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                     item.setTag(tag);
 
                     if(!playerName.equals("Unknown") && this.data.isAdmin(player.getUUID())) {
-                        UUID member = player.getServer().getPlayerList().getPlayerByName(playerName).getUUID();
+                        UUID member = members.get(memberIndex);
                         item.getOrCreateTagElement("skyblockaddon").putString("member", member.toString()); //Put member in item NBT for click event
 
                         if(this.data.isAdmin(member)) {
