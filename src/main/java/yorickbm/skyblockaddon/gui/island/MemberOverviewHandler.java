@@ -119,7 +119,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                             );
                         }
                     } else if(!playerName.equals("Unknown")) {
-                        UUID member = player.getServer().getPlayerList().getPlayerByName(playerName).getUUID();
+                        UUID member = members.get(memberIndex);
                         if(this.data.isAdmin(member)) {
                             ServerHelper.addLore(item,
                                     ServerHelper.formattedText("\u00BB Island admin.", ChatFormatting.GRAY)
@@ -165,16 +165,17 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                 if(!this.data.isAdmin(member))
                     switch(clickType) {
                         case 1:
+                            this.data.removeIslandMember(member);
                             Player member_player = player.getServer().getPlayerList().getPlayer(member);
-                            player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
-                                this.data.removeIslandMember(member);
-                                island.setIsland("");
-
-                                if (member_player != null) {
-                                    member_player.teleportTo(player.getLevel().getSharedSpawnPos().getX(), player.getLevel().getSharedSpawnPos().getY(), player.getLevel().getSharedSpawnPos().getZ());
-                                    member_player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("island.member.kick")), member);
-                                }
-                            });
+                            if(member_player != null) {
+                                member_player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
+                                    island.setIsland("");
+                                    if (member_player != null) {
+                                        member_player.teleportTo(player.getLevel().getSharedSpawnPos().getX(), player.getLevel().getSharedSpawnPos().getY(), player.getLevel().getSharedSpawnPos().getZ());
+                                        member_player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("island.member.kick")), member);
+                                    }
+                                });
+                            }
                             break;
 
                         case 0:

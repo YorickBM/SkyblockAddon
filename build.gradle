@@ -2,17 +2,20 @@ buildscript {
     repositories {
         // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
         maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://repo.spongepowered.org/maven' }
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.spongepowered.mixin'
 
 group = 'yorickbm'
-version = '4.2'
+version = '5.0'
 
 java {
     archivesBaseName = 'skyblockaddon'
@@ -54,6 +57,8 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             property 'forge.enabledGameTestNamespaces', 'skyblockaddon'
+
+            arg "-mixin.config=skyblockaddon.mixin.json"
 
             mods {
                 skyblockaddon {
@@ -149,6 +154,13 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
+
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 dependencies {
@@ -164,6 +176,8 @@ dependencies {
 
     // Examples using mod jars from ./libs
     // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
+    implementation fg.deobf("curse.maven:quark-243121:3840125")
+    implementation fg.deobf("curse.maven:vaulthunters-711537:4570155")
 
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
@@ -180,9 +194,15 @@ jar {
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : version,
                 "Implementation-Vendor"   : "YorickBM",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+                "TweakOrder": 0,
+                "MixinConfigs": "skyblockaddon.mixin.json"
         ])
     }
+
+    rename 'mixin-refmap.json', 'skyblockaddon.mixin-refmap.json'
+    rename 'mixin.refmap.json', 'skyblockaddon.mixin-refmap.json'
 }
 
 jar.finalizedBy('reobfJar')
