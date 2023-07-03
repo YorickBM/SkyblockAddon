@@ -9,6 +9,7 @@ import net.minecraft.server.level.ChunkMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ChunkPos;
@@ -279,11 +280,14 @@ public class IslandData {
 
     /**
      * Teleport player to islands spawn coordinates
-     * @param player Player to teleport
+     * @param entity whom you want to teleport
      */
-    public void teleport(Player player) {
-        player.teleportTo(spawn.getX(), spawn.getY(), spawn.getZ());
-        ServerHelper.playSongToPlayer((ServerPlayer) player, SoundEvents.ENDERMAN_TELEPORT, SkyblockAddon.EFFECT_SOUND_VOL, 1f);
+    public void teleport(Entity entity) {
+        entity.teleportTo(spawn.getX(), spawn.getY(), spawn.getZ());
+
+        if(entity instanceof ServerPlayer player) {
+            ServerHelper.playSongToPlayer(player, SoundEvents.ENDERMAN_TELEPORT, SkyblockAddon.EFFECT_SOUND_VOL, 1f);
+        }
     }
 
     /**

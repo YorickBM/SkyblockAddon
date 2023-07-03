@@ -151,9 +151,9 @@ repositories {
     // ForgeGradle automatically adds the Forge maven and Maven Central for you
 
     // If you have mod jar dependencies in ./libs, you can declare them as a repository like so:
-    // flatDir {
-    //     dir 'libs'
-    // }
+    flatDir {
+         dir 'libs'
+    }
 
     maven {
         url "https://cursemaven.com"
@@ -176,8 +176,8 @@ dependencies {
 
     // Examples using mod jars from ./libs
     // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
-    implementation fg.deobf("curse.maven:quark-243121:3840125")
-    implementation fg.deobf("curse.maven:vaulthunters-711537:4570155")
+    compileOnly fg.deobf("curse.maven:quark-243121:3840125")
+    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
 
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html

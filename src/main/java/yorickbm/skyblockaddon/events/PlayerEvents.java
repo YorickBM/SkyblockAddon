@@ -27,8 +27,8 @@ import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
+
 import yorickbm.skyblockaddon.SkyblockAddon;
-import yorickbm.skyblockaddon.capabilities.IslandGenerator;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.islands.IslandData;
@@ -37,6 +37,8 @@ import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ModIntegrationHandler;
 import yorickbm.skyblockaddon.util.MouseButton;
 import yorickbm.skyblockaddon.util.ServerHelper;
+
+import iskallia.vault.entity.entity.DollMiniMeEntity;
 
 import java.util.Random;
 
@@ -289,7 +291,7 @@ public class PlayerEvents {
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOW)
     public void onVoidFall(LivingDamageEvent event) {
         if(event.getSource().equals(DamageSource.OUT_OF_WORLD)) {
             if(event.getEntity() instanceof ServerPlayer player) {
@@ -302,8 +304,16 @@ public class PlayerEvents {
                     data.teleport(player);
                     player.resetFallDistance();
                 }
-            } else {
-               System.out.println(event.getEntity().getClass().getName());
+            } else if(event.getEntity() instanceof DollMiniMeEntity doll){
+                if(doll.getLevel().dimension() != Level.OVERWORLD) return; //Ignore overworld events
+                IslandData data = SkyblockAddon.CheckOnIsland(doll);
+                if(data != null) {
+                    event.setCanceled(true); //Cancel damage
+
+                    doll.resetFallDistance();
+                    data.teleport(doll);
+                    doll.resetFallDistance();
+                }
             }
         }
     }

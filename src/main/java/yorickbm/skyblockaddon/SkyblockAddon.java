@@ -1,6 +1,7 @@
 package yorickbm.skyblockaddon;
 
 import net.minecraft.core.Vec3i;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
@@ -86,7 +87,7 @@ public class SkyblockAddon {
         LOGGER.info("Vaulthunters Skyblock addon v"+VERSION+" has loaded!");
     }
 
-    public static IslandData CheckOnIsland(Player player) {
+    public static IslandData CheckOnIsland(Entity player) {
         AtomicReference<IslandData> island = new AtomicReference<>(null);
 
         player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(islandGenerator -> {
