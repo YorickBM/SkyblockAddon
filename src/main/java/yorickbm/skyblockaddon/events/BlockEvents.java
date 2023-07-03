@@ -2,6 +2,7 @@ package yorickbm.skyblockaddon.events;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -20,6 +21,7 @@ public class BlockEvents {
     @SubscribeEvent
     public void onBlockBreak(BlockEvent.BreakEvent event) {
         if(!(event.getPlayer() instanceof ServerPlayer player) || event.getPlayer() instanceof FakePlayer) return; //Allow fake players
+        if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
 
         IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
@@ -33,6 +35,7 @@ public class BlockEvents {
     @SubscribeEvent
     public void onBlockPlace(BlockEvent.EntityPlaceEvent event) {
         if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
+        if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
 
         IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) {
@@ -49,6 +52,7 @@ public class BlockEvents {
     @SubscribeEvent
     public void onTrampleEvent(BlockEvent.FarmlandTrampleEvent event) {
         if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
+        if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
 
         IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing

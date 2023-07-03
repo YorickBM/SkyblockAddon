@@ -3,14 +3,17 @@ package yorickbm.skyblockaddon.events;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -19,11 +22,15 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.capabilities.IslandGenerator;
+import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.islands.Permissions;
 import yorickbm.skyblockaddon.util.LanguageFile;
@@ -44,6 +51,7 @@ public class PlayerEvents {
     public void onEnderPearl(EntityTeleportEvent.EnderPearl event) {
         if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
 
+        if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
         IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
@@ -57,6 +65,7 @@ public class PlayerEvents {
     public void onChorusFruit(EntityTeleportEvent.ChorusFruit event) {
         if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
 
+        if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
         IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
@@ -71,6 +80,7 @@ public class PlayerEvents {
     public void onPlayerSleepInBed(PlayerSleepInBedEvent event) {
         if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
 
+        if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
         IslandData island = SkyblockAddon.CheckOnIsland(event.getPlayer());
         if(island == null) return; //We Shall do Nothing
 
@@ -85,6 +95,7 @@ public class PlayerEvents {
     public void onPlayerXP(PlayerXpEvent.PickupXp event) {
         if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
 
+        if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
         IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
@@ -99,6 +110,7 @@ public class PlayerEvents {
     public void onUseBucket(FillBucketEvent event) {
         if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
 
+        if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
         IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
@@ -113,6 +125,7 @@ public class PlayerEvents {
     public void onBonemeal(BonemealEvent event) {
         if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
 
+        if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
         IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
@@ -127,6 +140,7 @@ public class PlayerEvents {
     public void onItemPickup(EntityItemPickupEvent event) {
         if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
 
+        if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
         IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
@@ -140,6 +154,7 @@ public class PlayerEvents {
     public void onItemDrop(ItemTossEvent event) {
         if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
 
+        if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
         IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return; //We Shall do Nothing
 
@@ -150,12 +165,13 @@ public class PlayerEvents {
         //Has permission so event should not be canceled
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGH)
+    @SubscribeEvent(priority = EventPriority.HIGH) //TODO: Convert to mixin
     public void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
         Player player = event.getPlayer();
         Entity entity = event.getTarget();
 
         if(entity instanceof Villager villager && player.isShiftKeyDown() && ModList.get().isLoaded("easy_villagers")) {
+            if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
             IslandData island = SkyblockAddon.CheckOnIsland(player);
             if(island == null) return; //We Shall do Nothing
 
@@ -211,6 +227,7 @@ public class PlayerEvents {
         Permissions permission = blockEntity != null ? ModIntegrationHandler.getPermissionForBlockEntity(blockEntity) : ModIntegrationHandler.getPermissionForBlock(block);
         if(permission == null) return false; //Block type is not blocked by our permissions to be clicked on
 
+        if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return false; //Non overworld events we ignore
         IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return false; //We Shall do Nothing
 
@@ -237,7 +254,8 @@ public class PlayerEvents {
 
     @SubscribeEvent
     public void onContainerClose(PlayerContainerEvent.Close event) {
-        if(!SkyblockAddon.islandUIIds.contains(event.getContainer().containerId)) return; //Its not an island GUI so we ignore event
+        if(!SkyblockAddon.islandUIIds.contains(event.getContainer().containerId)) return; //It's not an island GUI so we ignore event
+        SkyblockAddon.playersInGUI.remove(event.getPlayer());
 
         //Remove all items containing skyblockaddon tag
         event.getPlayer().inventoryMenu.slots.forEach(slot -> {
@@ -245,5 +263,49 @@ public class PlayerEvents {
         });
     }
 
+    @SubscribeEvent
+    public void onContainerOpen(PlayerContainerEvent.Open event) {
+        if(!SkyblockAddon.islandUIIds.contains(event.getContainer().containerId)) return; //It's not an island GUI so we ignore event
+        SkyblockAddon.playersInGUI.add(event.getPlayer());
+    }
+
+    @SubscribeEvent
+    public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
+        Player member_player = event.getPlayer();
+        if(member_player != null) {
+            member_player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
+                ServerLevel overworld = member_player.getServer().getLevel(Level.OVERWORLD);
+                overworld.getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(world -> {
+                    IslandData data = world.getIslandById(island.getIslandId());
+                    if(data != null) {
+                        if (!data.hasMember(member_player.getUUID()) && !data.isOwner(member_player.getUUID())) {
+                            island.setIsland("");
+                            member_player.teleportTo(overworld.getSharedSpawnPos().getX(), overworld.getSharedSpawnPos().getY(), overworld.getSharedSpawnPos().getZ());
+                            member_player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("island.member.kick")), member_player.getUUID());
+                        }
+                    }
+                });
+            });
+        }
+    }
+
+    @SubscribeEvent
+    public void onVoidFall(LivingDamageEvent event) {
+        if(event.getSource().equals(DamageSource.OUT_OF_WORLD)) {
+            if(event.getEntity() instanceof ServerPlayer player) {
+                if(player.getLevel().dimension() != Level.OVERWORLD) return; //Ignore overworld events
+                IslandData data = SkyblockAddon.CheckOnIsland(player);
+                if(data != null) {
+                    event.setCanceled(true); //Cancel damage
+
+                    player.resetFallDistance();
+                    data.teleport(player);
+                    player.resetFallDistance();
+                }
+            } else {
+               System.out.println(event.getEntity().getClass().getName());
+            }
+        }
+    }
 
 }

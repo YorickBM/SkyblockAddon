@@ -3,20 +3,28 @@ package yorickbm.skyblockaddon.islands;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.core.*;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ChunkMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeResolver;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkStatus;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraftforge.common.world.ForgeChunkManager;
 import org.apache.commons.lang3.mutable.MutableInt;
+import org.apache.commons.lang3.mutable.MutableObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.islands.permissions.Permission;
@@ -24,10 +32,7 @@ import yorickbm.skyblockaddon.util.ServerHelper;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -320,7 +325,6 @@ public class IslandData {
         this.biome = name; //Set name for GUI
         BoundingBox boundingbox = this.getIslandBoundingBox();
 
-        List<ChunkAccess> list = new ArrayList<>();
         MutableInt mutableint = new MutableInt(0);
 
         //Get all chunks within bounding box
@@ -330,17 +334,29 @@ public class IslandData {
                 if (chunkaccess == null) {
                     continue; //Skip unloaded chunks
                 }
-
-                list.add(chunkaccess);
+                chunkaccess.fillBiomesFromNoise(
+                        makeResolver(mutableint, chunkaccess, boundingbox, biome, (p_262543_) -> true),
+                        serverlevel.getChunkSource().getGenerator().climateSampler());
+                updateChunk(serverlevel.getChunk(k, j), serverlevel);
             }
         }
+    }
 
-        //Update chunks with biome
-        for(ChunkAccess chunkaccess1 : list) {
-            chunkaccess1.fillBiomesFromNoise(
-                    makeResolver(mutableint, chunkaccess1, boundingbox, biome, (p_262543_) -> true),
-                    serverlevel.getChunkSource().getGenerator().climateSampler());
-            chunkaccess1.setUnsaved(true);
+    /**
+     * Send chunk update to player client
+     * @param levelChunk Chunk to update
+     * @param serverlevel Server level chunk is part off
+     */
+    private void updateChunk(@NotNull LevelChunk levelChunk, ServerLevel serverlevel) {
+        ChunkPos chunkPos = levelChunk.getPos();
+        MutableObject<ClientboundLevelChunkWithLightPacket> mutableObject = new MutableObject<>();
+
+        for(ServerPlayer serverPlayer : serverlevel.getChunkSource().chunkMap.getPlayers(chunkPos, false)) {
+            if(mutableObject.getValue() == null) {
+                mutableObject.setValue(new ClientboundLevelChunkWithLightPacket(levelChunk, serverlevel.getLightEngine(), (BitSet)null, (BitSet)null, true));
+            }
+            //serverPlayer.untrackChunk(chunkPos);
+            serverPlayer.trackChunk(chunkPos, mutableObject.getValue());
         }
     }
 
@@ -349,7 +365,7 @@ public class IslandData {
      * @return BoundingBox of Island
      */
     public BoundingBox getIslandBoundingBox() {
-        BlockPos blockpos = quantize(new BlockPos(center.getX() - IslandGeneratorProvider.SIZE,0,center.getZ() - IslandGeneratorProvider.SIZE));
+        BlockPos blockpos = quantize(new BlockPos(center.getX() - IslandGeneratorProvider.SIZE,-10,center.getZ() - IslandGeneratorProvider.SIZE));
         BlockPos blockpos1 = quantize(new BlockPos(center.getX() + IslandGeneratorProvider.SIZE,256,center.getZ() + IslandGeneratorProvider.SIZE));
         return BoundingBox.fromCorners(blockpos, blockpos1);
     }

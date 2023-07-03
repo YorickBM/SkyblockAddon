@@ -31,18 +31,16 @@ import java.util.stream.Collectors;
 @Mod(SkyblockAddon.MOD_ID)
 public class SkyblockAddon {
 
-    //TODO: Add member to group
-    //TODO: Public / Private / Closed island
-
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "skyblockaddon";
-    public static final String VERSION = "4.2";
+    public static final String VERSION = "5.0";
 
     public static final float UI_SOUND_VOL = 0.5f;
     public static final float EFFECT_SOUND_VOL = 0.2f;
 
     public static List<Integer> islandUIIds = new ArrayList<>();
+    public static List<Player> playersInGUI = new ArrayList<>();
 
     public SkyblockAddon() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -61,6 +59,10 @@ public class SkyblockAddon {
 
         //Register username cache
         UsernameCache.initCache(120);
+    }
+
+    public static boolean isScreenBlocked(Player player) {
+        return playersInGUI.contains(player);
     }
 
     private void setup(final FMLCommonSetupEvent event) {
@@ -85,7 +87,6 @@ public class SkyblockAddon {
     }
 
     public static IslandData CheckOnIsland(Player player) {
-        if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return null; //Non overworld events we ignore //
         AtomicReference<IslandData> island = new AtomicReference<>(null);
 
         player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(islandGenerator -> {
