@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "yorickbm.skyblockaddon.mixin",
+  "compatibilityLevel": "JAVA_11",
+  "minVersion": "0.8",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "server":  [
+    "QuarkScreenMixinConfigMix"
+  ],
+  "refmap": "skyblockaddon.mixin-refmap.json"
+}
