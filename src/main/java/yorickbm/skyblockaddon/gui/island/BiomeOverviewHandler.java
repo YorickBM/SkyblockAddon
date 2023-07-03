@@ -2,8 +2,10 @@ package yorickbm.skyblockaddon.gui.island;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -144,7 +146,10 @@ public class BiomeOverviewHandler extends ServerOnlyHandler<IslandData> {
                 ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
 
                 String biomeRegisterName = slot.getItem().getTagElement("skyblockaddon").getString("biome");
-                Holder<Biome> biomeHolder = ForgeRegistries.BIOMES.getHolder(new ResourceLocation(biomeRegisterName)).get();
+                Holder<Biome> biomeHolder = player.getLevel()
+                        .registryAccess()
+                        .registryOrThrow(Registry.BIOME_REGISTRY)
+                        .getOrCreateHolder(ResourceKey.create(ForgeRegistries.BIOMES.getRegistryKey(), new ResourceLocation(biomeRegisterName)));
 
                 data.setBiome(player.getLevel(), biomeHolder, biomeRegisterName.replace("minecraft:", "").replace("_", " "));
                 player.sendMessage(
