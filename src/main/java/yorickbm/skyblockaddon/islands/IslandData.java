@@ -49,9 +49,7 @@ public class IslandData {
     private String biome = "Unknown";
     private boolean travelability = false;
 
-    private PermissionGroup Admin;
-    private PermissionGroup Members;
-    private PermissionGroup Default;
+    private PermissionGroup Admin, Members, Default, Owner;
     private final List<PermissionGroup> permissionGroups = new ArrayList<>();
 
     /**
@@ -87,6 +85,7 @@ public class IslandData {
 
                 permissionGroups.add(group);
             }
+            this.Owner = new PermissionGroup("Admin", Items.AIR, true); //Allow everything, no visible display item
 
             //Load legacy member data into permission member group
             if (tag.contains("members")) {
@@ -113,6 +112,8 @@ public class IslandData {
         this.Admin = new PermissionGroup("Admin", Items.RED_MUSHROOM_BLOCK, true);
         this.Members = new PermissionGroup("Members", Items.BROWN_MUSHROOM_BLOCK, true);
         this.Default = new PermissionGroup("Default", Items.MUSHROOM_STEM,false);
+        this.Owner = new PermissionGroup("Admin", Items.AIR, true); //Allow everything, no visible display item
+
         permissionGroups.add(this.Admin);
         permissionGroups.add(this.Members);
         permissionGroups.add(this.Default);
@@ -390,6 +391,8 @@ public class IslandData {
      * @return Permission group player is part of
      */
     public PermissionGroup getGroupForPlayer(UUID player) {
+        if(isOwner(player)) return this.Owner;
+
         Optional<PermissionGroup> group = permissionGroups.stream().filter(g -> g.hasMember(player)).findFirst();
         if(group.isEmpty()) group = Optional.of(this.Default);
 
