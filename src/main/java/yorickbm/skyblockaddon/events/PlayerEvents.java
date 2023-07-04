@@ -1,9 +1,9 @@
 package yorickbm.skyblockaddon.events;
 
+import iskallia.vault.entity.entity.DollMiniMeEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
@@ -27,24 +27,17 @@ import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
-
 import yorickbm.skyblockaddon.SkyblockAddon;
-import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
-import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.islands.Permissions;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ModIntegrationHandler;
-import yorickbm.skyblockaddon.util.MouseButton;
 import yorickbm.skyblockaddon.util.ServerHelper;
-
-import iskallia.vault.entity.entity.DollMiniMeEntity;
 
 import java.util.Random;
 
 /**
  * Event Source: https://forge.gemwire.uk/wiki/Events
- *
  * Right CLick -> Use/Place Block
  * Left Click -> Attack/Destroy Block
  */
@@ -197,32 +190,37 @@ public class PlayerEvents {
 
     @SubscribeEvent
     public void onBlockInteractRBlock(PlayerInteractEvent.RightClickBlock event) {
-       if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
+       if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer)
+           return; //Allow fake players
 
-        if(player.isSecondaryUseActive() && !event.getItemStack().isEmpty()) return; //Secondary use is allowed
+        if(player.isSecondaryUseActive() && !event.getItemStack().isEmpty())
+            return; //Secondary use is allowed
 
-        event.setCanceled(HandleBlockClick(player, event.getPos(), MouseButton.RightClick, event.getItemStack()));
+        event.setCanceled(HandleBlockClick(player, event.getPos())); //, MouseButton.RightClick, event.getItemStack()
     }
     @SubscribeEvent
     public void onBlockInteractREmpty(PlayerInteractEvent.RightClickEmpty event) {
-       if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
+       if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer)
+           return; //Allow fake players
 
-        event.setCanceled(HandleBlockClick(player, event.getPos(), MouseButton.RightClick, event.getItemStack()));
+        event.setCanceled(HandleBlockClick(player, event.getPos())); //, MouseButton.RightClick, event.getItemStack()
     }
     @SubscribeEvent
     public void onBlockInteractLBlock(PlayerInteractEvent.LeftClickBlock event) {
-       if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
+       if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer)
+           return; //Allow fake players
 
-        event.setCanceled(HandleBlockClick(player, event.getPos(), MouseButton.LeftClick, event.getItemStack()));
+        event.setCanceled(HandleBlockClick(player, event.getPos())); //, MouseButton.LeftClick, event.getItemStack()
     }
     @SubscribeEvent
     public void onBlockInteractLEmpty(PlayerInteractEvent.LeftClickEmpty event) {
-       if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Allow fake players
+       if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer)
+           return; //Allow fake players
 
-        event.setCanceled(HandleBlockClick(player, event.getPos(), MouseButton.LeftClick, event.getItemStack()));
+        event.setCanceled(HandleBlockClick(player, event.getPos())); //, MouseButton.LeftClick, event.getItemStack()
     }
 
-    private boolean HandleBlockClick(ServerPlayer player, BlockPos posClicked, MouseButton button, ItemStack triggerItem) {
+    private boolean HandleBlockClick(ServerPlayer player, BlockPos posClicked) {
         BlockEntity blockEntity = player.getLevel().getBlockEntity(posClicked); //Get block entity
         Block block = player.getLevel().getBlockState(posClicked).getBlock(); //Get block
 
@@ -271,26 +269,6 @@ public class PlayerEvents {
         SkyblockAddon.playersInGUI.add(event.getPlayer());
     }
 
-    @SubscribeEvent
-    public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-        Player member_player = event.getPlayer();
-        if(member_player != null) {
-            member_player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
-                ServerLevel overworld = member_player.getServer().getLevel(Level.OVERWORLD);
-                overworld.getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(world -> {
-                    IslandData data = world.getIslandById(island.getIslandId());
-                    if(data != null) {
-                        if (!data.hasMember(member_player.getUUID()) && !data.isOwner(member_player.getUUID())) {
-                            island.setIsland("");
-                            member_player.teleportTo(overworld.getSharedSpawnPos().getX(), overworld.getSharedSpawnPos().getY(), overworld.getSharedSpawnPos().getZ());
-                            member_player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("island.member.kick")), member_player.getUUID());
-                        }
-                    }
-                });
-            });
-        }
-    }
-
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onVoidFall(LivingDamageEvent event) {
         if(event.getSource().equals(DamageSource.OUT_OF_WORLD)) {
@@ -317,5 +295,4 @@ public class PlayerEvents {
             }
         }
     }
-
 }

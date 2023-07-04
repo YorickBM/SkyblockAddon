@@ -22,6 +22,9 @@ import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.commands.*;
 import yorickbm.skyblockaddon.commands.OP.GetIslandIdCommand;
 import yorickbm.skyblockaddon.commands.OP.SetPlayersIslandCommand;
+import yorickbm.skyblockaddon.islands.IslandData;
+import yorickbm.skyblockaddon.util.LanguageFile;
+import yorickbm.skyblockaddon.util.ServerHelper;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
 @Mod.EventBusSubscriber(modid = SkyblockAddon.MOD_ID)
@@ -72,19 +75,29 @@ public class ModEvents {
                 event.getPlayer().getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(w -> w.registerIslandFromLegacy(i, event.getPlayer()));
             }
 
-            event.getPlayer().getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(x -> {
-                String oldId = i.getIslandId();
-                if(oldId.length() >= 3 && x.getIslandById(oldId) == null) {
-                    i.setIsland(""); //Reset the island, since it does not exist!
-                    LOGGER.info("[skyblockaddon] " + event.getPlayer().getGameProfile().getName() +" joined with being part of island does not exist anymore. (" + oldId + ")");
+            ServerLevel overworld = event.getPlayer().getServer().getLevel(Level.OVERWORLD);
+            if(overworld != null) {
+                overworld.getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(x -> {
+                    String oldId = i.getIslandId();
+                    IslandData data = x.getIslandById(oldId);
 
-                    ServerLevel level = (ServerLevel) event.getPlayer().getLevel();
-                    event.getPlayer().teleportTo(level.getSharedSpawnPos().getX(), level.getSharedSpawnPos().getY(), level.getSharedSpawnPos().getZ());
-                }
-            });
+                    if(oldId.length() >= 3 && data == null) {
+                        i.setIsland(""); //Reset the island, since it does not exist!
+                        LOGGER.info("[skyblockaddon] " + event.getPlayer().getGameProfile().getName() +" joined with being part of island does not exist anymore. (" + oldId + ")");
+
+                        event.getPlayer().teleportTo(overworld.getSharedSpawnPos().getX(), overworld.getSharedSpawnPos().getY(), overworld.getSharedSpawnPos().getZ());
+                    }
+
+                    if(data != null && !(data.hasMember(event.getPlayer().getUUID()) || data.isOwner(event.getPlayer().getUUID()))) {
+                        i.setIsland(""); //Reset island id, since player is no longer part of it.
+                        LOGGER.info("[skyblockaddon] " + event.getPlayer().getGameProfile().getName() +" got kicked of their island while being offline. (\" + oldId + \")");
+
+                        event.getPlayer().teleportTo(overworld.getSharedSpawnPos().getX(), overworld.getSharedSpawnPos().getY(), overworld.getSharedSpawnPos().getZ());
+                        event.getPlayer().sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("island.member.kick")), event.getPlayer().getUUID());
+                    }
+                });
+            }
         });
-
-
     }
 
     @SubscribeEvent
