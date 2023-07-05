@@ -35,7 +35,6 @@ public class IslandCommand {
         player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
             if (!island.hasOne()) {
                 command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.hasnone")));
-                IslandTravelOverviewHandler.openMenu(player, island);
                 return;
             }
 

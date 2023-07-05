@@ -1,6 +1,7 @@
 package yorickbm.skyblockaddon.events;
 
 import iskallia.vault.entity.entity.DollMiniMeEntity;
+import net.mehvahdjukaar.supplementaries.common.items.SlingshotItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
@@ -23,6 +24,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -295,4 +297,25 @@ public class PlayerEvents {
             }
         }
     }
+
+    @SubscribeEvent
+    public void LivingProjectileEvent(LivingEntityUseItemEvent event) {
+        if(!ModList.get().isLoaded("supplementaries")) return; //Only run if supplementaries is loaded
+        if(event.getEntity() instanceof Player player) { //Ignore non player triggers
+            if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Ignore non overworld interactions & OP Players
+
+            if (event.getItem().getItem() instanceof SlingshotItem) { //Only act on events of slingshot
+                IslandData island = SkyblockAddon.CheckOnIsland(player);
+                if (island == null)
+                    return; //Ignore events not on an island
+                if (island.getPermission(Permissions.PlaceBlocks, player.getUUID()).isAllowed())
+                    return; //Player is allowed to place blocks
+
+                player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+                event.setCanceled(true);
+            }
+        }
+    }
+
+
 }

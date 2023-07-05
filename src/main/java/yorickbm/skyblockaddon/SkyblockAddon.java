@@ -17,6 +17,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.events.BlockEvents;
 import yorickbm.skyblockaddon.events.ModEvents;
 import yorickbm.skyblockaddon.events.PlayerEvents;
@@ -63,7 +64,7 @@ public class SkyblockAddon {
         UsernameCache.initCache(120);
 
         //Register configs
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SkyblockAddonLanguageConfig.SPEC, "skyblockaddon-language.toml");
+        //ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SkyblockAddonLanguageConfig.SPEC, "skyblockaddon-language.toml");
     }
 
     public static boolean isScreenBlocked(Player player) {
