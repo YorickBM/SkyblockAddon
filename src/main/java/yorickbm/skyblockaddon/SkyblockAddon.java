@@ -3,12 +3,13 @@ package yorickbm.skyblockaddon;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
@@ -60,6 +61,9 @@ public class SkyblockAddon {
 
         //Register username cache
         UsernameCache.initCache(120);
+
+        //Register configs
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SkyblockAddonLanguageConfig.SPEC, "skyblockaddon-language.toml");
     }
 
     public static boolean isScreenBlocked(Player player) {

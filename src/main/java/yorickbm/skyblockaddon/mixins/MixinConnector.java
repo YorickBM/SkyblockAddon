@@ -9,6 +9,6 @@ public class MixinConnector implements IMixinConnector {
 
     @Override
     public void connect() {
-        Mixins.addConfigurations(new String[]{"assets/skyblockaddon/skyblockaddon.mixin.json"});
+        Mixins.addConfigurations(new String[]{"assets/skyblockaddon/skyblockaddon.mixin.json","assets/skyblockaddon/skyblockaddon.mixin.optional.json"});
     }
 }
