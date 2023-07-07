@@ -2,7 +2,6 @@ package yorickbm.skyblockaddon.configs;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SkyblockAddonLanguageConfig {

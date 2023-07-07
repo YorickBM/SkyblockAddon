@@ -9,8 +9,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -165,10 +166,9 @@ public class PlayerEvents {
     @SubscribeEvent(priority = EventPriority.HIGH) //TODO: Convert to mixin
     public void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
         Player player = event.getPlayer();
-        Entity entity = event.getTarget();
+        if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Ignore non overworld interactions & OP Players
 
-        if(entity instanceof Villager villager && player.isShiftKeyDown() && ModList.get().isLoaded("easy_villagers")) {
-            if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
+        if(event.getTarget() instanceof Villager villager && player.isShiftKeyDown() && ModList.get().isLoaded("easy_villagers")) {
             IslandData island = SkyblockAddon.CheckOnIsland(player);
             if(island == null) return; //We Shall do Nothing
 
@@ -187,6 +187,18 @@ public class PlayerEvents {
 
                 event.setCanceled(true);
             }
+        }
+
+        //Add item into an item frame
+        if(event.getTarget() instanceof ItemFrame) {
+            IslandData island = SkyblockAddon.CheckOnIsland(player);
+            if (island == null)
+                return; //Ignore events not on an island
+            if (island.getPermission(Permissions.PlaceBlocks, player.getUUID()).isAllowed())
+                return; //Player is allowed to place blocks
+
+            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            event.setCanceled(true);
         }
     }
 
@@ -299,11 +311,13 @@ public class PlayerEvents {
     }
 
     @SubscribeEvent
-    public void LivingProjectileEvent(LivingEntityUseItemEvent event) {
-        if(!ModList.get().isLoaded("supplementaries")) return; //Only run if supplementaries is loaded
+    public void LivingEntityUseItemEvent(LivingEntityUseItemEvent event) {
+        event.getEntity().sendMessage(event.getItem().getDisplayName(), event.getEntity().getUUID());
+
         if(event.getEntity() instanceof Player player) { //Ignore non player triggers
             if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Ignore non overworld interactions & OP Players
 
+            if(!ModList.get().isLoaded("supplementaries")) return; //Only run if supplementaries is loaded
             if (event.getItem().getItem() instanceof SlingshotItem) { //Only act on events of slingshot
                 IslandData island = SkyblockAddon.CheckOnIsland(player);
                 if (island == null)
@@ -317,5 +331,22 @@ public class PlayerEvents {
         }
     }
 
+    @SubscribeEvent
+    public void onEntityAttack(AttackEntityEvent event) {
+        if(event.getEntity() instanceof Player player) { //Ignore non player triggers
+            if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Ignore non overworld interactions & OP Players
+
+            if(event.getTarget() instanceof ArmorStand || event.getTarget() instanceof ItemFrame) {
+                IslandData island = SkyblockAddon.CheckOnIsland(player);
+                if (island == null)
+                    return; //Ignore events not on an island
+                if (island.getPermission(Permissions.DestroyBlocks, player.getUUID()).isAllowed())
+                    return; //Player is allowed to place blocks
+
+                player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+                event.setCanceled(true);
+            }
+        }
+    }
 
 }

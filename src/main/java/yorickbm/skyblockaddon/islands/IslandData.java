@@ -5,7 +5,6 @@ import net.minecraft.core.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ChunkMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -18,9 +17,7 @@ import net.minecraft.world.level.biome.BiomeResolver;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraftforge.common.world.ForgeChunkManager;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.apache.logging.log4j.LogManager;
@@ -128,7 +125,30 @@ public class IslandData {
      */
     public void setOwner(UUID uuid) {
         this.Members.removeMember(uuid);
+        this.Admin.removeMember(uuid);
+        if(owner != null) this.Admin.addMember(owner); //Demote to admin
+
         owner = uuid;
+    }
+
+    /**
+     * Remove owner of island, and promote a new member or admin as owner
+     * @param uuid UUID of player whom should be removed as owner
+     * @return If owner has been removed
+     */
+    public boolean removeOwner(UUID uuid) {
+        if(!isOwner(uuid)) return false;
+
+        if(this.Admin.getMembers().size() > 0)
+            setOwner(this.Admin.getMembers().get(0)); //Set new owner if necessary
+        else if(this.Members.getMembers().size() > 0)
+            setOwner(this.Members.getMembers().get(0)); //Set new owner if necessary
+        else {
+            return false;
+        }
+
+        this.makeAdmin(uuid);
+        return true;
     }
 
     /**
@@ -165,11 +185,7 @@ public class IslandData {
      * @param uuid UUID of player you wish to remove
      */
     public void removeIslandMember(UUID uuid) {
-        if(isOwner(uuid) && this.Admin.getMembers().size() > 0)
-            setOwner(this.Admin.getMembers().get(0)); //Set new owner if necessary
-        else if(isOwner(uuid) && this.Members.getMembers().size() > 0)
-            setOwner(this.Members.getMembers().get(0)); //Set new owner if necessary
-        else if(isOwner(uuid))
+        if(isOwner(uuid) && !removeOwner(uuid))
             setOwner(null);
 
         if(this.Members.getMembers().contains(uuid))
