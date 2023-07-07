@@ -20,8 +20,7 @@ import yorickbm.skyblockaddon.capabilities.PlayerIsland;
 import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.commands.*;
-import yorickbm.skyblockaddon.commands.OP.GetIslandIdCommand;
-import yorickbm.skyblockaddon.commands.OP.SetPlayersIslandCommand;
+import yorickbm.skyblockaddon.commands.OP.*;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
@@ -46,6 +45,10 @@ public class ModEvents {
         //Admin commands
         new GetIslandIdCommand(event.getDispatcher());
         new SetPlayersIslandCommand(event.getDispatcher());
+        new SetIslandOwnerCommand(event.getDispatcher());
+        new KickIslandMemberCommand(event.getDispatcher());
+        new PromoteIslandMemberCommand(event.getDispatcher());
+        new DemoteIslandMemberCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
         LOGGER.info("Registered commands for " + SkyblockAddon.MOD_ID);
