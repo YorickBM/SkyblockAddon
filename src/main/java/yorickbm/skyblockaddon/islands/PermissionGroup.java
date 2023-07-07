@@ -58,7 +58,7 @@ public class PermissionGroup {
 
         CompoundTag members = tag.getCompound("members");
         for(int i = 0; i < members.getInt("count"); i++) {
-            this.members.add(members.getUUID("member-" + i));
+            addMember(members.getUUID("member-" + i));
         }
     }
 
@@ -82,7 +82,7 @@ public class PermissionGroup {
     }
 
     public void addMember(UUID member) {
-        members.add(member);
+        if(!hasMember(member)) members.add(member);
     }
     public void removeMember(UUID member) {
         members.remove(member);

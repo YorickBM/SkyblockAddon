@@ -61,15 +61,15 @@ public class PromoteIslandMemberCommand {
                     return;
                 }
 
-                if(island.isOwner(target.getUUID())) {
-                    command.sendFailure(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.promote.alreadyowner"), target.getGameProfile().getName(), i.getIslandId())));
+                if(island.isIslandMember(target.getUUID())) {
+                    island.makeAdmin(target.getUUID());
+                    command.sendSuccess(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.promote.admin"), target.getGameProfile().getName(), i.getIslandId()), ChatFormatting.GREEN), true);
                 } else if(island.isIslandAdmin(target.getUUID())) {
                     GameProfile oldOwner = island.getOwner(player.getServer()); //Collect old owner
                     island.setOwner(target.getUUID()); //Update owner
                     command.sendSuccess(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.promote.owner"), target.getGameProfile().getName(), i.getIslandId(), oldOwner.getName()), ChatFormatting.GREEN), true);
                 } else {
-                    island.makeAdmin(target.getUUID());
-                    command.sendSuccess(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.promote.admin"), target.getGameProfile().getName(), i.getIslandId()), ChatFormatting.GREEN), true);
+                    command.sendFailure(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.promote.alreadyowner"), target.getGameProfile().getName(), i.getIslandId())));
                 }
             });
         });

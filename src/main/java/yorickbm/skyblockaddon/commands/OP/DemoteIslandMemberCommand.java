@@ -60,17 +60,17 @@ public class DemoteIslandMemberCommand {
                     return;
                 }
 
-                if(island.isIslandMember(target.getUUID())) {
-                    command.sendFailure(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.demote.alreadymember"), target.getGameProfile().getName(), i.getIslandId())));
-                } else if(island.isIslandAdmin(target.getUUID())) {
-                    island.removeAdmin(target.getUUID());
-                    command.sendSuccess(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.demote.member"), target.getGameProfile().getName(), i.getIslandId()), ChatFormatting.GREEN), true);
-                } else {
+                if(island.isOwner(target.getUUID())) {
                     if (island.removeOwner(target.getUUID())) {
                         command.sendSuccess(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.demote.admin"), target.getGameProfile().getName(), i.getIslandId(), island.getOwner(command.getServer())), ChatFormatting.GREEN), true);
                     } else {
                         command.sendFailure(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.demote.notallowed"), target.getGameProfile().getName(), i.getIslandId())));
                     }
+                } else if(island.isIslandAdmin(target.getUUID())) {
+                    island.removeAdmin(target.getUUID());
+                    command.sendSuccess(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.demote.member"), target.getGameProfile().getName(), i.getIslandId()), ChatFormatting.GREEN), true);
+                } else {
+                    command.sendFailure(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.demote.alreadymember"), target.getGameProfile().getName(), i.getIslandId())));
                 }
             });
         });
