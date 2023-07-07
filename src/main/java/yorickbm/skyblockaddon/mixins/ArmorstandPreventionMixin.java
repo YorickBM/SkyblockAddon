@@ -18,8 +18,6 @@ import yorickbm.skyblockaddon.islands.Permissions;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
-import java.awt.*;
-
 @Mixin(ArmorStand.class)
 public class ArmorstandPreventionMixin {
 

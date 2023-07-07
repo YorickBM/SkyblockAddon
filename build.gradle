@@ -177,7 +177,7 @@ dependencies {
     // Examples using mod jars from ./libs
     // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
     compileOnly fg.deobf("curse.maven:quark-243121:3840125")
-    compileOnly fg.deobf("curse.maven:quark-412082:4548315")
+    compileOnly fg.deobf("curse.maven:supplementaries-412082:4548315")
     compileOnly fileTree(dir: 'libs', include: ['*.jar'])
 
     // For more info...

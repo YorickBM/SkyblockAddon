@@ -23,9 +23,9 @@ version="${file.jarVersion}" #mandatory
 # A display name for the mod
 displayName="SkyblockAddon" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification <here>
-#updateJSONURL="http://myurl.me/" #optional
+updateJSONURL="https://raw.githubusercontent.com/YorickBM/SkyblockAddon/main/version.json"
 # A URL for the "homepage" for this mod, displayed in the mod UI
-#displayURL="http://example.com/" #optional
+displayURL="https://legacy.curseforge.com/minecraft/mc-mods/sky-vaulters-support" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
 #logoFile="skyblockaddon.png" #optional
 # A text field displayed in the mod UI
