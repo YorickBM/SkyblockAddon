@@ -28,6 +28,24 @@ public class LanguageFile {
         items.put("commands.island.admin.setId.success", "%s new island has been set to %s");
         items.put("commands.island.admin.setId.teleport", "We are teleporting you to your new island...");
 
+        items.put("commands.island.admin.", "");
+        items.put("commands.island.admin.island.notfound", "The island %s has not been found.");
+        items.put("commands.island.admin.island.notpart", "%s is not a member of the island %s.");
+
+        items.put("commands.island.admin.promote.alreadyowner", "%s is already owner role of the island %s.");
+        items.put("commands.island.admin.promote.owner", "%s has been made the new owner of the island %s, %s has been demoted to admin.");
+        items.put("commands.island.admin.promote.admin", "%s has been promoted to admin on the island %s.");
+
+        items.put("commands.island.admin.demote.alreadymember", "%s is already a member role of the island %s.");
+        items.put("commands.island.admin.demote.notallowed", "%s cannot be demoted, as there is no one else on the island %s to become owner.");
+        items.put("commands.island.admin.demote.member", "%s has been demoted to member on the island %s.");
+        items.put("commands.island.admin.demote.admin", "%s has been demoted to admin on the island %s, %s is the new owner.");
+
+        items.put("commands.island.admin.kick.success", "%s has been kicked of the island %s.");
+
+        items.put("commands.island.admin.setOwner.already", "%s is already owner of the island %s.");
+        items.put("commands.island.admin.setOwner.success", "%s has been made the new owner of the island %s, %s has been demoted to admin.");
+
         items.put("commands.island.create.success", "Created your skyblock island!");
         items.put("commands.island.create.generating", "We are generating your island, this may take some time. Please be patient.");
         items.put("commands.island.create.hasone", "You already have an island, use /island tp to teleport to your island!");
