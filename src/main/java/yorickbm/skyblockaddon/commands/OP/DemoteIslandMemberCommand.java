@@ -62,7 +62,7 @@ public class DemoteIslandMemberCommand {
 
                 if(island.isOwner(target.getUUID())) {
                     if (island.removeOwner(target.getUUID())) {
-                        command.sendSuccess(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.demote.admin"), target.getGameProfile().getName(), i.getIslandId(), island.getOwner(command.getServer())), ChatFormatting.GREEN), true);
+                        command.sendSuccess(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.demote.admin"), target.getGameProfile().getName(), i.getIslandId(), island.getOwner(command.getServer()).getName()), ChatFormatting.GREEN), true);
                     } else {
                         command.sendFailure(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.demote.notallowed"), target.getGameProfile().getName(), i.getIslandId())));
                     }

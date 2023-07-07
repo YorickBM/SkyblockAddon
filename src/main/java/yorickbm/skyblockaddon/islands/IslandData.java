@@ -126,7 +126,7 @@ public class IslandData {
     public void setOwner(UUID uuid) {
         this.Members.removeMember(uuid);
         this.Admin.removeMember(uuid);
-        if(owner != null) this.Admin.addMember(owner); //Demote to admin
+        if(owner != null && owner != uuid) this.Admin.addMember(owner); //Demote to admin
 
         owner = uuid;
     }

@@ -57,6 +57,11 @@ public class SetPlayersIslandCommand {
         Player target = targets.stream().findFirst().get();
         target.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> {
             player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
+                if(i.hasOne() && i.getIslandId().equals(id.toString())) {
+                    command.sendFailure(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.admin.setId.equal").formatted(target.getGameProfile().getName(), i.getIslandId())));
+                    return;
+                }
+
                 if(i.hasOne()) {
                     player.sendMessage(ServerHelper.formattedText(
                             LanguageFile.getForKey("commands.island.admin.setId.hasone").formatted(target.getGameProfile().getName(), i.getIslandId())

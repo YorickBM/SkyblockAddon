@@ -13,6 +13,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
@@ -26,7 +28,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
-
+    private static final Logger LOGGER = LogManager.getLogger();
     protected MemberOverviewHandler(int syncId, Inventory playerInventory, IslandData data) {
         super(syncId, playerInventory, 4, data);
     }
@@ -87,7 +89,9 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
             } else if(i > 10 && i <= 25 && i%9 != 0 && i%9 != 8) {
                 if(memberIndex < members.size()) {
                     String playerName = "Unknown";
-                    try { playerName = UsernameCache.getBlocking(members.get(memberIndex)); } catch( Exception ex) {}
+                    try { playerName = UsernameCache.getBlocking(members.get(memberIndex)); } catch( Exception ex) {
+                        LOGGER.error(ex);
+                    }
 
                     item = new ItemStack(Items.PLAYER_HEAD);
                     item.setHoverName(ServerHelper.formattedText(playerName, ChatFormatting.BLUE, ChatFormatting.BOLD));
@@ -96,7 +100,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                     if(this.data.hasOwner()) tag.putString("SkullOwner", playerName);
                     item.setTag(tag);
 
-                    if(!playerName.equals("Unknown") && this.data.isIslandAdmin(player.getUUID())) {
+                    if(this.data.isIslandAdmin(player.getUUID())) {
                         UUID member = members.get(memberIndex);
                         item.getOrCreateTagElement("skyblockaddon").putString("member", member.toString()); //Put member in item NBT for click event
 
@@ -116,7 +120,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                                 ServerHelper.formattedText("\u2666 Left-click to promote to admin", ChatFormatting.GRAY)
                             );
                         }
-                    } else if(!playerName.equals("Unknown")) {
+                    } else {
                         UUID member = members.get(memberIndex);
                         if(this.data.isIslandAdmin(member)) {
                             ServerHelper.addLore(item,

@@ -24,9 +24,11 @@ public class LanguageFile {
         items.put("commands.island.admin.offline", "Sorry, this player is offline...");
         items.put("commands.island.admin.getId.hasnone", "This player is not part of an island, sorry.");
         items.put("commands.island.admin.getId.success", "You can copy to clipboard the island id from %s by clicking on this message.");
+
         items.put("commands.island.admin.setId.hasone", "Beware, %s was already part of island %s. This is has been overridden!");
         items.put("commands.island.admin.setId.success", "%s new island has been set to %s");
         items.put("commands.island.admin.setId.teleport", "We are teleporting you to your new island...");
+        items.put("commands.island.admin.setId.equal", "%s is already part of the island %s.");
 
         items.put("commands.island.admin.", "");
         items.put("commands.island.admin.island.notfound", "The island %s has not been found.");
