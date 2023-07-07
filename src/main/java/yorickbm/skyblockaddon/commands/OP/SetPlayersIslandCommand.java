@@ -28,7 +28,7 @@ public class SetPlayersIslandCommand {
                 Commands.literal("admin")
                 .requires(p -> p.hasPermission(3))
                 .then(
-                    Commands.literal("setId")
+                    Commands.literal("addmember")
                     .then(
                         Commands.argument("target", EntityArgument.players())
                         .then(Commands.argument("id", UuidArgument.uuid())

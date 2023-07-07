@@ -2,15 +2,14 @@ package yorickbm.skyblockaddon.commands;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
-import yorickbm.skyblockaddon.gui.travel.TeleportIslandOverviewHandler;
 import yorickbm.skyblockaddon.util.LanguageFile;
+import yorickbm.skyblockaddon.util.ServerHelper;
 
 public class SpawnCommand {
     public SpawnCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -30,7 +29,7 @@ public class SpawnCommand {
             return Command.SINGLE_SUCCESS;
         }
 
-        command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.spawn.teleport")), false);
+        command.sendSuccess(ServerHelper.formattedText(LanguageFile.getForKey("commands.spawn.teleport"), ChatFormatting.GREEN), false);
         player.teleportTo(command.getLevel().getSharedSpawnPos().getX(),command.getLevel().getSharedSpawnPos().getY(),command.getLevel().getSharedSpawnPos().getZ());
         return Command.SINGLE_SUCCESS;
     }

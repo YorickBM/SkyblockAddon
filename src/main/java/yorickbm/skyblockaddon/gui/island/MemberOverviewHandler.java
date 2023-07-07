@@ -15,8 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.SkyblockAddon;
-import yorickbm.skyblockaddon.capabilities.PlayerIsland;
-import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
@@ -172,7 +170,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                                     island.setIsland("");
                                     if (member_player != null) {
                                         member_player.teleportTo(player.getLevel().getSharedSpawnPos().getX(), player.getLevel().getSharedSpawnPos().getY(), player.getLevel().getSharedSpawnPos().getZ());
-                                        member_player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("island.member.kick")), member);
+                                        member_player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("island.member.kick"), ChatFormatting.GREEN), member);
                                     }
                                 });
                             }

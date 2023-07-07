@@ -67,7 +67,8 @@ public class GetIslandIdCommand {
                 ),
                     player.getUUID()
             );
-           command.sendSuccess(new TextComponent("-> " + i.getIslandId()), false);
+
+           command.sendSuccess(ServerHelper.formattedText("-> " + i.getIslandId(), ChatFormatting.GREEN), false);
 
         });
 
