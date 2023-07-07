@@ -25,7 +25,7 @@ public class DemoteIslandMemberCommand {
                         .then(
                                 Commands.literal("admin")
                                         .requires(p -> p.hasPermission(3))
-                                        .then(Commands.literal("promote").then(Commands.argument("target", EntityArgument.players())
+                                        .then(Commands.literal("demote").then(Commands.argument("target", EntityArgument.players())
                                                 .executes( (command) -> execute(command.getSource(), EntityArgument.getPlayers(command, "target")))
                                         ))
                         )
