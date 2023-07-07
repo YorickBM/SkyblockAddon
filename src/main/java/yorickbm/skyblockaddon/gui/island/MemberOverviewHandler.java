@@ -64,7 +64,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
             if (i == 35) {
                 item = new ItemStack(Items.ARROW);
                 item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED, ChatFormatting.BOLD));
-            } else if (i == 31 && this.data.isAdmin(player.getUUID())) {
+            } else if (i == 31 && this.data.isIslandAdmin(player.getUUID())) {
                 item = new ItemStack(Items.OAK_BOAT);
                 item.setHoverName(ServerHelper.formattedText("Invite", ChatFormatting.GREEN, ChatFormatting.BOLD));
                 ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Invite online player to join this island.", ChatFormatting.GRAY));
@@ -96,11 +96,11 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                     if(this.data.hasOwner()) tag.putString("SkullOwner", playerName);
                     item.setTag(tag);
 
-                    if(!playerName.equals("Unknown") && this.data.isAdmin(player.getUUID())) {
+                    if(!playerName.equals("Unknown") && this.data.isIslandAdmin(player.getUUID())) {
                         UUID member = members.get(memberIndex);
                         item.getOrCreateTagElement("skyblockaddon").putString("member", member.toString()); //Put member in item NBT for click event
 
-                        if(this.data.isAdmin(member)) {
+                        if(this.data.isIslandAdmin(member)) {
                             ServerHelper.addLore(item,
                                 ServerHelper.formattedText("\u00BB Island admin.", ChatFormatting.GRAY),
                                     ServerHelper.formattedText("", ChatFormatting.GRAY),
@@ -118,7 +118,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                         }
                     } else if(!playerName.equals("Unknown")) {
                         UUID member = members.get(memberIndex);
-                        if(this.data.isAdmin(member)) {
+                        if(this.data.isIslandAdmin(member)) {
                             ServerHelper.addLore(item,
                                     ServerHelper.formattedText("\u00BB Island admin.", ChatFormatting.GRAY)
                             );
@@ -157,10 +157,10 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                 ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
             default:
-                if(!this.data.isAdmin(player.getUUID())) return false;
+                if(!this.data.isIslandAdmin(player.getUUID())) return false;
                 UUID member = UUID.fromString(slot.getItem().getTagElement("skyblockaddon").getString("member"));
 
-                if(!this.data.isAdmin(member))
+                if(!this.data.isIslandAdmin(member))
                     switch(clickType) {
                         case 1:
                             this.data.removeIslandMember(member);

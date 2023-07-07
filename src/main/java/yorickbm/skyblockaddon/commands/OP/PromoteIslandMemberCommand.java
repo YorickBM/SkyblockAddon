@@ -56,14 +56,14 @@ public class PromoteIslandMemberCommand {
                     command.sendFailure(new TextComponent(String.format(LanguageFile.getForKey("commands.island.admin.island.notfound"), i.getIslandId())));
                     return;
                 }
-                if(!island.isMember(target.getUUID()) && !island.isAdmin(target.getUUID()) && !island.isOwner(target.getUUID())) {
+                if(!island.isMember(target.getUUID())) {
                     command.sendFailure(new TextComponent(String.format(LanguageFile.getForKey("commands.island.admin.island.notpart"), target.getGameProfile().getName())));
                     return;
                 }
 
                 if(island.isOwner(target.getUUID())) {
                     command.sendFailure(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.promote.alreadyowner"), target.getGameProfile().getName(), i.getIslandId())));
-                } else if(island.isAdmin(target.getUUID())) {
+                } else if(island.isIslandAdmin(target.getUUID())) {
                     GameProfile oldOwner = island.getOwner(player.getServer()); //Collect old owner
                     island.setOwner(target.getUUID()); //Update owner
                     command.sendSuccess(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.promote.owner"), target.getGameProfile().getName(), i.getIslandId(), oldOwner.getName()), ChatFormatting.GREEN), true);

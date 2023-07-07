@@ -55,14 +55,14 @@ public class DemoteIslandMemberCommand {
                     command.sendFailure(new TextComponent(String.format(LanguageFile.getForKey("commands.island.admin.island.notfound"), i.getIslandId())));
                     return;
                 }
-                if(!island.isMember(target.getUUID()) && !island.isAdmin(target.getUUID()) && !island.isOwner(target.getUUID())) {
+                if(!island.isMember(target.getUUID())) {
                     command.sendFailure(new TextComponent(String.format(LanguageFile.getForKey("commands.island.admin.island.notpart"), target.getGameProfile().getName())));
                     return;
                 }
 
-                if(island.isMember(target.getUUID())) {
+                if(island.isIslandMember(target.getUUID())) {
                     command.sendFailure(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.demote.alreadymember"), target.getGameProfile().getName(), i.getIslandId())));
-                } else if(island.isAdmin(target.getUUID())) {
+                } else if(island.isIslandAdmin(target.getUUID())) {
                     island.removeAdmin(target.getUUID());
                     command.sendSuccess(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.demote.member"), target.getGameProfile().getName(), i.getIslandId()), ChatFormatting.GREEN), true);
                 } else {

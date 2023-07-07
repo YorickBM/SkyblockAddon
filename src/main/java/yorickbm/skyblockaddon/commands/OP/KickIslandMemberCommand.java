@@ -61,7 +61,7 @@ public class KickIslandMemberCommand {
                     command.sendFailure(new TextComponent(String.format(LanguageFile.getForKey("commands.island.admin.island.notfound"), (id == null) ? i.getIslandId() : id.toString())));
                     return;
                 }
-                if(!island.isMember(target.getUUID()) && !island.isAdmin(target.getUUID()) && !island.isOwner(target.getUUID())) {
+                if(!island.isMember(target.getUUID()) && !island.isIslandAdmin(target.getUUID()) && !island.isOwner(target.getUUID())) {
                     command.sendFailure(new TextComponent(String.format(LanguageFile.getForKey("commands.island.admin.island.notpart"), target.getGameProfile().getName(), (id == null) ? i.getIslandId() : id.toString())));
                     return;
                 }

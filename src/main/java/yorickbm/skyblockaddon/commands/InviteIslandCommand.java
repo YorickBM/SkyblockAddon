@@ -40,7 +40,7 @@ public class InviteIslandCommand {
 
         player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent( world -> {
             player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(x -> {
-                if(!world.getIslandById(x.getIslandId()).isAdmin(player.getUUID())) {
+                if(!world.getIslandById(x.getIslandId()).isIslandAdmin(player.getUUID())) {
                     player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.nopermission"), ChatFormatting.RED), player.getUUID());
                     return;
                 }

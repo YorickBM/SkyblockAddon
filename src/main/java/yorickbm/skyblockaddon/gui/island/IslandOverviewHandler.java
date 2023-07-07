@@ -53,7 +53,7 @@ public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
         for(int i = 0; i < this.inventory.getContainerSize(); i++) {
             ItemStack item = null;
 
-            if(this.data.isAdmin(player.getUUID())) {
+            if(this.data.isIslandAdmin(player.getUUID())) {
                 switch (i) {
 
                     case 10:
@@ -119,7 +119,7 @@ public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
             return true;
         }
 
-        if(this.data.isAdmin(player.getUUID())) {
+        if(this.data.isIslandAdmin(player.getUUID())) {
             switch (index) {
 
                 case 10:

@@ -428,7 +428,7 @@ public class IslandData {
      * @param player UUID of player you wish to check if he/she is an admin.
      * @return Boolean
      */
-    public boolean isAdmin(UUID player) {
+    public boolean isIslandAdmin(UUID player) {
         if(isOwner(player)) return true;
         return this.Admin.hasMember(player);
     }
@@ -439,7 +439,11 @@ public class IslandData {
      * @return Boolean
      */
     public boolean isMember(UUID player) {
-        return isAdmin(player) || isOwner(player) || this.Members.hasMember(player);
+        return isIslandAdmin(player) || isOwner(player) || isIslandMember(player);
+    }
+
+    public boolean isIslandMember(UUID uuid) {
+        return this.Members.hasMember(uuid);
     }
 
     /**
