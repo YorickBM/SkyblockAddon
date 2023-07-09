@@ -312,8 +312,6 @@ public class PlayerEvents {
 
     @SubscribeEvent
     public void LivingEntityUseItemEvent(LivingEntityUseItemEvent event) {
-        event.getEntity().sendMessage(event.getItem().getDisplayName(), event.getEntity().getUUID());
-
         if(event.getEntity() instanceof Player player) { //Ignore non player triggers
             if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Ignore non overworld interactions & OP Players
 
