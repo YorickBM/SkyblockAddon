@@ -30,6 +30,9 @@ public class LanguageFile {
         items.put("commands.island.admin.setId.teleport", "We are teleporting you to your new island...");
         items.put("commands.island.admin.setId.equal", "%s is already part of the island %s.");
 
+        items.put("commands.island.admin.where.none", "We could not find an id for the island you are on.");
+        items.put("commands.island.admin.where.success", "You are currently on the island %s. Click on this message to copy.");
+
         items.put("commands.island.admin.", "");
         items.put("commands.island.admin.island.notfound", "The island %s has not been found.");
         items.put("commands.island.admin.island.notpart", "%s is not a member of the island %s.");
