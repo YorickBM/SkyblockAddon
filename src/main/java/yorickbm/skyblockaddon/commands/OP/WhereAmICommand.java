@@ -58,9 +58,9 @@ public class WhereAmICommand {
 
             command.sendSuccess(
                 ServerHelper.styledText(
-                    LanguageFile.getForKey("commands.island.admin.where.success").formatted(""),
+                    LanguageFile.getForKey("commands.island.admin.where.success").formatted(islandIdOn),
                     Style.EMPTY
-                        .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, ""))
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, islandIdOn))
                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(LanguageFile.getForKey("chat.hover.copy")))),
                     ChatFormatting.GREEN
                 ),
