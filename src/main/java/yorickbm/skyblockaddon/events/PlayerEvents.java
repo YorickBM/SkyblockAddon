@@ -1,6 +1,7 @@
 package yorickbm.skyblockaddon.events;
 
 import iskallia.vault.entity.entity.DollMiniMeEntity;
+import iskallia.vault.entity.entity.SpiritEntity;
 import net.mehvahdjukaar.supplementaries.common.items.SlingshotItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -8,7 +9,9 @@ import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.decoration.ItemFrame;
@@ -238,6 +241,10 @@ public class PlayerEvents {
         BlockEntity blockEntity = player.getLevel().getBlockEntity(posClicked); //Get block entity
         Block block = player.getLevel().getBlockState(posClicked).getBlock(); //Get block
 
+        System.out.println(ModIntegrationHandler.getPermissionForBlockEntity(blockEntity) != null);
+        System.out.println(ModIntegrationHandler.getPermissionForBlock(block) != null);
+        System.out.println(blockEntity);
+
         Permissions permission = blockEntity != null ? ModIntegrationHandler.getPermissionForBlockEntity(blockEntity) : ModIntegrationHandler.getPermissionForBlock(block);
         if(permission == null) return false; //Block type is not blocked by our permissions to be clicked on
 
@@ -286,25 +293,16 @@ public class PlayerEvents {
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onVoidFall(LivingDamageEvent event) {
         if(event.getSource().equals(DamageSource.OUT_OF_WORLD)) {
-            if(event.getEntity() instanceof ServerPlayer player) {
-                if(player.getLevel().dimension() != Level.OVERWORLD) return; //Ignore overworld events
-                IslandData data = SkyblockAddon.CheckOnIsland(player);
+            Entity entity = event.getEntity();
+            if(entity instanceof ServerPlayer || entity instanceof DollMiniMeEntity || entity instanceof SpiritEntity) {
+                if(entity.getLevel().dimension() != Level.OVERWORLD) return; //Ignore overworld events
+                IslandData data = SkyblockAddon.CheckOnIsland(entity);
                 if(data != null) {
                     event.setCanceled(true); //Cancel damage
 
-                    player.resetFallDistance();
-                    data.teleport(player);
-                    player.resetFallDistance();
-                }
-            } else if(event.getEntity() instanceof DollMiniMeEntity doll){
-                if(doll.getLevel().dimension() != Level.OVERWORLD) return; //Ignore overworld events
-                IslandData data = SkyblockAddon.CheckOnIsland(doll);
-                if(data != null) {
-                    event.setCanceled(true); //Cancel damage
-
-                    doll.resetFallDistance();
-                    data.teleport(doll);
-                    doll.resetFallDistance();
+                    entity.resetFallDistance();
+                    data.teleport(entity);
+                    entity.resetFallDistance();
                 }
             }
         }

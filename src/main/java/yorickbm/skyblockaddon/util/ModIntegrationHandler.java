@@ -38,7 +38,6 @@ public class ModIntegrationHandler {
                 || (e instanceof MenuProvider)
                 || (e != null && (e.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).isPresent()))
                 || e instanceof EnchantmentTableBlockEntity
-                || true
                 , Permissions.InteractWithBlocks);
 
         blockBuilder.put(e -> e instanceof AnvilBlock
@@ -51,6 +50,7 @@ public class ModIntegrationHandler {
                 || e instanceof ComposterBlock
                 || e instanceof TrapDoorBlock
                 || e instanceof DoorBlock
+                || e instanceof MenuProvider
                 , Permissions.InteractWithBlocks);
 
         blockBuilder.put(e -> e != null &&
