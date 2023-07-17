@@ -90,6 +90,10 @@ public class SkyblockAddon {
     public void onServerStarting(ServerStartingEvent event) {
         VersionChecker.CheckResult result = VersionChecker.getResult(ModList.get().getModContainerById(MOD_ID).get().getModInfo());
         LOGGER.info("Vaulthunters Skyblock addon v"+VERSION+" ("+result.status().name()+") has loaded!");
+
+        if(ModList.get().isLoaded("terralith")) {
+            LOGGER.error("Beware, skyblockaddon mod is loaded together with Terralith!");
+        }
     }
 
     public static IslandData CheckOnIsland(Entity player) {
