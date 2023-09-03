@@ -7,7 +7,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
+import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.gui.travel.TeleportIslandOverviewHandler;
 import yorickbm.skyblockaddon.util.LanguageFile;
 
@@ -29,9 +29,7 @@ public class IslandTravelCommand {
             return Command.SINGLE_SUCCESS;
         }
 
-        player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
-            TeleportIslandOverviewHandler.openMenu(player, island);
-        });
+        player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> TeleportIslandOverviewHandler.openMenu(player, island));
 
         return Command.SINGLE_SUCCESS;
     }

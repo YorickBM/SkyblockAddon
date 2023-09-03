@@ -1,9 +1,13 @@
 package yorickbm.skyblockaddon.events;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ArmorStandItem;
+import net.minecraft.world.item.ItemFrameItem;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import yorickbm.skyblockaddon.SkyblockAddon;
@@ -46,6 +50,14 @@ public class BlockEvents {
 //            event.setCanceled(true);
 //        }
 //    }
+
+    @SubscribeEvent
+    public void onEntityPlace(LivingEntityUseItemEvent event) {
+        System.out.println(event.getItem().getItem());
+        if(event.getItem().getItem() instanceof ItemFrameItem || event.getItem().getItem() instanceof ArmorStandItem) {
+            event.getEntity().sendMessage(new TextComponent("You placing an item frame or armorstand?"), event.getEntity().getUUID());
+        }
+    }
 
     @SubscribeEvent
     public void onBlockBreak(BlockEvent.BreakEvent event) {

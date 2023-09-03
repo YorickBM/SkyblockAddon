@@ -1,4 +1,4 @@
-package yorickbm.skyblockaddon.capabilities.Providers;
+package yorickbm.skyblockaddon.capabilities.providers;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -14,7 +14,7 @@ import yorickbm.skyblockaddon.capabilities.PlayerIsland;
 
 public class PlayerIslandProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
-    public static Capability<PlayerIsland> PLAYER_ISLAND = CapabilityManager.get(new CapabilityToken<>() {
+    public static final Capability<PlayerIsland> PLAYER_ISLAND = CapabilityManager.get(new CapabilityToken<>() {
     });
 
     private PlayerIsland island = null;

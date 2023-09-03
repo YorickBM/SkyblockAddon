@@ -9,6 +9,7 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gson.stream.JsonReader;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.io.BufferedReader;
@@ -79,7 +80,7 @@ public final class UsernameCache {
         private static final CharMatcher DASH_MATCHER = CharMatcher.is('-');
 
         @Override
-        public String load(@Nonnull UUID uuid) throws IOException {
+        public @NotNull String load(@Nonnull UUID uuid) throws IOException {
             String uuidString = DASH_MATCHER.removeFrom(uuid.toString());
             try (BufferedReader reader = Resources.asCharSource(new URL(String.format(USERNAME_API_URL, uuidString)), StandardCharsets.UTF_8).openBufferedStream()) {
                 JsonReader json = new JsonReader(reader);
@@ -88,13 +89,10 @@ public final class UsernameCache {
                 json.beginObject();
                 while (json.hasNext()) {
                     String key = json.nextName();
-                    switch (key) {
-                        case "name":
-                            name = json.nextString();
-                            break;
-                        default:
-                            json.skipValue();
-                            break;
+                    if (key.equals("name")) {
+                        name = json.nextString();
+                    } else {
+                        json.skipValue();
                     }
                 }
                 json.endObject();

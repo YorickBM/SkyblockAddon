@@ -1,4 +1,4 @@
-package yorickbm.skyblockaddon.capabilities.Providers;
+package yorickbm.skyblockaddon.capabilities.providers;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.capabilities.IslandGenerator;
 
 public class IslandGeneratorProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
-    public static Capability<IslandGenerator> ISLAND_GENERATOR = CapabilityManager.get(new CapabilityToken<>() {
+    public static final Capability<IslandGenerator> ISLAND_GENERATOR = CapabilityManager.get(new CapabilityToken<>() {
     });
 
     public static final Vec3i DEFAULT_SPAWN = new Vec3i(-7, 136, -6);

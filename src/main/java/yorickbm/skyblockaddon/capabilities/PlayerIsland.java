@@ -10,9 +10,6 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class PlayerIsland {
-
-    private static final Logger LOGGER = LogManager.getLogger();
-
     //Legacy data
     private Vec3i centerLocation = new Vec3i(0,0,0);
     private boolean isOwner = false;
@@ -29,8 +26,8 @@ public class PlayerIsland {
     private String islandId = "";
     private String oldIslandId = ""; //Allows to undo island leave through commando
 
-    private HashMap<String, Long> islandInvites = new HashMap<>();
-    private HashMap<UUID, Long> teleportInvites = new HashMap<>();
+    private final HashMap<String, Long> islandInvites = new HashMap<>();
+    private final HashMap<UUID, Long> teleportInvites = new HashMap<>();
     private long creationTimestamp = Instant.now().getEpochSecond() - 220;
 
     /**
@@ -116,9 +113,10 @@ public class PlayerIsland {
      */
     public void loadNBTData(CompoundTag nbt) {
         if(nbt.contains("nbt-v")) {
-            switch (nbt.getInt("nbt-v")) {
-                case 2 -> islandId = nbt.getString("islandId");
-                default -> islandId = "";
+            if (nbt.getInt("nbt-v") == 2) {
+                islandId = nbt.getString("islandId");
+            } else {
+                islandId = "";
             }
         } else {
             if(nbt.contains("loc-x")) centerLocation = new Vec3i(nbt.getInt("loc-x"),nbt.getInt("loc-y"),nbt.getInt("loc-z"));

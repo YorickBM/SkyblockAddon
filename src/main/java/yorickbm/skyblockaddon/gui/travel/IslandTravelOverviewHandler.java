@@ -12,10 +12,11 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.PlayerIsland;
-import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
@@ -27,13 +28,12 @@ public class IslandTravelOverviewHandler extends ServerOnlyHandler<PlayerIsland>
     public static void openMenu(Player player, PlayerIsland data) {
         MenuProvider fac = new MenuProvider() {
             @Override
-            public Component getDisplayName() {
+            public @NotNull Component getDisplayName() {
                 return new TextComponent("Island Traveller");
             }
 
-            @Nullable
             @Override
-            public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
+            public @NotNull AbstractContainerMenu createMenu(int syncId, @NotNull Inventory inv, @NotNull Player player) {
                 return new IslandTravelOverviewHandler(syncId, inv, data);
             }
         };
@@ -48,7 +48,7 @@ public class IslandTravelOverviewHandler extends ServerOnlyHandler<PlayerIsland>
     @Override
     protected void fillInventoryWith(Player player) {
         for(int i = 0; i < this.inventory.getContainerSize(); i++) {
-            ItemStack item = null;
+            ItemStack item;
 
             if(i == 11) {
                 if(!data.hasOne()) {
@@ -69,7 +69,7 @@ public class IslandTravelOverviewHandler extends ServerOnlyHandler<PlayerIsland>
                 item.setHoverName(new TextComponent(""));
             }
 
-            if(item != null && item instanceof ItemStack) setItem(i, 0, item);
+            setItem(i, 0, item);
         }
     }
 

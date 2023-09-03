@@ -21,7 +21,7 @@ public class PermissionGroup {
     private final Item displayItem;
     private final HashMap<Permissions, Permission> permissions;
     private final boolean canBeRemoved;
-    private List<UUID> members = new ArrayList<>();
+    private final List<UUID> members = new ArrayList<>();
 
     public PermissionGroup(String name, Item displayItem, boolean defaultState) {
         this.name = name;
@@ -31,7 +31,7 @@ public class PermissionGroup {
 
         for(Permissions perm : Permissions.values()) {
             try {
-                Class<? extends  Permission> c = (Class<? extends Permission>) Class.forName("yorickbm.skyblockaddon.islands.permissions." + perm.name() + "");
+                Class<? extends  Permission> c = (Class<? extends Permission>) Class.forName("yorickbm.skyblockaddon.islands.permissions." + perm.name());
                 this.permissions.put(perm, c.getConstructor(boolean.class).newInstance(defaultState));
             } catch (Exception ex) {
                 LOGGER.warn(perm.name() + " permission has not been initialized!");
@@ -48,7 +48,7 @@ public class PermissionGroup {
 
         for(Permissions perm : Permissions.values()) {
             try {
-                Class<? extends  Permission> c = (Class<? extends Permission>) Class.forName("yorickbm.skyblockaddon.islands.permissions." + perm.name() + "");
+                Class<? extends  Permission> c = (Class<? extends Permission>) Class.forName("yorickbm.skyblockaddon.islands.permissions." + perm.name());
                 this.permissions.put(perm, c.getConstructor(boolean.class).newInstance(tag.getBoolean(perm.name())));
             } catch (Exception ex) {
                 LOGGER.warn(perm.name() + " permission has not been initialized!");

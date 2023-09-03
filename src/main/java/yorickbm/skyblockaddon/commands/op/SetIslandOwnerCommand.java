@@ -1,4 +1,4 @@
-package yorickbm.skyblockaddon.commands.OP;
+package yorickbm.skyblockaddon.commands.op;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.Command;
@@ -12,8 +12,8 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
-import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
+import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
@@ -49,40 +49,38 @@ public class SetIslandOwnerCommand {
             return Command.SINGLE_SUCCESS;
         }
 
-        if(!targets.stream().findFirst().isPresent()) {
+        if(targets.stream().findFirst().isEmpty()) {
             command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.admin.offline")));
             return Command.SINGLE_SUCCESS;
         }
 
         Player target = targets.stream().findFirst().get();
-        target.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> {
-            player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
-                IslandData island = (id == null) ? g.getIslandById(i.getIslandId()) : g.getIslandById(id.toString());
-                if(island == null) {
-                    command.sendFailure(new TextComponent(String.format(LanguageFile.getForKey("commands.island.admin.island.notfound"), (id == null) ? i.getIslandId() : id.toString())));
-                    return;
-                }
-                if(island.isOwner(target.getUUID())) {
-                    command.sendFailure(new TextComponent(String.format(LanguageFile.getForKey("commands.island.admin.setOwner.already"), target.getGameProfile().getName(), (id == null) ? i.getIslandId() : id.toString())));
-                    return;
-                }
+        target.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
+            IslandData island = (id == null) ? g.getIslandById(i.getIslandId()) : g.getIslandById(id.toString());
+            if(island == null) {
+                command.sendFailure(new TextComponent(String.format(LanguageFile.getForKey("commands.island.admin.island.notfound"), (id == null) ? i.getIslandId() : id.toString())));
+                return;
+            }
+            if(island.isOwner(target.getUUID())) {
+                command.sendFailure(new TextComponent(String.format(LanguageFile.getForKey("commands.island.admin.setOwner.already"), target.getGameProfile().getName(), (id == null) ? i.getIslandId() : id.toString())));
+                return;
+            }
 
-                //Update ID just in case
-                if(id != null) {
-                    IslandData getOld = g.getIslandById(i.getIslandId());
-                    getOld.removeIslandMember(target.getUUID()); //Remove from old island just in case
-                    i.setIsland(id.toString());
-                }
+            //Update ID just in case
+            if(id != null) {
+                IslandData getOld = g.getIslandById(i.getIslandId());
+                getOld.removeIslandMember(target.getUUID()); //Remove from old island just in case
+                i.setIsland(id.toString());
+            }
 
-                GameProfile oldOwner = island.getOwner(player.getServer()); //Collect old owner
-                island.setOwner(target.getUUID()); //Update owner
-                island.addIslandMember(oldOwner.getId()); //Add old owner back to island
-                island.makeAdmin(oldOwner.getId()); //Make previous owner at least admin
+            GameProfile oldOwner = island.getOwner(player.getServer()); //Collect old owner
+            island.setOwner(target.getUUID()); //Update owner
+            island.addIslandMember(oldOwner.getId()); //Add old owner back to island
+            island.makeAdmin(oldOwner.getId()); //Make previous owner at least admin
 
-                command.sendSuccess(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.setOwner.success"), target.getGameProfile().getName(), (id == null) ? i.getIslandId() : id.toString(), oldOwner.getName()), ChatFormatting.GREEN), true);
+            command.sendSuccess(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.setOwner.success"), target.getGameProfile().getName(), (id == null) ? i.getIslandId() : id.toString(), oldOwner.getName()), ChatFormatting.GREEN), true);
 
-            });
-        });
+        }));
 
         return Command.SINGLE_SUCCESS;
     }

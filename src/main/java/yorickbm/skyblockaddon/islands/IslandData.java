@@ -24,7 +24,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
-import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.islands.permissions.Permission;
 import yorickbm.skyblockaddon.util.ServerHelper;
 import yorickbm.skyblockaddon.util.UsernameCache;
@@ -374,7 +374,7 @@ public class IslandData {
 
         for(ServerPlayer serverPlayer : serverlevel.getChunkSource().chunkMap.getPlayers(chunkPos, false)) {
             if(mutableObject.getValue() == null) {
-                mutableObject.setValue(new ClientboundLevelChunkWithLightPacket(levelChunk, serverlevel.getLightEngine(), (BitSet)null, (BitSet)null, true));
+                mutableObject.setValue(new ClientboundLevelChunkWithLightPacket(levelChunk, serverlevel.getLightEngine(), null, null, true));
             }
             //serverPlayer.untrackChunk(chunkPos);
             serverPlayer.trackChunk(chunkPos, mutableObject.getValue());

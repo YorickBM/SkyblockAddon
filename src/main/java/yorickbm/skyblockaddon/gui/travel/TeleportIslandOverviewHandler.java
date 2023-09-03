@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.IslandGenerator;
 import yorickbm.skyblockaddon.capabilities.PlayerIsland;
-import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.ServerHelper;

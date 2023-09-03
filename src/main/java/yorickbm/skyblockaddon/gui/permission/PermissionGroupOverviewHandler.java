@@ -12,6 +12,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import oshi.util.tuples.Pair;
 import yorickbm.skyblockaddon.SkyblockAddon;
@@ -31,13 +32,12 @@ public class PermissionGroupOverviewHandler extends ServerOnlyHandler<IslandData
     public static void openMenu(Player player, IslandData data) {
         MenuProvider fac = new MenuProvider() {
             @Override
-            public Component getDisplayName() {
+            public @NotNull Component getDisplayName() {
                 return new TextComponent(data.getOwner(player.getServer()).getName() + "'s island");
             }
 
-            @Nullable
             @Override
-            public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
+            public @NotNull AbstractContainerMenu createMenu(int syncId, @NotNull Inventory inv, @NotNull Player player) {
                 return new PermissionGroupOverviewHandler(syncId, inv, data);
             }
         };
@@ -46,7 +46,7 @@ public class PermissionGroupOverviewHandler extends ServerOnlyHandler<IslandData
 
     @Override
     protected boolean isRightSlot(int slot) {
-        return slot == 26 || (slot >= 10 && slot <= 17 && slot%9 != 0 && slot%9 != 8);
+        return slot == 26 || (slot >= 10 && slot <= 17 && slot % 9 != 0 && slot%9 != 8);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class PermissionGroupOverviewHandler extends ServerOnlyHandler<IslandData
             if( slot == 26) {
                 item = new ItemStack(Items.ARROW);
                 item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED, ChatFormatting.BOLD));
-            } else if(slot >= 10 && slot <= 17 && slot%9 != 0 && slot%9 != 8) {
+            } else if(slot >= 10 && slot <= 17 && slot % 9 != 0 && slot%9 != 8) {
                 if(groupIndex < groups.size()) {
                     item = groups.get(groupIndex).getItemStack();
                     item.getOrCreateTagElement(SkyblockAddon.MOD_ID).putString("group", groups.get(groupIndex).getName());

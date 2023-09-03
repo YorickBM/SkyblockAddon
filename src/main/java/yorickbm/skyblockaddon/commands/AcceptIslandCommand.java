@@ -10,8 +10,8 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
-import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
+import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
@@ -36,35 +36,33 @@ public class AcceptIslandCommand {
             return Command.SINGLE_SUCCESS;
         }
 
-        player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
-            player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
+        player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
 
-                if(!g.getIslandById(island.getIslandId()).isMember(player.getUUID())) {
-                    player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.teleport.user.request.nopermission"), ChatFormatting.RED), player.getUUID());
+            if(!g.getIslandById(island.getIslandId()).isMember(player.getUUID())) {
+                player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.teleport.user.request.nopermission"), ChatFormatting.RED), player.getUUID());
+                return;
+            }
+
+            if(targets.stream().findFirst().isEmpty()) {
+                command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.offline")));
+                return;
+            }
+
+            Player requester = targets.stream().findFirst().get();
+            if(island.teleportValid(requester.getUUID())) {
+                if(requester.getLevel().dimension() != Level.OVERWORLD) {
+                    command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.request.notoverworld").formatted(requester.getGameProfile().getName())));
                     return;
                 }
 
-                if(!targets.stream().findFirst().isPresent()) {
-                    command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.offline")));
-                    return;
-                }
+                command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.request.success").formatted(requester.getGameProfile().getName())).withStyle(ChatFormatting.GREEN), false);
+                requester.sendMessage(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.success").formatted(player.getGameProfile().getName())).withStyle(ChatFormatting.GREEN), requester.getUUID());
 
-                Player requester = targets.stream().findFirst().get();
-                if(island.teleportValid(requester.getUUID())) {
-                    if(requester.getLevel().dimension() != Level.OVERWORLD) {
-                        command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.request.notoverworld").formatted(requester.getGameProfile().getName())));
-                        return;
-                    }
-
-                    command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.request.success").formatted(requester.getGameProfile().getName())).withStyle(ChatFormatting.GREEN), false);
-                    requester.sendMessage(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.success").formatted(player.getGameProfile().getName())).withStyle(ChatFormatting.GREEN), requester.getUUID());
-
-                    g.getIslandById(island.getIslandId()).teleport(requester);
-                } else {
-                    command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.expired")));
-                }
-            });
-        });
+                g.getIslandById(island.getIslandId()).teleport(requester);
+            } else {
+                command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.expired")));
+            }
+        }));
 
         return Command.SINGLE_SUCCESS;
     }

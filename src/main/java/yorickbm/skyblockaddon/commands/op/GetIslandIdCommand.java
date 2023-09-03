@@ -1,4 +1,4 @@
-package yorickbm.skyblockaddon.commands.OP;
+package yorickbm.skyblockaddon.commands.op;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
@@ -13,7 +13,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
+import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
@@ -47,7 +47,7 @@ public class GetIslandIdCommand {
             return Command.SINGLE_SUCCESS;
         }
 
-        if(!targets.stream().findFirst().isPresent()) {
+        if(targets.stream().findFirst().isEmpty()) {
             command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.admin.offline")));
             return Command.SINGLE_SUCCESS;
         }

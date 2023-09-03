@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
-import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.islands.PermissionGroup;
 import yorickbm.skyblockaddon.util.BuildingBlock;
@@ -32,8 +32,8 @@ public class IslandGenerator {
     Vec3i lastLocation = IslandGeneratorProvider.DEFAULT_SPAWN;
     Vec3i spawnLocation = IslandGeneratorProvider.DEFAULT_SPAWN;
 
-    HashMap<String, IslandData> islands = new HashMap<>();
-    HashMap<Vec3i, String> islandIdsByVec3i = new HashMap<>();
+    final HashMap<String, IslandData> islands = new HashMap<>();
+    final HashMap<Vec3i, String> islandIdsByVec3i = new HashMap<>();
 
     /**
      * Save islands data into nbt
@@ -50,7 +50,7 @@ public class IslandGenerator {
         int i = 0;
 
         for(Map.Entry<String, IslandData> island : islands.entrySet()) {
-            tagIslandIds.putString(i+"", island.getKey());
+            tagIslandIds.putString(String.valueOf(i), island.getKey());
             tagIslands.put(island.getKey(), island.getValue().serialize());
             i += 1;
         }
@@ -74,7 +74,7 @@ public class IslandGenerator {
 
             LOGGER.info("[skyblockaddon] Loading islands from data: " + tagIslandIds.getInt("count"));
             for (int i = 0; i < tagIslandIds.getInt("count"); i++) {
-                String id = tagIslandIds.getString(i + "");
+                String id = tagIslandIds.getString(String.valueOf(i));
                 CompoundTag islandTag = tagIslands.getCompound(id);
 
                 //Generate default NBT values

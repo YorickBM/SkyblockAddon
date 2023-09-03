@@ -13,6 +13,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import oshi.util.tuples.Pair;
 import yorickbm.skyblockaddon.SkyblockAddon;
@@ -35,13 +36,12 @@ public class PermissionsOverviewHandler extends ServerOnlyHandler<Pair<IslandDat
     public static void openMenu(Player player, Pair<IslandData, PermissionGroup> data) {
         MenuProvider fac = new MenuProvider() {
             @Override
-            public Component getDisplayName() {
+            public @NotNull Component getDisplayName() {
                 return new TextComponent(data.getB().getName() + " permissions");
             }
 
-            @Nullable
             @Override
-            public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
+            public @NotNull AbstractContainerMenu createMenu(int syncId, @NotNull Inventory inv, @NotNull Player player) {
                 return new PermissionsOverviewHandler(syncId, inv, data);
             }
         };
@@ -59,7 +59,7 @@ public class PermissionsOverviewHandler extends ServerOnlyHandler<Pair<IslandDat
         List<Permission> permissions = this.data.getB().getPermissions().stream().toList();
 
         for(int i = 0; i < this.inventory.getContainerSize(); i++) {
-            ItemStack item = null;
+            ItemStack item;
 
             if (i == 35) {
                 item = new ItemStack(Items.ARROW);
@@ -80,33 +80,35 @@ public class PermissionsOverviewHandler extends ServerOnlyHandler<Pair<IslandDat
                 item.setHoverName(new TextComponent(""));
             }
 
-            if(item != null && item instanceof ItemStack) setItem(i, 0, item);
+            setItem(i, 0, item);
         }
     }
 
     @Override
     protected boolean handleSlotClicked(ServerPlayer player, int index, Slot slot, int clickType) {
-        switch(index) {
-            case 35:
+        switch (index) {
+            case 35 -> {
                 player.closeContainer();
                 player.getServer().execute(() -> PermissionGroupOverviewHandler.openMenu(player, this.data.getA()));
                 ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
-            case 27:
-                if(this.data.getB().canBeRemoved()) {
+            }
+            case 27 -> {
+                if (this.data.getB().canBeRemoved()) {
                     player.closeContainer();
                     player.getServer().execute(() -> PermissionGroupMemberOverviewHandler.openMenu(player, this.data));
                     ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
-                } else if(this.data.getB().getName().equals("Members") || this.data.getB().getName().equals("Admin")) {
+                } else if (this.data.getB().getName().equals("Members") || this.data.getB().getName().equals("Admin")) {
                     player.closeContainer();
                     player.getServer().execute(() -> MemberOverviewHandler.openMenu(player, this.data.getA()));
                     ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 }
                 return true;
-            default:
-                if(index >= 10 && index <= 25 && index%9 != 0 && index%9 != 8) {
+            }
+            default -> {
+                if (index >= 10 && index <= 25 && index % 9 != 0 && index % 9 != 8) {
                     CompoundTag data = slot.getItem().getOrCreateTagElement("skyblockaddon");
-                    if(!data.contains("permission")) return false;
+                    if (!data.contains("permission")) return false;
 
                     Permission permission = this.data.getB().getPermission(Permissions.valueOf(data.getString("permission")));
                     permission.setState(!permission.getState());
@@ -118,6 +120,7 @@ public class PermissionsOverviewHandler extends ServerOnlyHandler<Pair<IslandDat
                     return true;
                 }
                 return false;
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-package yorickbm.skyblockaddon.commands.OP;
+package yorickbm.skyblockaddon.commands.op;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
@@ -12,8 +12,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
-import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
+import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
@@ -48,33 +48,31 @@ public class KickIslandMemberCommand {
             return Command.SINGLE_SUCCESS;
         }
 
-        if(!targets.stream().findFirst().isPresent()) {
+        if(targets.stream().findFirst().isEmpty()) {
             command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.admin.offline")));
             return Command.SINGLE_SUCCESS;
         }
 
         Player target = targets.stream().findFirst().get();
-        target.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> {
-            player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
-                IslandData island = (id == null) ? g.getIslandById(i.getIslandId()) : g.getIslandById(id.toString());
-                if(island == null) {
-                    command.sendFailure(new TextComponent(String.format(LanguageFile.getForKey("commands.island.admin.island.notfound"), (id == null) ? i.getIslandId() : id.toString())));
-                    return;
-                }
-                if(!island.isMember(target.getUUID())) {
-                    command.sendFailure(new TextComponent(String.format(LanguageFile.getForKey("commands.island.admin.island.notpart"), target.getGameProfile().getName(), (id == null) ? i.getIslandId() : id.toString())));
-                    return;
-                }
+        target.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
+            IslandData island = (id == null) ? g.getIslandById(i.getIslandId()) : g.getIslandById(id.toString());
+            if(island == null) {
+                command.sendFailure(new TextComponent(String.format(LanguageFile.getForKey("commands.island.admin.island.notfound"), (id == null) ? i.getIslandId() : id.toString())));
+                return;
+            }
+            if(!island.isMember(target.getUUID())) {
+                command.sendFailure(new TextComponent(String.format(LanguageFile.getForKey("commands.island.admin.island.notpart"), target.getGameProfile().getName(), (id == null) ? i.getIslandId() : id.toString())));
+                return;
+            }
 
-                island.removeIslandMember(target.getUUID());
-                i.setIsland("");
+            island.removeIslandMember(target.getUUID());
+            i.setIsland("");
 
-                command.sendSuccess(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.kick.success"), target.getGameProfile().getName(), (id == null) ? i.getIslandId() : id.toString()), ChatFormatting.GREEN), true);
+            command.sendSuccess(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.kick.success"), target.getGameProfile().getName(), (id == null) ? i.getIslandId() : id.toString()), ChatFormatting.GREEN), true);
 
-                target.teleportTo(((ServerLevel) player.getLevel()).getSharedSpawnPos().getX(), ((ServerLevel) player.getLevel()).getSharedSpawnPos().getY(),((ServerLevel) player.getLevel()).getSharedSpawnPos().getZ());
-                target.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("island.member.kick"), ChatFormatting.GREEN), target.getUUID());
-            });
-        });
+            target.teleportTo(((ServerLevel) player.getLevel()).getSharedSpawnPos().getX(), ((ServerLevel) player.getLevel()).getSharedSpawnPos().getY(),((ServerLevel) player.getLevel()).getSharedSpawnPos().getZ());
+            target.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("island.member.kick"), ChatFormatting.GREEN), target.getUUID());
+        }));
 
         return Command.SINGLE_SUCCESS;
     }

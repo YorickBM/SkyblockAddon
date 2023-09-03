@@ -13,8 +13,8 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
-import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
+import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
@@ -55,10 +55,6 @@ public class TeleportIslandCommand {
                 });
             } else {
                 Optional<ServerPlayer> p = targets.stream().findFirst();
-                if(p.isEmpty()) {
-                    command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.notfound")));
-                    return;
-                }
                 p.get().getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> {
                     if(!i.hasOne()) {
                         command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.hasnone").formatted(p.get().getGameProfile().getName())));

@@ -13,8 +13,8 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
-import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
+import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
@@ -38,45 +38,42 @@ public class InviteIslandCommand {
             return Command.SINGLE_SUCCESS;
         }
 
-        player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent( world -> {
-            player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(x -> {
-                if(!world.getIslandById(x.getIslandId()).isIslandAdmin(player.getUUID())) {
-                    player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.nopermission"), ChatFormatting.RED), player.getUUID());
+        player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent( world -> player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(x -> {
+            if(!world.getIslandById(x.getIslandId()).isIslandAdmin(player.getUUID())) {
+                player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.nopermission"), ChatFormatting.RED), player.getUUID());
+                return;
+            }
+
+            if(targets.stream().findFirst().isEmpty()) {
+                player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.offline"), ChatFormatting.RED), player.getUUID());
+                return;
+            }
+
+            ServerPlayer invitee = targets.stream().findFirst().get();
+            invitee.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(s -> {
+                if(s.hasOne()) {
+                    player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.hasone"), ChatFormatting.RED), player.getUUID());
                     return;
                 }
 
-                if(!targets.stream().findFirst().isPresent()) {
-                    player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.offline"), ChatFormatting.RED), player.getUUID());
-                    return;
-                }
-
-                ServerPlayer invitee = targets.stream().findFirst().get();
-                invitee.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(s -> {
-                    if(s.hasOne()) {
-                        player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.hasone"), ChatFormatting.RED), player.getUUID());
-                        return;
-                    }
-
-                    s.addInvite(x.getIslandId());
-                    invitee.sendMessage(
-                            ServerHelper.styledText(
-                                    LanguageFile.getForKey("commands.island.invite.invitation").formatted(player.getGameProfile().getName()),
-                                    Style.EMPTY
-                                            .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island join " + x.getIslandId()))
-                                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(LanguageFile.getForKey("chat.hover.run.invite")))),
-                                    ChatFormatting.GREEN
-                            ),
-                            invitee.getUUID()
-                    );
-                    player.sendMessage(
-                            ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.success").formatted(invitee.getGameProfile().getName()),
-                                    ChatFormatting.GREEN),
-                            player.getUUID()
-                    );
-                    return;
-                });
+                s.addInvite(x.getIslandId());
+                invitee.sendMessage(
+                        ServerHelper.styledText(
+                                LanguageFile.getForKey("commands.island.invite.invitation").formatted(player.getGameProfile().getName()),
+                                Style.EMPTY
+                                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island join " + x.getIslandId()))
+                                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(LanguageFile.getForKey("chat.hover.run.invite")))),
+                                ChatFormatting.GREEN
+                        ),
+                        invitee.getUUID()
+                );
+                player.sendMessage(
+                        ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.success").formatted(invitee.getGameProfile().getName()),
+                                ChatFormatting.GREEN),
+                        player.getUUID()
+                );
             });
-        });
+        }));
 
         return Command.SINGLE_SUCCESS;
     }

@@ -17,20 +17,18 @@ import java.util.function.Predicate;
 
 public class ModIntegrationHandler {
 
-    private static Map<Predicate<BlockEntity>, Permissions> entityBuilder = new HashMap<>();
-    private static Map<Predicate<Block>, Permissions> blockBuilder = new HashMap<>();
+    private static final Map<Predicate<BlockEntity>, Permissions> entityBuilder = new HashMap<>();
+    private static final Map<Predicate<Block>, Permissions> blockBuilder = new HashMap<>();
 
     public static Permissions getPermissionForBlockEntity(BlockEntity entity) {
         Optional<Permissions> found = entityBuilder.entrySet().stream().filter(e -> e.getKey().test(entity)).map(Map.Entry::getValue).findFirst();
-        if(found.isEmpty()) return null;
+        return found.orElse(null);
 
-        return found.get();
     }
     public static Permissions getPermissionForBlock(Block block) {
         Optional<Permissions> found = blockBuilder.entrySet().stream().filter(e -> e.getKey().test(block)).map(Map.Entry::getValue).findFirst();
-        if(found.isEmpty()) return null;
+        return found.orElse(null);
 
-        return found.get();
     }
 
     static {

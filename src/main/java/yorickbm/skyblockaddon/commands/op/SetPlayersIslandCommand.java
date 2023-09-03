@@ -1,4 +1,4 @@
-package yorickbm.skyblockaddon.commands.OP;
+package yorickbm.skyblockaddon.commands.op;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
@@ -11,8 +11,8 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
-import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
+import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
@@ -50,44 +50,42 @@ public class SetPlayersIslandCommand {
             return Command.SINGLE_SUCCESS;
         }
 
-        if(!targets.stream().findFirst().isPresent()) {
+        if(targets.stream().findFirst().isEmpty()) {
             command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.admin.offline")));
             return Command.SINGLE_SUCCESS;
         }
         Player target = targets.stream().findFirst().get();
-        target.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> {
-            player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
-                if(i.hasOne() && i.getIslandId().equals(id.toString())) {
-                    command.sendFailure(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.admin.setId.equal").formatted(target.getGameProfile().getName(), i.getIslandId())));
-                    return;
-                }
+        target.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
+            if(i.hasOne() && i.getIslandId().equals(id.toString())) {
+                command.sendFailure(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.admin.setId.equal").formatted(target.getGameProfile().getName(), i.getIslandId())));
+                return;
+            }
 
-                if(i.hasOne()) {
-                    player.sendMessage(ServerHelper.formattedText(
-                            LanguageFile.getForKey("commands.island.admin.setId.hasone").formatted(target.getGameProfile().getName(), i.getIslandId())
-                            , ChatFormatting.GREEN, ChatFormatting.ITALIC
-                    ), player.getUUID());
+            if(i.hasOne()) {
+                player.sendMessage(ServerHelper.formattedText(
+                        LanguageFile.getForKey("commands.island.admin.setId.hasone").formatted(target.getGameProfile().getName(), i.getIslandId())
+                        , ChatFormatting.GREEN, ChatFormatting.ITALIC
+                ), player.getUUID());
 
-                    g.getIslandById(i.getIslandId()).removeIslandMember(player.getUUID());
-                }
+                g.getIslandById(i.getIslandId()).removeIslandMember(player.getUUID());
+            }
 
-                g.getIslandById(id.toString()).addIslandMember(target.getUUID());
-                i.setIsland(id.toString());
+            g.getIslandById(id.toString()).addIslandMember(target.getUUID());
+            i.setIsland(id.toString());
 
-                command.sendSuccess(
-                    ServerHelper.formattedText(
-                        LanguageFile.getForKey("commands.island.admin.setId.success").formatted(target.getGameProfile().getName(), id.toString()),
-                        ChatFormatting.GREEN
-                    ),
-                    true
-                );
-                target.sendMessage(
-                    ServerHelper.formattedText(LanguageFile.getForKey("commands.island.admin.setId.teleport"), ChatFormatting.GREEN)
-                    ,target.getUUID());
+            command.sendSuccess(
+                ServerHelper.formattedText(
+                    LanguageFile.getForKey("commands.island.admin.setId.success").formatted(target.getGameProfile().getName(), id.toString()),
+                    ChatFormatting.GREEN
+                ),
+                true
+            );
+            target.sendMessage(
+                ServerHelper.formattedText(LanguageFile.getForKey("commands.island.admin.setId.teleport"), ChatFormatting.GREEN)
+                ,target.getUUID());
 
-                g.getIslandById(id.toString()).teleport(target);
-            });
-        });
+            g.getIslandById(id.toString()).teleport(target);
+        }));
 
         return Command.SINGLE_SUCCESS;
     }

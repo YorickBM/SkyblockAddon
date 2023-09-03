@@ -39,9 +39,7 @@ public class ServerHelper {
 
     public static Component combineComponents(Component... components) {
         MutableComponent comp = components[0].plainCopy().setStyle(components[0].getStyle());
-        Arrays.stream(Arrays.copyOfRange(components, 1, components.length)).toList().forEach(component -> {
-            comp.append(component);
-        });
+        Arrays.stream(Arrays.copyOfRange(components, 1, components.length)).toList().forEach(comp::append);
         return comp;
     }
 }

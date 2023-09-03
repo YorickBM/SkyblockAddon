@@ -18,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
@@ -45,13 +46,12 @@ public class BiomeOverviewHandler extends ServerOnlyHandler<IslandData> {
     public static void openMenu(Player player, IslandData data) {
         MenuProvider fac = new MenuProvider() {
             @Override
-            public Component getDisplayName() {
+            public @NotNull Component getDisplayName() {
                 return new TextComponent(data.getOwner(player.getServer()).getName() + "'s island");
             }
 
-            @Nullable
             @Override
-            public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
+            public @NotNull AbstractContainerMenu createMenu(int syncId, @NotNull Inventory inv, @NotNull Player player) {
                 return new BiomeOverviewHandler(syncId, inv, data);
             }
         };
@@ -78,7 +78,7 @@ public class BiomeOverviewHandler extends ServerOnlyHandler<IslandData> {
                 item.setHoverName(new TextComponent(""));
             }
 
-            if(item != null && item instanceof ItemStack) setItem(i, 0, item);
+            if(item != null) setItem(i, 0, item);
         }
     }
 
@@ -88,7 +88,7 @@ public class BiomeOverviewHandler extends ServerOnlyHandler<IslandData> {
         for(int i = 10; i <= 34; i++) {
             if(i%9 == 0 || i%9 == 8)  continue;
 
-            ItemStack item = null;
+            ItemStack item;
             if (biomeIndex < biomes.size()) {
                 Biome biome = biomes.get(biomeIndex);
 
@@ -104,7 +104,7 @@ public class BiomeOverviewHandler extends ServerOnlyHandler<IslandData> {
                 item = new ItemStack(Items.AIR);
             }
 
-            if(item != null && item instanceof ItemStack) setItem(i, 0, item);
+            setItem(i, 0, item);
         }
 
         ItemStack prev = new ItemStack(Items.RED_BANNER);
@@ -126,34 +126,32 @@ public class BiomeOverviewHandler extends ServerOnlyHandler<IslandData> {
 
     @Override
     protected boolean handleSlotClicked(ServerPlayer player, int index, Slot slot, int clickType) {
-        switch(index) {
-            case 44:
+        switch (index) {
+            case 44 -> {
                 player.closeContainer();
                 player.getServer().execute(() -> SettingsOverviewHandler.openMenu(player, this.data));
                 ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
-
-            case 39:
-            case 41:
+            }
+            case 39, 41 -> {
                 page = slot.getItem().getTagElement("skyblockaddon").getInt("page");
                 drawBiomes();
                 ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
-
-            default:
+            }
+            default -> {
                 player.closeContainer();
                 ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
-
                 String biomeRegisterName = slot.getItem().getTagElement("skyblockaddon").getString("biome");
                 Holder<Biome> biomeHolder = player.getLevel()
                         .registryAccess()
                         .registryOrThrow(Registry.BIOME_REGISTRY)
                         .getOrCreateHolder(ResourceKey.create(ForgeRegistries.BIOMES.getRegistryKey(), new ResourceLocation(biomeRegisterName)));
-
                 data.setBiome(player.getLevel(), biomeHolder, biomeRegisterName.replace("minecraft:", "").replace("_", " "));
                 player.sendMessage(
-                    ServerHelper.formattedText(LanguageFile.getForKey("commands.island.biome.changed").formatted(biomeRegisterName), ChatFormatting.GREEN),
-                    player.getUUID());
+                        ServerHelper.formattedText(LanguageFile.getForKey("commands.island.biome.changed").formatted(biomeRegisterName), ChatFormatting.GREEN),
+                        player.getUUID());
+            }
         }
 
         return false;

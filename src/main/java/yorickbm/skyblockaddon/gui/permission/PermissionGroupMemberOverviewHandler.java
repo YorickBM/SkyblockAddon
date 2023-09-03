@@ -13,6 +13,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.NotNull;
 import oshi.util.tuples.Pair;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
@@ -39,13 +40,12 @@ public class PermissionGroupMemberOverviewHandler extends ServerOnlyHandler<Pair
     public static void openMenu(Player player, Pair<IslandData, PermissionGroup> data) {
         MenuProvider fac = new MenuProvider() {
             @Override
-            public Component getDisplayName() {
+            public @NotNull Component getDisplayName() {
                 return new TextComponent(data.getB().getName() + " member(s)");
             }
 
-            @Nullable
             @Override
-            public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
+            public @NotNull AbstractContainerMenu createMenu(int syncId, @NotNull Inventory inv, @NotNull Player player) {
                 return new PermissionGroupMemberOverviewHandler(syncId, inv, data);
             }
         };
@@ -75,7 +75,7 @@ public class PermissionGroupMemberOverviewHandler extends ServerOnlyHandler<Pair
                 item.setHoverName(new TextComponent(""));
             }
 
-            if(item != null && item instanceof ItemStack) setItem(i, 0, item);
+            if(item != null) setItem(i, 0, item);
         }
     }
 
@@ -85,14 +85,14 @@ public class PermissionGroupMemberOverviewHandler extends ServerOnlyHandler<Pair
         for(int i = 10; i <= 34; i++) {
             if(i%9 == 0 || i%9 == 8)  continue;
 
-            ItemStack item = null;
+            ItemStack item;
             if (memberIndex < data.getB().getMembers().size()) {
                 UUID member = data.getB().getMembers().get(memberIndex);
                 String username = "Unknown";
 
                 try {
                     username = UsernameCache.getBlocking(member);
-                } catch(Exception ex) {}
+                } catch(Exception ignored) {}
 
                 item = new ItemStack(Items.PLAYER_HEAD);
                 item.setHoverName(ServerHelper.formattedText(username, ChatFormatting.AQUA, ChatFormatting.BOLD));
@@ -109,7 +109,7 @@ public class PermissionGroupMemberOverviewHandler extends ServerOnlyHandler<Pair
                 item = new ItemStack(Items.AIR);
             }
 
-            if(item != null && item instanceof ItemStack) setItem(i, 0, item);
+            setItem(i, 0, item);
         }
 
         ItemStack prev = new ItemStack(Items.RED_BANNER);
@@ -131,35 +131,34 @@ public class PermissionGroupMemberOverviewHandler extends ServerOnlyHandler<Pair
 
     @Override
     protected boolean handleSlotClicked(ServerPlayer player, int index, Slot slot, int clickType) {
-        switch(index) {
-            case 44:
+        switch (index) {
+            case 44 -> {
                 player.closeContainer();
                 player.getServer().execute(() -> PermissionsOverviewHandler.openMenu(player, this.data));
                 ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
-
-            case 36:
-                if(this.data.getB().canBeRemoved()) {
+            }
+            case 36 -> {
+                if (this.data.getB().canBeRemoved()) {
                     player.closeContainer();
                     player.getServer().execute(() -> PermissionGroupMemberInviteOverviewHandler.openMenu(player, this.data));
                     ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 }
                 return true;
-
-            case 39:
-            case 41:
+            }
+            case 39, 41 -> {
                 page = slot.getItem().getTagElement("skyblockaddon").getInt("page");
                 drawMembers();
                 ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
-
-            default:
-                if(!slot.getItem().getTagElement("skyblockaddon").contains("member")) return false;
+            }
+            default -> {
+                if (!slot.getItem().getTagElement("skyblockaddon").contains("member")) return false;
                 UUID member = UUID.fromString(slot.getItem().getTagElement("skyblockaddon").getString("member"));
-
                 ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
                 this.data.getB().removeMember(member);
                 drawMembers();
+            }
         }
 
         return false;

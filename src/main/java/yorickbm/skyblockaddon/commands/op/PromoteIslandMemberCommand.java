@@ -1,4 +1,4 @@
-package yorickbm.skyblockaddon.commands.OP;
+package yorickbm.skyblockaddon.commands.op;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.Command;
@@ -11,8 +11,8 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
-import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
+import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
@@ -43,36 +43,34 @@ public class PromoteIslandMemberCommand {
             return Command.SINGLE_SUCCESS;
         }
 
-        if(!targets.stream().findFirst().isPresent()) {
+        if(targets.stream().findFirst().isEmpty()) {
             command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.admin.offline")));
             return Command.SINGLE_SUCCESS;
         }
 
         Player target = targets.stream().findFirst().get();
-        target.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> {
-            player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
-                IslandData island = g.getIslandById(i.getIslandId());
-                if(island == null) {
-                    command.sendFailure(new TextComponent(String.format(LanguageFile.getForKey("commands.island.admin.island.notfound"), i.getIslandId())));
-                    return;
-                }
-                if(!island.isMember(target.getUUID())) {
-                    command.sendFailure(new TextComponent(String.format(LanguageFile.getForKey("commands.island.admin.island.notpart"), target.getGameProfile().getName())));
-                    return;
-                }
+        target.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
+            IslandData island = g.getIslandById(i.getIslandId());
+            if(island == null) {
+                command.sendFailure(new TextComponent(String.format(LanguageFile.getForKey("commands.island.admin.island.notfound"), i.getIslandId())));
+                return;
+            }
+            if(!island.isMember(target.getUUID())) {
+                command.sendFailure(new TextComponent(String.format(LanguageFile.getForKey("commands.island.admin.island.notpart"), target.getGameProfile().getName())));
+                return;
+            }
 
-                if(island.isIslandMember(target.getUUID())) {
-                    island.makeAdmin(target.getUUID());
-                    command.sendSuccess(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.promote.admin"), target.getGameProfile().getName(), i.getIslandId()), ChatFormatting.GREEN), true);
-                } else if(island.isIslandAdmin(target.getUUID())) {
-                    GameProfile oldOwner = island.getOwner(player.getServer()); //Collect old owner
-                    island.setOwner(target.getUUID()); //Update owner
-                    command.sendSuccess(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.promote.owner"), target.getGameProfile().getName(), i.getIslandId(), oldOwner.getName()), ChatFormatting.GREEN), true);
-                } else {
-                    command.sendFailure(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.promote.alreadyowner"), target.getGameProfile().getName(), i.getIslandId())));
-                }
-            });
-        });
+            if(island.isIslandMember(target.getUUID())) {
+                island.makeAdmin(target.getUUID());
+                command.sendSuccess(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.promote.admin"), target.getGameProfile().getName(), i.getIslandId()), ChatFormatting.GREEN), true);
+            } else if(island.isIslandAdmin(target.getUUID())) {
+                GameProfile oldOwner = island.getOwner(player.getServer()); //Collect old owner
+                island.setOwner(target.getUUID()); //Update owner
+                command.sendSuccess(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.promote.owner"), target.getGameProfile().getName(), i.getIslandId(), oldOwner.getName()), ChatFormatting.GREEN), true);
+            } else {
+                command.sendFailure(ServerHelper.formattedText(String.format(LanguageFile.getForKey("commands.island.admin.promote.alreadyowner"), target.getGameProfile().getName(), i.getIslandId())));
+            }
+        }));
 
         return Command.SINGLE_SUCCESS;
     }

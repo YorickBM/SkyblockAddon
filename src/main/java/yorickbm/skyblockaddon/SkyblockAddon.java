@@ -1,8 +1,6 @@
 package yorickbm.skyblockaddon;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -17,7 +15,7 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import yorickbm.skyblockaddon.capabilities.Providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.events.BlockEvents;
 import yorickbm.skyblockaddon.events.ModEvents;
 import yorickbm.skyblockaddon.events.PlayerEvents;
@@ -42,9 +40,6 @@ public class SkyblockAddon {
 
     public SkyblockAddon() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-
-        bus.addListener(this::setup);
-        bus.addListener(this::enqueueIMC);
         bus.addListener(this::processIMC);
 
         LanguageFile.init();
@@ -60,14 +55,6 @@ public class SkyblockAddon {
 
         //Register configs
         //ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SkyblockAddonLanguageConfig.SPEC, "skyblockaddon-language.toml");
-    }
-
-    private void setup(final FMLCommonSetupEvent event) {
-        //PRE INIT
-    }
-
-    private void enqueueIMC(final InterModEnqueueEvent event) {
-        // some example code to dispatch IMC to another mod
     }
 
     private void processIMC(final InterModProcessEvent event) {

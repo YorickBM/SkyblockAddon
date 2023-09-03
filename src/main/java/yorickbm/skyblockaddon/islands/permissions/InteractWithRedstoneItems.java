@@ -14,7 +14,7 @@ import java.util.List;
 
 public class InteractWithRedstoneItems extends Permission {
     private static final Logger LOGGER = LogManager.getLogger();
-    private List<Item> Allowed_Clickable_Blocks = new ArrayList<>();
+    private final List<Item> Allowed_Clickable_Blocks = new ArrayList<>();
 
     public InteractWithRedstoneItems(boolean state) {
         super(state);
@@ -27,9 +27,7 @@ public class InteractWithRedstoneItems extends Permission {
         if(state) return true; //User is allowed to Interact with Blocks, we can just skip unnecessary checks
 
         //Go through filters to know if we can just allow it.
-        if(Allowed_Clickable_Blocks.contains(itemClickedOn)) return true;
-
-        return false;
+        return Allowed_Clickable_Blocks.contains(itemClickedOn);
     }
 
     @Override

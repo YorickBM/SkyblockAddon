@@ -6,17 +6,18 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
 
 //TODO Prevent Extraction quick handle
 //TODO Prevent inventory sort
 public abstract class ServerOnlyHandler<T> extends AbstractContainerMenu {
 
-    protected SimpleContainer inventory;
-    protected T data;
+    protected final SimpleContainer inventory;
+    protected final T data;
 
     @Override
-    public boolean stillValid(Player player) {
+    public boolean stillValid(@NotNull Player player) {
         return true;
     }
 
@@ -34,12 +35,12 @@ public abstract class ServerOnlyHandler<T> extends AbstractContainerMenu {
             for (m = 0; m < 9; ++m) {
                 this.addSlot(new Slot(this.inventory, m + n * 9, 8 + m * 18, 18 + n * 18){
                     @Override
-                    public boolean mayPlace(ItemStack stack) {
+                    public boolean mayPlace(@NotNull ItemStack stack) {
                         return false;
                     }
 
                     @Override
-                    public boolean mayPickup(Player playerEntity) {
+                    public boolean mayPickup(@NotNull Player playerEntity) {
                         return false;
                     }
                 });
@@ -51,12 +52,12 @@ public abstract class ServerOnlyHandler<T> extends AbstractContainerMenu {
             for (m = 0; m < 9; ++m) {
                 addSlot(new Slot(playerInventory,  m + n * 9 + 9, 8 + m * 18, 103 + n * 18 + i) {
                     @Override
-                    public boolean mayPlace(ItemStack stack) {
+                    public boolean mayPlace(@NotNull ItemStack stack) {
                         return false;
                     }
 
                     @Override
-                    public boolean mayPickup(Player playerEntity) {
+                    public boolean mayPickup(@NotNull Player playerEntity) {
                         return false;
                     }
                 });
@@ -67,12 +68,12 @@ public abstract class ServerOnlyHandler<T> extends AbstractContainerMenu {
         for (n = 0; n < 9; ++n) {
             this.addSlot(new Slot(playerInventory, n, 8 + n * 18, 161 + i) {
                 @Override
-                public boolean mayPlace(ItemStack stack) {
+                public boolean mayPlace(@NotNull ItemStack stack) {
                     return false;
                 }
 
                 @Override
-                public boolean mayPickup(Player playerEntity) {
+                public boolean mayPickup(@NotNull Player playerEntity) {
                     return false;
                 }
             });
@@ -119,7 +120,7 @@ public abstract class ServerOnlyHandler<T> extends AbstractContainerMenu {
      * @param playerEntity PlayerEntity whom clicked
      */
     @Override
-    public void clicked(int i, int j, ClickType actionType, Player playerEntity) {
+    public void clicked(int i, int j, @NotNull ClickType actionType, @NotNull Player playerEntity) {
         if (i < 0)
             return;
 
@@ -133,12 +134,12 @@ public abstract class ServerOnlyHandler<T> extends AbstractContainerMenu {
 
     /**
      * Action taken when quick move is used on stack
-     * @param player
-     * @param index
-     * @return
+     * @param player Player to handel on
+     * @param index Slot index
+     * @return Itemstack
      */
     @Override
-    public ItemStack quickMoveStack(Player player, int index) {
+    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
         if (index < 0)
             return ItemStack.EMPTY;
 
@@ -169,7 +170,7 @@ public abstract class ServerOnlyHandler<T> extends AbstractContainerMenu {
      * @param index - Index of item
      * @param slot - Slot which is clicked
      * @param clickType - 0 for left click, 1 for right click
-     * @return
+     * @return if was handled successfully
      */
     protected abstract boolean handleSlotClicked(ServerPlayer player, int index, Slot slot, int clickType);
 }

@@ -15,9 +15,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.SkyblockAddon;
-import yorickbm.skyblockaddon.capabilities.Providers.PlayerIslandProvider;
+import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.LanguageFile;
@@ -36,13 +37,12 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
     public static void openMenu(Player player, IslandData data) {
         MenuProvider fac = new MenuProvider() {
             @Override
-            public Component getDisplayName() {
+            public @NotNull Component getDisplayName() {
                 return new TextComponent(data.getOwner(player.getServer()).getName() + "'s island");
             }
 
-            @Nullable
             @Override
-            public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
+            public @NotNull AbstractContainerMenu createMenu(int syncId, @NotNull Inventory inv, @NotNull Player player) {
                 return new MemberOverviewHandler(syncId, inv, data);
             }
         };
@@ -60,7 +60,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
         List<UUID> members = this.data.getMembers();
 
         for(int i = 0; i < this.inventory.getContainerSize(); i++) {
-            ItemStack item = null;
+            ItemStack item;
 
             if (i == 35) {
                 item = new ItemStack(Items.ARROW);
@@ -142,46 +142,42 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                 item.setHoverName(new TextComponent(""));
             }
 
-            if(item != null && item instanceof ItemStack) setItem(i, 0, item);
+            setItem(i, 0, item);
         }
     }
 
     @Override
     protected boolean handleSlotClicked(ServerPlayer player, int index, Slot slot, int clickType) {
-        switch(index) {
-            case 35:
+        switch (index) {
+            case 35 -> {
                 player.closeContainer();
                 player.getServer().execute(() -> IslandOverviewHandler.openMenu(player, this.data));
                 ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
-            case 31:
+            }
+            case 31 -> {
                 player.closeContainer();
                 player.getServer().execute(() -> InviteOverviewHandler.openMenu(player, this.data));
                 ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
-            default:
-                if(!this.data.isIslandAdmin(player.getUUID())) return false;
+            }
+            default -> {
+                if (!this.data.isIslandAdmin(player.getUUID())) return false;
                 UUID member = UUID.fromString(slot.getItem().getTagElement("skyblockaddon").getString("member"));
-
-                if(!this.data.isIslandAdmin(member))
-                    switch(clickType) {
-                        case 1:
+                if (!this.data.isIslandAdmin(member))
+                    switch (clickType) {
+                        case 1 -> {
                             this.data.removeIslandMember(member);
                             Player member_player = player.getServer().getPlayerList().getPlayer(member);
-                            if(member_player != null) {
+                            if (member_player != null) {
                                 member_player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
                                     island.setIsland("");
-                                    if (member_player != null) {
-                                        member_player.teleportTo(player.getLevel().getSharedSpawnPos().getX(), player.getLevel().getSharedSpawnPos().getY(), player.getLevel().getSharedSpawnPos().getZ());
-                                        member_player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("island.member.kick"), ChatFormatting.GREEN), member);
-                                    }
+                                    member_player.teleportTo(player.getLevel().getSharedSpawnPos().getX(), player.getLevel().getSharedSpawnPos().getY(), player.getLevel().getSharedSpawnPos().getZ());
+                                    member_player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("island.member.kick"), ChatFormatting.GREEN), member);
                                 });
                             }
-                            break;
-
-                        case 0:
-                            this.data.makeAdmin(member);
-                            break;
+                        }
+                        case 0 -> this.data.makeAdmin(member);
                     }
                 else
                     switch (clickType) {
@@ -191,10 +187,10 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                         case 0:
                             break;
                     }
-
                 ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
                 this.fillInventoryWith(player);
                 return true;
+            }
         }
     }
 }

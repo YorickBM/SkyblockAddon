@@ -13,9 +13,7 @@ import yorickbm.skyblockaddon.util.ServerHelper;
 
 public class SpawnCommand {
     public SpawnCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("spawn").executes((command) -> {
-            return execute(command.getSource());
-        }));
+        dispatcher.register(Commands.literal("spawn").executes((command) -> execute(command.getSource())));
     }
 
     private int execute(CommandSourceStack command) {
