@@ -15,6 +15,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.IslandGenerator;
@@ -25,6 +26,7 @@ import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class TeleportIslandOverviewHandler extends ServerOnlyHandler<IslandGenerator> {
@@ -50,13 +52,13 @@ public class TeleportIslandOverviewHandler extends ServerOnlyHandler<IslandGener
     public static void openMenu(Player player, PlayerIsland data) {
         MenuProvider fac = new MenuProvider() {
             @Override
-            public Component getDisplayName() {
+            public @NotNull Component getDisplayName() {
                 return new TextComponent("Public Islands");
             }
 
             @Nullable
             @Override
-            public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
+            public AbstractContainerMenu createMenu(int syncId, @NotNull Inventory inv, Player player) {
                 AtomicReference<TeleportIslandOverviewHandler> handler = new AtomicReference<>(null);
                 player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> handler.set(new TeleportIslandOverviewHandler(syncId, inv, g, data)));
 
@@ -86,7 +88,7 @@ public class TeleportIslandOverviewHandler extends ServerOnlyHandler<IslandGener
                 item.setHoverName(new TextComponent(""));
             }
 
-            if(item != null && item instanceof ItemStack) setItem(i, 0, item);
+            if(item != null) setItem(i, 0, item);
         }
     }
 
@@ -96,7 +98,7 @@ public class TeleportIslandOverviewHandler extends ServerOnlyHandler<IslandGener
         for(int i = 10; i <= 34; i++) {
             if(i%9 == 0 || i%9 == 8)  continue;
 
-            ItemStack item = null;
+            ItemStack item;
             if (islandIndex < islands.size()) {
                 IslandData island = islands.get(islandIndex);
                 GameProfile owner = island.getOwner(this.server);
@@ -114,7 +116,7 @@ public class TeleportIslandOverviewHandler extends ServerOnlyHandler<IslandGener
                 item = new ItemStack(Items.AIR);
             }
 
-            if(item != null && item instanceof ItemStack) setItem(i, 0, item);
+            setItem(i, 0, item);
         }
 
         ItemStack prev = new ItemStack(Items.RED_BANNER);
@@ -136,29 +138,28 @@ public class TeleportIslandOverviewHandler extends ServerOnlyHandler<IslandGener
 
     @Override
     protected boolean handleSlotClicked(ServerPlayer player, int index, Slot slot, int clickType) {
-        switch(index) {
-            case 44:
+        switch (index) {
+            case 44 -> {
                 player.closeContainer();
-                player.getServer().execute(() -> IslandTravelOverviewHandler.openMenu(player, data2));
+                Objects.requireNonNull(player.getServer()).execute(() -> IslandTravelOverviewHandler.openMenu(player, data2));
                 ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
-
-            case 39:
-            case 41:
-                if(!slot.getItem().getOrCreateTagElement("skyblockaddon").contains("page")) return false; //Its not a page item;
-
-                page = slot.getItem().getTagElement("skyblockaddon").getInt("page");
+            }
+            case 39, 41 -> {
+                if (!slot.getItem().getOrCreateTagElement("skyblockaddon").contains("page"))
+                    return false; //It's not a page item;
+                page = Objects.requireNonNull(slot.getItem().getTagElement("skyblockaddon")).getInt("page");
                 drawIslands();
                 ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
-
-            default:
-                if(slot.getItem().isEmpty()) return false; //Empty slot clicked
+            }
+            default -> {
+                if (slot.getItem().isEmpty()) return false; //Empty slot clicked
                 player.closeContainer();
-
                 ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
-                String islandId = slot.getItem().getTagElement("skyblockaddon").getString("islandid");
+                String islandId = Objects.requireNonNull(slot.getItem().getTagElement("skyblockaddon")).getString("islandid");
                 this.data.getIslandById(islandId).teleport(player);
+            }
         }
 
         return false;

@@ -103,17 +103,4 @@ public class SkyblockAddon {
         return island.get(); //Not any island
     }
 
-    public static IslandData PlayerPartOfIslandByPos(BlockPos pos, ServerLevel level) {
-        AtomicReference<IslandData> island = new AtomicReference<>(null);
-
-        level.getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(ig -> {
-            String islandIdCoords = ig.getIslandIdByLocation(pos);
-            if(islandIdCoords == null || islandIdCoords.equals("")) return; //Not on an island at coords so we ignore
-
-            IslandData data = ig.getIslandById(islandIdCoords);
-            island.set(data);
-        });
-
-        return island.get();
-    }
 }
