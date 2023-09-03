@@ -52,14 +52,6 @@ public class BlockEvents {
 //    }
 
     @SubscribeEvent
-    public void onEntityPlace(LivingEntityUseItemEvent event) {
-        System.out.println(event.getItem().getItem());
-        if(event.getItem().getItem() instanceof ItemFrameItem || event.getItem().getItem() instanceof ArmorStandItem) {
-            event.getEntity().sendMessage(new TextComponent("You placing an item frame or armorstand?"), event.getEntity().getUUID());
-        }
-    }
-
-    @SubscribeEvent
     public void onBlockBreak(BlockEvent.BreakEvent event) {
         if(!(event.getPlayer() instanceof ServerPlayer player) || event.getPlayer() instanceof FakePlayer) return; //Allow fake players
         if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
