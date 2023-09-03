@@ -18,6 +18,35 @@ import yorickbm.skyblockaddon.util.ServerHelper;
  */
 public class BlockEvents {
 
+//    @SubscribeEvent
+//    public void onPortalIgnition(BlockEvent.PortalSpawnEvent event) {
+//        ServerLevel level = (ServerLevel) event.getWorld();
+//        if(level.dimension() == Level.OVERWORLD) return;
+//        ServerLevel overworld = event.getWorld().getServer().overworld();
+//
+//        int x = event.getPos().getX() * 8;
+//        int y = event.getPos().getY();
+//        int z = event.getPos().getZ() * 8;
+//
+//        BlockPos overWorldPos = new BlockPos(x, y, z);
+//        Player player = level.getNearestPlayer(TargetingConditions.DEFAULT, event.getPos().getX(), y, event.getPos().getZ());
+//        IslandData island = SkyblockAddon.PlayerPartOfIslandByPos(overWorldPos, overworld);
+//
+//        System.out.println(level.dimension());
+//        System.out.println(x + ";" + y + ";" + z);
+//        assert player != null;
+//        System.out.println(player.getDisplayName());
+//        System.out.println(island != null);
+//        if(island != null) System.out.println(island.getGroupForPlayer(player.getUUID()).getName());
+//
+//        if(island == null) return; //No island found
+//
+//        if(!island.hasMember(player.getUUID()) && !island.isOwner(player.getUUID())) {
+//            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+//            event.setCanceled(true);
+//        }
+//    }
+
     @SubscribeEvent
     public void onBlockBreak(BlockEvent.BreakEvent event) {
         if(!(event.getPlayer() instanceof ServerPlayer player) || event.getPlayer() instanceof FakePlayer) return; //Allow fake players

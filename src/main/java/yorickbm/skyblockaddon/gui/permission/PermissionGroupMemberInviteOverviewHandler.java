@@ -40,7 +40,6 @@ public class PermissionGroupMemberInviteOverviewHandler extends ServerOnlyHandle
             @Nullable
             @Override
             public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
-                SkyblockAddon.islandUIIds.add(syncId);
                 return new PermissionGroupMemberInviteOverviewHandler(syncId, inv, data);
             }
         };

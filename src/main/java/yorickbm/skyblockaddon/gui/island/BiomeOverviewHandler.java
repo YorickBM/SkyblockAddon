@@ -52,7 +52,6 @@ public class BiomeOverviewHandler extends ServerOnlyHandler<IslandData> {
             @Nullable
             @Override
             public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
-                SkyblockAddon.islandUIIds.add(syncId);
                 return new BiomeOverviewHandler(syncId, inv, data);
             }
         };

@@ -178,6 +178,7 @@ dependencies {
     // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
     compileOnly fg.deobf("curse.maven:quark-243121:3840125")
     compileOnly fg.deobf("curse.maven:supplementaries-412082:4548315")
+    compileOnly fg.deobf("curse.maven:ColossalChests-237875:4502141")
     compileOnly fileTree(dir: 'libs', include: ['*.jar'])
 
     // For more info...

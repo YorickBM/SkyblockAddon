@@ -9,7 +9,6 @@ import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -17,7 +16,6 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
@@ -241,10 +239,6 @@ public class PlayerEvents {
         BlockEntity blockEntity = player.getLevel().getBlockEntity(posClicked); //Get block entity
         Block block = player.getLevel().getBlockState(posClicked).getBlock(); //Get block
 
-        System.out.println(ModIntegrationHandler.getPermissionForBlockEntity(blockEntity) != null);
-        System.out.println(ModIntegrationHandler.getPermissionForBlock(block) != null);
-        System.out.println(blockEntity);
-
         Permissions permission = blockEntity != null ? ModIntegrationHandler.getPermissionForBlockEntity(blockEntity) : ModIntegrationHandler.getPermissionForBlock(block);
         if(permission == null) return false; //Block type is not blocked by our permissions to be clicked on
 
@@ -271,23 +265,6 @@ public class PlayerEvents {
             return true;
         }
         return false;
-    }
-
-    @SubscribeEvent
-    public void onContainerClose(PlayerContainerEvent.Close event) {
-        if(!SkyblockAddon.islandUIIds.contains(event.getContainer().containerId)) return; //It's not an island GUI so we ignore event
-        SkyblockAddon.playersInGUI.remove(event.getPlayer());
-
-        //Remove all items containing skyblockaddon tag
-        event.getPlayer().inventoryMenu.slots.forEach(slot -> {
-            if(slot.getItem().getTagElement(SkyblockAddon.MOD_ID) != null) event.getPlayer().inventoryMenu.setItem(slot.index, 0, ItemStack.EMPTY);
-        });
-    }
-
-    @SubscribeEvent
-    public void onContainerOpen(PlayerContainerEvent.Open event) {
-        if(!SkyblockAddon.islandUIIds.contains(event.getContainer().containerId)) return; //It's not an island GUI so we ignore event
-        SkyblockAddon.playersInGUI.add(event.getPlayer());
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)

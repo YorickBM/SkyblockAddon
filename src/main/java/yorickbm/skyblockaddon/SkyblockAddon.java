@@ -1,8 +1,9 @@
 package yorickbm.skyblockaddon;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -24,8 +25,6 @@ import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -40,9 +39,6 @@ public class SkyblockAddon {
 
     public static final float UI_SOUND_VOL = 0.5f;
     public static final float EFFECT_SOUND_VOL = 0.2f;
-
-    public static List<Integer> islandUIIds = new ArrayList<>();
-    public static List<Player> playersInGUI = new ArrayList<>();
 
     public SkyblockAddon() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -64,10 +60,6 @@ public class SkyblockAddon {
 
         //Register configs
         //ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SkyblockAddonLanguageConfig.SPEC, "skyblockaddon-language.toml");
-    }
-
-    public static boolean isScreenBlocked(Player player) {
-        return playersInGUI.contains(player);
     }
 
     private void setup(final FMLCommonSetupEvent event) {
@@ -109,5 +101,19 @@ public class SkyblockAddon {
         });
 
         return island.get(); //Not any island
+    }
+
+    public static IslandData PlayerPartOfIslandByPos(BlockPos pos, ServerLevel level) {
+        AtomicReference<IslandData> island = new AtomicReference<>(null);
+
+        level.getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(ig -> {
+            String islandIdCoords = ig.getIslandIdByLocation(pos);
+            if(islandIdCoords == null || islandIdCoords.equals("")) return; //Not on an island at coords so we ignore
+
+            IslandData data = ig.getIslandById(islandIdCoords);
+            island.set(data);
+        });
+
+        return island.get();
     }
 }

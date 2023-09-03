@@ -40,7 +40,6 @@ public class InviteOverviewHandler extends ServerOnlyHandler<IslandData> {
             @Nullable
             @Override
             public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
-                SkyblockAddon.islandUIIds.add(syncId);
                 return new InviteOverviewHandler(syncId, inv, data);
             }
         };

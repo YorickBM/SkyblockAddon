@@ -36,7 +36,6 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
             @Nullable
             @Override
             public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
-                SkyblockAddon.islandUIIds.add(syncId);
                 return new SettingsOverviewHandler(syncId, inv, data);
             }
         };

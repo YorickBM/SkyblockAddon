@@ -6,13 +6,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import vazkii.quark.base.handler.InventoryTransferHandler;
-import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 
 @Mixin(value = {InventoryTransferHandler.class}, remap = false)
 public class QuarkScreenMixinConfigMixin {
     @Inject(method = {"transfer"}, at = {@At("HEAD")}, cancellable = true)
     private static void transfer(Player player, boolean isRestock, boolean smart, CallbackInfo ci) {
-        if (SkyblockAddon.isScreenBlocked(player))
+
+        if (player.containerMenu instanceof ServerOnlyHandler<?>)
             ci.cancel();
     }
 }

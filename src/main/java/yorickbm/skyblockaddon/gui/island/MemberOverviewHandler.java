@@ -43,7 +43,6 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
             @Nullable
             @Override
             public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
-                SkyblockAddon.islandUIIds.add(syncId);
                 return new MemberOverviewHandler(syncId, inv, data);
             }
         };

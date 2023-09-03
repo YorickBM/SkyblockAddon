@@ -59,7 +59,6 @@ public class TeleportIslandOverviewHandler extends ServerOnlyHandler<IslandGener
             public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
                 AtomicReference<TeleportIslandOverviewHandler> handler = new AtomicReference<>(null);
                 player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> handler.set(new TeleportIslandOverviewHandler(syncId, inv, g, data)));
-                if(handler.get() != null) SkyblockAddon.islandUIIds.add(syncId);
 
                 return handler.get();
             }

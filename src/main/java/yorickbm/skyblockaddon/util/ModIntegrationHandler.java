@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.EnchantmentTableBlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
+import org.cyclops.colossalchests.block.ChestWall;
 import yorickbm.skyblockaddon.islands.Permissions;
 
 import java.util.HashMap;
@@ -60,6 +61,10 @@ public class ModIntegrationHandler {
                 || e instanceof RepeaterBlock
                 || e instanceof ComparatorBlock)
                 , Permissions.InteractWithRedstoneItems);
+
+        blockBuilder.put(e -> e != null && (
+                e instanceof ChestWall
+                ), Permissions.InteractWithBlocks);
     }
 
 }

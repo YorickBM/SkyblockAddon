@@ -34,7 +34,6 @@ public class IslandTravelOverviewHandler extends ServerOnlyHandler<PlayerIsland>
             @Nullable
             @Override
             public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
-                SkyblockAddon.islandUIIds.add(syncId);
                 return new IslandTravelOverviewHandler(syncId, inv, data);
             }
         };
