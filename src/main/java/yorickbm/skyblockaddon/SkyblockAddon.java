@@ -1,7 +1,9 @@
 package yorickbm.skyblockaddon;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -9,8 +11,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.VersionChecker;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
@@ -33,7 +33,7 @@ public class SkyblockAddon {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "skyblockaddon";
-    public static final String VERSION = "5.1";
+    public static final String VERSION = "5.2";
 
     public static final float UI_SOUND_VOL = 0.5f;
     public static final float EFFECT_SOUND_VOL = 0.2f;
@@ -87,7 +87,21 @@ public class SkyblockAddon {
             island.set(data);
         });
 
-        return island.get(); //Not any island
+        return island.get();
+    }
+
+    public static IslandData GetIslandByBlockPos(BlockPos location, Entity player) {
+        AtomicReference<IslandData> island = new AtomicReference<>(null);
+
+        player.getServer().getLevel(Level.OVERWORLD).getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(islandGenerator -> {
+            String islandIdOn = islandGenerator.getIslandIdByLocation(new Vec3i(location.getX(), 121, location.getZ()));
+            if(islandIdOn == null || islandIdOn.equals("")) return; //Not on an island so we do not affect permission
+
+            IslandData data = islandGenerator.getIslandById(islandIdOn);
+            island.set(data);
+        });
+
+        return island.get();
     }
 
 }

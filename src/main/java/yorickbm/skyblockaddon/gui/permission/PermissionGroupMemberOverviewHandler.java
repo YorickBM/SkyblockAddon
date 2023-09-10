@@ -22,7 +22,6 @@ import yorickbm.skyblockaddon.islands.PermissionGroup;
 import yorickbm.skyblockaddon.util.ServerHelper;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
-import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class PermissionGroupMemberOverviewHandler extends ServerOnlyHandler<Pair<IslandData, PermissionGroup>> {

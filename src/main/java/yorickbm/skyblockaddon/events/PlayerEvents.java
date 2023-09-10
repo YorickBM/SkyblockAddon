@@ -272,7 +272,7 @@ public class PlayerEvents {
         if(event.getSource().equals(DamageSource.OUT_OF_WORLD)) {
             Entity entity = event.getEntity();
             if(entity instanceof ServerPlayer || entity instanceof DollMiniMeEntity || entity instanceof SpiritEntity) {
-                if(entity.getLevel().dimension() != Level.OVERWORLD) return; //Ignore overworld events
+                if(entity.getLevel().dimension() != Level.OVERWORLD) return; //Ignore non overworld events
                 IslandData data = SkyblockAddon.CheckOnIsland(entity);
                 if(data != null) {
                     event.setCanceled(true); //Cancel damage
