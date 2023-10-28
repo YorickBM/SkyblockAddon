@@ -22,12 +22,14 @@ public class InteractWithBlocks extends Permission {
 
     @Override
     public boolean isAllowed(Object ...data) {
-        Item itemClickedOn = (Item) data[0];
-
         if(state) return true; //User is allowed to Interact with Blocks, we can just skip unnecessary checks
 
-        //Go through filters to know if we can just allow it.
-        return Allowed_Clickable_Blocks.contains(itemClickedOn);
+        if(data.length > 0 && data[0] != null) {
+            //Go through filters to know if we can just allow it.
+            Item itemClickedOn = (Item) data[0];
+            return Allowed_Clickable_Blocks.contains(itemClickedOn);
+        }
+        return false; //It's not allowed
     }
 
     @Override
@@ -46,7 +48,7 @@ public class InteractWithBlocks extends Permission {
             ServerHelper.formattedText(LanguageFile.getForKey("guis.permissions.OpenBlocks.desc"), ChatFormatting.GRAY),
             ServerHelper.formattedText("\n\n", ChatFormatting.ITALIC),
             ServerHelper.combineComponents(
-                ServerHelper.formattedText("\u2666 Allowed: ", ChatFormatting.GRAY),
+                ServerHelper.formattedText("♦ Allowed: ", ChatFormatting.GRAY),
                 ServerHelper.formattedText((state ? "TRUE" : "FALSE"), (state ? ChatFormatting.GREEN : ChatFormatting.RED))
             )
         };
