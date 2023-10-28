@@ -6,6 +6,7 @@ import net.minecraft.world.WorldlyContainerHolder;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.EnchantmentTableBlockEntity;
+import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
 import org.cyclops.colossalchests.block.ChestWall;
 import yorickbm.skyblockaddon.islands.Permissions;
@@ -37,11 +38,12 @@ public class ModIntegrationHandler {
                 || (e instanceof MenuProvider)
                 || (e != null && (e.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).isPresent()))
                 || e instanceof EnchantmentTableBlockEntity
+                || e instanceof SignBlockEntity
                 , Permissions.InteractWithBlocks);
 
         blockBuilder.put(e -> e instanceof AnvilBlock
                 || e instanceof RespawnAnchorBlock
-                || e instanceof SmithingTableBlock
+                //|| e instanceof SmithingTableBlock
                 || e instanceof GrindstoneBlock
                 || e instanceof StonecutterBlock
                 || e instanceof CartographyTableBlock
@@ -52,17 +54,16 @@ public class ModIntegrationHandler {
                 || e instanceof MenuProvider
                 , Permissions.InteractWithBlocks);
 
-        blockBuilder.put(e -> e != null &&
-                (e instanceof BasePressurePlateBlock
-                || e instanceof LeverBlock
-                || e instanceof ButtonBlock
-                || e instanceof RepeaterBlock
-                || e instanceof ComparatorBlock)
+        blockBuilder.put(e -> (e instanceof BasePressurePlateBlock
+                        || e instanceof LeverBlock
+                        || e instanceof ButtonBlock
+                        || e instanceof RepeaterBlock
+                        || e instanceof ComparatorBlock)
                 , Permissions.InteractWithRedstoneItems);
 
-        blockBuilder.put(e -> e != null && (
+        blockBuilder.put(e -> (
                 e instanceof ChestWall
-                ), Permissions.InteractWithBlocks);
+        ), Permissions.InteractWithBlocks);
     }
 
 }

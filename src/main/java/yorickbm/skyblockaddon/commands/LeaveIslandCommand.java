@@ -14,6 +14,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.capabilities.PlayerIsland;
 import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
@@ -22,6 +24,7 @@ import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 public class LeaveIslandCommand {
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public LeaveIslandCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island").then(Commands.literal("leave").executes((command) -> { //.then(Commands.argument("name", MessageArgument.message()))
@@ -29,6 +32,7 @@ public class LeaveIslandCommand {
         })));
     }
 
+    @SuppressWarnings("SameReturnValue")
     private int execute(CommandSourceStack command) { //, Component islandName
 
         if(!(command.getEntity() instanceof Player player)) { //Executed by non-player
@@ -70,6 +74,8 @@ public class LeaveIslandCommand {
 
         player.teleportTo(level.getSharedSpawnPos().getX(), level.getSharedSpawnPos().getY(), level.getSharedSpawnPos().getZ());
         ServerHelper.playSongToPlayer((ServerPlayer) player, SoundEvents.CHORUS_FRUIT_TELEPORT, 0.4f, 1f);
+
+        LOGGER.info(player.getDisplayName().getContents() + " ("+player.getStringUUID()+") has left island their island '"+island.getPreviousIsland()+"'.");
 
         island.addInvite(island.getPreviousIsland());
         player.sendMessage(

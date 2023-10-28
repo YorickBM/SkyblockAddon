@@ -1,5 +1,6 @@
 package yorickbm.skyblockaddon.events;
 
+import de.maxhenkel.camera.entities.ImageEntity;
 import iskallia.vault.entity.entity.DollMiniMeEntity;
 import iskallia.vault.entity.entity.SpiritEntity;
 import net.mehvahdjukaar.supplementaries.common.items.SlingshotItem;
@@ -41,7 +42,7 @@ import yorickbm.skyblockaddon.util.ServerHelper;
 import java.util.Random;
 
 /**
- * Event Source: https://forge.gemwire.uk/wiki/Events
+ * Event Source: <a href="https://forge.gemwire.uk/wiki/Events">...</a>
  * Right CLick -> Use/Place Block
  * Left Click -> Attack/Destroy Block
  */
@@ -201,6 +202,21 @@ public class PlayerEvents {
             player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
+
+        if(ModList.get().isLoaded("camera")) {
+            if(event.getTarget() instanceof ImageEntity) {
+                IslandData island = SkyblockAddon.CheckOnIsland(player);
+                if (island == null)
+                    return; //Ignore events not on an island
+                if (island.getPermission(Permissions.InteractWithBlocks, player.getUUID()).isAllowed())
+                    return; //Player is allowed to interact with blocks
+
+                player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+                event.setCanceled(true);
+            }
+        }
+
+        ///DEBUG: player.sendMessage(new TextComponent(event.getTarget().getClass().getName()), player.getUUID());
     }
 
     @SubscribeEvent

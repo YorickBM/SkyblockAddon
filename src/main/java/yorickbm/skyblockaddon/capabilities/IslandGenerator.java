@@ -4,12 +4,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -149,10 +145,7 @@ public class IslandGenerator {
      * @throws IOException Exception to be thrown if resource not found
      */
     public Vec3i genIsland(ServerLevel worldServer) throws IOException {
-
-        MinecraftServer server = worldServer.getServer();
-        Resource rs = server.getResourceManager().getResource(new ResourceLocation(SkyblockAddon.MOD_ID, "structures/island.nbt"));
-        CompoundTag nbt = NbtIo.readCompressed(rs.getInputStream());
+        CompoundTag nbt = SkyblockAddon.getIslandNBT(worldServer.getServer());
 
         ListTag paletteNbt = nbt.getList("palette", 10);
         ListTag blocksNbt = nbt.getList("blocks", 10);

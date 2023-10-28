@@ -2,6 +2,11 @@ package yorickbm.skyblockaddon;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
@@ -9,13 +14,18 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.VersionChecker;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.fml.loading.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.events.BlockEvents;
 import yorickbm.skyblockaddon.events.ModEvents;
 import yorickbm.skyblockaddon.events.PlayerEvents;
@@ -23,6 +33,9 @@ import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -37,6 +50,8 @@ public class SkyblockAddon {
 
     public static final float UI_SOUND_VOL = 0.5f;
     public static final float EFFECT_SOUND_VOL = 0.2f;
+
+    private static CompoundTag IslandNBTData = null;
 
     public SkyblockAddon() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -54,7 +69,26 @@ public class SkyblockAddon {
         UsernameCache.initCache(120);
 
         //Register configs
-        //ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SkyblockAddonLanguageConfig.SPEC, "skyblockaddon-language.toml");
+        FileUtils.getOrCreateDirectory(FMLPaths.CONFIGDIR.get().resolve(MOD_ID), MOD_ID);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, SkyblockAddonLanguageConfig.SPEC, MOD_ID + "/language.toml");
+    }
+
+    public static CompoundTag getIslandNBT(MinecraftServer server) {
+        if(IslandNBTData == null) {
+            try {
+                File islandFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/island.nbt");
+                IslandNBTData = NbtIo.readCompressed(islandFile);
+            } catch (IOException e) {
+                LOGGER.error("Could not load external island.nbt file, using mod's internal island.nbt file.");
+                try {
+                    Resource rs = server.getResourceManager().getResource(new ResourceLocation(SkyblockAddon.MOD_ID, "structures/island.nbt"));
+                    IslandNBTData = NbtIo.readCompressed(rs.getInputStream());
+                } catch (IOException ex) {
+                    LOGGER.error("Could not load mod's internal island.nbt file!!!");
+                }
+            }
+        }
+        return IslandNBTData;
     }
 
     private void processIMC(final InterModProcessEvent event) {
@@ -67,12 +101,31 @@ public class SkyblockAddon {
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        VersionChecker.CheckResult result = VersionChecker.getResult(ModList.get().getModContainerById(MOD_ID).get().getModInfo());
-        LOGGER.info("Vaulthunters Skyblock addon v"+VERSION+" ("+result.status().name()+") has loaded!");
-
         if(ModList.get().isLoaded("terralith")) {
             LOGGER.error("Beware, skyblockaddon mod is loaded together with Terralith!");
         }
+
+//        if(!ModList.get().isLoaded("ftb2backup")) {
+//            WorldSaverThread saver = new WorldSaverThread();
+//            saver.setServer(event.getServer());
+//            saver.start();
+//        }
+
+        //Custom island.nbt
+        try {
+            Resource rs = event.getServer().getResourceManager().getResource(new ResourceLocation(SkyblockAddon.MOD_ID, "structures/island.nbt"));
+            CompoundTag nbt = NbtIo.readCompressed(rs.getInputStream());
+            File islandFile = new File(FMLPaths.CONFIGDIR.get().resolve(MOD_ID) + "/island.nbt");
+            if(!islandFile.exists()) {
+                islandFile.createNewFile();
+                NbtIo.writeCompressed(nbt, islandFile);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        VersionChecker.CheckResult result = VersionChecker.getResult(ModList.get().getModContainerById(MOD_ID).get().getModInfo());
+        LOGGER.info("Vaulthunters Skyblock addon v"+VERSION+" ("+result.status().name()+") has loaded!");
     }
 
     public static IslandData CheckOnIsland(Entity player) {
@@ -93,7 +146,7 @@ public class SkyblockAddon {
     public static IslandData GetIslandByBlockPos(BlockPos location, Entity player) {
         AtomicReference<IslandData> island = new AtomicReference<>(null);
 
-        player.getServer().getLevel(Level.OVERWORLD).getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(islandGenerator -> {
+        Objects.requireNonNull(Objects.requireNonNull(player.getServer()).getLevel(Level.OVERWORLD)).getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(islandGenerator -> {
             String islandIdOn = islandGenerator.getIslandIdByLocation(new Vec3i(location.getX(), 121, location.getZ()));
             if(islandIdOn == null || islandIdOn.equals("")) return; //Not on an island so we do not affect permission
 
