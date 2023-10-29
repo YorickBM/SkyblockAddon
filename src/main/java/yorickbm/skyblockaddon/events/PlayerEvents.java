@@ -3,7 +3,6 @@ package yorickbm.skyblockaddon.events;
 import de.maxhenkel.camera.entities.ImageEntity;
 import iskallia.vault.entity.entity.DollMiniMeEntity;
 import iskallia.vault.entity.entity.SpiritEntity;
-import net.mehvahdjukaar.supplementaries.common.items.SlingshotItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
@@ -170,7 +169,7 @@ public class PlayerEvents {
         //Has permission so event should not be canceled
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGH) //TODO: Convert to mixin
+    @SubscribeEvent(priority = EventPriority.HIGH)
     public void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
         Player player = event.getPlayer();
         if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Ignore non overworld interactions & OP Players
@@ -257,40 +256,42 @@ public class PlayerEvents {
         if(player.isSecondaryUseActive() && !event.getItemStack().isEmpty())
             return; //Secondary use is allowed
 
-        event.setCanceled(HandleBlockClick(player, event.getPos())); //, MouseButton.RightClick, event.getItemStack()
+        event.setCanceled(HandleBlockClick(player, event.getPos(), event.getItemStack())); //, MouseButton.RightClick, event.getItemStack()
     }
     @SubscribeEvent
     public void onBlockInteractREmpty(PlayerInteractEvent.RightClickEmpty event) {
        if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer)
            return; //Allow fake players
 
-        event.setCanceled(HandleBlockClick(player, event.getPos())); //, MouseButton.RightClick, event.getItemStack()
+        event.setCanceled(HandleBlockClick(player, event.getPos(), event.getItemStack())); //, MouseButton.RightClick, event.getItemStack()
     }
     @SubscribeEvent
     public void onBlockInteractLBlock(PlayerInteractEvent.LeftClickBlock event) {
        if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer)
            return; //Allow fake players
 
-        event.setCanceled(HandleBlockClick(player, event.getPos())); //, MouseButton.LeftClick, event.getItemStack()
+        event.setCanceled(HandleBlockClick(player, event.getPos(), event.getItemStack())); //, MouseButton.LeftClick, event.getItemStack()
     }
     @SubscribeEvent
     public void onBlockInteractLEmpty(PlayerInteractEvent.LeftClickEmpty event) {
        if(!(event.getEntity() instanceof ServerPlayer player) || event.getEntity() instanceof FakePlayer)
            return; //Allow fake players
 
-        event.setCanceled(HandleBlockClick(player, event.getPos())); //, MouseButton.LeftClick, event.getItemStack()
+        event.setCanceled(HandleBlockClick(player, event.getPos(), event.getItemStack())); //, MouseButton.LeftClick, event.getItemStack()
     }
 
-    private boolean HandleBlockClick(ServerPlayer player, BlockPos posClicked) {
+    private boolean HandleBlockClick(ServerPlayer player, BlockPos posClicked, ItemStack handItem) {
         BlockEntity blockEntity = player.getLevel().getBlockEntity(posClicked); //Get block entity
         Block block = player.getLevel().getBlockState(posClicked).getBlock(); //Get block
-
-        Permissions permission = blockEntity != null ? ModIntegrationHandler.getPermissionForBlockEntity(blockEntity) : ModIntegrationHandler.getPermissionForBlock(block);
-        if(permission == null) return false; //Block type is not blocked by our permissions to be clicked on
 
         if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return false; //Non overworld events we ignore
         IslandData island = SkyblockAddon.CheckOnIsland(player);
         if(island == null) return false; //We Shall do Nothing
+
+        Permissions blockPermission = blockEntity != null ? ModIntegrationHandler.getPermissionForBlockEntity(blockEntity) : ModIntegrationHandler.getPermissionForBlock(block);
+        Permissions itemPermission = ModIntegrationHandler.getPermissionForItem(handItem.getItem());
+        Permissions permission = blockPermission != null ? blockPermission : itemPermission;
+        if(permission == null) return false; //No permission found for interaction, its allowed
 
         if(!island.isOwner(player.getUUID()) && !island.getPermission(permission, player.getUUID())
             .isAllowed(block.asItem())) {
@@ -333,20 +334,16 @@ public class PlayerEvents {
 
     @SubscribeEvent
     public void LivingEntityUseItemEvent(LivingEntityUseItemEvent event) {
-        if(event.getEntity() instanceof Player player) { //Ignore non player triggers
-            if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Ignore non overworld interactions & OP Players
+        if(!(event.getEntity() instanceof Player player)) return; //Ignore non player triggers
+        if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Ignore non overworld interactions & OP Players
 
-            if(!ModList.get().isLoaded("supplementaries")) return; //Only run if supplementaries is loaded
-            if (event.getItem().getItem() instanceof SlingshotItem) { //Only act on events of slingshot
-                IslandData island = SkyblockAddon.CheckOnIsland(player);
-                if (island == null)
-                    return; //Ignore events not on an island
-                if (island.getPermission(Permissions.PlaceBlocks, player.getUUID()).isAllowed())
-                    return; //Player is allowed to place blocks
+        IslandData island = SkyblockAddon.CheckOnIsland(player);
+        if(island == null) return; //We Shall do Nothing
 
-                player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
-                event.setCanceled(true);
-            }
+        Permissions permission = ModIntegrationHandler.getPermissionForItem(event.getItem().getItem());
+        if(!island.isOwner(player.getUUID()) && !island.getPermission(permission, player.getUUID()).isAllowed(event.getItem().getItem())) {
+            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            event.setCanceled(true);
         }
     }
 
