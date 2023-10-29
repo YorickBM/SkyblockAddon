@@ -15,7 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
-import yorickbm.skyblockaddon.util.LanguageFile;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.Collection;
@@ -29,46 +29,46 @@ public class InviteIslandCommand {
 
     private int execute(CommandSourceStack command, Collection<ServerPlayer> targets) { //, Component islandName
         if(!(command.getEntity() instanceof Player player)) { //Executed by non-player
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.nonplayer")));
+            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.player")));
             return Command.SINGLE_SUCCESS;
         }
 
         if(player.level.dimension() != Level.OVERWORLD) {
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.notoverworld")));
+            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.overworld")));
             return Command.SINGLE_SUCCESS;
         }
 
         player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent( world -> player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(x -> {
             if(!world.getIslandById(x.getIslandId()).isIslandAdmin(player.getUUID())) {
-                player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.nopermission"), ChatFormatting.RED), player.getUUID());
+                player.sendMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("commands.not.permitted"), ChatFormatting.RED), player.getUUID());
                 return;
             }
 
             if(targets.stream().findFirst().isEmpty()) {
-                player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.offline"), ChatFormatting.RED), player.getUUID());
+                player.sendMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("commands.invite.offline"), ChatFormatting.RED), player.getUUID());
                 return;
             }
 
             ServerPlayer invitee = targets.stream().findFirst().get();
             invitee.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(s -> {
                 if(s.hasOne()) {
-                    player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.hasone"), ChatFormatting.RED), player.getUUID());
+                    player.sendMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("commands.invite.has.one"), ChatFormatting.RED), player.getUUID());
                     return;
                 }
 
                 s.addInvite(x.getIslandId());
                 invitee.sendMessage(
                         ServerHelper.styledText(
-                                LanguageFile.getForKey("commands.island.invite.invitation").formatted(player.getGameProfile().getName()),
+                                SkyblockAddonLanguageConfig.getForKey("commands.invite.message").formatted(player.getGameProfile().getName()),
                                 Style.EMPTY
                                         .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island join " + x.getIslandId()))
-                                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(LanguageFile.getForKey("chat.hover.run.invite")))),
+                                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(SkyblockAddonLanguageConfig.getForKey("chat.hover.run.invite")))),
                                 ChatFormatting.GREEN
                         ),
                         invitee.getUUID()
                 );
                 player.sendMessage(
-                        ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.success").formatted(invitee.getGameProfile().getName()),
+                        ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("commands.invite.success").formatted(invitee.getGameProfile().getName()),
                                 ChatFormatting.GREEN),
                         player.getUUID()
                 );

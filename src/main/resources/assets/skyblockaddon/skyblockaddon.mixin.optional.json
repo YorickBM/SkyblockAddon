@@ -6,7 +6,7 @@
   "injectors": {
     "defaultRequire": 1
   },
-  "server":  [
+  "server": [
     "QuarkScreenMixinConfigMixin"
   ],
   "refmap": "skyblockaddon.refmap.json"

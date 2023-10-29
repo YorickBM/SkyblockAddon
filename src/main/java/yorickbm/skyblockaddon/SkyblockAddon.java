@@ -13,6 +13,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.VersionChecker;
@@ -36,6 +37,7 @@ import yorickbm.skyblockaddon.util.UsernameCache;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -46,7 +48,7 @@ public class SkyblockAddon {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "skyblockaddon";
-    public static final String VERSION = "5.2";
+    public static final String VERSION = "6.0";
 
     public static final float UI_SOUND_VOL = 0.5f;
     public static final float EFFECT_SOUND_VOL = 0.2f;
@@ -124,8 +126,11 @@ public class SkyblockAddon {
             throw new RuntimeException(e);
         }
 
-        VersionChecker.CheckResult result = VersionChecker.getResult(ModList.get().getModContainerById(MOD_ID).get().getModInfo());
-        LOGGER.info("Vaulthunters Skyblock addon v"+VERSION+" ("+result.status().name()+") has loaded!");
+        Optional<? extends ModContainer> modContainer = ModList.get().getModContainerById(MOD_ID);
+        if(modContainer.isPresent()) {
+            VersionChecker.CheckResult result = VersionChecker.getResult(modContainer.get().getModInfo());
+            LOGGER.info("Vaulthunters Skyblock addon v" + VERSION + " (" + result.status().name() + ") has loaded!");
+        }
     }
 
     public static IslandData CheckOnIsland(Entity player) {

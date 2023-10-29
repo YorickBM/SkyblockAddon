@@ -9,9 +9,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.gui.island.IslandOverviewHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
-import yorickbm.skyblockaddon.util.LanguageFile;
 
 public class IslandCommand {
     public IslandCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -22,18 +22,18 @@ public class IslandCommand {
 
     private int execute(CommandSourceStack command) {
         if(!(command.getEntity() instanceof Player player)) { //Executed by non-player
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.nonplayer")));
+            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.player")));
             return Command.SINGLE_SUCCESS;
         }
 
         if(player.level.dimension() != Level.OVERWORLD) {
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.notoverworld")));
+            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.overworld")));
             return Command.SINGLE_SUCCESS;
         }
 
         player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
             if (!island.hasOne()) {
-                command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.hasnone")));
+                command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.has.one")));
                 return;
             }
 

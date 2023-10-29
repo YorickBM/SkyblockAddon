@@ -13,8 +13,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.islands.IslandData;
-import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.UUID;
@@ -35,17 +35,17 @@ public class JoinIslandCommand {
     private int execute(CommandSourceStack command, UUID islandId) { //, Component islandName
         Player player = (Player) command.getEntity();
         if(player.getLevel().dimension() != Level.OVERWORLD) {
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.notoverworld")));
+            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.overworld")));
             return Command.SINGLE_SUCCESS;
         }
 
         player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(playerIsland -> {
             if(playerIsland.hasOne()) {
-                command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.accept.hasone")));
+                command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.accept.has.one")));
                 return;
             }
             if(!playerIsland.inviteValid(islandId.toString())) {
-                command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.accept.invalid")));
+                command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.accept.invalid")));
                 return;
             }
 
@@ -57,7 +57,7 @@ public class JoinIslandCommand {
 
                 //Inform player
                 ServerHelper.playSongToPlayer((ServerPlayer) player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
-                command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.accept.success").formatted(island.getOwner(player.getServer()).getName())).withStyle(ChatFormatting.GREEN), false);
+                command.sendSuccess(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.accept.success").formatted(island.getOwner(player.getServer()).getName())).withStyle(ChatFormatting.GREEN), false);
 
                 //Teleport to the island
                 island.teleport(player);

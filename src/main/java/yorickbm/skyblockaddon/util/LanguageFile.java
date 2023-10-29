@@ -16,11 +16,6 @@ public class LanguageFile {
         items.put("chat.hover.run.rejoin", "Click to rejoin your island (Valid for 60 minutes)!");
 
         //Command response language configurations
-        items.put("commands.spawn.teleport", "Teleporting you to spawn, this may take a second.");
-        items.put("commands.island.nonplayer", "This command may only be executed by a player.");
-        items.put("commands.island.notoverworld", "You can only execute this command in the overworld.");
-        items.put("commands.island.hasnone", "For this command to be executed, you require to be part of an island.");
-
         items.put("commands.island.admin.offline", "Sorry, this player is offline...");
         items.put("commands.island.admin.getId.hasnone", "This player is not part of an island, sorry.");
         items.put("commands.island.admin.getId.success", "You can copy to clipboard the island id from %s by clicking on this message.");
@@ -50,6 +45,11 @@ public class LanguageFile {
 
         items.put("commands.island.admin.setOwner.already", "%s is already owner of the island %s.");
         items.put("commands.island.admin.setOwner.success", "%s has been made the new owner of the island %s, %s has been demoted to admin.");
+
+        items.put("commands.spawn.teleport", "Teleporting you to spawn, this may take a second.");
+        items.put("commands.island.nonplayer", "This command may only be executed by a player.");
+        items.put("commands.island.notoverworld", "You can only execute this command in the overworld.");
+        items.put("commands.island.hasnone", "For this command to be executed, you require to be part of an island.");
 
         items.put("commands.island.create.success", "Created your skyblock island!");
         items.put("commands.island.create.hasone", "You already have an island, use /island tp to teleport to your island!");
@@ -107,47 +107,47 @@ public class LanguageFile {
         items.put("guis.island.setspawn.notallowed", "Sorry you are not allowed to set your spawn outside of your own island.");
 
         items.put("guis.permissions.Teleport.title", "Teleport Requests");
-        items.put("guis.permissions.Teleport.desc", "\u2666 Whom may accept teleport requests to your island\n\u2666 Setting this to everyone, will allow teleporting without request.");
+        items.put("guis.permissions.Teleport.desc", "♦ Whom may accept teleport requests to your island\n♦ Setting this to everyone, will allow teleporting without request.");
 
         items.put("guis.permissions.Invite.title", "Invite New Members");
-        items.put("guis.permissions.Invite.desc", "\u2666 Allow to invite new members to your island\n\u2666 Setting this to everyone, will allow joining without invite.");
+        items.put("guis.permissions.Invite.desc", "♦ Allow to invite new members to your island\n♦ Setting this to everyone, will allow joining without invite.");
 
         items.put("guis.permissions.PlaceBlocks.title", "Place Blocks");
-        items.put("guis.permissions.PlaceBlocks.desc", "\u2666 Place any form of block on your island");
+        items.put("guis.permissions.PlaceBlocks.desc", "♦ Place any form of block on your island");
 
         items.put("guis.permissions.BreakBlocks.title", "Break Blocks");
-        items.put("guis.permissions.BreakBlocks.desc", "\u2666 Break any form of block on your island");
+        items.put("guis.permissions.BreakBlocks.desc", "♦ Break any form of block on your island");
 
         items.put("guis.permissions.TrampleFarmland.title", "Trample Farmland");
-        items.put("guis.permissions.TrampleFarmland.desc", "\u2666 Trample farmland by jumping on top of it");
+        items.put("guis.permissions.TrampleFarmland.desc", "♦ Trample farmland by jumping on top of it");
 
 
         items.put("guis.permissions.OpenBlocks.title", "Interact With Blocks");
-        items.put("guis.permissions.OpenBlocks.desc", "\u2666 Interact with blocks on your island\n\u2666 I.E Chests, Storage Interfaces");
+        items.put("guis.permissions.OpenBlocks.desc", "♦ Interact with blocks on your island\n♦ I.E Chests, Storage Interfaces");
 
         items.put("guis.permissions.UseRedstone.title", "Interact With Redstone");
-        items.put("guis.permissions.UseRedstone.desc", "\u2666 Interact with redstone on your island\n\u2666 I.E Buttons, Levers, Repeaters");
+        items.put("guis.permissions.UseRedstone.desc", "♦ Interact with redstone on your island\n♦ I.E Buttons, Levers, Repeaters");
 
         items.put("guis.permissions.EnderPearl.title", "Use EnderPearl");
-        items.put("guis.permissions.EnderPearl.desc", "\u2666 Use an enderpearl on your island to teleport");
+        items.put("guis.permissions.EnderPearl.desc", "♦ Use an enderpearl on your island to teleport");
 
         items.put("guis.permissions.ChorusFruit.title", "Use ChorusFruit");
-        items.put("guis.permissions.ChorusFruit.desc", "\u2666 Use chorusfruit on your island to teleport");
+        items.put("guis.permissions.ChorusFruit.desc", "♦ Use chorusfruit on your island to teleport");
 
         items.put("guis.permissions.InteractWithXP.title", "Collect XP Orbs");
-        items.put("guis.permissions.InteractWithXP.desc", "\u2666 Gain XP levels from XP orbs on your island");
+        items.put("guis.permissions.InteractWithXP.desc", "♦ Gain XP levels from XP orbs on your island");
 
         items.put("guis.permissions.InteractWithGroundItems.title", "Interact With Ground Items");
-        items.put("guis.permissions.InteractWithGroundItems.desc", "\u2666 Pickup and drop items on your island");
+        items.put("guis.permissions.InteractWithGroundItems.desc", "♦ Pickup and drop items on your island");
 
         items.put("guis.permissions.UseBucket.title", "Use Bucket");
-        items.put("guis.permissions.UseBucket.desc", "\u2666 Empty and or fill a bucket with fluids on your island\n\u2666 I.E. Water, Lava");
+        items.put("guis.permissions.UseBucket.desc", "♦ Empty and or fill a bucket with fluids on your island\n♦ I.E. Water, Lava");
 
         items.put("guis.permissions.UseBed.title", "Sleep in Bed");
-        items.put("guis.permissions.UseBed.desc", "\u2666 Sleep within a bed on your island\n\u2666 Will also set their respawn point");
+        items.put("guis.permissions.UseBed.desc", "♦ Sleep within a bed on your island\n♦ Will also set their respawn point");
 
         items.put("guis.permissions.UseBonemeal.title", "Use Bonemeal");
-        items.put("guis.permissions.UseBonemeal.desc", "\u2666 Use bonemeal, this includes all possible usages of bonemeal\n\u2666 I.E. Crops, Moss blocks");
+        items.put("guis.permissions.UseBonemeal.desc", "♦ Use bonemeal, this includes all possible usages of bonemeal\n♦ I.E. Crops, Moss blocks");
     }
 
     public static String getForKey(String key) {

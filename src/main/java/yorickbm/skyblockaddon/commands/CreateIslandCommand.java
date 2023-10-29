@@ -12,8 +12,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.islands.IslandData;
-import yorickbm.skyblockaddon.util.LanguageFile;
 
 import java.io.IOException;
 
@@ -28,25 +28,25 @@ public class CreateIslandCommand {
     private int execute(CommandSourceStack command) { //, Component islandName
 
         if(!(command.getEntity() instanceof Player player)) { //Executed by non-player
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.create.nonplayer")));
+            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.player")));
             return Command.SINGLE_SUCCESS;
         }
 
         if(player.level.dimension() != Level.OVERWORLD) {
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.create.notoverworld")));
+            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.overworld")));
             return Command.SINGLE_SUCCESS;
         }
 
         player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
 
             if(island.hasOne()) {
-                command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.create.hasone")));
+                command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.create.has.one")));
                 return;
             }
 
             long delay = island.CreateIslandDelay();
             if(delay > 0) {
-                command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.create.delay").formatted(delay)));
+                command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.create.delay").formatted(delay)));
                 return;
             }
 
@@ -55,19 +55,17 @@ public class CreateIslandCommand {
                         try {
                             Vec3i vec = generator.genIsland(command.getLevel());
                             if(vec.distToCenterSqr(new Vec3(IslandGeneratorProvider.DEFAULT_SPAWN.getX(), IslandGeneratorProvider.DEFAULT_SPAWN.getY(), IslandGeneratorProvider.DEFAULT_SPAWN.getZ())) < 10) {
-                                command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.create.fail")));
+                                command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.create.fail")));
                                 return;
                             }
-                            player.sendMessage(new TextComponent(LanguageFile.getForKey("commands.island.create.generating")).withStyle(ChatFormatting.GREEN), player.getUUID());
-
-                            command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.create.generating")).withStyle(ChatFormatting.GREEN), true);
+                            player.sendMessage(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.create.generating")).withStyle(ChatFormatting.GREEN), player.getUUID());
 
                             IslandData islandData = new IslandData(player.getUUID(), vec);
                             String id = generator.registerIsland(islandData);
                             island.setIsland(id);
                             islandData.teleport(player);
 
-                            command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.create.success")).withStyle(ChatFormatting.GREEN), true);
+                            command.sendSuccess(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.create.success")).withStyle(ChatFormatting.GREEN), true);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

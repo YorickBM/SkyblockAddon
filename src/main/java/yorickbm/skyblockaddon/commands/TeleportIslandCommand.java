@@ -15,7 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
-import yorickbm.skyblockaddon.util.LanguageFile;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.Collection;
@@ -32,48 +32,48 @@ public class TeleportIslandCommand {
     private int execute(CommandSourceStack command, Collection<ServerPlayer> targets) { //, Component islandName
 
         if(!(command.getEntity() instanceof Player player)) { //Executed by non-player
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.nonplayer")));
+            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.player")));
             return Command.SINGLE_SUCCESS;
         }
 
         if(player.level.dimension() != Level.OVERWORLD) {
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.notoverworld")));
+            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.overworld")));
             return Command.SINGLE_SUCCESS;
         }
 
         player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
             if(targets == null || targets.isEmpty()) {
                 if(!island.hasOne()) {
-                    command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.hasnone")));
+                    command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.has.one")));
                     return;
                 }
 
                 player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(generator -> {
                     generator.getIslandById(island.getIslandId()).teleport(player);
 
-                    command.sendSuccess(new TextComponent(LanguageFile.getForKey("commands.island.teleport.success")).withStyle(ChatFormatting.GREEN), false);
+                    command.sendSuccess(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.teleport.user.success")).withStyle(ChatFormatting.GREEN), false);
                 });
             } else {
                 Optional<ServerPlayer> p = targets.stream().findFirst();
                 p.get().getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> {
                     if(!i.hasOne()) {
-                        command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.teleport.user.hasnone").formatted(p.get().getGameProfile().getName())));
+                        command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.teleport.user.has.none").formatted(p.get().getGameProfile().getName())));
                         return;
                     }
                     i.addTeleport(player.getUUID());
                     command.sendSuccess(
                             ServerHelper.formattedText(
-                                LanguageFile.getForKey("commands.island.teleport.user.request.send").formatted(p.get().getGameProfile().getName()),
+                                    SkyblockAddonLanguageConfig.getForKey("commands.teleport.request.send").formatted(p.get().getGameProfile().getName()),
                                     ChatFormatting.GREEN
                             )
                         , false);
 
                     p.get().sendMessage(
                             ServerHelper.styledText(
-                                    LanguageFile.getForKey("commands.island.teleport.user.request").formatted(player.getGameProfile().getName(),player.getGameProfile().getName()),
+                                    SkyblockAddonLanguageConfig.getForKey("commands.teleport.request.message").formatted(player.getGameProfile().getName(),player.getGameProfile().getName()),
                                     Style.EMPTY
                                         .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island accept " + player.getGameProfile().getName()))
-                                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(LanguageFile.getForKey("chat.hover.run.teleport")))),
+                                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(SkyblockAddonLanguageConfig.getForKey("chat.hover.run.teleport")))),
                                     ChatFormatting.GREEN
                             ),
                             p.get().getUUID()

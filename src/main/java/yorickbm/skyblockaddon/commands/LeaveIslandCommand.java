@@ -19,8 +19,8 @@ import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.capabilities.PlayerIsland;
 import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.islands.IslandData;
-import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 public class LeaveIslandCommand {
@@ -36,18 +36,18 @@ public class LeaveIslandCommand {
     private int execute(CommandSourceStack command) { //, Component islandName
 
         if(!(command.getEntity() instanceof Player player)) { //Executed by non-player
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.nonplayer")));
+            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.player")));
             return Command.SINGLE_SUCCESS;
         }
 
         if(player.level.dimension() != Level.OVERWORLD) {
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.notoverworld")));
+            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.overworld")));
             return Command.SINGLE_SUCCESS;
         }
 
         player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
             if(!island.hasOne()) {
-                command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.leave.hasnone")));
+                command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.has.one")));
                 return;
             }
 
@@ -67,7 +67,7 @@ public class LeaveIslandCommand {
 
         player.sendMessage(
             ServerHelper.formattedText(
-                LanguageFile.getForKey("commands.island.leave.success"),
+                    SkyblockAddonLanguageConfig.getForKey("commands.leave.success"),
                 ChatFormatting.GREEN),
             player.getUUID()
         );
@@ -80,10 +80,10 @@ public class LeaveIslandCommand {
         island.addInvite(island.getPreviousIsland());
         player.sendMessage(
             ServerHelper.styledText(
-                LanguageFile.getForKey("commands.island.leave.undo").formatted(player.getGameProfile().getName()),
+                    SkyblockAddonLanguageConfig.getForKey("commands.leave.undo").formatted(player.getGameProfile().getName()),
                     Style.EMPTY
                     .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island join " + island.getPreviousIsland()))
-                    .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(LanguageFile.getForKey("chat.hover.run.rejoin")))),
+                    .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(SkyblockAddonLanguageConfig.getForKey("chat.hover.run.rejoin")))),
                 ChatFormatting.GREEN
             ),
             player.getUUID()

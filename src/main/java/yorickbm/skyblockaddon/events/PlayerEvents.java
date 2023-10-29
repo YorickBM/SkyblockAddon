@@ -17,6 +17,7 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
@@ -29,6 +30,7 @@ import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.*;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -40,6 +42,9 @@ import yorickbm.skyblockaddon.util.ModIntegrationHandler;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.UUID;
 
 /**
  * Event Source: <a href="https://forge.gemwire.uk/wiki/Events">...</a>
@@ -204,7 +209,7 @@ public class PlayerEvents {
         }
 
         if(ModList.get().isLoaded("camera")) {
-            if(event.getTarget() instanceof ImageEntity) {
+            if(event.getTarget() instanceof ImageEntity imageFrame) {
                 IslandData island = SkyblockAddon.CheckOnIsland(player);
                 if (island == null)
                     return; //Ignore events not on an island
@@ -212,11 +217,36 @@ public class PlayerEvents {
                     return; //Player is allowed to interact with blocks
 
                 player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+                event.setCancellationResult(InteractionResult.CONSUME);
+                event.setResult(Event.Result.DENY);
                 event.setCanceled(true);
+
+                if(imageFrame.getItem() == ItemStack.EMPTY) {
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            ItemStack image = imageFrame.getItem();
+                            imageFrame.setImageUUID(null);
+                            imageFrame.setItem(ItemStack.EMPTY);
+
+                            player.addItem(image);
+                        }
+                    }, 10); //1 second
+                } else {
+                    ItemStack image = imageFrame.getItem();
+                    UUID imageUUID = imageFrame.getImageUUID().orElse(null);
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            imageFrame.setImageUUID(imageUUID);
+                            imageFrame.setItem(image);
+
+                            player.getInventory().removeItem(image);
+                        }
+                    }, 10); //1 second
+                }
             }
         }
-
-        ///DEBUG: player.sendMessage(new TextComponent(event.getTarget().getClass().getName()), player.getUUID());
     }
 
     @SubscribeEvent
