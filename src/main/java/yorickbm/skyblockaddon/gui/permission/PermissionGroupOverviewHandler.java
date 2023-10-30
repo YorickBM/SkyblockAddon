@@ -15,6 +15,7 @@ import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 import oshi.util.tuples.Pair;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.gui.island.SettingsOverviewHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
@@ -58,7 +59,7 @@ public class PermissionGroupOverviewHandler extends ServerOnlyHandler<IslandData
 
             if( slot == 26) {
                 item = new ItemStack(Items.ARROW);
-                item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED, ChatFormatting.BOLD));
+                item.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.default.back"), ChatFormatting.RED, ChatFormatting.BOLD));
             } else if(slot >= 10 && slot <= 17 && slot % 9 != 0 && slot%9 != 8) {
                 if(groupIndex < groups.size()) {
                     item = groups.get(groupIndex).getItemStack();
@@ -67,12 +68,10 @@ public class PermissionGroupOverviewHandler extends ServerOnlyHandler<IslandData
                     //TODO: Custom description options.
                     if(groups.get(groupIndex).getName().equals("Default")) {
                         ServerHelper.addLore(item,
-                                ServerHelper.formattedText("\u00BB Click to alter permissions that are used by default for players!", ChatFormatting.GRAY),
-                                ServerHelper.formattedText(" ", ChatFormatting.GRAY),
-                                ServerHelper.formattedText("\u2666 These permissions are for anyone NOT put within a different group.", ChatFormatting.GRAY)
+                                ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.group.other"), ChatFormatting.GRAY)
                         );
                     } else {
-                        ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Click to alter permissions for group, or add players.", ChatFormatting.GRAY));
+                        ServerHelper.addLore(item, ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.group.default"), ChatFormatting.GRAY));
                     }
 
                     groupIndex += 1;

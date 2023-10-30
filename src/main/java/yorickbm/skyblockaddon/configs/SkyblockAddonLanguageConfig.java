@@ -19,6 +19,7 @@ public class SkyblockAddonLanguageConfig {
         setupWarningLang();
         setupAdminLang();
         setupDefaultCommandsLang();
+        setupGUI();
 
         register("biome.message", "Your islands biome had changed too %s.", "");
 
@@ -70,6 +71,16 @@ public class SkyblockAddonLanguageConfig {
                 BUILDER.comment(comment)
                         .define(key, value)
         );
+    }
+
+    private static void registerGuiPermission(String identifier, String title, String desc) {
+        register("guis.permissions." + identifier + ".title", title, "");
+        register("guis.permissions." + identifier + ".desc", desc, "");
+    }
+
+    private static void registerGuiItem(String identifier, String title, String desc) {
+        register("guis." + identifier + ".title", title, "");
+        register("guis." + identifier + ".desc", desc, "");
     }
 
     private static void setupWarningLang() {
@@ -153,6 +164,67 @@ public class SkyblockAddonLanguageConfig {
         register("commands.undo.success", "You have rejoined your previous island!", "");
     }
 
+    private static void setupGUI() {
+        register("guis.island.join", "You have joined %s's island!", "");
+        register("guis.island.setspawn.notallowed", "Sorry you are not allowed to set your spawn outside of your own island", "");
 
+        register("guis.default.back", "Back", "");
+        register("guis.default.previous", "Previous", "");
+        register("guis.default.next", "Next", "");
+        register("guis.default.page", "Page", "");
+        register("guis.default.unknown", "Unknown", "");
+        register("guis.default.addplayer", "Add player", "");
+        register("guis.default.true", "TRUE", "");
+        register("guis.default.false", "FALSE", "");
+        register("guis.default.allowed", "\u2666 Allowed:", "");
+
+        registerGuiItem("teleport", "Teleport", "\u00bb Teleport to your islands spawn location.");
+        registerGuiItem("members", "Members", "\u00bb Overview all islands members and invite others.");
+        registerGuiItem("settings", "Settings", "\u00bb Change the settings of your island.");
+        registerGuiItem("inviteplayer", "%s", "\u00bb Click to invite player to your island");
+        registerGuiItem("invite", "Invite", "\u00bb Invite online player to join this island.");
+        registerGuiItem("currentowner", "%s", "\u00bb Islands current owner.");
+        registerGuiItem("permissions", "Permissions", "\u00bb Click to view all permission groups and modify.");
+        registerGuiItem("memberinvite", "%s", "\u00bb Click to add player to this group");
+        registerGuiItem("membergroup", "%s", "\u00bb Click to remove this user from the group.");
+
+        register("guis.admin.desc", "\u00bb Island admin.", "");
+        register("guis.admin.rightclick.desc", "\u2666 Right-click to demote to member", "");
+
+        register("guis.member.desc", "\u00bb Island member.", "");
+        register("guis.member.rightclick.desc", "\u2666 Right-click to kick player from island", "");
+        register("guis.member.leftclick.desc", "\u2666 Left-click to promote to admin", "");
+
+        registerGuiItem("biome", "Change Biome", "\u00bb Change Biome of your island.");
+        register("guis.biome.current", "\u2666 Current:", "");
+
+        registerGuiItem("spawn", "Change Spawn", "\u00bb Set spawn of your island.");
+        register("guis.spawn.current", "\u2666 Current:", "");
+        register("guis.spawn.new", "\u2666 New:", "");
+
+        registerGuiItem("travels", "Island Travels", "\u00bb Change visibility of your island.");
+        register("guis.travels.current", "\u2666 Current:", "");
+        register("guis.travels.onclick", "\u2666 Click to change!", "");
+        register("guis.travels.public", "Public", "");
+        register("guis.travels.private", "Private", "");
+
+        register("guis.group.other", "\u00bb Click to alter permissions for group, or add players.", "");
+        register("guis.group.default", "\u00bb Click to alter permissions that are used by default for players!\n\n\u2666 These permissions are for anyone NOT put within a different group.", "");
+
+        registerGuiPermission("Teleport", "Teleport Requests", "\u2666 Whom may accept teleport requests to your island\n\u2666 Setting this to everyone, will allow teleporting without request.");
+        registerGuiPermission("Invite", "Invite New Members", "\u2666 Allow to invite new members to your island\n\u2666 Setting this to everyone, will allow joining without invite.");
+        registerGuiPermission("PlaceBlocks", "Place Blocks", "\u2666 Place any form of block on your island");
+        registerGuiPermission("BreakBlocks", "Break Blocks", "\u2666 Break any form of block on your island");
+        registerGuiPermission("TrampleFarmland", "Trample Farmland", "\u2666 Trample farmland by jumping on top of it");
+        registerGuiPermission("OpenBlocks", "Interact With Blocks", "\u2666 Interact with blocks on your island\n\u2666 I.E Chests, Storage Interfaces");
+        registerGuiPermission("UseRedstone", "Interact With Redstone", "\u2666 Interact with redstone on your island\n\u2666 I.E Buttons, Levers, Repeaters");
+        registerGuiPermission("EnderPearl", "Use EnderPearl", "\u2666 Use an enderpearl on your island to teleport");
+        registerGuiPermission("ChorusFruit", "Use ChorusFruit", "\u2666 Use chorusfruit on your island to teleport");
+        registerGuiPermission("InteractWithXP", "Collect XP Orbs", "\u2666 Gain XP levels from XP orbs on your island");
+        registerGuiPermission("InteractWithGroundItems", "Interact With Ground Items", "\u2666 Pickup and drop items on your island");
+        registerGuiPermission("UseBucket", "Use Bucket", "\u2666 Empty and or fill a bucket with fluids on your island\n\u2666 I.E. Water, Lava");
+        registerGuiPermission("UseBed", "Sleep in Bed", "\u2666 Sleep within a bed on your island\n\u2666 Will also set their respawn point");
+        registerGuiPermission("UseBonemeal", "Use Bonemeal", "\u2666 Use bonemeal, this includes all possible usages of bonemeal\n\u2666 I.E. Crops, Moss blocks");
+    }
 
 }

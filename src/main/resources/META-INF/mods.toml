@@ -56,3 +56,11 @@ Skyblock Addon for Vault Hunters V3 to allow easy multiplayer support in skybloc
    versionRange="[1.18.2,1.19)"
    ordering="NONE"
    side="SERVER"
+# Here's another dependency
+[[dependencies.skyblockaddon]]
+   modId="ftbessentials"
+   mandatory=false
+   # This version range declares a minimum of the current minecraft version up to but not including the next major version
+   versionRange="[1.1,)"
+   ordering="AFTER"
+   side="SERVER"

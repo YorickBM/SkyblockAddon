@@ -21,8 +21,8 @@ import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.commands.*;
 import yorickbm.skyblockaddon.commands.op.*;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.islands.IslandData;
-import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
@@ -87,17 +87,17 @@ public class ModEvents {
 
                     if(oldId.length() >= 3 && data == null) {
                         i.setIsland(""); //Reset the island, since it does not exist!
-                        LOGGER.info("[skyblockaddon] " + event.getPlayer().getGameProfile().getName() +" joined with being part of island does not exist anymore. (" + oldId + ")");
+                        LOGGER.info(event.getPlayer().getGameProfile().getName() +" joined with being part of island does not exist anymore. (" + oldId + ")");
 
                         event.getPlayer().teleportTo(overworld.getSharedSpawnPos().getX(), overworld.getSharedSpawnPos().getY(), overworld.getSharedSpawnPos().getZ());
                     }
 
                     if(data != null && !(data.hasMember(event.getPlayer().getUUID()) || data.isOwner(event.getPlayer().getUUID()))) {
                         i.setIsland(""); //Reset island id, since player is no longer part of it.
-                        LOGGER.info("[skyblockaddon] " + event.getPlayer().getGameProfile().getName() +" got kicked of their island while being offline. (\" + oldId + \")");
+                        LOGGER.info(event.getPlayer().getGameProfile().getName() +" got kicked of their island while being offline. (\" + oldId + \")");
 
                         event.getPlayer().teleportTo(overworld.getSharedSpawnPos().getX(), overworld.getSharedSpawnPos().getY(), overworld.getSharedSpawnPos().getZ());
-                        event.getPlayer().sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("island.member.kick")), event.getPlayer().getUUID());
+                        event.getPlayer().sendMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("island.member.kick")), event.getPlayer().getUUID());
                     }
                 });
             }

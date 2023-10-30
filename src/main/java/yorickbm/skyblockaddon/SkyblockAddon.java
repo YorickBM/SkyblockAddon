@@ -31,7 +31,6 @@ import yorickbm.skyblockaddon.events.BlockEvents;
 import yorickbm.skyblockaddon.events.ModEvents;
 import yorickbm.skyblockaddon.events.PlayerEvents;
 import yorickbm.skyblockaddon.islands.IslandData;
-import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.io.File;
@@ -58,8 +57,6 @@ public class SkyblockAddon {
     public SkyblockAddon() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::processIMC);
-
-        LanguageFile.init();
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);

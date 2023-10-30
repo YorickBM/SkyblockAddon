@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.commands.LeaveIslandCommand;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.ServerHelper;
@@ -55,8 +56,8 @@ public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
                 switch (i) {
                     case 10 -> {
                         item = new ItemStack(Items.ENDER_EYE);
-                        item.setHoverName(ServerHelper.formattedText("Teleport", ChatFormatting.BOLD, ChatFormatting.BLUE));
-                        ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Teleport to your islands spawn location.", ChatFormatting.GRAY));
+                        item.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.teleport.title"), ChatFormatting.BOLD, ChatFormatting.BLUE));
+                        ServerHelper.addLore(item, ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.teleport.desc"), ChatFormatting.GRAY));
                     }
                     case 12 -> {
                         item = new ItemStack(Items.CHEST);

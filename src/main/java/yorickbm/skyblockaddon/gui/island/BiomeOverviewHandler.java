@@ -20,9 +20,9 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
-import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.List;
@@ -69,7 +69,7 @@ public class BiomeOverviewHandler extends ServerOnlyHandler<IslandData> {
 
             if (i == 44) {
                 item = new ItemStack(Items.ARROW);
-                item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED, ChatFormatting.BOLD));
+                item.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.default.back"), ChatFormatting.RED, ChatFormatting.BOLD));
             } else if(i >= 10 && i <= 34 && i%9 != 0 && i%9 != 8) {
                 //BIOME So keep empty
             } else {
@@ -97,7 +97,7 @@ public class BiomeOverviewHandler extends ServerOnlyHandler<IslandData> {
                                 .replace("minecraft:", "")
                                 .replace("_", " ")
                 ));
-                item.getOrCreateTagElement("skyblockaddon").putString("biome", biome.getRegistryName().toString()); //Put biome in item NBT for click event
+                item.getOrCreateTagElement(SkyblockAddon.MOD_ID).putString("biome", biome.getRegistryName().toString()); //Put biome in item NBT for click event
                 biomeIndex += 1;
             } else {
                 item = new ItemStack(Items.AIR);
@@ -107,19 +107,19 @@ public class BiomeOverviewHandler extends ServerOnlyHandler<IslandData> {
         }
 
         ItemStack prev = new ItemStack(Items.RED_BANNER);
-        prev.setHoverName(ServerHelper.formattedText("Previous", ChatFormatting.RED, ChatFormatting.BOLD));
-        prev.getOrCreateTagElement("skyblockaddon").putInt("page", page-1);
+        prev.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.default.previous"), ChatFormatting.RED, ChatFormatting.BOLD));
+        prev.getOrCreateTagElement(SkyblockAddon.MOD_ID).putInt("page", page-1);
         if(page > 0) setItem(39, 0, prev);
         else setItem(39, 0, new ItemStack(Items.GRAY_STAINED_GLASS_PANE).setHoverName(new TextComponent("")));
 
         ItemStack next = new ItemStack(Items.GREEN_BANNER);
-        next.setHoverName(ServerHelper.formattedText("Next", ChatFormatting.GREEN, ChatFormatting.BOLD));
-        next.getOrCreateTagElement("skyblockaddon").putInt("page", page+1);
+        next.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.default.next"), ChatFormatting.GREEN, ChatFormatting.BOLD));
+        next.getOrCreateTagElement(SkyblockAddon.MOD_ID).putInt("page", page+1);
         if(page < (pages-1)) setItem(41, 0, next);
         else setItem(41, 0, new ItemStack(Items.GRAY_STAINED_GLASS_PANE).setHoverName(new TextComponent("")));
 
         ItemStack info = new ItemStack(Items.BOOK);
-        info.setHoverName(ServerHelper.formattedText("Page " + (this.page + 1) + "/" + this.pages));
+        info.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.default.page") + " " + (this.page + 1) + "/" + this.pages));
         setItem(40, 0, info);
     }
 
@@ -133,7 +133,7 @@ public class BiomeOverviewHandler extends ServerOnlyHandler<IslandData> {
                 return true;
             }
             case 39, 41 -> {
-                page = slot.getItem().getTagElement("skyblockaddon").getInt("page");
+                page = slot.getItem().getTagElement(SkyblockAddon.MOD_ID).getInt("page");
                 drawBiomes();
                 ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
@@ -141,14 +141,14 @@ public class BiomeOverviewHandler extends ServerOnlyHandler<IslandData> {
             default -> {
                 player.closeContainer();
                 ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
-                String biomeRegisterName = slot.getItem().getTagElement("skyblockaddon").getString("biome");
+                String biomeRegisterName = slot.getItem().getTagElement(SkyblockAddon.MOD_ID).getString("biome");
                 Holder<Biome> biomeHolder = player.getLevel()
                         .registryAccess()
                         .registryOrThrow(Registry.BIOME_REGISTRY)
                         .getOrCreateHolder(ResourceKey.create(ForgeRegistries.BIOMES.getRegistryKey(), new ResourceLocation(biomeRegisterName)));
                 data.setBiome(player.getLevel(), biomeHolder, biomeRegisterName.replace("minecraft:", "").replace("_", " "));
                 player.sendMessage(
-                        ServerHelper.formattedText(LanguageFile.getForKey("commands.island.biome.changed").formatted(biomeRegisterName), ChatFormatting.GREEN),
+                        ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("biome.message").formatted(biomeRegisterName), ChatFormatting.GREEN),
                         player.getUUID());
             }
         }

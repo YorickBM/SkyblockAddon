@@ -16,6 +16,7 @@ import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 import oshi.util.tuples.Pair;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.gui.island.MemberOverviewHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
@@ -62,14 +63,14 @@ public class PermissionsOverviewHandler extends ServerOnlyHandler<Pair<IslandDat
 
             if (i == 35) {
                 item = new ItemStack(Items.ARROW);
-                item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED, ChatFormatting.BOLD));
+                item.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.default.back"), ChatFormatting.RED, ChatFormatting.BOLD));
             } else if(i == 27 && (this.data.getB().canBeRemoved() || this.data.getB().getName().equals("Members") || this.data.getB().getName().equals("Admin"))) {
                 item = new ItemStack(Items.PLAYER_HEAD);
                 item.setHoverName(ServerHelper.formattedText("Members", ChatFormatting.BLUE, ChatFormatting.BOLD));
             } else if(i >= 10 && i <= 25 && i%9 != 0 && i%9 != 8) {
                 if(permissionIndex < permissions.size()) {
                     item = permissions.get(permissionIndex).getItemStack();
-                    item.getOrCreateTagElement("skyblockaddon").putString("permission", permissions.get(permissionIndex).getClass().getSimpleName());
+                    item.getOrCreateTagElement(SkyblockAddon.MOD_ID).putString("permission", permissions.get(permissionIndex).getClass().getSimpleName());
                     permissionIndex += 1;
                 } else {
                     item = new ItemStack(Items.AIR);
@@ -106,7 +107,7 @@ public class PermissionsOverviewHandler extends ServerOnlyHandler<Pair<IslandDat
             }
             default -> {
                 if (index >= 10 && index <= 25 && index % 9 != 0 && index % 9 != 8) {
-                    CompoundTag data = slot.getItem().getOrCreateTagElement("skyblockaddon");
+                    CompoundTag data = slot.getItem().getOrCreateTagElement(SkyblockAddon.MOD_ID);
                     if (!data.contains("permission")) return false;
 
                     Permission permission = this.data.getB().getPermission(Permissions.valueOf(data.getString("permission")));

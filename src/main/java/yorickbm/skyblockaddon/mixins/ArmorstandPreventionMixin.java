@@ -13,9 +13,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.islands.Permissions;
-import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 @Mixin(ArmorStand.class)
@@ -35,6 +35,6 @@ public class ArmorstandPreventionMixin {
 
         //Player is not allowed so interact is FAIL result
         cir.setReturnValue(InteractionResult.FAIL);
-        p_31594_.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+        p_31594_.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
     }
 }

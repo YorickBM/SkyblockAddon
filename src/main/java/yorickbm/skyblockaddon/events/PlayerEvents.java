@@ -34,9 +34,9 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.islands.Permissions;
-import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ModIntegrationHandler;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
@@ -60,7 +60,7 @@ public class PlayerEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.UseEnderpearl, player.getUUID()).isAllowed()) {
-            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -74,7 +74,7 @@ public class PlayerEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.UseChorusfruit, player.getUUID()).isAllowed()) {
-            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -89,7 +89,7 @@ public class PlayerEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.UseBed, player.getUUID()).isAllowed()) {
-            event.getPlayer().displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            event.getPlayer().displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setResult(Player.BedSleepingProblem.OTHER_PROBLEM);
         }
         //Has permission so event should not be canceled
@@ -104,7 +104,7 @@ public class PlayerEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.CollectXP, player.getUUID()).isAllowed()) {
-            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -119,7 +119,7 @@ public class PlayerEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.UseBucket, player.getUUID()).isAllowed()) {
-            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -134,7 +134,7 @@ public class PlayerEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.UseBonemeal, player.getUUID()).isAllowed()) {
-            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -149,7 +149,7 @@ public class PlayerEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.InteractWithGroundItems, player.getUUID()).isAllowed()) {
-            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -163,7 +163,7 @@ public class PlayerEvents {
         if(island == null) return; //We Shall do Nothing
 
         if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.InteractWithGroundItems, player.getUUID()).isAllowed()) {
-            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
@@ -179,7 +179,7 @@ public class PlayerEvents {
             if(island == null) return; //We Shall do Nothing
 
             if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.InteractWithBlocks, player.getUUID()).isAllowed()) {
-                player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+                player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
                 event.setCancellationResult(InteractionResult.FAIL);
 
                 //Clone villager to prevent Easy Villagers pickup
@@ -203,7 +203,7 @@ public class PlayerEvents {
             if (island.getPermission(Permissions.PlaceBlocks, player.getUUID()).isAllowed())
                 return; //Player is allowed to place blocks
 
-            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
 
@@ -215,7 +215,7 @@ public class PlayerEvents {
                 if(island.isOwner(player.getUUID()) || island.getPermission(Permissions.InteractWithBlocks, player.getUUID()).isAllowed())
                     return; //Player is allowed to interact with blocks
 
-                player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+                player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
                 event.setCancellationResult(InteractionResult.CONSUME);
                 event.setResult(Event.Result.DENY);
                 event.setCanceled(true);
@@ -295,7 +295,7 @@ public class PlayerEvents {
 
         if(!island.isOwner(player.getUUID()) && !island.getPermission(permission, player.getUUID())
             .isAllowed(block.asItem())) {
-            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
 
             //Update doors
             if (block instanceof DoorBlock) {
@@ -342,7 +342,7 @@ public class PlayerEvents {
 
         Permissions permission = ModIntegrationHandler.getPermissionForItem(event.getItem().getItem());
         if(!island.isOwner(player.getUUID()) && !island.getPermission(permission, player.getUUID()).isAllowed(event.getItem().getItem())) {
-            player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
         }
     }
@@ -359,7 +359,7 @@ public class PlayerEvents {
                 if (island.getPermission(Permissions.DestroyBlocks, player.getUUID()).isAllowed())
                     return; //Player is allowed to place blocks
 
-                player.displayClientMessage(ServerHelper.formattedText(LanguageFile.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+                player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
                 event.setCanceled(true);
             }
         }

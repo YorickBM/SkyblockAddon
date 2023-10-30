@@ -14,7 +14,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
-import yorickbm.skyblockaddon.util.LanguageFile;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.Collection;
@@ -39,30 +39,31 @@ public class GetIslandIdCommand {
 
     private int execute(CommandSourceStack command, Collection<ServerPlayer> targets) {
         if(!(command.getEntity() instanceof Player player)) { //Executed by non-player
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.nonplayer")));
+            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.player")));
             return Command.SINGLE_SUCCESS;
         }
+
         if(player.level.dimension() != Level.OVERWORLD) {
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.notoverworld")));
+            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.overworld")));
             return Command.SINGLE_SUCCESS;
         }
 
         if(targets.stream().findFirst().isEmpty()) {
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.admin.offline")));
+            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.online")));
             return Command.SINGLE_SUCCESS;
         }
         targets.stream().findFirst().get().getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> {
            if(!i.hasOne()) {
-               command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.admin.getId.hasnone")));
+               command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.has.island")));
                return;
            }
 
             player.sendMessage(
                 ServerHelper.styledText(
-                    LanguageFile.getForKey("commands.island.admin.getId.success").formatted(targets.stream().findFirst().get().getGameProfile().getName()),
+                        SkyblockAddonLanguageConfig.getForKey("commands.admin.getId.success").formatted(targets.stream().findFirst().get().getGameProfile().getName()),
                     Style.EMPTY
                             .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, i.getIslandId()))
-                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(LanguageFile.getForKey("chat.hover.copy")))),
+                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(SkyblockAddonLanguageConfig.getForKey("chat.hover.copy")))),
                     ChatFormatting.GREEN
                 ),
                     player.getUUID()

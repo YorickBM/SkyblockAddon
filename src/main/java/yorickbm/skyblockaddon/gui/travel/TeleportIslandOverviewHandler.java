@@ -21,6 +21,7 @@ import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.IslandGenerator;
 import yorickbm.skyblockaddon.capabilities.PlayerIsland;
 import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.ServerHelper;
@@ -80,7 +81,7 @@ public class TeleportIslandOverviewHandler extends ServerOnlyHandler<IslandGener
 
             if (i == 44) {
                 item = new ItemStack(Items.ARROW);
-                item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED, ChatFormatting.BOLD));
+                item.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.default.back"), ChatFormatting.RED, ChatFormatting.BOLD));
             } else if(i >= 10 && i <= 34 && i%9 != 0 && i%9 != 8) {
                 //BIOME So keep empty
             } else {
@@ -105,7 +106,7 @@ public class TeleportIslandOverviewHandler extends ServerOnlyHandler<IslandGener
 
                 item = new ItemStack(Items.PLAYER_HEAD);
                 item.setHoverName(ServerHelper.formattedText(owner.getName(), ChatFormatting.BOLD));
-                item.getOrCreateTagElement("skyblockaddon").putString("islandid", data.getIslandIdByLocation(island.getCenter())); //Put biome in item NBT for click event
+                item.getOrCreateTagElement(SkyblockAddon.MOD_ID).putString("islandid", data.getIslandIdByLocation(island.getCenter())); //Put biome in item NBT for click event
 
                 CompoundTag tag = item.getOrCreateTag();
                 tag.putString("SkullOwner", owner.getName());
@@ -120,19 +121,19 @@ public class TeleportIslandOverviewHandler extends ServerOnlyHandler<IslandGener
         }
 
         ItemStack prev = new ItemStack(Items.RED_BANNER);
-        prev.setHoverName(ServerHelper.formattedText("Previous", ChatFormatting.RED, ChatFormatting.BOLD));
-        prev.getOrCreateTagElement("skyblockaddon").putInt("page", page-1);
+        prev.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.default.previous"), ChatFormatting.RED, ChatFormatting.BOLD));
+        prev.getOrCreateTagElement(SkyblockAddon.MOD_ID).putInt("page", page-1);
         if(page > 0) setItem(39, 0, prev);
         else setItem(39, 0, new ItemStack(Items.GRAY_STAINED_GLASS_PANE).setHoverName(new TextComponent("")));
 
         ItemStack next = new ItemStack(Items.GREEN_BANNER);
-        next.setHoverName(ServerHelper.formattedText("Next", ChatFormatting.GREEN, ChatFormatting.BOLD));
-        next.getOrCreateTagElement("skyblockaddon").putInt("page", page+1);
+        next.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.default.next"), ChatFormatting.GREEN, ChatFormatting.BOLD));
+        next.getOrCreateTagElement(SkyblockAddon.MOD_ID).putInt("page", page+1);
         if(page < (pages-1)) setItem(41, 0, next);
         else setItem(41, 0, new ItemStack(Items.GRAY_STAINED_GLASS_PANE).setHoverName(new TextComponent("")));
 
         ItemStack info = new ItemStack(Items.BOOK);
-        info.setHoverName(ServerHelper.formattedText("Page " + (this.page + 1) + "/" + this.pages));
+        info.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.default.page") + " " + (this.page + 1) + "/" + this.pages));
         setItem(40, 0, info);
     }
 
@@ -146,9 +147,9 @@ public class TeleportIslandOverviewHandler extends ServerOnlyHandler<IslandGener
                 return true;
             }
             case 39, 41 -> {
-                if (!slot.getItem().getOrCreateTagElement("skyblockaddon").contains("page"))
+                if (!slot.getItem().getOrCreateTagElement(SkyblockAddon.MOD_ID).contains("page"))
                     return false; //It's not a page item;
-                page = Objects.requireNonNull(slot.getItem().getTagElement("skyblockaddon")).getInt("page");
+                page = Objects.requireNonNull(slot.getItem().getTagElement(SkyblockAddon.MOD_ID)).getInt("page");
                 drawIslands();
                 ServerHelper.playSongToPlayer(player, SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
                 return true;
@@ -157,7 +158,7 @@ public class TeleportIslandOverviewHandler extends ServerOnlyHandler<IslandGener
                 if (slot.getItem().isEmpty()) return false; //Empty slot clicked
                 player.closeContainer();
                 ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
-                String islandId = Objects.requireNonNull(slot.getItem().getTagElement("skyblockaddon")).getString("islandid");
+                String islandId = Objects.requireNonNull(slot.getItem().getTagElement(SkyblockAddon.MOD_ID)).getString("islandid");
                 this.data.getIslandById(islandId).teleport(player);
             }
         }

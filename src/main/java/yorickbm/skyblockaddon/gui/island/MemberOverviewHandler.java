@@ -18,9 +18,9 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
-import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
@@ -63,21 +63,22 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
 
             if (i == 35) {
                 item = new ItemStack(Items.ARROW);
-                item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED, ChatFormatting.BOLD));
+                item.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.default.back"), ChatFormatting.RED, ChatFormatting.BOLD));
             } else if (i == 31 && this.data.isIslandAdmin(player.getUUID())) {
                 item = new ItemStack(Items.OAK_BOAT);
-                item.setHoverName(ServerHelper.formattedText("Invite", ChatFormatting.GREEN, ChatFormatting.BOLD));
-                ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Invite online player to join this island.", ChatFormatting.GRAY));
+                item.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.invite.title"), ChatFormatting.GREEN, ChatFormatting.BOLD));
+                ServerHelper.addLore(item, ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.invite.desc"), ChatFormatting.GRAY));
             } else if(i == 10) {
-                String playerName = this.data.hasOwner() ? this.data.getOwner(player.getServer()).getName() : "Unknown";
+                String playerName = this.data.hasOwner() ? this.data.getOwner(player.getServer()).getName() : SkyblockAddonLanguageConfig.getForKey("guis.default.unknown");
 
                 item = new ItemStack(Items.PLAYER_HEAD);
                 item.setHoverName(
                         ServerHelper.formattedText(
-                                playerName, ChatFormatting.GOLD, ChatFormatting.BOLD
+                                SkyblockAddonLanguageConfig.getForKey("guis.currentowner.title").formatted(playerName),
+                                ChatFormatting.GOLD, ChatFormatting.BOLD
                         )
                 );
-                ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Islands current owner.", ChatFormatting.GRAY));
+                ServerHelper.addLore(item, ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.currentowner.desc"), ChatFormatting.GRAY));
 
                 CompoundTag tag = item.getOrCreateTag();
                 if(this.data.hasOwner()) tag.putString("SkullOwner", playerName);
@@ -86,7 +87,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
 
             } else if(i > 10 && i <= 25 && i%9 != 0 && i%9 != 8) {
                 if(memberIndex < members.size()) {
-                    String playerName = "Unknown";
+                    String playerName = SkyblockAddonLanguageConfig.getForKey("guis.default.unknown");
                     try { playerName = UsernameCache.getBlocking(members.get(memberIndex)); } catch( Exception ex) {
                         LOGGER.error(ex);
                     }
@@ -100,34 +101,34 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
 
                     if(this.data.isIslandAdmin(player.getUUID())) {
                         UUID member = members.get(memberIndex);
-                        item.getOrCreateTagElement("skyblockaddon").putString("member", member.toString()); //Put member in item NBT for click event
+                        item.getOrCreateTagElement(SkyblockAddon.MOD_ID).putString("member", member.toString()); //Put member in item NBT for click event
 
                         if(this.data.isIslandAdmin(member)) {
                             ServerHelper.addLore(item,
-                                ServerHelper.formattedText("\u00BB Island admin.", ChatFormatting.GRAY),
+                                ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.admin.desc"), ChatFormatting.GRAY),
                                     ServerHelper.formattedText("", ChatFormatting.GRAY),
-                                    ServerHelper.formattedText("\u2666 Right-click to demote to member", ChatFormatting.GRAY)
+                                    ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.admin.rightclick.desc"), ChatFormatting.GRAY)
                             );
                             item.setHoverName(ServerHelper.formattedText(playerName, ChatFormatting.RED, ChatFormatting.BOLD));
 
                         } else {
                             ServerHelper.addLore(item,
-                                ServerHelper.formattedText("\u00BB Island member.", ChatFormatting.GRAY),
+                                ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.member.desc"), ChatFormatting.GRAY),
                                 ServerHelper.formattedText("", ChatFormatting.GRAY),
-                                ServerHelper.formattedText("\u2666 Right-click to kick player from island", ChatFormatting.GRAY),
-                                ServerHelper.formattedText("\u2666 Left-click to promote to admin", ChatFormatting.GRAY)
+                                ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.member.rightclick.desc"), ChatFormatting.GRAY),
+                                ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.member.leftclick.desc"), ChatFormatting.GRAY)
                             );
                         }
                     } else {
                         UUID member = members.get(memberIndex);
                         if(this.data.isIslandAdmin(member)) {
                             ServerHelper.addLore(item,
-                                    ServerHelper.formattedText("\u00BB Island admin.", ChatFormatting.GRAY)
+                                    ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.admin.desc"), ChatFormatting.GRAY)
                             );
                             item.setHoverName(ServerHelper.formattedText(playerName, ChatFormatting.RED, ChatFormatting.BOLD));
                         } else {
                             ServerHelper.addLore(item,
-                                    ServerHelper.formattedText("\u00BB Island member.", ChatFormatting.GRAY)
+                                    ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.member.desc"), ChatFormatting.GRAY)
                             );
                         }
                     }
@@ -162,7 +163,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
             }
             default -> {
                 if (!this.data.isIslandAdmin(player.getUUID())) return false;
-                UUID member = UUID.fromString(slot.getItem().getTagElement("skyblockaddon").getString("member"));
+                UUID member = UUID.fromString(slot.getItem().getTagElement(SkyblockAddon.MOD_ID).getString("member"));
                 if (!this.data.isIslandAdmin(member))
                     switch (clickType) {
                         case 1 -> {
@@ -172,7 +173,7 @@ public class MemberOverviewHandler extends ServerOnlyHandler<IslandData> {
                                 member_player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(island -> {
                                     island.setIsland("");
                                     member_player.teleportTo(player.getLevel().getSharedSpawnPos().getX(), player.getLevel().getSharedSpawnPos().getY(), player.getLevel().getSharedSpawnPos().getZ());
-                                    member_player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("island.member.kick"), ChatFormatting.GREEN), member);
+                                    member_player.sendMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("island.member.kick"), ChatFormatting.GREEN), member);
                                 });
                             }
                         }

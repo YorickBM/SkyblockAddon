@@ -13,7 +13,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
-import yorickbm.skyblockaddon.util.LanguageFile;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 public class WhereAmICommand {
@@ -34,27 +34,28 @@ public class WhereAmICommand {
 
     private int execute(CommandSourceStack command) {
         if(!(command.getEntity() instanceof Player player)) { //Executed by non-player
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.nonplayer")));
+            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.player")));
             return Command.SINGLE_SUCCESS;
         }
+
         if(player.level.dimension() != Level.OVERWORLD) {
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.notoverworld")));
+            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.overworld")));
             return Command.SINGLE_SUCCESS;
         }
 
         command.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
             String islandIdOn = g.getIslandIdByLocation(new Vec3i(player.getX(), 121, player.getZ()));
             if(islandIdOn == null || islandIdOn.equals("")) { //Not on an island so we do not affect permission
-                command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.admin.where.none")));
+                command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.admin.where.none")));
                 return;
             }
 
             command.sendSuccess(
                 ServerHelper.styledText(
-                    LanguageFile.getForKey("commands.island.admin.where.success").formatted(islandIdOn),
+                        SkyblockAddonLanguageConfig.getForKey("commands.admin.where.success").formatted(islandIdOn),
                     Style.EMPTY
                         .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, islandIdOn))
-                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(LanguageFile.getForKey("chat.hover.copy")))),
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(SkyblockAddonLanguageConfig.getForKey("chat.hover.copy")))),
                     ChatFormatting.GREEN
                 ),
                 true

@@ -13,7 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
-import yorickbm.skyblockaddon.util.LanguageFile;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.Collection;
@@ -42,28 +42,29 @@ public class SetPlayersIslandCommand {
 
     private int execute(CommandSourceStack command, Collection<ServerPlayer> targets, UUID id) {
         if(!(command.getEntity() instanceof Player player)) { //Executed by non-player
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.nonplayer")));
+            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.player")));
             return Command.SINGLE_SUCCESS;
         }
+
         if(player.level.dimension() != Level.OVERWORLD) {
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.notoverworld")));
+            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.overworld")));
             return Command.SINGLE_SUCCESS;
         }
 
         if(targets.stream().findFirst().isEmpty()) {
-            command.sendFailure(new TextComponent(LanguageFile.getForKey("commands.island.admin.offline")));
+            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.not.online")));
             return Command.SINGLE_SUCCESS;
         }
         Player target = targets.stream().findFirst().get();
         target.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
             if(i.hasOne() && i.getIslandId().equals(id.toString())) {
-                command.sendFailure(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.admin.setId.equal").formatted(target.getGameProfile().getName(), i.getIslandId())));
+                command.sendFailure(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("commands.admin.setId.override").formatted(target.getGameProfile().getName(), i.getIslandId())));
                 return;
             }
 
             if(i.hasOne()) {
                 player.sendMessage(ServerHelper.formattedText(
-                        LanguageFile.getForKey("commands.island.admin.setId.hasone").formatted(target.getGameProfile().getName(), i.getIslandId())
+                        SkyblockAddonLanguageConfig.getForKey("commands.admin.setId.ispart").formatted(target.getGameProfile().getName(), i.getIslandId())
                         , ChatFormatting.GREEN, ChatFormatting.ITALIC
                 ), player.getUUID());
 
@@ -75,13 +76,13 @@ public class SetPlayersIslandCommand {
 
             command.sendSuccess(
                 ServerHelper.formattedText(
-                    LanguageFile.getForKey("commands.island.admin.setId.success").formatted(target.getGameProfile().getName(), id.toString()),
+                        SkyblockAddonLanguageConfig.getForKey("commands.admin.setId.success").formatted(target.getGameProfile().getName(), id.toString()),
                     ChatFormatting.GREEN
                 ),
                 true
             );
             target.sendMessage(
-                ServerHelper.formattedText(LanguageFile.getForKey("commands.island.admin.setId.teleport"), ChatFormatting.GREEN)
+                ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("commands.admin.setId.teleport"), ChatFormatting.GREEN)
                 ,target.getUUID());
 
             g.getIslandById(id.toString()).teleport(target);

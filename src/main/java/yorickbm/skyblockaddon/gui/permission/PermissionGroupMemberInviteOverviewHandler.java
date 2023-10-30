@@ -16,6 +16,7 @@ import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 import oshi.util.tuples.Pair;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.islands.PermissionGroup;
@@ -61,7 +62,7 @@ public class PermissionGroupMemberInviteOverviewHandler extends ServerOnlyHandle
 
             if (i == 35) {
                 item = new ItemStack(Items.ARROW);
-                item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED, ChatFormatting.BOLD));
+                item.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.default.back"), ChatFormatting.RED, ChatFormatting.BOLD));
             } else if(i >= 10 && i <= 25 && i%9 != 0 && i%9 != 8) {
                 if(memberIndex < members.size()) {
                     ServerPlayer sPlayer = members.get(memberIndex);
@@ -69,11 +70,12 @@ public class PermissionGroupMemberInviteOverviewHandler extends ServerOnlyHandle
                     item = new ItemStack(Items.PLAYER_HEAD);
                     item.setHoverName(
                             ServerHelper.formattedText(
-                                    sPlayer.getGameProfile().getName(), ChatFormatting.BLUE, ChatFormatting.BOLD
+                                    SkyblockAddonLanguageConfig.getForKey("guis.memberinvite.title").formatted(sPlayer.getGameProfile().getName()),
+                                    ChatFormatting.BLUE, ChatFormatting.BOLD
                             )
                     );
-                    ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Click to add player to this group", ChatFormatting.GRAY));
-                    item.getOrCreateTagElement("skyblockaddon").putUUID("player", sPlayer.getUUID());
+                    ServerHelper.addLore(item, ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.memberinvite.desc"), ChatFormatting.GRAY));
+                    item.getOrCreateTagElement(SkyblockAddon.MOD_ID).putUUID("player", sPlayer.getUUID());
 
                     CompoundTag tag = item.getOrCreateTag();
                     tag.putString("SkullOwner", sPlayer.getGameProfile().getName());
@@ -107,7 +109,7 @@ public class PermissionGroupMemberInviteOverviewHandler extends ServerOnlyHandle
                 player.closeContainer();
                 ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
 
-                UUID uuid = slot.getItem().getTagElement("skyblockaddon").getUUID("player");
+                UUID uuid = slot.getItem().getTagElement(SkyblockAddon.MOD_ID).getUUID("player");
                 this.data.getB().addMember(uuid);
 
                 player.getServer().execute(() -> PermissionGroupMemberOverviewHandler.openMenu(player, this.data));

@@ -15,9 +15,9 @@ import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
-import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.List;
@@ -63,7 +63,7 @@ public class InviteOverviewHandler extends ServerOnlyHandler<IslandData> {
 
             if (i == 35) {
                 item = new ItemStack(Items.ARROW);
-                item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED, ChatFormatting.BOLD));
+                item.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.default.back"), ChatFormatting.RED, ChatFormatting.BOLD));
             } else if(i >= 10 && i <= 25 && i%9 != 0 && i%9 != 8) {
                 if(memberIndex < members.size()) {
                     ServerPlayer sPlayer = members.get(memberIndex);
@@ -71,11 +71,12 @@ public class InviteOverviewHandler extends ServerOnlyHandler<IslandData> {
                     item = new ItemStack(Items.PLAYER_HEAD);
                     item.setHoverName(
                             ServerHelper.formattedText(
-                                    sPlayer.getGameProfile().getName(), ChatFormatting.BLUE, ChatFormatting.BOLD
+                                    SkyblockAddonLanguageConfig.getForKey("guis.inviteplayer.title").formatted(sPlayer.getGameProfile().getName()),
+                                    ChatFormatting.BLUE, ChatFormatting.BOLD
                             )
                     );
-                    ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Click to invite player to your island", ChatFormatting.GRAY));
-                    item.getOrCreateTagElement("skyblockaddon").putUUID("player", sPlayer.getUUID());
+                    ServerHelper.addLore(item, ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.inviteplayer.desc"), ChatFormatting.GRAY));
+                    item.getOrCreateTagElement(SkyblockAddon.MOD_ID).putUUID("player", sPlayer.getUUID());
 
                     CompoundTag tag = item.getOrCreateTag();
                     if(this.data.hasOwner()) tag.putString("SkullOwner", sPlayer.getGameProfile().getName());
@@ -109,32 +110,32 @@ public class InviteOverviewHandler extends ServerOnlyHandler<IslandData> {
                 player.closeContainer();
                 ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
 
-                UUID uuid = slot.getItem().getTagElement("skyblockaddon").getUUID("player");
+                UUID uuid = slot.getItem().getTagElement(SkyblockAddon.MOD_ID).getUUID("player");
                 ServerPlayer invitee = player.getServer().getPlayerList().getPlayer(uuid);
                 if (invitee == null) {
-                    player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.offline"), ChatFormatting.RED), player.getUUID());
+                    player.sendMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("commands.invite.offline"), ChatFormatting.RED), player.getUUID());
                     return false;
                 }
 
                 invitee.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(s -> {
                     if (s.hasOne()) {
-                        player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.hasone"), ChatFormatting.RED), player.getUUID());
+                        player.sendMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("commands.invite.has.one"), ChatFormatting.RED), player.getUUID());
                         return;
                     }
                     player.getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(x -> {
                         s.addInvite(x.getIslandId());
                         invitee.sendMessage(
                                 ServerHelper.styledText(
-                                        LanguageFile.getForKey("commands.island.invite.invitation").formatted(player.getGameProfile().getName()),
+                                        SkyblockAddonLanguageConfig.getForKey("commands.invite.message").formatted(player.getGameProfile().getName()),
                                         Style.EMPTY
                                                 .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island join " + x.getIslandId()))
-                                                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(LanguageFile.getForKey("chat.hover.run.invite")))),
+                                                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(SkyblockAddonLanguageConfig.getForKey("chat.hover.run.invite")))),
                                         ChatFormatting.GREEN
                                 ),
                                 invitee.getUUID()
                         );
                         player.sendMessage(
-                                ServerHelper.formattedText(LanguageFile.getForKey("commands.island.invite.success").formatted(invitee.getGameProfile().getName()),
+                                ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("commands.invite.success").formatted(invitee.getGameProfile().getName()),
                                         ChatFormatting.GREEN),
                                 player.getUUID()
                         );

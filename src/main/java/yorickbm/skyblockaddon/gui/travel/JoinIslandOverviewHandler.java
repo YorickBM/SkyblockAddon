@@ -21,9 +21,9 @@ import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.IslandGenerator;
 import yorickbm.skyblockaddon.capabilities.PlayerIsland;
 import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
-import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.ArrayList;
@@ -162,7 +162,7 @@ public class JoinIslandOverviewHandler extends ServerOnlyHandler<IslandGenerator
                 IslandData island = this.data.getIslandById(islandId);
                 island.addIslandMember(player.getUUID());
                 data2.setIsland(islandId);
-                player.sendMessage(new TextComponent(LanguageFile.getForKey("guis.island.join").formatted(island.getOwner(player.getServer()).getName())).withStyle(ChatFormatting.GREEN), player.getUUID());
+                player.sendMessage(new TextComponent(SkyblockAddonLanguageConfig.getForKey("guis.island.join").formatted(island.getOwner(player.getServer()).getName())).withStyle(ChatFormatting.GREEN), player.getUUID());
                 island.teleport(player);
             }
         }

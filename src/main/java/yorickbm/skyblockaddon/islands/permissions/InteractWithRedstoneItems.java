@@ -6,7 +6,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import yorickbm.skyblockaddon.util.LanguageFile;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.ArrayList;
@@ -37,17 +37,17 @@ public class InteractWithRedstoneItems extends Permission {
 
     @Override
     public net.minecraft.network.chat.Component getDisplayName() {
-        return ServerHelper.formattedText(LanguageFile.getForKey("guis.permissions.UseRedstone.title"), ChatFormatting.BLUE, ChatFormatting.BOLD);
+        return ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.permissions.UseRedstone.title"), ChatFormatting.BLUE, ChatFormatting.BOLD);
     }
 
     @Override
     public Component[] getDescription() {
         return new Component[] {
-                ServerHelper.formattedText(LanguageFile.getForKey("guis.permissions.UseRedstone.desc"), ChatFormatting.GRAY),
+                ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.permissions.UseRedstone.desc"), ChatFormatting.GRAY),
                 ServerHelper.formattedText("\n\n", ChatFormatting.ITALIC),
                 ServerHelper.combineComponents(
-                        ServerHelper.formattedText("\u2666 Allowed: ", ChatFormatting.GRAY),
-                        ServerHelper.formattedText((state ? "TRUE" : "FALSE"), (state ? ChatFormatting.GREEN : ChatFormatting.RED))
+                        ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.default.allowed") + " ", ChatFormatting.GRAY),
+                        ServerHelper.formattedText((state ? SkyblockAddonLanguageConfig.getForKey("guis.default.true") : SkyblockAddonLanguageConfig.getForKey("guis.default.false")), (state ? ChatFormatting.GREEN : ChatFormatting.RED))
                 )
         };
     }

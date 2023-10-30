@@ -247,7 +247,7 @@ public class IslandGenerator {
      * @return IslandId or empty string
      */
     public String getIslandIdByLocation(Vec3i location) {
-        final int d = IslandGeneratorProvider.SIZE *2 + IslandGeneratorProvider.BUFFER;
+        final int d = IslandGeneratorProvider.SIZE * 2 + IslandGeneratorProvider.BUFFER;
 
         long offsetX = Math.round(location.getX()/(d*1.0)) + IslandGeneratorProvider.DEFAULT_SPAWN.getX();
         long offsetZ = Math.round(location.getZ()/(d*1.0)) + IslandGeneratorProvider.DEFAULT_SPAWN.getZ();

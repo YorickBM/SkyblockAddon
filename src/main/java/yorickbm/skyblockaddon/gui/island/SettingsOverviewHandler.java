@@ -15,10 +15,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.gui.ServerOnlyHandler;
 import yorickbm.skyblockaddon.gui.permission.PermissionGroupOverviewHandler;
 import yorickbm.skyblockaddon.islands.IslandData;
-import yorickbm.skyblockaddon.util.LanguageFile;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
@@ -53,54 +53,54 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
             switch (i) {
                 case 10 -> {
                     item = new ItemStack(Items.OAK_SAPLING);
-                    item.setHoverName(ServerHelper.formattedText("Change Biome", ChatFormatting.BOLD, ChatFormatting.BLUE));
+                    item.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.biome.title"), ChatFormatting.BOLD, ChatFormatting.BLUE));
                     ServerHelper.addLore(item,
-                            ServerHelper.formattedText("\u00BB Change Biome of your island.", ChatFormatting.GRAY),
+                            ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.biome.desc"), ChatFormatting.GRAY),
                             ServerHelper.formattedText(" "),
                             ServerHelper.combineComponents(
-                                    ServerHelper.formattedText("\u2666 Current: ", ChatFormatting.GRAY),
+                                    ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.biome.current") + " ", ChatFormatting.GRAY),
                                     ServerHelper.formattedText(data.getBiome(), ChatFormatting.WHITE)
                             ));
                 }
                 case 12 -> {
                     item = new ItemStack(Items.IRON_BARS);
-                    item.setHoverName(ServerHelper.formattedText("Permissions", ChatFormatting.BOLD, ChatFormatting.BLUE));
+                    item.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.permissions.title"), ChatFormatting.BOLD, ChatFormatting.BLUE));
                     ServerHelper.addLore(item,
-                            ServerHelper.formattedText("\u00BB Click to view all permission groups and modify.", ChatFormatting.GRAY)
+                            ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.permissions.desc"), ChatFormatting.GRAY)
                     );
                 }
                 case 14 -> {
                     item = new ItemStack(Items.RED_BED);
-                    item.setHoverName(ServerHelper.formattedText("Change Spawn", ChatFormatting.BOLD, ChatFormatting.BLUE));
+                    item.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.spawn.title"), ChatFormatting.BOLD, ChatFormatting.BLUE));
                     ServerHelper.addLore(item,
-                            ServerHelper.formattedText("\u00BB Set spawn of your island.", ChatFormatting.GRAY),
+                            ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.spawn.desc"), ChatFormatting.GRAY),
                             ServerHelper.formattedText(" "),
                             ServerHelper.combineComponents(
-                                    ServerHelper.formattedText("\u2666 Current: ", ChatFormatting.GRAY),
+                                    ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.spawn.current") + " ", ChatFormatting.GRAY),
                                     ServerHelper.formattedText(data.getSpawn().getX() + ", " + data.getSpawn().getY() + ", " + data.getSpawn().getZ(), ChatFormatting.WHITE)
                             ),
                             ServerHelper.combineComponents(
-                                    ServerHelper.formattedText("\u2666 New: ", ChatFormatting.GRAY),
+                                    ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.spawn.new") + " ", ChatFormatting.GRAY),
                                     ServerHelper.formattedText(Math.round(player.position().x) + ", " + Math.round(player.position().y) + ", " + Math.round(player.position().z), ChatFormatting.WHITE)
                             )
                     );
                 }
                 case 16 -> {
                     item = new ItemStack(Items.OAK_BOAT);
-                    item.setHoverName(ServerHelper.formattedText("Island Travels", ChatFormatting.BOLD, ChatFormatting.BLUE));
+                    item.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.travels.title"), ChatFormatting.BOLD, ChatFormatting.BLUE));
                     ServerHelper.addLore(item,
-                            ServerHelper.formattedText("\u00BB Change visibility of your island.", ChatFormatting.GRAY),
+                            ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.travels.desc"), ChatFormatting.GRAY),
                             ServerHelper.formattedText(" "),
                             ServerHelper.combineComponents(
-                                    ServerHelper.formattedText("\u2666 Current: ", ChatFormatting.GRAY),
-                                    ServerHelper.formattedText(this.data.getTravelability() ? "Public" : "Private", ChatFormatting.WHITE)
+                                    ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.travels.current") + " ", ChatFormatting.GRAY),
+                                    ServerHelper.formattedText(this.data.getTravelability() ? SkyblockAddonLanguageConfig.getForKey("guis.travels.public") : SkyblockAddonLanguageConfig.getForKey("guis.travels.private"), ChatFormatting.WHITE)
                             ),
-                            ServerHelper.formattedText("\u2666 Click to change!", ChatFormatting.GRAY)
+                            ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.travels.onclick"), ChatFormatting.GRAY)
                     );
                 }
                 case 26 -> {
                     item = new ItemStack(Items.ARROW);
-                    item.setHoverName(ServerHelper.formattedText("Back", ChatFormatting.RED, ChatFormatting.BOLD));
+                    item.setHoverName(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.default.back"), ChatFormatting.RED, ChatFormatting.BOLD));
                 }
                 default -> {
                     item = new ItemStack(Items.GRAY_STAINED_GLASS_PANE);
@@ -137,7 +137,7 @@ public class SettingsOverviewHandler extends ServerOnlyHandler<IslandData> {
                 player.closeContainer();
                 if (!this.data.getIslandBoundingBox().isInside(player.blockPosition())) {
                     ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_BREAK, 3f, 1f);
-                    player.sendMessage(ServerHelper.formattedText(LanguageFile.getForKey("guis.island.setspawn.notallowed"), ChatFormatting.RED), player.getUUID());
+                    player.sendMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.island.setspawn.notallowed"), ChatFormatting.RED), player.getUUID());
                     return false;
                 }
                 ServerHelper.playSongToPlayer(player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);
