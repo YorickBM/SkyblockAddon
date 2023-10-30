@@ -57,7 +57,11 @@ public class PlayerEvents {
 
         if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
         IslandData island = SkyblockAddon.CheckOnIsland(player);
-        if(island == null) return; //We Shall do Nothing
+        if(island == null) { //Not on an island, so we do not allow action as we can not check permission level
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            event.setCanceled(true);
+            return;
+        }
 
         if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.UseEnderpearl, player.getUUID()).isAllowed()) {
             player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
@@ -71,7 +75,11 @@ public class PlayerEvents {
 
         if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
         IslandData island = SkyblockAddon.CheckOnIsland(player);
-        if(island == null) return; //We Shall do Nothing
+        if(island == null) { //Not on an island, so we do not allow action as we can not check permission level
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            event.setCanceled(true);
+            return;
+        }
 
         if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.UseChorusfruit, player.getUUID()).isAllowed()) {
             player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
@@ -86,7 +94,11 @@ public class PlayerEvents {
 
         if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
         IslandData island = SkyblockAddon.CheckOnIsland(event.getPlayer());
-        if(island == null) return; //We Shall do Nothing
+        if(island == null) { //Not on an island, so we do not allow action as we can not check permission level
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            event.setCanceled(true);
+            return;
+        }
 
         if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.UseBed, player.getUUID()).isAllowed()) {
             event.getPlayer().displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
@@ -101,7 +113,11 @@ public class PlayerEvents {
 
         if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
         IslandData island = SkyblockAddon.CheckOnIsland(player);
-        if(island == null) return; //We Shall do Nothing
+        if(island == null) { //Not on an island, so we do not allow action as we can not check permission level
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            event.setCanceled(true);
+            return;
+        }
 
         if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.CollectXP, player.getUUID()).isAllowed()) {
             player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
@@ -116,7 +132,11 @@ public class PlayerEvents {
 
         if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
         IslandData island = SkyblockAddon.CheckOnIsland(player);
-        if(island == null) return; //We Shall do Nothing
+        if(island == null) { //Not on an island, so we do not allow action as we can not check permission level
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            event.setCanceled(true);
+            return;
+        }
 
         if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.UseBucket, player.getUUID()).isAllowed()) {
             player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
@@ -131,7 +151,11 @@ public class PlayerEvents {
 
         if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
         IslandData island = SkyblockAddon.CheckOnIsland(player);
-        if(island == null) return; //We Shall do Nothing
+        if(island == null) { //Not on an island, so we do not allow action as we can not check permission level
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            event.setCanceled(true);
+            return;
+        }
 
         if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.UseBonemeal, player.getUUID()).isAllowed()) {
             player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
@@ -146,7 +170,11 @@ public class PlayerEvents {
 
         if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
         IslandData island = SkyblockAddon.CheckOnIsland(player);
-        if(island == null) return; //We Shall do Nothing
+        if(island == null) { //Not on an island, so we do not allow action as we can not check permission level
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            event.setCanceled(true);
+            return;
+        }
 
         if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.InteractWithGroundItems, player.getUUID()).isAllowed()) {
             player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
@@ -160,7 +188,11 @@ public class PlayerEvents {
 
         if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Non overworld events we ignore
         IslandData island = SkyblockAddon.CheckOnIsland(player);
-        if(island == null) return; //We Shall do Nothing
+        if(island == null) { //Not on an island, so we do not allow action as we can not check permission level
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            event.setCanceled(true);
+            return;
+        }
 
         if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.InteractWithGroundItems, player.getUUID()).isAllowed()) {
             player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
@@ -176,7 +208,11 @@ public class PlayerEvents {
 
         if(event.getTarget() instanceof Villager villager && player.isShiftKeyDown() && ModList.get().isLoaded("easy_villagers")) {
             IslandData island = SkyblockAddon.CheckOnIsland(player);
-            if(island == null) return; //We Shall do Nothing
+            if(island == null) { //Not on an island, so we do not allow action as we can not check permission level
+                player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+                event.setCanceled(true);
+                return;
+            }
 
             if(!island.isOwner(player.getUUID()) && !island.getPermission(Permissions.InteractWithBlocks, player.getUUID()).isAllowed()) {
                 player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
@@ -198,8 +234,11 @@ public class PlayerEvents {
         //Add item into an item frame
         if(event.getTarget() instanceof ItemFrame) {
             IslandData island = SkyblockAddon.CheckOnIsland(player);
-            if (island == null)
-                return; //Ignore events not on an island
+            if(island == null) { //Not on an island, so we do not allow action as we can not check permission level
+                player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+                event.setCanceled(true);
+                return;
+            }
             if (island.getPermission(Permissions.PlaceBlocks, player.getUUID()).isAllowed())
                 return; //Player is allowed to place blocks
 
@@ -210,8 +249,11 @@ public class PlayerEvents {
         if(ModList.get().isLoaded("camera")) {
             if(event.getTarget() instanceof ImageEntity imageFrame) {
                 IslandData island = SkyblockAddon.CheckOnIsland(player);
-                if (island == null)
-                    return; //Ignore events not on an island
+                if(island == null) { //Not on an island, so we do not allow action as we can not check permission level
+                    player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+                    event.setCanceled(true);
+                    return;
+                }
                 if(island.isOwner(player.getUUID()) || island.getPermission(Permissions.InteractWithBlocks, player.getUUID()).isAllowed())
                     return; //Player is allowed to interact with blocks
 
@@ -286,7 +328,10 @@ public class PlayerEvents {
 
         if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return false; //Non overworld events we ignore
         IslandData island = SkyblockAddon.CheckOnIsland(player);
-        if(island == null) return false; //We Shall do Nothing
+        if(island == null) {
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            return true; //We Shall do Nothing
+        }
 
         Permissions blockPermission = blockEntity != null ? ModIntegrationHandler.getPermissionForBlockEntity(blockEntity) : ModIntegrationHandler.getPermissionForBlock(block);
         Permissions itemPermission = ModIntegrationHandler.getPermissionForItem(handItem.getItem());
@@ -338,7 +383,11 @@ public class PlayerEvents {
         if(player.getLevel().dimension() != Level.OVERWORLD || player.hasPermissions(3)) return; //Ignore non overworld interactions & OP Players
 
         IslandData island = SkyblockAddon.CheckOnIsland(player);
-        if(island == null) return; //We Shall do Nothing
+        if(island == null) { //Not on an island, so we do not allow action as we can not check permission level
+            player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+            event.setCanceled(true);
+            return;
+        }
 
         Permissions permission = ModIntegrationHandler.getPermissionForItem(event.getItem().getItem());
         if(!island.isOwner(player.getUUID()) && !island.getPermission(permission, player.getUUID()).isAllowed(event.getItem().getItem())) {
@@ -354,8 +403,11 @@ public class PlayerEvents {
 
             if(event.getTarget() instanceof ArmorStand || event.getTarget() instanceof ItemFrame) {
                 IslandData island = SkyblockAddon.CheckOnIsland(player);
-                if (island == null)
-                    return; //Ignore events not on an island
+                if(island == null) { //Not on an island, so we do not allow action as we can not check permission level
+                    player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
+                    event.setCanceled(true);
+                    return;
+                }
                 if (island.getPermission(Permissions.DestroyBlocks, player.getUUID()).isAllowed())
                     return; //Player is allowed to place blocks
 
