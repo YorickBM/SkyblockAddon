@@ -389,8 +389,8 @@ public class IslandData {
      * @return BoundingBox of Island
      */
     public BoundingBox getIslandBoundingBox() {
-        BlockPos blockpos = quantize(new BlockPos(center.getX() - IslandGeneratorProvider.SIZE,-10,center.getZ() - IslandGeneratorProvider.SIZE));
-        BlockPos blockpos1 = quantize(new BlockPos(center.getX() + IslandGeneratorProvider.SIZE,256,center.getZ() + IslandGeneratorProvider.SIZE));
+        BlockPos blockpos = quantize(new BlockPos(center.getX() - IslandGeneratorProvider.SIZE,-100,center.getZ() - IslandGeneratorProvider.SIZE));
+        BlockPos blockpos1 = quantize(new BlockPos(center.getX() + IslandGeneratorProvider.SIZE,350,center.getZ() + IslandGeneratorProvider.SIZE));
         return BoundingBox.fromCorners(blockpos, blockpos1);
     }
 
