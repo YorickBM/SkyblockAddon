@@ -272,7 +272,7 @@ public class PlayerEvents {
 
                             player.addItem(image);
                         }
-                    }, 10); //1 second
+                    }, 100); //1 second
                 } else {
                     ItemStack image = imageFrame.getItem();
                     UUID imageUUID = imageFrame.getImageUUID().orElse(null);
@@ -284,7 +284,7 @@ public class PlayerEvents {
 
                             player.getInventory().removeItem(image);
                         }
-                    }, 10); //1 second
+                    }, 100); //1 second
                 }
             }
         }
@@ -390,6 +390,7 @@ public class PlayerEvents {
         }
 
         Permissions permission = ModIntegrationHandler.getPermissionForItem(event.getItem().getItem());
+        if(permission == null) return;
         if(!island.isOwner(player.getUUID()) && !island.getPermission(permission, player.getUUID()).isAllowed(event.getItem().getItem())) {
             player.displayClientMessage(ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("toolbar.overlay.nothere"), ChatFormatting.DARK_RED), true);
             event.setCanceled(true);

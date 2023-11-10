@@ -51,7 +51,7 @@ public class TeleportIslandCommand {
                 player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(generator -> {
                     generator.getIslandById(island.getIslandId()).teleport(player);
 
-                    command.sendSuccess(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.teleport.user.success")).withStyle(ChatFormatting.GREEN), false);
+                    command.sendSuccess(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.teleport.success")).withStyle(ChatFormatting.GREEN), false);
                 });
             } else {
                 Optional<ServerPlayer> p = targets.stream().findFirst();
