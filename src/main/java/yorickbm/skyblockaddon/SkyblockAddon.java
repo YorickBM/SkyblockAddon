@@ -11,6 +11,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModContainer;
@@ -31,6 +32,7 @@ import yorickbm.skyblockaddon.events.BlockEvents;
 import yorickbm.skyblockaddon.events.ModEvents;
 import yorickbm.skyblockaddon.events.PlayerEvents;
 import yorickbm.skyblockaddon.islands.IslandData;
+import yorickbm.skyblockaddon.util.ThreadManager;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.io.File;
@@ -129,6 +131,11 @@ public class SkyblockAddon {
             VersionChecker.CheckResult result = VersionChecker.getResult(modContainer.get().getModInfo());
             LOGGER.info("Vaulthunters Skyblock addon v" + VERSION + " (" + result.status().name() + ") has loaded!");
         }
+    }
+
+    @SubscribeEvent
+    public void onServerShutDown(ServerStoppedEvent event) {
+        ThreadManager.terminateAllThreads();
     }
 
     public static IslandData CheckOnIsland(Entity player) {

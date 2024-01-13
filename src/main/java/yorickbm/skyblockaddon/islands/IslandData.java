@@ -27,6 +27,7 @@ import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.islands.permissions.Permission;
 import yorickbm.skyblockaddon.util.ServerHelper;
+import yorickbm.skyblockaddon.util.Square;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.io.IOException;
@@ -48,6 +49,7 @@ public class IslandData {
     private Vec3i center; //Spawn coordinates of island
     private String biome = "Unknown";
     private boolean travelability = false;
+    private Square boundingBoxHelper = null;
 
     private PermissionGroup Admin, Members, Default, Owner;
     private final List<PermissionGroup> permissionGroups = new ArrayList<>();
@@ -492,6 +494,44 @@ public class IslandData {
      */
     public void setTravelability(boolean bool) {
         travelability = bool;
+    }
+
+    /**
+     * Get island bounding box.
+     * If a bounding box isn't yet generated create one
+     *
+     * @return Square
+     */
+    public Square getBoundingBoxHelper() {
+        if(boundingBoxHelper == null) {
+            BoundingBox box = getIslandBoundingBox();
+            boundingBoxHelper = new Square(new Vec3i(box.minX(), 0, box.minZ()), new Vec3i(box.maxX(), 0, box.maxZ()));
+        }
+
+        return boundingBoxHelper;
+    }
+
+    /**
+     * Convert location to a location on the edges of the square by usage of distance determinations.
+     * @param location Location to convert into an edge location
+     *
+     * @return Vec3i
+     */
+    public Vec3i getLocationOnEdge(Vec3i location) {
+        Square box = getBoundingBoxHelper();
+
+        int distance1 = ServerHelper.calculateDistance(location, box.getCorner1());
+        int distance2 = ServerHelper.calculateDistance(location, box.getCorner2());
+
+        Vec3i closestCorner = (distance1 < distance2) ? box.getCorner1() : box.getCorner2();
+        int xDiff = Math.abs(closestCorner.getX() - location.getX());
+        int zDiff = Math.abs(closestCorner.getZ() - location.getZ());
+
+        if(xDiff < zDiff) {
+            return new Vec3i(closestCorner.getX(), location.getY(), location.getZ());
+        } else {
+            return new Vec3i(location.getX(), location.getY(), closestCorner.getZ());
+        }
     }
 
 }

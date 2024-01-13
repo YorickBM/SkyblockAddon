@@ -2,12 +2,14 @@ package yorickbm.skyblockaddon.events;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -17,6 +19,10 @@ import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.islands.Permissions;
 import yorickbm.skyblockaddon.islands.permissions.Permission;
 import yorickbm.skyblockaddon.util.ServerHelper;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Event Source: https://forge.gemwire.uk/wiki/Events
@@ -133,5 +139,28 @@ public class BlockEvents {
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
+    }
+
+    HashMap<UUID, IslandData> LastIslandOn = new HashMap<>();
+    @SubscribeEvent
+    public void onPlayerMove(LivingEvent.LivingUpdateEvent event) {
+        if(!(event.getEntity() instanceof  ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Ignore everything except server player
+        if(player.getLevel().dimension() != Level.OVERWORLD) return; //Ignore none overworld events
+
+        IslandData island = SkyblockAddon.CheckOnIsland(player);
+        if(island != null) {
+            LastIslandOn.put(player.getUUID(), island);
+        } else {
+            island = LastIslandOn.get(player.getUUID());
+        }
+        if(island == null) return;
+
+        Vec3i edgePosition = island.getLocationOnEdge(event.getEntity().blockPosition());
+        List<Vec3i> blocks = island.getBoundingBoxHelper().calculatePoints(edgePosition, 30);
+
+        int distanceToEdge = ServerHelper.calculateDistance(new Vec3i(player.getBlockX(), player.getBlockY(), player.getBlockZ()), edgePosition);
+        if(distanceToEdge < 30) {
+            ServerHelper.registerIslandBorder(player, blocks, edgePosition);
+        }
     }
 }
