@@ -68,10 +68,10 @@ public class PermissionGroupOverviewHandler extends ServerOnlyHandler<IslandData
                     //TODO: Custom description options.
                     if(groups.get(groupIndex).getName().equals("Default")) {
                         ServerHelper.addLore(item,
-                                ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.group.other"), ChatFormatting.GRAY)
+                                ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.group.default"), ChatFormatting.GRAY)
                         );
                     } else {
-                        ServerHelper.addLore(item, ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.group.default"), ChatFormatting.GRAY));
+                        ServerHelper.addLore(item, ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("guis.group.other"), ChatFormatting.GRAY));
                     }
 
                     groupIndex += 1;
