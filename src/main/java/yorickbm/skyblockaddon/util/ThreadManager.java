@@ -45,7 +45,11 @@ public class ThreadManager {
 
     public static void terminateAllThreads() {
         for(UUID thread : activeThreads.keySet()) {
-            terminateThread(thread);
+            try {
+                terminateThread(thread);
+            } catch (Exception ex) {
+                //Too late to do anything about it.
+            }
         }
     }
 

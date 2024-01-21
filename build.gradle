@@ -184,6 +184,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:ftbessentials-410811:4560421")
     compileOnly fg.deobf("curse.maven:easy_villagers-400514:3887794")
     compileOnly fg.deobf("curse.maven:appliedenergistics2-223794:4733112")
+    compileOnly fg.deobf("curse.maven:refinedstorage-243076:4902316")
     compileOnly fileTree(dir: 'libs', include: ['*.jar'])
 
     // For more info...

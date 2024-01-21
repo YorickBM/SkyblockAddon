@@ -32,6 +32,7 @@ import yorickbm.skyblockaddon.events.BlockEvents;
 import yorickbm.skyblockaddon.events.ModEvents;
 import yorickbm.skyblockaddon.events.PlayerEvents;
 import yorickbm.skyblockaddon.islands.IslandData;
+import yorickbm.skyblockaddon.util.ModIntegration.ModIntegrationHandler;
 import yorickbm.skyblockaddon.util.TerralithFoundException;
 import yorickbm.skyblockaddon.util.ThreadManager;
 import yorickbm.skyblockaddon.util.UsernameCache;
@@ -98,15 +99,21 @@ public class SkyblockAddon {
         LOGGER.info("Got IMC {}", event.getIMCStream().
                 map(m -> m.messageSupplier().get()).
                 collect(Collectors.toList()));
+
+        // Determine if Terralith is found
+        if(ModList.get().isLoaded("terralith")) {
+            LOGGER.error("Beware, skyblockaddon mod is loaded together with Terralith!");
+            throw new TerralithFoundException();
+        }
+
+        // Setup Integration Handler for mods
+        ModIntegrationHandler.setup();
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        if(ModList.get().isLoaded("terralith")) {
-            LOGGER.error("Beware, skyblockaddon mod is loaded together with Terralith!");
-            throw new TerralithFoundException();
-        }
+
 
 //        if(!ModList.get().isLoaded("ftb2backup")) {
 //            WorldSaverThread saver = new WorldSaverThread();
@@ -128,6 +135,7 @@ public class SkyblockAddon {
             throw new RuntimeException(e);
         }
 
+        // Check mod version
         Optional<? extends ModContainer> modContainer = ModList.get().getModContainerById(MOD_ID);
         if(modContainer.isPresent()) {
             VersionChecker.CheckResult result = VersionChecker.getResult(modContainer.get().getModInfo());
