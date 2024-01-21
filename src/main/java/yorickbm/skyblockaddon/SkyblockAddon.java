@@ -32,6 +32,7 @@ import yorickbm.skyblockaddon.events.BlockEvents;
 import yorickbm.skyblockaddon.events.ModEvents;
 import yorickbm.skyblockaddon.events.PlayerEvents;
 import yorickbm.skyblockaddon.islands.IslandData;
+import yorickbm.skyblockaddon.util.TerralithFoundException;
 import yorickbm.skyblockaddon.util.ThreadManager;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
@@ -104,6 +105,7 @@ public class SkyblockAddon {
     public void onServerStarting(ServerStartingEvent event) {
         if(ModList.get().isLoaded("terralith")) {
             LOGGER.error("Beware, skyblockaddon mod is loaded together with Terralith!");
+            throw new TerralithFoundException();
         }
 
 //        if(!ModList.get().isLoaded("ftb2backup")) {
