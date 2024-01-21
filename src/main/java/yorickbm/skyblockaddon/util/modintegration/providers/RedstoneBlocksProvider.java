@@ -1,8 +1,8 @@
-package yorickbm.skyblockaddon.util.ModIntegration.Providers;
+package yorickbm.skyblockaddon.util.modintegration.providers;
 
 import net.minecraft.world.level.block.*;
 import yorickbm.skyblockaddon.islands.Permissions;
-import yorickbm.skyblockaddon.util.ModIntegration.PermissionProvider;
+import yorickbm.skyblockaddon.util.modintegration.PermissionProvider;
 
 public class RedstoneBlocksProvider implements PermissionProvider<Block> {
     @Override

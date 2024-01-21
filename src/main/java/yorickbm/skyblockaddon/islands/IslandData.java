@@ -144,9 +144,9 @@ public class IslandData {
     public boolean removeOwner(UUID uuid) {
         if(!isOwner(uuid)) return false;
 
-        if(this.Admin.getMembers().size() > 0)
+        if(!this.Admin.getMembers().isEmpty())
             setOwner(this.Admin.getMembers().get(0)); //Set new owner if necessary
-        else if(this.Members.getMembers().size() > 0)
+        else if(!this.Members.getMembers().isEmpty())
             setOwner(this.Members.getMembers().get(0)); //Set new owner if necessary
         else {
             return false;
@@ -520,10 +520,10 @@ public class IslandData {
     public Vec3i getLocationOnEdge(Vec3i location) {
         Square box = getBoundingBoxHelper();
 
-        int distance1 = ServerHelper.calculateDistance(location, box.getCorner1());
-        int distance2 = ServerHelper.calculateDistance(location, box.getCorner2());
+        int distance1 = ServerHelper.calculateDistance(location, box.corner1());
+        int distance2 = ServerHelper.calculateDistance(location, box.corner2());
 
-        Vec3i closestCorner = (distance1 < distance2) ? box.getCorner1() : box.getCorner2();
+        Vec3i closestCorner = (distance1 < distance2) ? box.corner1() : box.corner2();
         int xDiff = Math.abs(closestCorner.getX() - location.getX());
         int zDiff = Math.abs(closestCorner.getZ() - location.getZ());
 

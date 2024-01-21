@@ -23,6 +23,7 @@ public class PermissionGroup {
     private final boolean canBeRemoved;
     private final List<UUID> members = new ArrayList<>();
 
+    @SuppressWarnings("unchecked")
     public PermissionGroup(String name, Item displayItem, boolean defaultState) {
         this.name = name;
         this.permissions = new HashMap<>();
@@ -40,6 +41,7 @@ public class PermissionGroup {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public PermissionGroup(CompoundTag tag) {
         this.name = tag.getString("name");
         this.displayItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(tag.getString("displayItem")));

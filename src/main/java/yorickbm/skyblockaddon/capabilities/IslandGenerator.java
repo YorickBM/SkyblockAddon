@@ -144,7 +144,7 @@ public class IslandGenerator {
      * @return Spawn location of island
      * @throws IOException Exception to be thrown if resource not found
      */
-    public Vec3i genIsland(ServerLevel worldServer) throws IOException {
+    public Vec3i genIsland(ServerLevel worldServer) {
         CompoundTag nbt = SkyblockAddon.getIslandNBT(worldServer.getServer());
 
         ListTag paletteNbt = nbt.getList("palette", 10);
@@ -274,7 +274,7 @@ public class IslandGenerator {
         IslandData data;
 
         //Register island or collect island if already exists
-        if(islandId.equals("")) {
+        if(islandId.isEmpty()) {
             data = new IslandData(null, i.getLocation());
             islandId = registerIsland(data);
             LOGGER.info("[skyblockaddon] New legacy island created from " + player.getGameProfile().getName() + " ("+islandId+")");

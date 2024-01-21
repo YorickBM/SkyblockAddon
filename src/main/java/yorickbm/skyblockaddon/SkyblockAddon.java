@@ -32,7 +32,7 @@ import yorickbm.skyblockaddon.events.BlockEvents;
 import yorickbm.skyblockaddon.events.ModEvents;
 import yorickbm.skyblockaddon.events.PlayerEvents;
 import yorickbm.skyblockaddon.islands.IslandData;
-import yorickbm.skyblockaddon.util.ModIntegration.ModIntegrationHandler;
+import yorickbm.skyblockaddon.util.modintegration.ModIntegrationHandler;
 import yorickbm.skyblockaddon.util.TerralithFoundException;
 import yorickbm.skyblockaddon.util.ThreadManager;
 import yorickbm.skyblockaddon.util.UsernameCache;
@@ -154,7 +154,7 @@ public class SkyblockAddon {
         player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(islandGenerator -> {
 
             String islandIdOn = islandGenerator.getIslandIdByLocation(new Vec3i(player.getX(), 121, player.getZ()));
-            if(islandIdOn == null || islandIdOn.equals("")) return; //Not on an island so we do not affect permission
+            if(islandIdOn == null || islandIdOn.isEmpty()) return; //Not on an island so we do not affect permission
 
             IslandData data = islandGenerator.getIslandById(islandIdOn);
             island.set(data);
@@ -168,7 +168,7 @@ public class SkyblockAddon {
 
         Objects.requireNonNull(Objects.requireNonNull(player.getServer()).getLevel(Level.OVERWORLD)).getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(islandGenerator -> {
             String islandIdOn = islandGenerator.getIslandIdByLocation(new Vec3i(location.getX(), 121, location.getZ()));
-            if(islandIdOn == null || islandIdOn.equals("")) return; //Not on an island so we do not affect permission
+            if(islandIdOn == null || islandIdOn.isEmpty()) return; //Not on an island so we do not affect permission
 
             IslandData data = islandGenerator.getIslandById(islandIdOn);
             island.set(data);

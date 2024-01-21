@@ -1,10 +1,10 @@
-package yorickbm.skyblockaddon.util.ModIntegration.Providers;
+package yorickbm.skyblockaddon.util.modintegration.providers;
 
 import appeng.blockentity.AEBaseBlockEntity;
 import appeng.blockentity.grid.AENetworkBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import yorickbm.skyblockaddon.islands.Permissions;
-import yorickbm.skyblockaddon.util.ModIntegration.PermissionProvider;
+import yorickbm.skyblockaddon.util.modintegration.PermissionProvider;
 
 public class AEEntitysProvider implements PermissionProvider<BlockEntity> {
     @Override

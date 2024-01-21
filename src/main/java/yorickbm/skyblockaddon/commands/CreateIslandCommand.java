@@ -52,23 +52,19 @@ public class CreateIslandCommand {
 
             player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(generator -> {
                     Thread asyncIslandGen = new Thread(() -> {
-                        try {
-                            Vec3i vec = generator.genIsland(command.getLevel());
-                            if(vec.distToCenterSqr(new Vec3(IslandGeneratorProvider.DEFAULT_SPAWN.getX(), IslandGeneratorProvider.DEFAULT_SPAWN.getY(), IslandGeneratorProvider.DEFAULT_SPAWN.getZ())) < 10) {
-                                command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.create.fail")));
-                                return;
-                            }
-                            player.sendMessage(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.create.generating")).withStyle(ChatFormatting.GREEN), player.getUUID());
-
-                            IslandData islandData = new IslandData(player.getUUID(), vec);
-                            String id = generator.registerIsland(islandData);
-                            island.setIsland(id);
-                            islandData.teleport(player);
-
-                            command.sendSuccess(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.create.success")).withStyle(ChatFormatting.GREEN), true);
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        Vec3i vec = generator.genIsland(command.getLevel());
+                        if(vec.distToCenterSqr(new Vec3(IslandGeneratorProvider.DEFAULT_SPAWN.getX(), IslandGeneratorProvider.DEFAULT_SPAWN.getY(), IslandGeneratorProvider.DEFAULT_SPAWN.getZ())) < 10) {
+                            command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.create.fail")));
+                            return;
                         }
+                        player.sendMessage(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.create.generating")).withStyle(ChatFormatting.GREEN), player.getUUID());
+
+                        IslandData islandData = new IslandData(player.getUUID(), vec);
+                        String id = generator.registerIsland(islandData);
+                        island.setIsland(id);
+                        islandData.teleport(player);
+
+                        command.sendSuccess(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.create.success")).withStyle(ChatFormatting.GREEN), true);
                     });
                     asyncIslandGen.start();
             });

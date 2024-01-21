@@ -71,7 +71,7 @@ public class IslandOverviewHandler extends ServerOnlyHandler<IslandData> {
                     }
                     case 16 -> {
                         item = new ItemStack(Items.BARRIER);
-                        item.setHoverName(ServerHelper.formattedText(this.data.getMembers().size() > 0 ? "Leave" : "Delete", ChatFormatting.BOLD, ChatFormatting.RED));
+                        item.setHoverName(ServerHelper.formattedText(!this.data.getMembers().isEmpty() ? "Leave" : "Delete", ChatFormatting.BOLD, ChatFormatting.RED));
                         ServerHelper.addLore(item, ServerHelper.formattedText("\u00BB Leave this island and teleport to spawn.", ChatFormatting.GRAY));
                     }
                     default -> {

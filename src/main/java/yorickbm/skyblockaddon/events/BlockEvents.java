@@ -141,7 +141,7 @@ public class BlockEvents {
         //Has permission so event should not be canceled
     }
 
-    HashMap<UUID, IslandData> LastIslandOn = new HashMap<>();
+    final HashMap<UUID, IslandData> LastIslandOn = new HashMap<>();
     @SubscribeEvent
     public void onPlayerMove(LivingEvent.LivingUpdateEvent event) {
         if(!(event.getEntity() instanceof  ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Ignore everything except server player

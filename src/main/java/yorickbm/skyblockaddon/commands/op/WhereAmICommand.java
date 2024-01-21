@@ -45,7 +45,7 @@ public class WhereAmICommand {
 
         command.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
             String islandIdOn = g.getIslandIdByLocation(new Vec3i(player.getX(), 121, player.getZ()));
-            if(islandIdOn == null || islandIdOn.equals("")) { //Not on an island so we do not affect permission
+            if(islandIdOn == null || islandIdOn.isEmpty()) { //Not on an island so we do not affect permission
                 command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.admin.where.none")));
                 return;
             }

@@ -1,4 +1,4 @@
-package yorickbm.skyblockaddon.util.ModIntegration;
+package yorickbm.skyblockaddon.util.modintegration;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -7,7 +7,7 @@ import net.minecraftforge.fml.ModList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.islands.Permissions;
-import yorickbm.skyblockaddon.util.ModIntegration.Providers.*;
+import yorickbm.skyblockaddon.util.modintegration.providers.*;
 
 import java.util.HashMap;
 import java.util.Map;

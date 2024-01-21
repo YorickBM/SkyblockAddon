@@ -1,4 +1,4 @@
-package yorickbm.skyblockaddon.util.ModIntegration;
+package yorickbm.skyblockaddon.util.modintegration;
 
 import yorickbm.skyblockaddon.islands.Permissions;
 

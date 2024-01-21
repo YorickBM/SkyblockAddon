@@ -83,7 +83,7 @@ public class PlayerIsland {
      * Check if player is currently part of an island
      * @return True or False
      */
-    public boolean hasOne() { return !islandId.equals(""); }
+    public boolean hasOne() { return !islandId.isEmpty(); }
 
     /**
      * Returns if the player data that has been loaded was legacy data or not

@@ -1,9 +1,9 @@
-package yorickbm.skyblockaddon.util.ModIntegration.Providers;
+package yorickbm.skyblockaddon.util.modintegration.providers;
 
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.level.block.*;
 import yorickbm.skyblockaddon.islands.Permissions;
-import yorickbm.skyblockaddon.util.ModIntegration.PermissionProvider;
+import yorickbm.skyblockaddon.util.modintegration.PermissionProvider;
 
 public class VanillaBlocksProvider implements PermissionProvider<Block> {
     @Override

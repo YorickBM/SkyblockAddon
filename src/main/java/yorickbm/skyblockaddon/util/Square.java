@@ -4,10 +4,7 @@ import net.minecraft.core.Vec3i;
 
 import java.util.*;
 
-public class Square {
-    private final Vec3i corner1;
-    private final Vec3i corner2;
-
+public record Square(Vec3i corner1, Vec3i corner2) {
     /**
      * Enum to use for edge determination to allow for better readability.
      */
@@ -19,24 +16,21 @@ public class Square {
      * Enum to use for axis determination to allow for better readability.
      */
     public enum Axis {
-        X,Z
+        X, Z
     }
-
-    public Vec3i getCorner1() { return corner1; }
-    public Vec3i getCorner2() { return corner2; }
 
     /**
      * Constructs a Square object with two corners.
+     *
      * @param corner1 - The first corner.
      * @param corner2 - The second corner.
      */
-    public Square(Vec3i corner1, Vec3i corner2) {
-        this.corner1 = corner1;
-        this.corner2 = corner2;
+    public Square {
     }
 
     /**
      * Determines on which edge a location is.
+     *
      * @param location - The location to check.
      * @return The edge on which the location lies.
      */
@@ -59,6 +53,7 @@ public class Square {
 
     /**
      * Gets corners for a given edge.
+     *
      * @param edge - The edge for which to get corners.
      * @return An array of corners for the specified edge.
      */
@@ -74,6 +69,7 @@ public class Square {
 
     /**
      * Gets edges associated with a corner.
+     *
      * @param corner - The corner for which to get edges.
      * @return A set of edges associated with the specified corner.
      */
@@ -92,8 +88,9 @@ public class Square {
 
     /**
      * Calculates points along an edge based on specified conditions.
+     *
      * @param location - The current location.
-     * @param amount - The number of points to calculate.
+     * @param amount   - The number of points to calculate.
      * @return A list of calculated points.
      */
     public List<Vec3i> calculatePoints(Vec3i location, int amount) {
@@ -115,12 +112,13 @@ public class Square {
 
     /**
      * Recursively calculates points along an edge based on specified conditions.
-     * @param points - The array to which calculated points are added.
-     * @param edge - The current edge.
-     * @param axis - The axis along which to calculate points.
-     * @param corner - The corner associated with the edge.
-     * @param location - The current location.
-     * @param amount - The remaining number of points to calculate.
+     *
+     * @param points     - The array to which calculated points are added.
+     * @param edge       - The current edge.
+     * @param axis       - The axis along which to calculate points.
+     * @param corner     - The corner associated with the edge.
+     * @param location   - The current location.
+     * @param amount     - The remaining number of points to calculate.
      * @param isNegative - Whether to iterate in the negative direction.
      */
     private void getPoints(List<Vec3i> points, Edge edge, Axis axis, Vec3i corner, Vec3i location, int amount, boolean isNegative) {
@@ -128,21 +126,21 @@ public class Square {
         int x = location.getX();
         int z = location.getZ();
 
-        for(int i = 1; i <= amount; i++) {
+        for (int i = 1; i <= amount; i++) {
             Vec3i point = new Vec3i(
                     x + ((isNegative ? -1 : 1) * (axis == Axis.X ? i : 0)),
                     location.getY(),
                     z + ((isNegative ? -1 : 1) * (axis == Axis.Z ? i : 0))
             );
 
-            if((isNegative ? point.getX() < corner.getX() || point.getZ() < corner.getZ() : point.getX() > corner.getX() || point.getZ() > corner.getZ())) {
+            if ((isNegative ? point.getX() < corner.getX() || point.getZ() < corner.getZ() : point.getX() > corner.getX() || point.getZ() > corner.getZ())) {
 
                 Set<Edge> attachedTo = getEdgesForCorner(corner);
                 Edge newEdge = attachedTo.stream().filter(e -> e != edge).findFirst().orElse(Edge.NONE);
 
                 Vec3i[] newCorners = getEdgeCorners(newEdge);
                 Vec3i newCorner = Arrays.stream(newCorners).filter(e -> !e.equals(corner)).findFirst().orElse(Vec3i.ZERO);
-                if(newCorner == Vec3i.ZERO) break; // We could not get the new corner!! Prevent error
+                if (newCorner == Vec3i.ZERO) break; // We could not get the new corner!! Prevent error
 
                 Axis newAxis = (axis == Axis.X) ? Axis.Z : Axis.X;
                 boolean newIsNegative = (newAxis == Axis.X) ? newCorner.getX() < corner.getX() : newCorner.getZ() < corner.getZ();
