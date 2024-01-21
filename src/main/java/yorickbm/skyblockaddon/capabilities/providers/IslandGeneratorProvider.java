@@ -20,7 +20,6 @@ public class IslandGeneratorProvider implements ICapabilityProvider, INBTSeriali
     public static final Vec3i DEFAULT_SPAWN = new Vec3i(-7, 136, -6);
     public static final int SIZE = 400;
     public static final int BUFFER = 200; //Put blocks as buffer where no can build
-    public static final int MIN_HEIGHT = 110;
 
     public static IslandGeneratorProvider instance;
     public static IslandGeneratorProvider getInstance() { return instance; }

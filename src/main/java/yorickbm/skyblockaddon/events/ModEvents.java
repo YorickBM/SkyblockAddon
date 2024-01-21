@@ -50,6 +50,7 @@ public class ModEvents {
         new PromoteIslandMemberCommand(event.getDispatcher());
         new DemoteIslandMemberCommand(event.getDispatcher());
         new WhereAmICommand(event.getDispatcher());
+        new GenerateIslandCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
         LOGGER.info("Registered commands for " + SkyblockAddon.MOD_ID);

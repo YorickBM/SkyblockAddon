@@ -27,9 +27,11 @@ import net.minecraftforge.fml.loading.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.events.BlockEvents;
 import yorickbm.skyblockaddon.events.ModEvents;
+import yorickbm.skyblockaddon.events.ParticleEvents;
 import yorickbm.skyblockaddon.events.PlayerEvents;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.modintegration.ModIntegrationHandler;
@@ -62,18 +64,24 @@ public class SkyblockAddon {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::processIMC);
 
-        // Register ourselves for server and other game events we are interested in
-        MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.register(new ModEvents());
-        MinecraftForge.EVENT_BUS.register(new BlockEvents());
-        MinecraftForge.EVENT_BUS.register(new PlayerEvents());
-
         //Register username cache
         UsernameCache.initCache(120);
 
         //Register configs
         FileUtils.getOrCreateDirectory(FMLPaths.CONFIGDIR.get().resolve(MOD_ID), MOD_ID);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, SkyblockAddonLanguageConfig.SPEC, MOD_ID + "/language.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, SkyblockAddonConfig.SPEC, MOD_ID + "/config.toml");
+
+        // Register ourselves for server and other game events we are interested in
+        MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(new ModEvents());
+        MinecraftForge.EVENT_BUS.register(new BlockEvents());
+        MinecraftForge.EVENT_BUS.register(new PlayerEvents());
+
+        if(SkyblockAddonConfig.getForKey("island.particles.border").equalsIgnoreCase("TRUE")) {
+            MinecraftForge.EVENT_BUS.register(new ParticleEvents());
+        }
+
     }
 
     public static CompoundTag getIslandNBT(MinecraftServer server) {
@@ -145,7 +153,11 @@ public class SkyblockAddon {
 
     @SubscribeEvent
     public void onServerShutDown(ServerStoppedEvent event) {
-        ThreadManager.terminateAllThreads();
+        try {
+            ThreadManager.terminateAllThreads();
+        } catch(NoClassDefFoundError ex) {
+            //Some reason this gets thrown from time to time
+        }
     }
 
     public static IslandData CheckOnIsland(Entity player) {

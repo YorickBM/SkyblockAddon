@@ -10,10 +10,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.levelgen.Heightmap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
+import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.islands.PermissionGroup;
 import yorickbm.skyblockaddon.util.BuildingBlock;
@@ -179,9 +183,13 @@ public class IslandGenerator {
         lastLocation = nextGridLocation(lastLocation);
 
         final int finalBigestX = bigestX, finalBigestZ = bigestZ;
-        blocks.forEach(block -> block.place(worldServer, lastLocation.offset(-(finalBigestX /2),IslandGeneratorProvider.MIN_HEIGHT,-(finalBigestZ /2))));
+        final int height = Integer.parseInt(SkyblockAddonConfig.getForKey("island.spawn.height"));
+        blocks.forEach(block -> block.place(worldServer, lastLocation.offset(-(finalBigestX /2), height ,-(finalBigestZ /2))));
 
-        return new Vec3i(lastLocation.getX(), 121, lastLocation.getZ());
+        ChunkAccess chunk = worldServer.getChunk(new BlockPos(lastLocation.getX(), height ,lastLocation.getZ()));
+        int topHeight = chunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, lastLocation.getX(), lastLocation.getZ()) +2;
+
+        return new Vec3i(lastLocation.getX(), topHeight, lastLocation.getZ());
     }
 
     /**

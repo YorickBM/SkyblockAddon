@@ -14,6 +14,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.islands.Permissions;
@@ -139,28 +140,5 @@ public class BlockEvents {
             event.setCanceled(true);
         }
         //Has permission so event should not be canceled
-    }
-
-    final HashMap<UUID, IslandData> LastIslandOn = new HashMap<>();
-    @SubscribeEvent
-    public void onPlayerMove(LivingEvent.LivingUpdateEvent event) {
-        if(!(event.getEntity() instanceof  ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Ignore everything except server player
-        if(player.getLevel().dimension() != Level.OVERWORLD) return; //Ignore none overworld events
-
-        IslandData island = SkyblockAddon.CheckOnIsland(player);
-        if(island != null) {
-            LastIslandOn.put(player.getUUID(), island);
-        } else {
-            island = LastIslandOn.get(player.getUUID());
-        }
-        if(island == null) return;
-
-        Vec3i edgePosition = island.getLocationOnEdge(event.getEntity().blockPosition());
-        List<Vec3i> blocks = island.getBoundingBoxHelper().calculatePoints(edgePosition, 30);
-
-        int distanceToEdge = ServerHelper.calculateDistance(new Vec3i(player.getBlockX(), player.getBlockY(), player.getBlockZ()), edgePosition);
-        if(distanceToEdge < 30) {
-            ServerHelper.registerIslandBorder(player, blocks, edgePosition);
-        }
     }
 }
