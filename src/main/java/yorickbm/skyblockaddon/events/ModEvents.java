@@ -51,6 +51,7 @@ public class ModEvents {
         new DemoteIslandMemberCommand(event.getDispatcher());
         new WhereAmICommand(event.getDispatcher());
         new GenerateIslandCommand(event.getDispatcher());
+        new ToggleVisibilityCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
         LOGGER.info("Registered commands for " + SkyblockAddon.MOD_ID);
