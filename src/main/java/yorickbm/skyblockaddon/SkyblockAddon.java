@@ -34,10 +34,10 @@ import yorickbm.skyblockaddon.events.ModEvents;
 import yorickbm.skyblockaddon.events.ParticleEvents;
 import yorickbm.skyblockaddon.events.PlayerEvents;
 import yorickbm.skyblockaddon.islands.IslandData;
-import yorickbm.skyblockaddon.util.modintegration.ModIntegrationHandler;
 import yorickbm.skyblockaddon.util.TerralithFoundException;
 import yorickbm.skyblockaddon.util.ThreadManager;
 import yorickbm.skyblockaddon.util.UsernameCache;
+import yorickbm.skyblockaddon.util.modintegration.ModIntegrationHandler;
 
 import java.io.File;
 import java.io.IOException;

@@ -11,7 +11,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +22,6 @@ import yorickbm.skyblockaddon.islands.PermissionGroup;
 import yorickbm.skyblockaddon.util.BuildingBlock;
 import yorickbm.skyblockaddon.util.NBTUtil;
 
-import java.io.IOException;
 import java.util.*;
 
 public class IslandGenerator {
@@ -146,7 +144,6 @@ public class IslandGenerator {
      * Island is template given from Iskall85 Vaulthunters S3 modpack
      * @param worldServer World you wish island to be generated within
      * @return Spawn location of island
-     * @throws IOException Exception to be thrown if resource not found
      */
     public Vec3i genIsland(ServerLevel worldServer) {
         CompoundTag nbt = SkyblockAddon.getIslandNBT(worldServer.getServer());

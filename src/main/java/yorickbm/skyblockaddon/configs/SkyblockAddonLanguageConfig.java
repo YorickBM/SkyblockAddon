@@ -162,6 +162,8 @@ public class SkyblockAddonLanguageConfig {
         register("commands.undo.expired", "Your time to rejoin the island you left expired.", "");
         register("commands.undo.success.has", "We have left your current island for you, to rejoin your previous one!", "");
         register("commands.undo.success", "You have rejoined your previous island!", "");
+
+        register("commands.admin.toggle.success", "Updated the travel ability of island %s to %s.", "");
     }
 
     private static void setupGUI() {

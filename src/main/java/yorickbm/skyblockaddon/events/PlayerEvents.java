@@ -37,8 +37,8 @@ import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.islands.Permissions;
-import yorickbm.skyblockaddon.util.modintegration.ModIntegrationHandler;
 import yorickbm.skyblockaddon.util.ServerHelper;
+import yorickbm.skyblockaddon.util.modintegration.ModIntegrationHandler;
 
 import java.util.Random;
 import java.util.Timer;

@@ -12,25 +12,19 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
-import org.apache.logging.log4j.core.jmx.Server;
 import yorickbm.skyblockaddon.SkyblockAddon;
-import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
-import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
-import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.BuildingBlock;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class GenerateIslandCommand {
 

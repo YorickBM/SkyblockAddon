@@ -15,8 +15,6 @@ import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.islands.IslandData;
 
-import java.io.IOException;
-
 public class CreateIslandCommand {
 
     public CreateIslandCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
