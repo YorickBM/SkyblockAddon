@@ -1,14 +1,15 @@
 {
 	"homepage": "https://legacy.curseforge.com/minecraft/mc-mods/sky-vaulters-support",
 	"promos": {
-		"1.18.2-latest": "6.1",
-		"1.18.2-recommended": "6.1",
-		"1.18.1-latest": "6.1",
-		"1.18.1-recommended": "6.1",
-		"1.18-latest": "6.1",
-		"1.18-recommended": "6.1"
+		"1.18.2-latest": "6.2",
+		"1.18.2-recommended": "6.2",
+		"1.18.1-latest": "6.2",
+		"1.18.1-recommended": "6.2",
+		"1.18-latest": "6.2",
+		"1.18-recommended": "6.2"
 	},
 	"1.18.2": {
+		"6.2": "Download and changelog available at https://legacy.curseforge.com/minecraft/mc-mods/sky-vaulters-support/files/5083562",
 		"6.1": "Download and changelog available at https://legacy.curseforge.com/minecraft/mc-mods/sky-vaulters-support/files/4857771",
 		"6.0": "Download and changelog available at https://legacy.curseforge.com/minecraft/mc-mods/sky-vaulters-support/files/4830550",
 		"5.1": "Download and changelog available at https://legacy.curseforge.com/minecraft/mc-mods/sky-vaulters-support/files/4735658",
@@ -23,6 +24,7 @@
 		"1.1": "Download and changelog available at https://legacy.curseforge.com/minecraft/mc-mods/sky-vaulters-support/files/4362601"
 	},
 	"1.18.1": {
+		"6.2": "Download and changelog available at https://legacy.curseforge.com/minecraft/mc-mods/sky-vaulters-support/files/5083562",
 		"6.1": "Download and changelog available at https://legacy.curseforge.com/minecraft/mc-mods/sky-vaulters-support/files/4857771",
 		"6.0": "Download and changelog available at https://legacy.curseforge.com/minecraft/mc-mods/sky-vaulters-support/files/4830550",
 		"5.1": "Download and changelog available at https://legacy.curseforge.com/minecraft/mc-mods/sky-vaulters-support/files/4735658",
@@ -37,6 +39,7 @@
 		"1.1": "Download and changelog available at https://legacy.curseforge.com/minecraft/mc-mods/sky-vaulters-support/files/4362601"
 	},
 	"1.18": {
+		"6.2": "Download and changelog available at https://legacy.curseforge.com/minecraft/mc-mods/sky-vaulters-support/files/5083562",
 		"6.1": "Download and changelog available at https://legacy.curseforge.com/minecraft/mc-mods/sky-vaulters-support/files/4857771",
 		"6.0": "Download and changelog available at https://legacy.curseforge.com/minecraft/mc-mods/sky-vaulters-support/files/4830550",
 		"5.1": "Download and changelog available at https://legacy.curseforge.com/minecraft/mc-mods/sky-vaulters-support/files/4735658",
