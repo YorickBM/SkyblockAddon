@@ -2,6 +2,7 @@ package yorickbm.skyblockaddon.islands.data;
 
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
+import yorickbm.skyblockaddon.util.NBT.IsUnique;
 import yorickbm.skyblockaddon.util.NBT.NBTSerializable;
 import yorickbm.skyblockaddon.util.NBT.NBTUtil;
 
