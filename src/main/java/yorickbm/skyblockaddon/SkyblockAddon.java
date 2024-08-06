@@ -3,6 +3,7 @@ package yorickbm.skyblockaddon;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -46,6 +47,8 @@ public class SkyblockAddon {
     public static final int ISLAND_BUFFER = 200;
     public static final int ISLAND_SIZE = 400;
 
+    private static MinecraftServer serverInstance;
+    public static MinecraftServer getServerInstance() { return serverInstance; }
 
     public SkyblockAddon() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -86,6 +89,8 @@ public class SkyblockAddon {
      */
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
+
+        serverInstance = event.getServer();
 
         //Custom island.nbt
         try {

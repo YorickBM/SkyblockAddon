@@ -5,23 +5,31 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.storage.LevelResource;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.util.BuildingBlock;
+import yorickbm.skyblockaddon.util.NBTEncoder;
 import yorickbm.skyblockaddon.util.NBTUtil;
 import yorickbm.skyblockaddon.util.ResourceManager;
 import yorickbm.skyblockaddon.util.exceptions.NBTNotFoundException;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class SkyblockAddonWorldCapability {
+    private static final Logger LOGGER = LogManager.getLogger();
 
     Vec3i lastLocation;
     HashMap<UUID, Island> islandsByUUID;
@@ -33,10 +41,30 @@ public class SkyblockAddonWorldCapability {
 
     public void saveNBTData(CompoundTag nbt) {
         nbt.put("lastIsland", NBTUtil.Vec3iToNBT(lastLocation));
+
+        Path worldPath = SkyblockAddon.getServerInstance().getWorldPath(LevelResource.ROOT).normalize();
+        Path filePath = worldPath.resolve("islanddata");
+
+        NBTEncoder.saveToFile(islandsByUUID.values(), filePath);
     }
 
     public void loadNBTData(CompoundTag nbt) {
         lastLocation = NBTUtil.NBTToVec3i(nbt.getCompound("lastIsland"));
+
+        Path worldPath = SkyblockAddon.getServerInstance().getWorldPath(LevelResource.ROOT).normalize();
+        Path filePath = worldPath.resolve("islanddata");
+
+        Collection<Island> islands = NBTEncoder.loadFromFile(filePath, Island.class);
+        if(islands.isEmpty()) { //Check if collection is not null.
+            LOGGER.warn("[skyblockaddon] No islands available to be loaded.");
+            return;
+        }
+
+        //Store islands in map
+        islands.forEach(island -> {
+            islandsByUUID.put(island.getId(), island);
+        });
+        LOGGER.info("[skyblockaddon] Loaded "+islands.size()+" islands from data.");
     }
 
     /**
