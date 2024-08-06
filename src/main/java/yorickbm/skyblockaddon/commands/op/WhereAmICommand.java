@@ -16,11 +16,8 @@ import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
-<<<<<<< Updated upstream
-=======
 import java.util.UUID;
 
->>>>>>> Stashed changes
 public class WhereAmICommand {
 
     public WhereAmICommand(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -49,13 +46,8 @@ public class WhereAmICommand {
         }
 
         command.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
-<<<<<<< Updated upstream
-            String islandIdOn = g.getIslandIdByLocation(new Vec3i(player.getX(), 121, player.getZ()));
-            if(islandIdOn == null || islandIdOn.isEmpty()) { //Not on an island so we do not affect permission
-=======
             UUID islandIdOn = g.getIslandIdByLocation(new Vec3i(player.getX(), 121, player.getZ()));
             if(islandIdOn == null) { //Not on an island so we do not affect permission
->>>>>>> Stashed changes
                 command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.admin.where.none")));
                 return;
             }
@@ -64,11 +56,7 @@ public class WhereAmICommand {
                 ServerHelper.styledText(
                         SkyblockAddonLanguageConfig.getForKey("commands.admin.where.success").formatted(islandIdOn),
                     Style.EMPTY
-<<<<<<< Updated upstream
-                        .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, islandIdOn))
-=======
                         .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, islandIdOn.toString()))
->>>>>>> Stashed changes
                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(SkyblockAddonLanguageConfig.getForKey("chat.hover.copy")))),
                     ChatFormatting.GREEN
                 ),

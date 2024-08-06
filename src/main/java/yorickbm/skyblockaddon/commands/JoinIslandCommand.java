@@ -44,26 +44,16 @@ public class JoinIslandCommand {
                 command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.accept.has.one")));
                 return;
             }
-<<<<<<< Updated upstream
-            if(!playerIsland.inviteValid(islandId.toString())) {
-=======
             if(!playerIsland.inviteValid(islandId)) {
->>>>>>> Stashed changes
                 command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.accept.invalid")));
                 return;
             }
 
             player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
                 //Update island data
-<<<<<<< Updated upstream
-                IslandData island = g.getIslandById(islandId.toString());
-                island.addIslandMember(player.getUUID());
-                playerIsland.setIsland(islandId.toString());
-=======
                 IslandData island = g.getIslandById(islandId);
                 island.addIslandMember(player.getUUID());
                 playerIsland.setIsland(islandId);
->>>>>>> Stashed changes
 
                 //Inform player
                 ServerHelper.playSongToPlayer((ServerPlayer) player, SoundEvents.AMETHYST_BLOCK_CHIME, 3f, 1f);

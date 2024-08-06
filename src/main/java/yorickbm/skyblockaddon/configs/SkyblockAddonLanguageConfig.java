@@ -29,14 +29,11 @@ public class SkyblockAddonLanguageConfig {
             .define("island.member.kick", "Sorry, you have been kicked of the island.")
         );
         values.put(
-<<<<<<< Updated upstream
-=======
                 "island.spawn.needed",
                 BUILDER.comment("Notify player that spawn island is still required.")
                 .define("island.spawn.needed", "First island that will be created will become spawn island!")
         );
         values.put(
->>>>>>> Stashed changes
             "toolbar.overlay.nothere",
             BUILDER.comment("Message above toolbar when action is not permitted.")
             .define("toolbar.overlay", "Sorry, you cannot do this here.")
@@ -172,12 +169,9 @@ public class SkyblockAddonLanguageConfig {
         register("commands.undo.success", "You have rejoined your previous island!", "");
 
         register("commands.admin.toggle.success", "Updated the travel ability of island %s to %s.", "");
-<<<<<<< Updated upstream
-=======
 
         register("commands.set.center.fail", "Cannot modify spawn center location when islands have already been generated.", "");
         register("commands.set.center.success", "Updated island center spawn location. (%s;%s;%s)", "");
->>>>>>> Stashed changes
     }
 
     private static void setupGUI() {

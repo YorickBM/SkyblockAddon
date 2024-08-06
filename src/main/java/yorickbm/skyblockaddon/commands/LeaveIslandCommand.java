@@ -63,11 +63,7 @@ public class LeaveIslandCommand {
 
     public static void leaveIsland(IslandData islandData, PlayerIsland island, Player player, ServerLevel level) {
         islandData.removeIslandMember(player.getUUID());
-<<<<<<< Updated upstream
-        island.setIsland(""); //Make it empty so its NONE
-=======
         island.setIsland(null); //Make it empty so its NONE
->>>>>>> Stashed changes
 
         player.sendMessage(
             ServerHelper.formattedText(

@@ -15,11 +15,8 @@ import yorickbm.skyblockaddon.capabilities.providers.PlayerIslandProvider;
 import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.islands.IslandData;
 
-<<<<<<< Updated upstream
-=======
 import java.util.UUID;
 
->>>>>>> Stashed changes
 public class CreateIslandCommand {
 
     public CreateIslandCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -56,24 +53,16 @@ public class CreateIslandCommand {
             player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(generator -> {
                     Thread asyncIslandGen = new Thread(() -> {
                         Vec3i vec = generator.genIsland(command.getLevel());
-<<<<<<< Updated upstream
-                        if(vec.distToCenterSqr(new Vec3(IslandGeneratorProvider.DEFAULT_SPAWN.getX(), IslandGeneratorProvider.DEFAULT_SPAWN.getY(), IslandGeneratorProvider.DEFAULT_SPAWN.getZ())) < 10) {
-=======
                         if(vec == null) {
->>>>>>> Stashed changes
                             command.sendFailure(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.create.fail")));
                             return;
                         }
                         player.sendMessage(new TextComponent(SkyblockAddonLanguageConfig.getForKey("commands.create.generating")).withStyle(ChatFormatting.GREEN), player.getUUID());
 
                         IslandData islandData = new IslandData(player.getUUID(), vec);
-<<<<<<< Updated upstream
-                        String id = generator.registerIsland(islandData);
-=======
                         UUID id = generator.registerIsland(islandData);
                         generator.saveIslandToFile(islandData, command.getServer()); //Create .nbt file
 
->>>>>>> Stashed changes
                         island.setIsland(id);
                         islandData.teleport(player);
 

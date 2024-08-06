@@ -1,9 +1,6 @@
 package yorickbm.skyblockaddon.events;
 
-<<<<<<< Updated upstream
-=======
 import net.minecraft.ChatFormatting;
->>>>>>> Stashed changes
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -13,10 +10,7 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-<<<<<<< Updated upstream
-=======
 import net.minecraftforge.event.world.WorldEvent;
->>>>>>> Stashed changes
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.command.ConfigCommand;
@@ -34,12 +28,9 @@ import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.ServerHelper;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
-<<<<<<< Updated upstream
-=======
 import java.awt.*;
 import java.util.UUID;
 
->>>>>>> Stashed changes
 @Mod.EventBusSubscriber(modid = SkyblockAddon.MOD_ID)
 public class ModEvents {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -66,10 +57,7 @@ public class ModEvents {
         new WhereAmICommand(event.getDispatcher());
         new GenerateIslandCommand(event.getDispatcher());
         new ToggleVisibilityCommand(event.getDispatcher());
-<<<<<<< Updated upstream
-=======
         new SetIslandCenter(event.getDispatcher());
->>>>>>> Stashed changes
 
         ConfigCommand.register(event.getDispatcher());
         LOGGER.info("Registered commands for " + SkyblockAddon.MOD_ID);
@@ -88,9 +76,6 @@ public class ModEvents {
         if(event.getObject().dimension() != Level.OVERWORLD) return;
         if(event.getObject().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).isPresent()) return;
 
-<<<<<<< Updated upstream
-        event.addCapability(new ResourceLocation(SkyblockAddon.MOD_ID, "properties"), new IslandGeneratorProvider());
-=======
         if(event.getObject() instanceof ServerLevel level) {
             event.addCapability(new ResourceLocation(SkyblockAddon.MOD_ID, "properties"), new IslandGeneratorProvider(level.getServer()));
         }
@@ -102,27 +87,10 @@ public class ModEvents {
         event.getWorld().getServer().getLevel(Level.OVERWORLD).getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(cap -> {
             cap.saveIslandsToFile(event.getWorld().getServer());
         });
->>>>>>> Stashed changes
     }
 
     @SubscribeEvent
     public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-<<<<<<< Updated upstream
-        UsernameCache.onPlayerLogin(event.getPlayer());
-        event.getPlayer().getCapability(PlayerIslandProvider.PLAYER_ISLAND).ifPresent(i -> {
-            if(i.hasLegacyData()) {
-                event.getPlayer().getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(w -> w.registerIslandFromLegacy(i, event.getPlayer()));
-            }
-
-            ServerLevel overworld = event.getPlayer().getServer().getLevel(Level.OVERWORLD);
-            if(overworld != null) {
-                overworld.getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(x -> {
-                    String oldId = i.getIslandId();
-                    IslandData data = x.getIslandById(oldId);
-
-                    if(oldId.length() >= 3 && data == null) {
-                        i.setIsland(""); //Reset the island, since it does not exist!
-=======
 
         event.getPlayer().getServer().getLevel(Level.OVERWORLD).getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(cap -> {
             if(cap.getIslands().size() == 0) {
@@ -141,18 +109,13 @@ public class ModEvents {
                     IslandData data = x.getIslandById(oldId);
                     if(data == null) {
                         i.setIsland(null); //Reset the island, since it does not exist!
->>>>>>> Stashed changes
                         LOGGER.info(event.getPlayer().getGameProfile().getName() +" joined with being part of island does not exist anymore. (" + oldId + ")");
 
                         event.getPlayer().teleportTo(overworld.getSharedSpawnPos().getX(), overworld.getSharedSpawnPos().getY(), overworld.getSharedSpawnPos().getZ());
                     }
 
                     if(data != null && !(data.hasMember(event.getPlayer().getUUID()) || data.isOwner(event.getPlayer().getUUID()))) {
-<<<<<<< Updated upstream
-                        i.setIsland(""); //Reset island id, since player is no longer part of it.
-=======
                         i.setIsland(null); //Reset island id, since player is no longer part of it.
->>>>>>> Stashed changes
                         LOGGER.info(event.getPlayer().getGameProfile().getName() +" got kicked of their island while being offline. (\" + oldId + \")");
 
                         event.getPlayer().teleportTo(overworld.getSharedSpawnPos().getX(), overworld.getSharedSpawnPos().getY(), overworld.getSharedSpawnPos().getZ());
