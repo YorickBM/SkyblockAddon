@@ -3,6 +3,8 @@ package yorickbm.skyblockaddon.util.NBT;
 import net.minecraft.nbt.CompoundTag;
 
 public interface NBTSerializable {
-    CompoundTag serializeNBT();
-    void deserializeNBT(CompoundTag nbt);
+    default CompoundTag serializeNBT() {
+        return new CompoundTag();
+    }
+    void deserializeNBT(CompoundTag tag);
 }
