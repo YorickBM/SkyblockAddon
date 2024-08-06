@@ -14,6 +14,7 @@ import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.util.BuildingBlock;
+import yorickbm.skyblockaddon.util.NBTUtil;
 import yorickbm.skyblockaddon.util.ResourceManager;
 import yorickbm.skyblockaddon.util.exceptions.NBTNotFoundException;
 
@@ -32,9 +33,11 @@ public class SkyblockAddonWorldCapability {
     }
 
     public void saveNBTData(CompoundTag nbt) {
+        nbt.put("lastIsland", NBTUtil.Vec3iToNBT(lastLocation));
     }
 
     public void loadNBTData(CompoundTag nbt) {
+        lastLocation = NBTUtil.NBTToVec3i(nbt.getCompound("lastIsland"));
     }
 
     /**
