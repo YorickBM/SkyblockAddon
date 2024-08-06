@@ -192,7 +192,7 @@ public class SkyblockAddonWorldCapability {
 
         final int finalBigestX = bigestX, finalBigestZ = bigestZ;
         final int height = Integer.parseInt(SkyblockAddonConfig.getForKey("island.spawn.height"));
-        blocks.forEach(block -> block.place(worldServer, lastLocation.offset(-(finalBigestX /2), height ,-(finalBigestZ /2))));
+        blocks.stream().filter(block -> !block.getState().isAir()).forEach(block -> block.place(worldServer, lastLocation.offset(-(finalBigestX /2), height ,-(finalBigestZ /2))));
 
         ChunkAccess chunk = worldServer.getChunk(new BlockPos(lastLocation.getX(), height ,lastLocation.getZ()));
         int topHeight = chunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, lastLocation.getX(), lastLocation.getZ()) +2;
