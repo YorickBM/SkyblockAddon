@@ -43,7 +43,8 @@ public class SkyblockAddon {
 
     public static final float UI_SOUND_VOL = 0.5f;
     public static final float EFFECT_SOUND_VOL = 0.2f;
-
+    public static final int ISLAND_BUFFER = 200;
+    public static final int ISLAND_SIZE = 400;
 
 
     public SkyblockAddon() {
