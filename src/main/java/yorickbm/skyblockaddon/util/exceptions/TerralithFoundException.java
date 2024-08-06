@@ -1,4 +1,4 @@
-package yorickbm.skyblockaddon.util;
+package yorickbm.skyblockaddon.util.exceptions;
 
 public class TerralithFoundException extends RuntimeException {
     public TerralithFoundException() {
