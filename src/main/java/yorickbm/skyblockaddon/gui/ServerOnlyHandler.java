@@ -9,8 +9,6 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
 
-//TODO Prevent Extraction quick handle
-//TODO Prevent inventory sort
 public abstract class ServerOnlyHandler<T> extends AbstractContainerMenu {
 
     protected final SimpleContainer inventory;

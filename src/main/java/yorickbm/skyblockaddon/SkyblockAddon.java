@@ -1,14 +1,9 @@
 package yorickbm.skyblockaddon;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.resources.Resource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
@@ -26,24 +21,15 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import yorickbm.skyblockaddon.capabilities.providers.IslandGeneratorProvider;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
-import yorickbm.skyblockaddon.events.BlockEvents;
-import yorickbm.skyblockaddon.events.ModEvents;
-import yorickbm.skyblockaddon.events.ParticleEvents;
-import yorickbm.skyblockaddon.events.PlayerEvents;
-import yorickbm.skyblockaddon.islands.IslandData;
 import yorickbm.skyblockaddon.util.TerralithFoundException;
 import yorickbm.skyblockaddon.util.ThreadManager;
 import yorickbm.skyblockaddon.util.UsernameCache;
-import yorickbm.skyblockaddon.util.modintegration.ModIntegrationHandler;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -53,12 +39,12 @@ public class SkyblockAddon {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "skyblockaddon";
-    public static final String VERSION = "6.2";
+    public static final String VERSION = "7.0";
 
     public static final float UI_SOUND_VOL = 0.5f;
     public static final float EFFECT_SOUND_VOL = 0.2f;
 
-    private static CompoundTag IslandNBTData = null;
+
 
     public SkyblockAddon() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -74,34 +60,12 @@ public class SkyblockAddon {
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.register(new ModEvents());
-        MinecraftForge.EVENT_BUS.register(new BlockEvents());
-        MinecraftForge.EVENT_BUS.register(new PlayerEvents());
-
-        if(SkyblockAddonConfig.getForKey("island.particles.border").equalsIgnoreCase("TRUE")) {
-            MinecraftForge.EVENT_BUS.register(new ParticleEvents());
-        }
-
     }
 
-    public static CompoundTag getIslandNBT(MinecraftServer server) {
-        if(IslandNBTData == null) {
-            try {
-                File islandFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/island.nbt");
-                IslandNBTData = NbtIo.readCompressed(islandFile);
-            } catch (IOException e) {
-                LOGGER.error("Could not load external island.nbt file, using mod's internal island.nbt file.");
-                try {
-                    Resource rs = server.getResourceManager().getResource(new ResourceLocation(SkyblockAddon.MOD_ID, "structures/island.nbt"));
-                    IslandNBTData = NbtIo.readCompressed(rs.getInputStream());
-                } catch (IOException ex) {
-                    LOGGER.error("Could not load mod's internal island.nbt file!!!");
-                }
-            }
-        }
-        return IslandNBTData;
-    }
-
+    /**
+     * Inter Mod Communications.
+     * Checks against Terralith
+     */
     private void processIMC(final InterModProcessEvent event) {
         // some example code to receive and process InterModComms from other mods
         LOGGER.info("Got IMC {}", event.getIMCStream().
@@ -113,21 +77,14 @@ public class SkyblockAddon {
             LOGGER.error("Beware, skyblockaddon mod is loaded together with Terralith!");
             throw new TerralithFoundException();
         }
-
-        // Setup Integration Handler for mods
-        ModIntegrationHandler.setup();
     }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
+    /**
+     * Runs upon server starting event
+     * Responsible for loading resources
+     */
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-
-
-//        if(!ModList.get().isLoaded("ftb2backup")) {
-//            WorldSaverThread saver = new WorldSaverThread();
-//            saver.setServer(event.getServer());
-//            saver.start();
-//        }
 
         //Custom island.nbt
         try {
@@ -151,42 +108,16 @@ public class SkyblockAddon {
         }
     }
 
+    /**
+     * Runs upon Shutdown Event of server.
+     * Responsible for terminating all current running threads.
+     */
     @SubscribeEvent
     public void onServerShutDown(ServerStoppedEvent event) {
         try {
             ThreadManager.terminateAllThreads();
         } catch(NoClassDefFoundError ex) {
-            //Some reason this gets thrown from time to time
+            //Seems to be thrown
         }
     }
-
-    public static IslandData CheckOnIsland(Entity player) {
-        AtomicReference<IslandData> island = new AtomicReference<>(null);
-
-        player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(islandGenerator -> {
-
-            String islandIdOn = islandGenerator.getIslandIdByLocation(new Vec3i(player.getX(), 121, player.getZ()));
-            if(islandIdOn == null || islandIdOn.isEmpty()) return; //Not on an island so we do not affect permission
-
-            IslandData data = islandGenerator.getIslandById(islandIdOn);
-            island.set(data);
-        });
-
-        return island.get();
-    }
-
-    public static IslandData GetIslandByBlockPos(BlockPos location, Entity player) {
-        AtomicReference<IslandData> island = new AtomicReference<>(null);
-
-        Objects.requireNonNull(Objects.requireNonNull(player.getServer()).getLevel(Level.OVERWORLD)).getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(islandGenerator -> {
-            String islandIdOn = islandGenerator.getIslandIdByLocation(new Vec3i(location.getX(), 121, location.getZ()));
-            if(islandIdOn == null || islandIdOn.isEmpty()) return; //Not on an island so we do not affect permission
-
-            IslandData data = islandGenerator.getIslandById(islandIdOn);
-            island.set(data);
-        });
-
-        return island.get();
-    }
-
 }
