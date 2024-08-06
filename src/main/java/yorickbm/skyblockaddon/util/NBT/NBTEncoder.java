@@ -1,12 +1,8 @@
-package yorickbm.skyblockaddon.util;
+package yorickbm.skyblockaddon.util.NBT;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.level.storage.LevelResource;
-import yorickbm.skyblockaddon.SkyblockAddon;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,7 +20,7 @@ public class NBTEncoder {
      * @param filePath - Folder to load NBT files from
      * @param clazz - Class instance in which to load the NBT files
      */
-    public static <T extends SupportsEncoder> Collection<T> loadFromFile(Path filePath, Class<T> clazz) throws RuntimeException {
+    public static <T extends IsUnique & NBTSerializable> Collection<T> loadFromFile(Path filePath, Class<T> clazz) throws RuntimeException {
         Collection<T> objects = new ArrayList<>();
 
         //Create folder if it doesn't exist
@@ -61,8 +57,8 @@ public class NBTEncoder {
      *
      * @param collection - Collection of clazz
      */
-    public static void saveToFile(Collection<? extends SupportsEncoder> collection, Path filePath) throws RuntimeException {
-        for(SupportsEncoder data : collection) {
+    public static <T extends IsUnique & NBTSerializable> void saveToFile(Collection<T> collection, Path filePath) throws RuntimeException {
+        for(T data : collection) {
             try {
                 Path path = filePath.resolve(data.getId().toString() + ".nbt");
 

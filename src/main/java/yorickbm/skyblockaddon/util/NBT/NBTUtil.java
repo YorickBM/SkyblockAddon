@@ -1,4 +1,4 @@
-package yorickbm.skyblockaddon.util;
+package yorickbm.skyblockaddon.util.NBT;
 
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;

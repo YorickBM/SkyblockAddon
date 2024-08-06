@@ -1,11 +1,12 @@
 package yorickbm.skyblockaddon.islands;
 
 import net.minecraft.nbt.CompoundTag;
-import yorickbm.skyblockaddon.util.SupportsEncoder;
+import yorickbm.skyblockaddon.util.NBT.IsUnique;
+import yorickbm.skyblockaddon.util.NBT.NBTSerializable;
 
 import java.util.UUID;
 
-public class Island implements SupportsEncoder {
+public class Island implements IsUnique, NBTSerializable {
     public UUID getId() {
         return UUID.randomUUID();
     }
@@ -18,7 +19,6 @@ public class Island implements SupportsEncoder {
     }
 
     @Override
-    public CompoundTag deserializeNBT(CompoundTag nbt) {
-        return nbt;
+    public void deserializeNBT(CompoundTag nbt) {
     }
 }

@@ -5,7 +5,6 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -17,8 +16,8 @@ import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.util.BuildingBlock;
-import yorickbm.skyblockaddon.util.NBTEncoder;
-import yorickbm.skyblockaddon.util.NBTUtil;
+import yorickbm.skyblockaddon.util.NBT.NBTEncoder;
+import yorickbm.skyblockaddon.util.NBT.NBTUtil;
 import yorickbm.skyblockaddon.util.ResourceManager;
 import yorickbm.skyblockaddon.util.exceptions.NBTNotFoundException;
 
