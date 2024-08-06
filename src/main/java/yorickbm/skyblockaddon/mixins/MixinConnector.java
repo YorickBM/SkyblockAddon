@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 package yorickbm.skyblockaddon.mixins;
 
 import org.spongepowered.asm.mixin.Mixins;
@@ -10,3 +11,5 @@ public class MixinConnector implements IMixinConnector {
         Mixins.addConfigurations("assets/skyblockaddon/skyblockaddon.mixin.json","assets/skyblockaddon/skyblockaddon.mixin.optional.json");
     }
 }
+=======
+>>>>>>> Stashed changes

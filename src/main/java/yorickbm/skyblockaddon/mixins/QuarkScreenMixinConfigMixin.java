@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 package yorickbm.skyblockaddon.mixins;
 
 import net.minecraft.world.entity.player.Player;
@@ -17,3 +18,5 @@ public class QuarkScreenMixinConfigMixin {
             ci.cancel();
     }
 }
+=======
+>>>>>>> Stashed changes

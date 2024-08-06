@@ -21,10 +21,17 @@ public class PlayerIsland {
     }
 
     //New data
+<<<<<<< Updated upstream
     private String islandId = "";
     private String oldIslandId = ""; //Allows to undo island leave through commando
 
     private final HashMap<String, Long> islandInvites = new HashMap<>();
+=======
+    private UUID islandId = null;
+    private UUID oldIslandId = null; //Allows to undo island leave through commando
+
+    private final HashMap<UUID, Long> islandInvites = new HashMap<>();
+>>>>>>> Stashed changes
     private final HashMap<UUID, Long> teleportInvites = new HashMap<>();
     private long creationTimestamp = Instant.now().getEpochSecond() - 220;
 
@@ -34,7 +41,11 @@ public class PlayerIsland {
      * @param islandId Id of island to be invited to
      * @return Boolean
      */
+<<<<<<< Updated upstream
     public boolean inviteValid(String islandId) {
+=======
+    public boolean inviteValid(UUID islandId) {
+>>>>>>> Stashed changes
         Object timestamp = islandInvites.get(islandId);
         islandInvites.remove(islandId); //One time trigger validation
 
@@ -45,7 +56,11 @@ public class PlayerIsland {
      * Add island invite to player
      * @param islandId IslandId you are inviting player for
      */
+<<<<<<< Updated upstream
     public void addInvite(String islandId) {
+=======
+    public void addInvite(UUID islandId) {
+>>>>>>> Stashed changes
         islandInvites.put(islandId, Instant.now().getEpochSecond());
     }
 
@@ -83,7 +98,11 @@ public class PlayerIsland {
      * Check if player is currently part of an island
      * @return True or False
      */
+<<<<<<< Updated upstream
     public boolean hasOne() { return !islandId.isEmpty(); }
+=======
+    public boolean hasOne() { return islandId != null; }
+>>>>>>> Stashed changes
 
     /**
      * Returns if the player data that has been loaded was legacy data or not
@@ -99,8 +118,13 @@ public class PlayerIsland {
      * @return CompoundTag
      */
     public CompoundTag saveNBTData(CompoundTag nbt) {
+<<<<<<< Updated upstream
         nbt.putInt("nbt-v", 2);
         nbt.putString("islandId", islandId);
+=======
+        nbt.putInt("nbt-v", 3);
+        nbt.putUUID("islandId", islandId);
+>>>>>>> Stashed changes
 
         return nbt;
     }
@@ -112,9 +136,17 @@ public class PlayerIsland {
     public void loadNBTData(CompoundTag nbt) {
         if(nbt.contains("nbt-v")) {
             if (nbt.getInt("nbt-v") == 2) {
+<<<<<<< Updated upstream
                 islandId = nbt.getString("islandId");
             } else {
                 islandId = "";
+=======
+                islandId = UUID.fromString(nbt.getString("islandId"));
+            } if (nbt.getInt("nbt-v") >= 3) {
+                islandId = nbt.getUUID("islandId");
+            } else {
+                islandId = null;
+>>>>>>> Stashed changes
             }
         } else {
             if(nbt.contains("loc-x")) centerLocation = new Vec3i(nbt.getInt("loc-x"),nbt.getInt("loc-y"),nbt.getInt("loc-z"));
@@ -127,7 +159,11 @@ public class PlayerIsland {
      * Set players island by ID
      * @param id ID of island to set
      */
+<<<<<<< Updated upstream
     public void setIsland(String id) {
+=======
+    public void setIsland(UUID id) {
+>>>>>>> Stashed changes
         oldIslandId = islandId;
         islandId = id;
     }
@@ -136,7 +172,11 @@ public class PlayerIsland {
      * Get players previous island he/she/they was part of.
      * @return ID of island
      */
+<<<<<<< Updated upstream
     public String getPreviousIsland() {
+=======
+    public UUID getPreviousIsland() {
+>>>>>>> Stashed changes
         return oldIslandId;
     }
 
@@ -153,7 +193,11 @@ public class PlayerIsland {
      * Get ID for island currently player part of is
      * @return Island ID
      */
+<<<<<<< Updated upstream
     public String getIslandId() {
+=======
+    public UUID getIslandId() {
+>>>>>>> Stashed changes
         return islandId;
     }
 }

@@ -43,6 +43,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
+<<<<<<< Updated upstream
+=======
+import java.util.UUID;
+>>>>>>> Stashed changes
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -82,6 +86,7 @@ public class SkyblockAddon {
             MinecraftForge.EVENT_BUS.register(new ParticleEvents());
         }
 
+<<<<<<< Updated upstream
     }
 
     public static CompoundTag getIslandNBT(MinecraftServer server) {
@@ -102,6 +107,33 @@ public class SkyblockAddon {
         return IslandNBTData;
     }
 
+=======
+    }
+
+    /**
+     * Load custom .NBT file for island structure
+     * @param server
+     * @return NBT data
+     */
+    public static CompoundTag getIslandNBT(MinecraftServer server) {
+        if(IslandNBTData == null) {
+            try {
+                File islandFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/island.nbt");
+                IslandNBTData = NbtIo.readCompressed(islandFile);
+            } catch (IOException e) {
+                LOGGER.error("Could not load external island.nbt file, using mod's internal island.nbt file.");
+                try {
+                    Resource rs = server.getResourceManager().getResource(new ResourceLocation(SkyblockAddon.MOD_ID, "structures/island.nbt"));
+                    IslandNBTData = NbtIo.readCompressed(rs.getInputStream());
+                } catch (IOException ex) {
+                    LOGGER.error("Could not load mod's internal island.nbt file!!!");
+                }
+            }
+        }
+        return IslandNBTData;
+    }
+
+>>>>>>> Stashed changes
     private void processIMC(final InterModProcessEvent event) {
         // some example code to receive and process InterModComms from other mods
         LOGGER.info("Got IMC {}", event.getIMCStream().
@@ -165,8 +197,13 @@ public class SkyblockAddon {
 
         player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(islandGenerator -> {
 
+<<<<<<< Updated upstream
             String islandIdOn = islandGenerator.getIslandIdByLocation(new Vec3i(player.getX(), 121, player.getZ()));
             if(islandIdOn == null || islandIdOn.isEmpty()) return; //Not on an island so we do not affect permission
+=======
+            UUID islandIdOn = islandGenerator.getIslandIdByLocation(new Vec3i(player.getX(), 121, player.getZ()));
+            if(islandIdOn == null) return; //Not on an island so we do not affect permission
+>>>>>>> Stashed changes
 
             IslandData data = islandGenerator.getIslandById(islandIdOn);
             island.set(data);
@@ -179,8 +216,13 @@ public class SkyblockAddon {
         AtomicReference<IslandData> island = new AtomicReference<>(null);
 
         Objects.requireNonNull(Objects.requireNonNull(player.getServer()).getLevel(Level.OVERWORLD)).getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(islandGenerator -> {
+<<<<<<< Updated upstream
             String islandIdOn = islandGenerator.getIslandIdByLocation(new Vec3i(location.getX(), 121, location.getZ()));
             if(islandIdOn == null || islandIdOn.isEmpty()) return; //Not on an island so we do not affect permission
+=======
+            UUID islandIdOn = islandGenerator.getIslandIdByLocation(new Vec3i(location.getX(), 121, location.getZ()));
+            if(islandIdOn == null ) return; //Not on an island so we do not affect permission
+>>>>>>> Stashed changes
 
             IslandData data = islandGenerator.getIslandById(islandIdOn);
             island.set(data);

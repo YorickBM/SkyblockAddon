@@ -71,8 +71,13 @@ public class SetPlayersIslandCommand {
                 g.getIslandById(i.getIslandId()).removeIslandMember(player.getUUID());
             }
 
+<<<<<<< Updated upstream
             g.getIslandById(id.toString()).addIslandMember(target.getUUID());
             i.setIsland(id.toString());
+=======
+            g.getIslandById(id).addIslandMember(target.getUUID());
+            i.setIsland(id);
+>>>>>>> Stashed changes
 
             command.sendSuccess(
                 ServerHelper.formattedText(
@@ -85,7 +90,11 @@ public class SetPlayersIslandCommand {
                 ServerHelper.formattedText(SkyblockAddonLanguageConfig.getForKey("commands.admin.setId.teleport"), ChatFormatting.GREEN)
                 ,target.getUUID());
 
+<<<<<<< Updated upstream
             g.getIslandById(id.toString()).teleport(target);
+=======
+            g.getIslandById(id).teleport(target);
+>>>>>>> Stashed changes
         }));
 
         return Command.SINGLE_SUCCESS;

@@ -45,7 +45,11 @@ public class ToggleVisibilityCommand {
         }
 
         player.getLevel().getCapability(IslandGeneratorProvider.ISLAND_GENERATOR).ifPresent(g -> {
+<<<<<<< Updated upstream
             IslandData island = g.getIslandById(target.toString());
+=======
+            IslandData island = g.getIslandById(target);
+>>>>>>> Stashed changes
             if(island == null) {
                 command.sendFailure(new TextComponent(String.format(SkyblockAddonLanguageConfig.getForKey("commands.not.found"), target)));
                 return;

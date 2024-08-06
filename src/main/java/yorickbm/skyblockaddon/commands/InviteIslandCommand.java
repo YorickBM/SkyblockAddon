@@ -19,6 +19,10 @@ import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.Collection;
+<<<<<<< Updated upstream
+=======
+import java.util.UUID;
+>>>>>>> Stashed changes
 
 public class InviteIslandCommand {
     public InviteIslandCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
