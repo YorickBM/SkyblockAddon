@@ -24,6 +24,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
+import yorickbm.skyblockaddon.events.ModEvents;
 import yorickbm.skyblockaddon.util.ThreadManager;
 import yorickbm.skyblockaddon.util.UsernameCache;
 import yorickbm.skyblockaddon.util.exceptions.TerralithFoundException;
@@ -64,6 +65,7 @@ public class SkyblockAddon {
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(new ModEvents());
     }
 
     /**

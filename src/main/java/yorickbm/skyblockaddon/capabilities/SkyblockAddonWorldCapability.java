@@ -1,14 +1,19 @@
 package yorickbm.skyblockaddon.capabilities;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.storage.LevelResource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,10 +27,9 @@ import yorickbm.skyblockaddon.util.ResourceManager;
 import yorickbm.skyblockaddon.util.exceptions.NBTNotFoundException;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class SkyblockAddonWorldCapability {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -33,20 +37,92 @@ public class SkyblockAddonWorldCapability {
     Vec3i lastLocation;
     HashMap<UUID, Island> islandsByUUID;
 
+    //Reverse Lookup Caches
+    Cache<UUID, UUID> CACHE_islandByPlayerUUID;
+    Cache<BoundingBox, UUID> CACHE_islandByBoundingBox;
+
     public SkyblockAddonWorldCapability() {
         islandsByUUID = new HashMap<>();
         lastLocation = Vec3i.ZERO;
     }
 
+    /**
+     * Creates reverse lookup caches for optimized performance.
+     */
+    public void initializeCaches(MinecraftServer server) {
+        CACHE_islandByPlayerUUID = Caffeine.newBuilder()
+                .expireAfterAccess(6, TimeUnit.HOURS)
+                .maximumSize((long) Math.floor(server.getMaxPlayers() * 2.5)) //Cap the cache at 2.5 times max online users at same time.
+                .build();
+        CACHE_islandByBoundingBox = Caffeine.newBuilder()
+                .expireAfterAccess(24, TimeUnit.HOURS)
+                .build();
+    }
+
+    /**
+     * Fill reverse lookup caches with data for entity.
+     * I.E. Island UUID for entity.
+     *
+     * @param entity - Player whose data is loaded into reverse lookup cache
+     */
+    public void loadIslandIntoReverseCache(Entity entity) {
+        Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.isPartOf(entity.getUUID())).findFirst();
+        if(island.isEmpty()) return;
+
+        CACHE_islandByPlayerUUID.put(entity.getUUID(), island.get().getId());
+        CACHE_islandByBoundingBox.put(island.get().getIslandBoundingBox(), island.get().getId());
+    }
+
+    /**
+     * Get island where entity is a part of.
+     *
+     * @param entity - Entity whom to check
+     * @return - Island of entity
+     */
+    public Island getIslandByEntityUUID(Entity entity) {
+        UUID islandId = CACHE_islandByPlayerUUID.getIfPresent(entity.getUUID()); //Check if cache contains island.
+        if(islandId != null) return islandsByUUID.get(islandId);
+
+        Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.isPartOf(entity.getUUID())).findFirst();
+        island.ifPresent(value -> CACHE_islandByPlayerUUID.put(entity.getUUID(), value.getId())); //Store island into cache
+        return island.orElse(null);
+    }
+
+    /**
+     * Get the island where the entity is currently standing on.
+     *
+     * @param entity - Entity whom to check
+     * @return  - Island entity is on
+     */
+    public Island getIslandPlayerIsStandingOn(Entity entity) {
+        List<UUID> islandIds = CACHE_islandByBoundingBox.asMap().entrySet().stream()
+                .filter(entry -> entry.getKey().isInside(entity.getOnPos()))
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList());
+
+        Optional<UUID> islandId = islandIds.stream().findFirst();
+        if(islandId.isPresent()) return islandsByUUID.get(islandId.get());
+
+        Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.getIslandBoundingBox().isInside(entity.getOnPos())).findFirst();
+        island.ifPresent(value -> CACHE_islandByBoundingBox.put(value.getIslandBoundingBox(), value.getId())); //Store island into cache
+        return island.orElse(null);
+    }
+
+    /**
+     * Save data into NBT.
+     */
     public void saveNBTData(CompoundTag nbt) {
         nbt.put("lastIsland", NBTUtil.Vec3iToNBT(lastLocation));
 
         Path worldPath = SkyblockAddon.getServerInstance().getWorldPath(LevelResource.ROOT).normalize();
         Path filePath = worldPath.resolve("islanddata");
 
-        NBTEncoder.saveToFile(islandsByUUID.values(), filePath);
+        NBTEncoder.saveToFile(getIslands(), filePath);
     }
 
+    /**
+     * Load data from NBT.
+     */
     public void loadNBTData(CompoundTag nbt) {
         lastLocation = NBTUtil.NBTToVec3i(nbt.getCompound("lastIsland"));
 
@@ -67,8 +143,16 @@ public class SkyblockAddonWorldCapability {
     }
 
     /**
-     * Generate an island from NBT data file stored within resources of this plugin
-     * Island is template given from Iskall85 Vaulthunters S3 modpack
+     * Get collection of all created islands for the world.
+     *
+     * @return Collection of islands
+     */
+    public Collection<Island> getIslands() { return islandsByUUID.values(); }
+
+    /**
+     * Generate an island from NBT data file stored within resources of this plugin.
+     * Island is template given from Iskall85 Vaulthunters S3 modpack.
+     *
      * @param worldServer World you wish island to be generated within
      * @return Spawn location of island
      */
@@ -117,7 +201,8 @@ public class SkyblockAddonWorldCapability {
     }
 
     /**
-     * Get next Vec3i for an island based on snake pattern island generation algorithm
+     * Get next Vec3i for an island based on snake pattern island generation algorithm.
+     *
      * @param location Last island location
      * @return Location for next island
      */

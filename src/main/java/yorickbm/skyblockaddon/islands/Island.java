@@ -13,6 +13,10 @@ public class Island extends IslandData implements IsUnique, NBTSerializable {
     Island() {
     }
 
+    public boolean isPartOf(UUID player) {
+        return getOwner() == player;
+    }
+
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = super.serializeNBT();

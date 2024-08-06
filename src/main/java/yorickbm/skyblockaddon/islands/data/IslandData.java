@@ -1,10 +1,14 @@
 package yorickbm.skyblockaddon.islands.data;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
-import yorickbm.skyblockaddon.util.NBT.IsUnique;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.util.BiomeUtil;
 import yorickbm.skyblockaddon.util.NBT.NBTSerializable;
 import yorickbm.skyblockaddon.util.NBT.NBTUtil;
+import yorickbm.skyblockaddon.util.geometry.Square;
 
 import java.util.UUID;
 
@@ -62,6 +66,28 @@ public class IslandData implements NBTSerializable {
 
     public void setTravelability(boolean travelability) {
         this.travelability = travelability;
+    }
+
+    /**
+     * Get bounding box for island from center point.
+     *
+     * @return BoundingBox of Island
+     */
+    public BoundingBox getIslandBoundingBox() {
+        int size = SkyblockAddon.ISLAND_SIZE;
+        BlockPos blockpos = BiomeUtil.quantize(new BlockPos(center.getX() - size,-100,center.getZ() - size));
+        BlockPos blockpos1 = BiomeUtil.quantize(new BlockPos(center.getX() + size,350,center.getZ() + size));
+        return BoundingBox.fromCorners(blockpos, blockpos1);
+    }
+
+    /**
+     * Get Island Bounding Box as square geometry.
+     *
+     * @return Square Geometry
+     */
+    public Square getIslandBoundingBoxAsSquare() {
+        BoundingBox box = getIslandBoundingBox();
+        return new Square(new Vec3i(box.minX(), 0, box.minZ()), new Vec3i(box.maxX(), 0, box.maxZ()))
     }
 
     @Override
