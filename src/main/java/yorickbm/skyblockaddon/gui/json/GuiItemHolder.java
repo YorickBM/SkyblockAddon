@@ -8,19 +8,21 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.List;
 
 public class GuiItemHolder implements JSONSerializable {
+    private static final Logger LOGGER = LogManager.getLogger();
+
     private String display_name;
     private String item;
     private List<String> lore;
-
-    private String onClick;
-    private String onSecondClick;
-    private String data;
+    private Object data;
 
     /**
      * Get itemstack representative of the data within the Holder.
@@ -33,9 +35,9 @@ public class GuiItemHolder implements JSONSerializable {
         for (String string : lore) {
             ServerHelper.addLore(stack, Component.Serializer.fromJson(string));
         }
+        stack.getOrCreateTagElement(SkyblockAddon.MOD_ID);
         return stack;
     }
-
     /**
      * Get item from ForgeRegistries.
      * If not found returns BARRIER.
@@ -43,8 +45,13 @@ public class GuiItemHolder implements JSONSerializable {
      * @return - Minecraft Registry Item
      */
     public Item getItem() {
-        Item mcItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(item));
-        return mcItem != null ? mcItem : Items.BARRIER;
+        try {
+            Item mcItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(item.toLowerCase()));
+            return mcItem != null ? mcItem : Items.BARRIER;
+        } catch (Exception ex) {
+            LOGGER.error(item.toLowerCase() + " could not be found for GUI rendering.");
+            return Items.BARRIER;
+        }
     }
 
     /**
@@ -69,8 +76,6 @@ public class GuiItemHolder implements JSONSerializable {
         this.display_name = temp.display_name;
         this.item = temp.item;
         this.lore = temp.lore;
-        this.onClick = temp.onClick;
-        this.onSecondClick = temp.onSecondClick;
         this.data = temp.data;
     }
 }

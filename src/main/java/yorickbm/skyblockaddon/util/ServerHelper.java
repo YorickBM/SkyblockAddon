@@ -17,7 +17,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
-import yorickbm.skyblockaddon.gui.GuiContext;
 
 import java.util.Arrays;
 import java.util.HashMap;

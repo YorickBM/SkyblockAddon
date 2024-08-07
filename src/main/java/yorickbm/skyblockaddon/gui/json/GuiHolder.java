@@ -15,6 +15,16 @@ public class GuiHolder implements JSONSerializable {
     private List<GuiItem> items;
 
     /**
+     * Get Gui Items
+     */
+    public List<GuiItem> getItems() { return items; }
+
+    /**
+     * Get Gui Fillers
+     */
+    public List<GuiFiller> getFillers() { return fillers; }
+
+    /**
      * Get GUI configured key.
      */
     public String getKey() {

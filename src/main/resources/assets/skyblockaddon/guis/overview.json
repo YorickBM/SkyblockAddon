@@ -6,59 +6,85 @@
     {
       "item": {
         "display_name": "{\"text\": \"\"}",
-        "item": "GRAY_STAINED_GLASS_PANE",
+        "item": "minecraft:GRAY_STAINED_GLASS_PANE",
         "lore": [],
-        "onClick": "NONE",
-        "onSecondClick": "NONE",
-        "data": "NONE"
+        "data": {}
       },
-      "pattern": "EMPTY"
+      "pattern": "EMPTY",
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "NONE",
+        "onSecondClick": "NONE"
+      }
     }
   ],
   "items": [
     {
       "item": {
         "display_name": "{\"text\": \"Teleport\",\"bold\": true,\"color\": \"blue\"}",
-        "item": "ENDER_EYE",
+        "item": "minecraft:ENDER_EYE",
         "lore": [],
-        "onClick": "teleportTo",
-        "onSecondClick": "teleportTo",
-        "data": "ISLAND"
+        "data": {}
       },
-      "slot": 10
+      "slot": 10,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "teleportTo",
+        "onSecondClick": "teleportTo"
+      }
     },
     {
       "item": {
         "display_name": "{\"text\": \"Members\",\"bold\": true,\"color\": \"blue\"}",
-        "item": "CHEST",
+        "item": "minecraft:CHEST",
         "lore": [],
         "onClick": "open",
         "onSecondClick": "open",
-        "data": "ui-members"
+        "data": {
+          "gui": "members"
+        }
       },
-      "slot": 12
+      "slot": 12,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "openMenu",
+        "onSecondClick": "openMenu"
+      }
     },
     {
       "item": {
         "display_name": "{\"text\": \"Settings\",\"bold\": true,\"color\": \"blue\"}",
-        "item": "ANVIL",
+        "item": "minecraft:ANVIL",
         "lore": [],
-        "onClick": "open",
-        "onSecondClick": "open",
-        "data": "ui-settings"
+        "data": {
+          "gui": "settings"
+        }
       },
-      "slot": 14
+      "slot": 14,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "openMenu",
+        "onSecondClick": "openMenu"
+      }
     },
     {
       "item": {
         "display_name": "{\"text\": \"Leave\",\"bold\": true,\"color\": \"blue\"}",
-        "item": "BARRIER",
+        "item": "minecraft:BARRIER",
         "lore": [],
-        "onClick": "kickMember",
-        "onSecondClick": "kickMember",
-        "data": "ISLAND"
+        "data": {}
       },
-      "slot": 16
+      "slot": 16,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "kickMember",
+        "onSecondClick": "kickMember"
+      }
     }
   ]
 }

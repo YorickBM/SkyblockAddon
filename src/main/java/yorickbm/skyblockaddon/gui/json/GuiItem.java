@@ -1,12 +1,13 @@
 package yorickbm.skyblockaddon.gui.json;
 
 import com.google.gson.Gson;
+import yorickbm.skyblockaddon.gui.util.GuiActionable;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 
-public class GuiItem implements JSONSerializable {
-    private GuiItemHolder item;
+public class GuiItem extends GuiActionable implements JSONSerializable {
     private int slot;
 
+    public int getSlot() { return slot; }
     @Override
     public String toJSON() {
         Gson gson = new Gson();
@@ -19,5 +20,6 @@ public class GuiItem implements JSONSerializable {
         GuiItem temp = gson.fromJson(json, GuiItem.class);
         this.item = temp.item;
         this.slot = temp.slot;
+        this.action = temp.action;
     }
 }

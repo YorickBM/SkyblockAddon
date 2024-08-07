@@ -7,7 +7,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.gui.json.GuiHolder;
-import yorickbm.skyblockaddon.islands.Island;
+import yorickbm.skyblockaddon.gui.util.GuiContext;
+import yorickbm.skyblockaddon.gui.util.SkyblockAddonMenuProvider;
 import yorickbm.skyblockaddon.util.JSON.JSONEncoder;
 
 import java.util.Collection;
@@ -19,11 +20,9 @@ public class GUIManager {
     private HashMap<String, SkyblockAddonMenuProvider> guis;
 
     private static GUIManager instance = new GUIManager();
-
     public static GUIManager getInstance() {
         return instance;
     }
-
     public GUIManager() {
         guis = new HashMap<>();
     }
