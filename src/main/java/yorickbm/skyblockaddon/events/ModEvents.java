@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
+import yorickbm.skyblockaddon.commands.IslandCommand;
 import yorickbm.skyblockaddon.util.NBT.NBTEncoder;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
@@ -27,6 +28,7 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onCommandRegister(RegisterCommandsEvent event) {
+        new IslandCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
         LOGGER.info("Registered commands for " + SkyblockAddon.MOD_ID);
@@ -49,7 +51,7 @@ public class ModEvents {
         if(event.getObject().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).isPresent()) return;
 
         if(event.getObject() instanceof ServerLevel level) {
-            event.addCapability(new ResourceLocation(SkyblockAddon.MOD_ID, "properties"), new SkyblockAddonWorldProvider());
+            event.addCapability(new ResourceLocation(SkyblockAddon.MOD_ID, "properties"), new SkyblockAddonWorldProvider(event.getObject().getServer()));
             level.getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
                 cap.initializeCaches(Objects.requireNonNull(event.getObject().getServer()));
                 LOGGER.info("Initialized world data. " + SkyblockAddon.MOD_ID);

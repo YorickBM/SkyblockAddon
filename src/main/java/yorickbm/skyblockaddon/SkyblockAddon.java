@@ -23,8 +23,8 @@ import net.minecraftforge.fml.loading.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
-import yorickbm.skyblockaddon.configs.SkyblockAddonLanguageConfig;
 import yorickbm.skyblockaddon.events.ModEvents;
+import yorickbm.skyblockaddon.util.ResourceManager;
 import yorickbm.skyblockaddon.util.ThreadManager;
 import yorickbm.skyblockaddon.util.UsernameCache;
 import yorickbm.skyblockaddon.util.exceptions.TerralithFoundException;
@@ -48,9 +48,6 @@ public class SkyblockAddon {
     public static final int ISLAND_BUFFER = 200;
     public static final int ISLAND_SIZE = 400;
 
-    private static MinecraftServer serverInstance;
-    public static MinecraftServer getServerInstance() { return serverInstance; }
-
     public SkyblockAddon() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::processIMC);
@@ -60,7 +57,6 @@ public class SkyblockAddon {
 
         //Register configs
         FileUtils.getOrCreateDirectory(FMLPaths.CONFIGDIR.get().resolve(MOD_ID), MOD_ID);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, SkyblockAddonLanguageConfig.SPEC, MOD_ID + "/language.toml");
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, SkyblockAddonConfig.SPEC, MOD_ID + "/config.toml");
 
         // Register ourselves for server and other game events we are interested in
@@ -92,21 +88,11 @@ public class SkyblockAddon {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
 
-        serverInstance = event.getServer();
-
         //Custom island.nbt
-        try {
-            Resource rs = event.getServer().getResourceManager().getResource(new ResourceLocation(SkyblockAddon.MOD_ID, "structures/island.nbt"));
-            CompoundTag nbt = NbtIo.readCompressed(rs.getInputStream());
-            File islandFile = new File(FMLPaths.CONFIGDIR.get().resolve(MOD_ID) + "/island.nbt");
-            if(!islandFile.exists()) {
-                if(islandFile.createNewFile()) { // Make sure we could create the new file
-                    NbtIo.writeCompressed(nbt, islandFile);
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        ResourceManager.generateIslandNBTFile(event.getServer());
+
+        //Custom language.json
+        ResourceManager.generateLanguageFile(event.getServer());
 
         // Check mod version
         Optional<? extends ModContainer> modContainer = ModList.get().getModContainerById(MOD_ID);

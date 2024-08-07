@@ -41,7 +41,11 @@ public class SkyblockAddonWorldCapability {
     Cache<UUID, UUID> CACHE_islandByPlayerUUID;
     Cache<BoundingBox, UUID> CACHE_islandByBoundingBox;
 
-    public SkyblockAddonWorldCapability() {
+    MinecraftServer serverInstance;
+
+    public SkyblockAddonWorldCapability(MinecraftServer server) {
+        serverInstance = server;
+
         islandsByUUID = new HashMap<>();
         lastLocation = Vec3i.ZERO;
     }
@@ -114,7 +118,7 @@ public class SkyblockAddonWorldCapability {
     public void saveNBTData(CompoundTag nbt) {
         nbt.put("lastIsland", NBTUtil.Vec3iToNBT(lastLocation));
 
-        Path worldPath = SkyblockAddon.getServerInstance().getWorldPath(LevelResource.ROOT).normalize();
+        Path worldPath = serverInstance.getWorldPath(LevelResource.ROOT).normalize();
         Path filePath = worldPath.resolve("islanddata");
 
         NBTEncoder.saveToFile(getIslands(), filePath);
@@ -126,7 +130,7 @@ public class SkyblockAddonWorldCapability {
     public void loadNBTData(CompoundTag nbt) {
         lastLocation = NBTUtil.NBTToVec3i(nbt.getCompound("lastIsland"));
 
-        Path worldPath = SkyblockAddon.getServerInstance().getWorldPath(LevelResource.ROOT).normalize();
+        Path worldPath = serverInstance.getWorldPath(LevelResource.ROOT).normalize();
         Path filePath = worldPath.resolve("islanddata");
 
         Collection<Island> islands = NBTEncoder.loadFromFile(filePath, Island.class);

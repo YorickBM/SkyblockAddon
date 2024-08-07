@@ -87,7 +87,7 @@ public class IslandData implements NBTSerializable {
      */
     public Square getIslandBoundingBoxAsSquare() {
         BoundingBox box = getIslandBoundingBox();
-        return new Square(new Vec3i(box.minX(), 0, box.minZ()), new Vec3i(box.maxX(), 0, box.maxZ()))
+        return new Square(new Vec3i(box.minX(), 0, box.minZ()), new Vec3i(box.maxX(), 0, box.maxZ()));
     }
 
     @Override
