@@ -1,12 +1,11 @@
 package yorickbm.skyblockaddon.capabilities;
 
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -24,6 +23,7 @@ import yorickbm.skyblockaddon.util.BuildingBlock;
 import yorickbm.skyblockaddon.util.NBT.NBTEncoder;
 import yorickbm.skyblockaddon.util.NBT.NBTUtil;
 import yorickbm.skyblockaddon.util.ResourceManager;
+import yorickbm.skyblockaddon.util.cache.ExpiringCache;
 import yorickbm.skyblockaddon.util.exceptions.NBTNotFoundException;
 
 import java.nio.file.Path;
@@ -38,8 +38,8 @@ public class SkyblockAddonWorldCapability {
     HashMap<UUID, Island> islandsByUUID;
 
     //Reverse Lookup Caches
-    Cache<UUID, UUID> CACHE_islandByPlayerUUID;
-    Cache<BoundingBox, UUID> CACHE_islandByBoundingBox;
+    ExpiringCache<UUID, UUID> CACHE_islandByPlayerUUID;
+    ExpiringCache<BoundingBox, UUID> CACHE_islandByBoundingBox;
 
     MinecraftServer serverInstance;
 
@@ -48,17 +48,20 @@ public class SkyblockAddonWorldCapability {
 
         islandsByUUID = new HashMap<>();
         lastLocation = Vec3i.ZERO;
+
+        initializeCaches(server);
     }
 
     /**
      * Creates reverse lookup caches for optimized performance.
      */
     public void initializeCaches(MinecraftServer server) {
-        CACHE_islandByPlayerUUID = Caffeine.newBuilder()
+        CACHE_islandByPlayerUUID = ExpiringCache.<UUID, UUID>newBuilder()
                 .expireAfterAccess(6, TimeUnit.HOURS)
-                .maximumSize((long) Math.floor(server.getMaxPlayers() * 2.5)) //Cap the cache at 2.5 times max online users at same time.
+                .maximumSize((int) Math.floor(server.getMaxPlayers() * 2.5))
                 .build();
-        CACHE_islandByBoundingBox = Caffeine.newBuilder()
+
+        CACHE_islandByBoundingBox = ExpiringCache.<BoundingBox, UUID>newBuilder()
                 .expireAfterAccess(24, TimeUnit.HOURS)
                 .build();
     }
@@ -71,10 +74,24 @@ public class SkyblockAddonWorldCapability {
      */
     public void loadIslandIntoReverseCache(Entity entity) {
         Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.isPartOf(entity.getUUID())).findFirst();
-        if(island.isEmpty()) return;
+        if(island.isEmpty()) {
+            entity.sendMessage(new TextComponent("No island found?!"), entity.getUUID());
+            return;
+        }
 
+        entity.sendMessage(new TextComponent("Putting you into chache!"), entity.getUUID());
         CACHE_islandByPlayerUUID.put(entity.getUUID(), island.get().getId());
         CACHE_islandByBoundingBox.put(island.get().getIslandBoundingBox(), island.get().getId());
+    }
+
+    /**
+     * Get island by its UUID
+     *
+     * @param id - UUID to lookup
+     * @return - Island associated with islandId
+     */
+    public Island getIslandByUUID(UUID id) {
+        return islandsByUUID.get(id);
     }
 
     /**
@@ -85,7 +102,9 @@ public class SkyblockAddonWorldCapability {
      */
     public Island getIslandByEntityUUID(Entity entity) {
         UUID islandId = CACHE_islandByPlayerUUID.getIfPresent(entity.getUUID()); //Check if cache contains island.
-        if(islandId != null) return islandsByUUID.get(islandId);
+        if(islandId != null) return getIslandByUUID(islandId);
+
+        entity.sendMessage(new TextComponent("Did not find U in the cache?!"), entity.getUUID());
 
         Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.isPartOf(entity.getUUID())).findFirst();
         island.ifPresent(value -> CACHE_islandByPlayerUUID.put(entity.getUUID(), value.getId())); //Store island into cache
@@ -105,7 +124,7 @@ public class SkyblockAddonWorldCapability {
                 .collect(Collectors.toList());
 
         Optional<UUID> islandId = islandIds.stream().findFirst();
-        if(islandId.isPresent()) return islandsByUUID.get(islandId.get());
+        if(islandId.isPresent()) return getIslandByUUID(islandId.get());
 
         Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.getIslandBoundingBox().isInside(entity.getOnPos())).findFirst();
         island.ifPresent(value -> CACHE_islandByBoundingBox.put(value.getIslandBoundingBox(), value.getId())); //Store island into cache
@@ -134,16 +153,8 @@ public class SkyblockAddonWorldCapability {
         Path filePath = worldPath.resolve("islanddata");
 
         Collection<Island> islands = NBTEncoder.loadFromFile(filePath, Island.class);
-        if(islands.isEmpty()) { //Check if collection is not null.
-            LOGGER.warn("[skyblockaddon] No islands available to be loaded.");
-            return;
-        }
-
-        //Store islands in map
-        islands.forEach(island -> {
-            islandsByUUID.put(island.getId(), island);
-        });
-        LOGGER.info("[skyblockaddon] Loaded "+islands.size()+" islands from data.");
+        islands.forEach(island -> { islandsByUUID.put(island.getId(), island); }); //Store islands in map
+        LOGGER.info("Loaded "+islands.size()+" islands.");
     }
 
     /**

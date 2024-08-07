@@ -10,11 +10,15 @@ import java.util.UUID;
 public class Island extends IslandData implements IsUnique, NBTSerializable {
     CompoundTag legacyDataOnlyHereWhileTesting;
 
-    Island() {
+    public Island() {
     }
 
     public boolean isPartOf(UUID player) {
-        return getOwner() == player;
+        return isOwner(player);
+    }
+
+    public boolean isOwner(UUID uuid) {
+        return getOwner().equals(uuid);
     }
 
     @Override

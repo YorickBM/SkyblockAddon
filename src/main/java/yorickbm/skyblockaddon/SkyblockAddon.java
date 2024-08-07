@@ -1,10 +1,5 @@
 package yorickbm.skyblockaddon;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtIo;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.packs.resources.Resource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
@@ -29,9 +24,8 @@ import yorickbm.skyblockaddon.util.ThreadManager;
 import yorickbm.skyblockaddon.util.UsernameCache;
 import yorickbm.skyblockaddon.util.exceptions.TerralithFoundException;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -40,6 +34,7 @@ public class SkyblockAddon {
 
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
+    public static final UUID MOD_UUID = UUID.fromString("36916271-8ff4-483c-9379-bde032a01270");
     public static final String MOD_ID = "skyblockaddon";
     public static final String VERSION = "7.0";
 
@@ -98,7 +93,7 @@ public class SkyblockAddon {
         Optional<? extends ModContainer> modContainer = ModList.get().getModContainerById(MOD_ID);
         if(modContainer.isPresent()) {
             VersionChecker.CheckResult result = VersionChecker.getResult(modContainer.get().getModInfo());
-            LOGGER.info("Vaulthunters Skyblock addon v" + VERSION + " (" + result.status().name() + ") has loaded!");
+            LOGGER.info("Vaulthunters Skyblock addon v{} ({}) has loaded!", VERSION, result.status().name());
         }
     }
 

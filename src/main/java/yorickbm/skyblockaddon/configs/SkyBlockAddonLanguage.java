@@ -1,15 +1,12 @@
 package yorickbm.skyblockaddon.configs;
 
 import com.google.gson.Gson;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.packs.resources.Resource;
 import net.minecraftforge.fml.loading.FMLPaths;
 import yorickbm.skyblockaddon.SkyblockAddon;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;

@@ -20,7 +20,6 @@ import yorickbm.skyblockaddon.util.NBT.NBTEncoder;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.nio.file.Path;
-import java.util.Objects;
 
 @Mod.EventBusSubscriber(modid = SkyblockAddon.MOD_ID)
 public class ModEvents {
@@ -52,10 +51,6 @@ public class ModEvents {
 
         if(event.getObject() instanceof ServerLevel level) {
             event.addCapability(new ResourceLocation(SkyblockAddon.MOD_ID, "properties"), new SkyblockAddonWorldProvider(event.getObject().getServer()));
-            level.getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-                cap.initializeCaches(Objects.requireNonNull(event.getObject().getServer()));
-                LOGGER.info("Initialized world data. " + SkyblockAddon.MOD_ID);
-            });
         }
     }
 

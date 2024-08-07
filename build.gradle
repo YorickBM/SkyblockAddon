@@ -193,9 +193,6 @@ dependencies {
 
     //Mixin dependencies
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-
-    //Caching
-    implementation 'com.github.ben-manes.caffeine:caffeine:3.1.5'
 }
 
 // Example for how to get properties into the manifest for reading at runtime.
