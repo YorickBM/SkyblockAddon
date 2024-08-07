@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.gui.GuiContext;
 import yorickbm.skyblockaddon.islands.data.IslandData;
 import yorickbm.skyblockaddon.util.NBT.IsUnique;
 import yorickbm.skyblockaddon.util.NBT.NBTSerializable;
@@ -12,7 +13,7 @@ import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.UUID;
 
-public class Island extends IslandData implements IsUnique, NBTSerializable {
+public class Island extends IslandData implements IsUnique, NBTSerializable, GuiContext {
     CompoundTag legacyDataOnlyHereWhileTesting;
 
     public Island() {

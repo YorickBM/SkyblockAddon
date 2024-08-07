@@ -14,7 +14,7 @@ import yorickbm.skyblockaddon.gui.json.GuiHolder;
 
 public class ServerGui extends AbstractContainerMenu {
     protected final SimpleContainer inventory;
-    protected final Object context;
+    protected final GuiContext context;
 
     @Override
     public boolean stillValid(@NotNull Player player) {
@@ -23,10 +23,10 @@ public class ServerGui extends AbstractContainerMenu {
 
     public static SkyblockAddonMenuProvider getProvider(GuiHolder holder) {
         return new SkyblockAddonMenuProvider() {
-            Object context = null;
+            GuiContext context = null;
 
             @Override
-            public void setContext(Object context) {
+            public void setContext(GuiContext context) {
                 this.context = context;
             }
 
@@ -42,7 +42,7 @@ public class ServerGui extends AbstractContainerMenu {
         };
     }
 
-    protected ServerGui(int syncId, Inventory playerInventory, GuiHolder holder, Object context) {
+    protected ServerGui(int syncId, Inventory playerInventory, GuiHolder holder, GuiContext context) {
         super(fromRows(holder.getRows()), syncId);
         this.inventory = new SimpleContainer(holder.getRows() * 9);
         this.context = context;

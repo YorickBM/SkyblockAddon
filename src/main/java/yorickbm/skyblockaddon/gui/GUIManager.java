@@ -42,7 +42,7 @@ public class GUIManager {
      * @param entity - Entity to open GUI for.
      * @return Boolean - If GUI could be opened for entity.
      */
-    public boolean openMenu(String key, Entity entity, Island context) {
+    public boolean openMenu(String key, Entity entity, GuiContext context) {
         if (!guis.containsKey(key)) return false; //GUI does not exist
         if (!(entity instanceof Player player)) return false; //Not valid entity
 

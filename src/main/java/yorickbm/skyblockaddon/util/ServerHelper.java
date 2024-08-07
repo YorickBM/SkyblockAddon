@@ -17,6 +17,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
+import yorickbm.skyblockaddon.gui.GuiContext;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -45,6 +46,10 @@ public class ServerHelper {
 
     public static Component styledText(String text, Style style, ChatFormatting... formattings) {
         return new TextComponent(text).setStyle(style.applyFormats(formattings));
+    }
+
+    public static Component processContext(Component original, GuiContext context) {
+        return new TextComponent(original.getString()).withStyle(original.getStyle()); //TODO: Parse original.getString()
     }
 
     public static void addLore(ItemStack stack, Component... components) {
