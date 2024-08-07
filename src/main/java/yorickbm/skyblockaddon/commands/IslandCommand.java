@@ -12,6 +12,7 @@ import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.islands.Island;
+import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.util.UUID;
 
@@ -50,7 +51,7 @@ public class IslandCommand {
                 return;
             }
 
-            command.sendSuccess(new TextComponent("Opening island menu!!!").withStyle(ChatFormatting.GREEN), false);
+            command.sendSuccess(new TextComponent("Opening island menu! " + UsernameCache.get(island.getOwner())).withStyle(ChatFormatting.GREEN), false);
         });
         return Command.SINGLE_SUCCESS;
     }
@@ -73,7 +74,7 @@ public class IslandCommand {
                 return;
             }
 
-            command.sendSuccess(new TextComponent("Opening island menu...").withStyle(ChatFormatting.GREEN), false);
+            command.sendSuccess(new TextComponent("Opening island menu... " + UsernameCache.get(island.getOwner())).withStyle(ChatFormatting.GREEN), false);
         });
         return Command.SINGLE_SUCCESS;
     }

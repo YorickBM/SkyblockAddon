@@ -70,7 +70,7 @@ public class NBTEncoder {
                     }
                 }
 
-                //Create file if it doesnt exists
+                //Create file if it does not exist
                 if(!Files.exists(path)) {
                     Files.createFile(path);
                 }

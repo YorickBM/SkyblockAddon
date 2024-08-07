@@ -74,12 +74,8 @@ public class SkyblockAddonWorldCapability {
      */
     public void loadIslandIntoReverseCache(Entity entity) {
         Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.isPartOf(entity.getUUID())).findFirst();
-        if(island.isEmpty()) {
-            entity.sendMessage(new TextComponent("No island found?!"), entity.getUUID());
-            return;
-        }
+        if(island.isEmpty()) return;
 
-        entity.sendMessage(new TextComponent("Putting you into chache!"), entity.getUUID());
         CACHE_islandByPlayerUUID.put(entity.getUUID(), island.get().getId());
         CACHE_islandByBoundingBox.put(island.get().getIslandBoundingBox(), island.get().getId());
     }
@@ -103,8 +99,6 @@ public class SkyblockAddonWorldCapability {
     public Island getIslandByEntityUUID(Entity entity) {
         UUID islandId = CACHE_islandByPlayerUUID.getIfPresent(entity.getUUID()); //Check if cache contains island.
         if(islandId != null) return getIslandByUUID(islandId);
-
-        entity.sendMessage(new TextComponent("Did not find U in the cache?!"), entity.getUUID());
 
         Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.isPartOf(entity.getUUID())).findFirst();
         island.ifPresent(value -> CACHE_islandByPlayerUUID.put(entity.getUUID(), value.getId())); //Store island into cache
