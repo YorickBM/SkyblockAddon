@@ -18,15 +18,15 @@ public class NBTEncoder {
      * Load NBT files into a collection of clazz.
      *
      * @param folderPath - Folder to load NBT files from
-     * @param clazz - Class instance in which to load the NBT files
+     * @param clazz      - Class instance in which to load the NBT files
      */
     public static <T extends IsUnique & NBTSerializable> Collection<T> loadFromFolder(Path folderPath, Class<T> clazz) throws RuntimeException {
         Collection<T> objects = new ArrayList<>();
 
         //Create folder if it doesn't exist
-        if(!folderPath.toFile().exists()) {
+        if (!folderPath.toFile().exists()) {
             boolean rslt = folderPath.toFile().mkdirs();
-            if(!rslt) {
+            if (!rslt) {
                 throw new RuntimeException("Failed to create container at '" + folderPath.toFile().getAbsolutePath() + "'.");
             }
         }
@@ -39,7 +39,7 @@ public class NBTEncoder {
             throw new RuntimeException(e);
         }
 
-        for(Path path : nbtFiles) {
+        for (Path path : nbtFiles) {
             try (FileInputStream fileInputStream = new FileInputStream(path.toFile())) {
                 CompoundTag NBT = NbtIo.readCompressed(fileInputStream);
                 T instance = clazz.getDeclaredConstructor().newInstance();
@@ -58,20 +58,20 @@ public class NBTEncoder {
      * @param collection - Collection of clazz
      */
     public static <T extends IsUnique & NBTSerializable> void saveToFile(Collection<T> collection, Path filePath) throws RuntimeException {
-        for(T data : collection) {
+        for (T data : collection) {
             try {
                 Path path = filePath.resolve(data.getId().toString() + ".nbt");
 
                 //Create folder if it doesn't exist
-                if(!filePath.toFile().exists()) {
+                if (!filePath.toFile().exists()) {
                     boolean rslt = filePath.toFile().mkdirs();
-                    if(!rslt) {
+                    if (!rslt) {
                         throw new RuntimeException("Failed to create container at '" + filePath.toFile().getAbsolutePath() + "'.");
                     }
                 }
 
                 //Create file if it does not exist
-                if(!Files.exists(path)) {
+                if (!Files.exists(path)) {
                     Files.createFile(path);
                 }
 

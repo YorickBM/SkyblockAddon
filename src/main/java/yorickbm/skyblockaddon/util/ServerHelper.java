@@ -30,17 +30,19 @@ public class ServerHelper {
     public static void playSongToPlayer(ServerPlayer player, SoundEvent event, float vol, float pitch) {
         ServerHelper.SendPacket(player, new ClientboundSoundPacket(event, SoundSource.PLAYERS, player.position().x, player.position().y, player.position().z, vol, pitch));
     }
+
     public static void SendPacket(ServerPlayer player, Packet<?> packet) {
         player.connection.send(packet);
     }
 
     public static void showParticleToPlayer(ServerPlayer player, Vec3i location, ParticleOptions particle, int count) {
-        ServerHelper.SendPacket(player, new ClientboundLevelParticlesPacket(particle, false, location.getX()+0.5f, location.getY()+0.5f, location.getZ()+0.5f, 0.1f, 0f, 0.1f, 0f, count));
+        ServerHelper.SendPacket(player, new ClientboundLevelParticlesPacket(particle, false, location.getX() + 0.5f, location.getY() + 0.5f, location.getZ() + 0.5f, 0.1f, 0f, 0.1f, 0f, count));
     }
 
     public static Component formattedText(String text, ChatFormatting... formattings) {
         return new TextComponent(text).setStyle(Style.EMPTY.withItalic(false).applyFormats(formattings));
     }
+
     public static Component styledText(String text, Style style, ChatFormatting... formattings) {
         return new TextComponent(text).setStyle(style.applyFormats(formattings));
     }
@@ -67,7 +69,7 @@ public class ServerHelper {
 
     public static void registerIslandBorder(ServerPlayer player, List<Vec3i> points, Vec3i location) {
         //Cleanup old threads
-        if(spawnerTracker.containsKey(player.getUUID())) {
+        if (spawnerTracker.containsKey(player.getUUID())) {
             UUID oldSpawner = spawnerTracker.get(player.getUUID());
             UUID oldTerminator = terminatorTracker.get(oldSpawner);
 
@@ -78,7 +80,7 @@ public class ServerHelper {
         //Setup threads for spawner and tracker
         UUID particleSpawner = ThreadManager.startLoopingThread((id) -> {
             ServerHelper.showParticleToPlayer(player, location, ParticleTypes.CLOUD, 3);
-            for (Vec3i pos: points) {
+            for (Vec3i pos : points) {
                 ServerHelper.showParticleToPlayer(player, pos, ParticleTypes.CLOUD, 3);
             }
         }, 500);

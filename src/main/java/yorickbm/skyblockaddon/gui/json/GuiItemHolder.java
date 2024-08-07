@@ -30,7 +30,7 @@ public class GuiItemHolder implements JSONSerializable {
     public ItemStack getItemStack() {
         ItemStack stack = new ItemStack(getItem());
         stack.setHoverName(getDisplayName());
-        for(String string : lore) {
+        for (String string : lore) {
             ServerHelper.addLore(stack, Component.Serializer.fromJson(string));
         }
         return stack;

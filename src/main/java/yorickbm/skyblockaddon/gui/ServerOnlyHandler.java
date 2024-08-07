@@ -31,7 +31,7 @@ public abstract class ServerOnlyHandler<T> extends AbstractContainerMenu {
         //Register our inventory slots
         for (n = 0; n < rows; ++n) {
             for (m = 0; m < 9; ++m) {
-                this.addSlot(new Slot(this.inventory, m + n * 9, 8 + m * 18, 18 + n * 18){
+                this.addSlot(new Slot(this.inventory, m + n * 9, 8 + m * 18, 18 + n * 18) {
                     @Override
                     public boolean mayPlace(@NotNull ItemStack stack) {
                         return false;
@@ -48,7 +48,7 @@ public abstract class ServerOnlyHandler<T> extends AbstractContainerMenu {
         // Register players inventory (Non toolbar slots)
         for (n = 0; n < 3; ++n) {
             for (m = 0; m < 9; ++m) {
-                addSlot(new Slot(playerInventory,  m + n * 9 + 9, 8 + m * 18, 103 + n * 18 + i) {
+                addSlot(new Slot(playerInventory, m + n * 9 + 9, 8 + m * 18, 103 + n * 18 + i) {
                     @Override
                     public boolean mayPlace(@NotNull ItemStack stack) {
                         return false;
@@ -84,6 +84,7 @@ public abstract class ServerOnlyHandler<T> extends AbstractContainerMenu {
     /**
      * Override default setting to register every item with mod id within its NBT data.
      * This is done, so on close of menu players inventory can be cleared of items taken from GUI from this mod
+     *
      * @param p_182407_ Inventory slot index
      * @param p_182408_ Item State
      * @param p_182409_ ItemStack
@@ -96,6 +97,7 @@ public abstract class ServerOnlyHandler<T> extends AbstractContainerMenu {
 
     /**
      * Convert row to Menu Type
+     *
      * @param rows - Rows wished in menu
      * @return MenuType for rows
      */
@@ -112,9 +114,10 @@ public abstract class ServerOnlyHandler<T> extends AbstractContainerMenu {
 
     /**
      * Action to be taken when item is clicked within inventory
-     * @param i Index
-     * @param j ???
-     * @param actionType Type of action taken
+     *
+     * @param i            Index
+     * @param j            ???
+     * @param actionType   Type of action taken
      * @param playerEntity PlayerEntity whom clicked
      */
     @Override
@@ -132,8 +135,9 @@ public abstract class ServerOnlyHandler<T> extends AbstractContainerMenu {
 
     /**
      * Action taken when quick move is used on stack
+     *
      * @param player Player to handel on
-     * @param index Slot index
+     * @param index  Slot index
      * @return Itemstack
      */
     @Override
@@ -150,6 +154,7 @@ public abstract class ServerOnlyHandler<T> extends AbstractContainerMenu {
 
     /**
      * Determine whether a slot is needed to be handled
+     *
      * @param slot - Slot to determine for
      * @return Boolean whether it needs to be handled
      */
@@ -158,15 +163,17 @@ public abstract class ServerOnlyHandler<T> extends AbstractContainerMenu {
     /**
      * This function is executed upon Inventory Open
      * Will fill it with initial items
+     *
      * @param player - Player who opens inventory
      */
     protected abstract void fillInventoryWith(Player player);
 
     /**
      * Function gets executed when an item slot is clicked
-     * @param player - Who clicked item
-     * @param index - Index of item
-     * @param slot - Slot which is clicked
+     *
+     * @param player    - Who clicked item
+     * @param index     - Index of item
+     * @param slot      - Slot which is clicked
      * @param clickType - 0 for left click, 1 for right click
      * @return if was handled successfully
      */

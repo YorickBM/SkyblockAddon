@@ -14,7 +14,7 @@ public class NBTUtil {
     }
 
     public static Vec3i NBTToVec3i(CompoundTag tag) {
-        return new Vec3i(tag.getInt("x"),tag.getInt("y"),tag.getInt("z"));
+        return new Vec3i(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
     }
 
 }

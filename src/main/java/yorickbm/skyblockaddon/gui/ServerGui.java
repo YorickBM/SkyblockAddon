@@ -24,6 +24,7 @@ public class ServerGui extends AbstractContainerMenu {
     public static SkyblockAddonMenuProvider getProvider(GuiHolder holder) {
         return new SkyblockAddonMenuProvider() {
             Object context = null;
+
             @Override
             public void setContext(Object context) {
                 this.context = context;
@@ -52,7 +53,7 @@ public class ServerGui extends AbstractContainerMenu {
         //Register our inventory slots
         for (n = 0; n < holder.getRows(); ++n) {
             for (m = 0; m < 9; ++m) {
-                this.addSlot(new Slot(this.inventory, m + n * 9, 8 + m * 18, 18 + n * 18){
+                this.addSlot(new Slot(this.inventory, m + n * 9, 8 + m * 18, 18 + n * 18) {
                     @Override
                     public boolean mayPlace(@NotNull ItemStack stack) {
                         return false;
@@ -69,7 +70,7 @@ public class ServerGui extends AbstractContainerMenu {
         // Register players inventory (Non toolbar slots)
         for (n = 0; n < 3; ++n) {
             for (m = 0; m < 9; ++m) {
-                addSlot(new Slot(playerInventory,  m + n * 9 + 9, 8 + m * 18, 103 + n * 18 + i) {
+                addSlot(new Slot(playerInventory, m + n * 9 + 9, 8 + m * 18, 103 + n * 18 + i) {
                     @Override
                     public boolean mayPlace(@NotNull ItemStack stack) {
                         return false;
@@ -101,6 +102,7 @@ public class ServerGui extends AbstractContainerMenu {
 
     /**
      * Convert row to Menu Type
+     *
      * @param rows - Rows wished in menu
      * @return MenuType for rows
      */

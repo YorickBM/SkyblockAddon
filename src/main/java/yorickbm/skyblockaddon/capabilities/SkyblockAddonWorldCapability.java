@@ -91,7 +91,7 @@ public class SkyblockAddonWorldCapability {
     public void loadIslandIntoReverseCache(Entity entity) {
         try {
             Optional<UUID> island = CACHE_islandByPlayerUUID.get(entity.getUUID());
-            if(island.isEmpty()) return; //Got no island
+            if (island.isEmpty()) return; //Got no island
             CACHE_islandByBoundingBox.put(getIslandByUUID(island.get()).getIslandBoundingBox(), island); //Store into bounding box cache
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
@@ -123,14 +123,14 @@ public class SkyblockAddonWorldCapability {
      * Get the island where the entity is currently standing on.
      *
      * @param entity - Entity whom to check
-     * @return  - Island entity is on
+     * @return - Island entity is on
      */
     public Island getIslandPlayerIsStandingOn(Entity entity) {
         Optional<UUID> islandId = CACHE_islandByBoundingBox.asMap().entrySet().stream()
                 .filter(entry -> entry.getKey().isInside(entity.getOnPos()))
                 .map(Map.Entry::getValue)
                 .findFirst().orElse(Optional.empty());
-        if(islandId.isPresent()) return getIslandByUUID(islandId.get());
+        if (islandId.isPresent()) return getIslandByUUID(islandId.get());
 
         Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.getIslandBoundingBox().isInside(entity.getOnPos())).findFirst();
         island.ifPresent(value -> CACHE_islandByBoundingBox.put(value.getIslandBoundingBox(), Optional.of(value.getId()))); //Store island into cache
@@ -159,8 +159,10 @@ public class SkyblockAddonWorldCapability {
         Path filePath = worldPath.resolve("islanddata");
 
         Collection<Island> islands = NBTEncoder.loadFromFolder(filePath, Island.class);
-        islands.forEach(island -> { islandsByUUID.put(island.getId(), island); }); //Store islands in map
-        LOGGER.info("Loaded: "+islands.size()+" island(s).");
+        islands.forEach(island -> {
+            islandsByUUID.put(island.getId(), island);
+        }); //Store islands in map
+        LOGGER.info("Loaded: " + islands.size() + " island(s).");
     }
 
     /**
@@ -168,7 +170,9 @@ public class SkyblockAddonWorldCapability {
      *
      * @return Collection of islands
      */
-    public Collection<Island> getIslands() { return islandsByUUID.values(); }
+    public Collection<Island> getIslands() {
+        return islandsByUUID.values();
+    }
 
     /**
      * Generate an island from NBT data file stored within resources of this plugin.
@@ -187,13 +191,13 @@ public class SkyblockAddonWorldCapability {
         ArrayList<BlockState> palette = new ArrayList<>();
         int bigestX = 0, bigestZ = 0;
 
-        for(int i = 0; i < paletteNbt.size(); i++) palette.add(NbtUtils.readBlockState(paletteNbt.getCompound(i)));
-        for(int i = 0; i < blocksNbt.size(); i++) {
+        for (int i = 0; i < paletteNbt.size(); i++) palette.add(NbtUtils.readBlockState(paletteNbt.getCompound(i)));
+        for (int i = 0; i < blocksNbt.size(); i++) {
             CompoundTag blockNbt = blocksNbt.getCompound(i);
             ListTag blockPosNbt = blockNbt.getList("pos", 3);
 
-            if(blockPosNbt.getInt(0) > bigestX) bigestX = blockPosNbt.getInt(0);
-            if(blockPosNbt.getInt(2) > bigestZ) bigestZ = blockPosNbt.getInt(2);
+            if (blockPosNbt.getInt(0) > bigestX) bigestX = blockPosNbt.getInt(0);
+            if (blockPosNbt.getInt(2) > bigestZ) bigestZ = blockPosNbt.getInt(2);
 
             blocks.add(new BuildingBlock(
                     new BlockPos(
@@ -205,7 +209,7 @@ public class SkyblockAddonWorldCapability {
             ));
         }
 
-        if(blocks.isEmpty()) {
+        if (blocks.isEmpty()) {
             throw new NBTNotFoundException();
         }
 
@@ -213,10 +217,10 @@ public class SkyblockAddonWorldCapability {
 
         final int finalBigestX = bigestX, finalBigestZ = bigestZ;
         final int height = Integer.parseInt(SkyblockAddonConfig.getForKey("island.spawn.height"));
-        blocks.stream().filter(block -> !block.getState().isAir()).forEach(block -> block.place(worldServer, lastLocation.offset(-(finalBigestX /2), height ,-(finalBigestZ /2))));
+        blocks.stream().filter(block -> !block.getState().isAir()).forEach(block -> block.place(worldServer, lastLocation.offset(-(finalBigestX / 2), height, -(finalBigestZ / 2))));
 
-        ChunkAccess chunk = worldServer.getChunk(new BlockPos(lastLocation.getX(), height ,lastLocation.getZ()));
-        int topHeight = chunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, lastLocation.getX(), lastLocation.getZ()) +2;
+        ChunkAccess chunk = worldServer.getChunk(new BlockPos(lastLocation.getX(), height, lastLocation.getZ()));
+        int topHeight = chunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, lastLocation.getX(), lastLocation.getZ()) + 2;
 
         return new Vec3i(lastLocation.getX(), topHeight, lastLocation.getZ());
     }
@@ -232,17 +236,17 @@ public class SkyblockAddonWorldCapability {
         final int z = location.getZ();
         final int d = SkyblockAddon.ISLAND_SIZE * 2 + SkyblockAddon.ISLAND_BUFFER;
 
-        if(x < z) {
-            if(-1 * x < z) return new Vec3i(x + d, 0, z);
+        if (x < z) {
+            if (-1 * x < z) return new Vec3i(x + d, 0, z);
             return new Vec3i(x, 0, z + d);
         }
 
-        if(x > z) {
-            if(-1 * x >= z)  return new Vec3i(x - d, 0, z);
+        if (x > z) {
+            if (-1 * x >= z) return new Vec3i(x - d, 0, z);
             return new Vec3i(x, 0, z - d);
         }
 
-        if( x <= 0) return new Vec3i(x, 0, z + d);
+        if (x <= 0) return new Vec3i(x, 0, z + d);
         return new Vec3i(x, 0, z - d);
     }
 }

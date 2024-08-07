@@ -16,9 +16,11 @@ public class BiomeUtil {
     public static int quantize(int p_261998_) {
         return QuartPos.toBlock(QuartPos.fromBlock(p_261998_));
     }
+
     public static BlockPos quantize(BlockPos p_262148_) {
         return new BlockPos(quantize(p_262148_.getX()), quantize(p_262148_.getY()), quantize(p_262148_.getZ()));
     }
+
     public static BiomeResolver makeResolver(MutableInt p_262615_, ChunkAccess p_262698_, BoundingBox p_262622_, Holder<Biome> p_262705_, Predicate<Holder<Biome>> p_262695_) {
         return (p_262550_, p_262551_, p_262552_, p_262553_) -> {
             int i = QuartPos.toBlock(p_262550_);

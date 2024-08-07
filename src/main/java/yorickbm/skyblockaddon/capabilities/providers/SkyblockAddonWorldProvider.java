@@ -14,7 +14,8 @@ import org.jetbrains.annotations.Nullable;
 import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldCapability;
 
 public class SkyblockAddonWorldProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
-    public static final Capability<SkyblockAddonWorldCapability> SKYBLOCKADDON_WORLD_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
+    public static final Capability<SkyblockAddonWorldCapability> SKYBLOCKADDON_WORLD_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
+    });
 
     private MinecraftServer serverInstance;
 
@@ -22,7 +23,11 @@ public class SkyblockAddonWorldProvider implements ICapabilityProvider, INBTSeri
      * Basic singleton instance management
      */
     public static SkyblockAddonWorldProvider instance;
-    public static SkyblockAddonWorldProvider getInstance() { return instance; }
+
+    public static SkyblockAddonWorldProvider getInstance() {
+        return instance;
+    }
+
     public SkyblockAddonWorldProvider(MinecraftServer server) {
         instance = this;
         serverInstance = server;
@@ -33,14 +38,14 @@ public class SkyblockAddonWorldProvider implements ICapabilityProvider, INBTSeri
 
     @NotNull
     private SkyblockAddonWorldCapability createCapability() {
-        if(this.capability == null) this.capability = new SkyblockAddonWorldCapability(serverInstance);
+        if (this.capability == null) this.capability = new SkyblockAddonWorldCapability(serverInstance);
         return this.capability;
     }
 
     @NotNull
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if(cap != SKYBLOCKADDON_WORLD_CAPABILITY) return LazyOptional.empty();
+        if (cap != SKYBLOCKADDON_WORLD_CAPABILITY) return LazyOptional.empty();
         return optional.cast();
     }
 

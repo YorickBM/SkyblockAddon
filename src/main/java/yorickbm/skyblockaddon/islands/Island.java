@@ -24,9 +24,9 @@ public class Island extends IslandData implements IsUnique, NBTSerializable {
      * @param entity - Entity to teleport
      */
     public void teleportTo(Entity entity) {
-        entity.teleportTo(getSpawn().getX(), getSpawn().getY()+0.5, getSpawn().getZ());
+        entity.teleportTo(getSpawn().getX(), getSpawn().getY() + 0.5, getSpawn().getZ());
 
-        if(entity instanceof ServerPlayer player) {
+        if (entity instanceof ServerPlayer player) {
             ServerHelper.playSongToPlayer(player, SoundEvents.ENDERMAN_TELEPORT, SkyblockAddon.EFFECT_SOUND_VOL, 1f);
         }
     }

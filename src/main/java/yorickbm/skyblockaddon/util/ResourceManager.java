@@ -21,15 +21,15 @@ public class ResourceManager {
     private static CompoundTag IslandNBTData = null;
 
     public static void generateIslandNBTFile() {
-        try (InputStream in = SkyblockAddon.class.getResourceAsStream("/assets/"+SkyblockAddon.MOD_ID+"/structures/island.nbt")) {
-            if(in == null) {
+        try (InputStream in = SkyblockAddon.class.getResourceAsStream("/assets/" + SkyblockAddon.MOD_ID + "/structures/island.nbt")) {
+            if (in == null) {
                 LOGGER.error("Resource not found '/assets/{}/structures/island.nbt'!", SkyblockAddon.MOD_ID);
                 return;
             }
             CompoundTag nbt = NbtIo.readCompressed(in);
             File islandFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/island.nbt");
-            if(!islandFile.exists()) {
-                if(islandFile.createNewFile()) { // Make sure we could create the new file
+            if (!islandFile.exists()) {
+                if (islandFile.createNewFile()) { // Make sure we could create the new file
                     NbtIo.writeCompressed(nbt, islandFile);
                 }
             }
@@ -43,10 +43,10 @@ public class ResourceManager {
             File languageFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/language.json");
 
             //Determine if file doesnt exists
-            if(!languageFile.exists()) {
-                if(languageFile.createNewFile()) {
-                    try (InputStream in = SkyblockAddon.class.getResourceAsStream("/assets/"+SkyblockAddon.MOD_ID+"/lang/en_us.json")) {
-                        if(in == null) {
+            if (!languageFile.exists()) {
+                if (languageFile.createNewFile()) {
+                    try (InputStream in = SkyblockAddon.class.getResourceAsStream("/assets/" + SkyblockAddon.MOD_ID + "/lang/en_us.json")) {
+                        if (in == null) {
                             LOGGER.error("Resource not found '/assets/{}/lang/en_us.json'!", SkyblockAddon.MOD_ID);
                             return;
                         }
@@ -61,11 +61,11 @@ public class ResourceManager {
 
     public static void generateGUIFile(String name) {
         try {
-            File guiFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/guis/"+name+".json");
-            if(!guiFile.exists()) {
-                if(guiFile.createNewFile()) {
-                    try (InputStream in = SkyblockAddon.class.getResourceAsStream("/assets/"+SkyblockAddon.MOD_ID+"/guis/"+name+".json")) {
-                        if(in == null) {
+            File guiFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/guis/" + name + ".json");
+            if (!guiFile.exists()) {
+                if (guiFile.createNewFile()) {
+                    try (InputStream in = SkyblockAddon.class.getResourceAsStream("/assets/" + SkyblockAddon.MOD_ID + "/guis/" + name + ".json")) {
+                        if (in == null) {
                             LOGGER.error("Resource not found '/assets/{}/guis/{}.json'!", SkyblockAddon.MOD_ID, name);
                             return;
                         }
@@ -80,11 +80,12 @@ public class ResourceManager {
 
     /**
      * Load custom .NBT file for island structure
+     *
      * @param server
      * @return NBT data
      */
     public static CompoundTag getIslandNBT(MinecraftServer server) {
-        if(IslandNBTData == null) {
+        if (IslandNBTData == null) {
             try {
                 File islandFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/island.nbt");
                 IslandNBTData = NbtIo.readCompressed(islandFile);

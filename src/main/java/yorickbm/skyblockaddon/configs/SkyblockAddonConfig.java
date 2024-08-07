@@ -28,8 +28,9 @@ public class SkyblockAddonConfig {
                         .define(key, value)
         );
     }
+
     public static String getForKey(String key) {
-        if(!values.containsKey(key))
+        if (!values.containsKey(key))
             return key; //Return lookup value if not found
         return values.get(key).get(); //Return value from config
     }

@@ -19,9 +19,9 @@ public class JSONEncoder {
         Collection<T> objects = new ArrayList<>();
 
         //Create folder if it doesn't exist
-        if(!folderPath.toFile().exists()) {
+        if (!folderPath.toFile().exists()) {
             boolean rslt = folderPath.toFile().mkdirs();
-            if(!rslt) {
+            if (!rslt) {
                 throw new RuntimeException("Failed to create container at '" + folderPath.toFile().getAbsolutePath() + "'.");
             }
         }
@@ -34,7 +34,7 @@ public class JSONEncoder {
             throw new RuntimeException(e);
         }
 
-        for(Path file : files) {
+        for (Path file : files) {
             try {
                 objects.add(loadFromFile(file, clazz));
             } catch (Exception e) {

@@ -37,7 +37,7 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onWorldSave(WorldEvent.Save event) {
-        if(event.getWorld().isClientSide()) return;
+        if (event.getWorld().isClientSide()) return;
         event.getWorld().getServer().getLevel(Level.OVERWORLD).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
             Path worldPath = event.getWorld().getServer().getWorldPath(LevelResource.ROOT).normalize();
             Path filePath = worldPath.resolve("islanddata");
@@ -48,10 +48,11 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onAttachCapabilitiesWorld(AttachCapabilitiesEvent<Level> event) {
-        if(event.getObject().dimension() != Level.OVERWORLD) return;
-        if(event.getObject().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).isPresent()) return;
+        if (event.getObject().dimension() != Level.OVERWORLD) return;
+        if (event.getObject().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).isPresent())
+            return;
 
-        if(event.getObject() instanceof ServerLevel level) {
+        if (event.getObject() instanceof ServerLevel level) {
             event.addCapability(new ResourceLocation(SkyblockAddon.MOD_ID, "properties"), new SkyblockAddonWorldProvider(event.getObject().getServer()));
         }
     }

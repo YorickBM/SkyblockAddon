@@ -1,10 +1,8 @@
 {
   "commands.not.in.overworld": "You can only execute this command in the overworld.",
   "commands.has.no.island": "You can not execute this command without having an island. Use '/island create' to make one.",
-
   "commands.admin.no.island": "This command requires you to be standing on an island.",
   "commands.admin.island.not.found": "Could not find the island with UUID '%s'.",
-
   "commands.teleporting.own": "Teleporting you to your island...",
   "commands.teleporting.other": "Teleporting you to %s's island..."
 }

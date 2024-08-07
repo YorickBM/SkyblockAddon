@@ -6,5 +6,6 @@ public interface NBTSerializable {
     default CompoundTag serializeNBT() {
         return new CompoundTag();
     }
+
     void deserializeNBT(CompoundTag tag);
 }

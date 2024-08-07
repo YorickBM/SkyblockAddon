@@ -1,6 +1,5 @@
 package yorickbm.skyblockaddon.gui;
 
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -20,7 +19,11 @@ public class GUIManager {
     private HashMap<String, SkyblockAddonMenuProvider> guis;
 
     private static GUIManager instance = new GUIManager();
-    public static GUIManager getInstance() { return instance; }
+
+    public static GUIManager getInstance() {
+        return instance;
+    }
+
     public GUIManager() {
         guis = new HashMap<>();
     }
@@ -29,19 +32,19 @@ public class GUIManager {
         Collection<GuiHolder> guiHolders = JSONEncoder.loadFromFolder(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/guis/"), GuiHolder.class);
         guiHolders.forEach(gui -> guis.put(gui.getKey(), ServerGui.getProvider(gui)));
 
-        LOGGER.info("Loaded: "+guis.size()+" gui(s).");
+        LOGGER.info("Loaded: " + guis.size() + " gui(s).");
     }
 
     /**
      * Open GUI for entity.
      *
-     * @param key - GUI key to open
+     * @param key    - GUI key to open
      * @param entity - Entity to open GUI for.
      * @return Boolean - If GUI could be opened for entity.
      */
     public boolean openMenu(String key, Entity entity, Island context) {
-        if(!guis.containsKey(key)) return false; //GUI does not exist
-        if(!(entity instanceof Player player)) return false; //Not valid entity
+        if (!guis.containsKey(key)) return false; //GUI does not exist
+        if (!(entity instanceof Player player)) return false; //Not valid entity
 
         SkyblockAddonMenuProvider provider = guis.get(key);
         provider.setContext(context);

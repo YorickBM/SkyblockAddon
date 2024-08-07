@@ -67,7 +67,7 @@ public class SkyblockAddon {
                 collect(Collectors.toList()));
 
         // Determine if Terralith is found
-        if(ModList.get().isLoaded("terralith")) {
+        if (ModList.get().isLoaded("terralith")) {
             LOGGER.error("Beware, skyblockaddon mod is loaded together with Terralith!");
             throw new TerralithFoundException();
         }
@@ -85,7 +85,7 @@ public class SkyblockAddon {
         //Custom language.json
         ResourceManager.generateLanguageFile();
 
-        if(!Files.exists(FMLPaths.CONFIGDIR.get().resolve(MOD_ID + "/guis/"))) {
+        if (!Files.exists(FMLPaths.CONFIGDIR.get().resolve(MOD_ID + "/guis/"))) {
             FileUtils.getOrCreateDirectory(FMLPaths.CONFIGDIR.get().resolve(MOD_ID + "/guis/"), MOD_ID + "/guis/");
 
             //Generate GUIS
@@ -110,7 +110,7 @@ public class SkyblockAddon {
     public void onServerStarting(ServerStartingEvent event) {
         // Check mod version
         Optional<? extends ModContainer> modContainer = ModList.get().getModContainerById(MOD_ID);
-        if(modContainer.isPresent()) {
+        if (modContainer.isPresent()) {
             VersionChecker.CheckResult result = VersionChecker.getResult(modContainer.get().getModInfo());
             LOGGER.info("Vaulthunters Skyblock addon v{} ({}) has loaded!", VERSION, result.status().name());
         }
@@ -123,7 +123,7 @@ public class SkyblockAddon {
     public void onServerShutDown(ServerStoppedEvent event) {
         try {
             ThreadManager.terminateAllThreads();
-        } catch(NoClassDefFoundError ex) {
+        } catch (NoClassDefFoundError ex) {
             //Seems to be thrown
         }
     }

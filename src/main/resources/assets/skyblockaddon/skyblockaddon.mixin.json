@@ -6,8 +6,7 @@
   "injectors": {
     "defaultRequire": 1
   },
-  "server":  [
-
+  "server": [
   ],
   "refmap": "skyblockaddon.refmap.json"
 }

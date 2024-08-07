@@ -21,7 +21,6 @@
         "display_name": "{\"text\": \"Teleport\",\"bold\": true,\"color\": \"blue\"}",
         "item": "ENDER_EYE",
         "lore": [],
-
         "onClick": "teleportTo",
         "onSecondClick": "teleportTo",
         "data": "ISLAND"
@@ -33,7 +32,6 @@
         "display_name": "{\"text\": \"Members\",\"bold\": true,\"color\": \"blue\"}",
         "item": "CHEST",
         "lore": [],
-
         "onClick": "open",
         "onSecondClick": "open",
         "data": "ui-members"
@@ -45,7 +43,6 @@
         "display_name": "{\"text\": \"Settings\",\"bold\": true,\"color\": \"blue\"}",
         "item": "ANVIL",
         "lore": [],
-
         "onClick": "open",
         "onSecondClick": "open",
         "data": "ui-settings"
@@ -57,7 +54,6 @@
         "display_name": "{\"text\": \"Leave\",\"bold\": true,\"color\": \"blue\"}",
         "item": "BARRIER",
         "lore": [],
-
         "onClick": "kickMember",
         "onSecondClick": "kickMember",
         "data": "ISLAND"

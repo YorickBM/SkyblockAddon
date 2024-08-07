@@ -15,22 +15,22 @@ import yorickbm.skyblockaddon.islands.Island;
 public class IslandTeleportCommand {
     public IslandTeleportCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
-            .then(Commands.literal("tp")
-                .requires(source -> source.getEntity() instanceof ServerPlayer)
-                .executes(context -> executePersonal(context.getSource(), (ServerPlayer)context.getSource().getEntity()))
-            )
+                .then(Commands.literal("tp")
+                        .requires(source -> source.getEntity() instanceof ServerPlayer)
+                        .executes(context -> executePersonal(context.getSource(), (ServerPlayer) context.getSource().getEntity()))
+                )
         );
     }
 
     private int executePersonal(CommandSourceStack command, ServerPlayer executor) {
-        if(executor.level.dimension() != Level.OVERWORLD) {
+        if (executor.level.dimension() != Level.OVERWORLD) {
             command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.not.in.overworld")));
             return Command.SINGLE_SUCCESS;
         }
 
         command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
             Island island = cap.getIslandByEntityUUID(executor);
-            if(island == null) {
+            if (island == null) {
                 command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.has.no.island")));
                 return;
             }
@@ -42,7 +42,7 @@ public class IslandTeleportCommand {
     }
 
     private int executeRequest(CommandSourceStack command, ServerPlayer executor, ServerPlayer requested) {
-        if(executor.level.dimension() != Level.OVERWORLD) {
+        if (executor.level.dimension() != Level.OVERWORLD) {
             command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.not.in.overworld")));
             return Command.SINGLE_SUCCESS;
         }

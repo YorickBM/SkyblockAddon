@@ -24,7 +24,8 @@ public class IslandData implements NBTSerializable {
     private String biome = "Unknown";
     private boolean travelability = false;
 
-    public IslandData() {}
+    public IslandData() {
+    }
 
     public UUID getId() {
         return id;
@@ -35,7 +36,7 @@ public class IslandData implements NBTSerializable {
     }
 
     public UUID getOwner() {
-        if(owner == null) return SkyblockAddon.MOD_UUID;
+        if (owner == null) return SkyblockAddon.MOD_UUID;
         return owner;
     }
 
@@ -82,8 +83,8 @@ public class IslandData implements NBTSerializable {
      */
     public BoundingBox getIslandBoundingBox() {
         int size = SkyblockAddon.ISLAND_SIZE;
-        BlockPos blockpos = BiomeUtil.quantize(new BlockPos(center.getX() - size,-100,center.getZ() - size));
-        BlockPos blockpos1 = BiomeUtil.quantize(new BlockPos(center.getX() + size,350,center.getZ() + size));
+        BlockPos blockpos = BiomeUtil.quantize(new BlockPos(center.getX() - size, -100, center.getZ() - size));
+        BlockPos blockpos1 = BiomeUtil.quantize(new BlockPos(center.getX() + size, 350, center.getZ() + size));
         return BoundingBox.fromCorners(blockpos, blockpos1);
     }
 
@@ -114,7 +115,7 @@ public class IslandData implements NBTSerializable {
     @Override
     public void deserializeNBT(CompoundTag tag) {
         setId(tag.getUUID("Id"));
-        if(tag.getString("owner").length() > 3) setOwner(UUID.fromString(tag.getString("owner")));
+        if (tag.getString("owner").length() > 3) setOwner(UUID.fromString(tag.getString("owner")));
         setBiome(tag.getString("biome"));
         setTravelability(tag.getBoolean("travelability"));
         setSpawn(NBTUtil.NBTToVec3i(tag.getCompound("spawn")));
