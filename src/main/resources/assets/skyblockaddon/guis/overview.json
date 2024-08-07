@@ -1,5 +1,5 @@
 {
-  "title": "{\"text\": \"{0}'s Island\"}",
+  "title": "{\"text\": \"%owner%'s Island\"}",
   "rows": 3,
   "key": "overview",
   "fillers": [

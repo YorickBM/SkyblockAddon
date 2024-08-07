@@ -32,6 +32,7 @@ public class ServerGui extends AbstractContainerMenu {
 
             @Override
             public @NotNull Component getDisplayName() {
+                if(this.context != null) return this.context.parseTextComponent(holder.getTitle()); //Parse through context if available
                 return holder.getTitle();
             }
 

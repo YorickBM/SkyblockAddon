@@ -48,10 +48,6 @@ public class ServerHelper {
         return new TextComponent(text).setStyle(style.applyFormats(formattings));
     }
 
-    public static Component processContext(Component original, GuiContext context) {
-        return new TextComponent(original.getString()).withStyle(original.getStyle()); //TODO: Parse original.getString()
-    }
-
     public static void addLore(ItemStack stack, Component... components) {
         ListTag lore = new ListTag();
         Arrays.stream(components).toList().forEach(text -> lore.add(StringTag.valueOf(Component.Serializer.toJson(text))));
