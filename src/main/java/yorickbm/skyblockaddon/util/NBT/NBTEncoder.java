@@ -17,24 +17,24 @@ public class NBTEncoder {
     /**
      * Load NBT files into a collection of clazz.
      *
-     * @param filePath - Folder to load NBT files from
+     * @param folderPath - Folder to load NBT files from
      * @param clazz - Class instance in which to load the NBT files
      */
-    public static <T extends IsUnique & NBTSerializable> Collection<T> loadFromFile(Path filePath, Class<T> clazz) throws RuntimeException {
+    public static <T extends IsUnique & NBTSerializable> Collection<T> loadFromFolder(Path folderPath, Class<T> clazz) throws RuntimeException {
         Collection<T> objects = new ArrayList<>();
 
         //Create folder if it doesn't exist
-        if(!filePath.toFile().exists()) {
-            boolean rslt = filePath.toFile().mkdirs();
+        if(!folderPath.toFile().exists()) {
+            boolean rslt = folderPath.toFile().mkdirs();
             if(!rslt) {
-                throw new RuntimeException("Failed to create container at '" + filePath.toFile().getAbsolutePath() + "'.");
+                throw new RuntimeException("Failed to create container at '" + folderPath.toFile().getAbsolutePath() + "'.");
             }
         }
 
         //List files into list
         List<Path> nbtFiles = new ArrayList<>();
         try {
-            Files.list(filePath).forEach(nbtFiles::add);
+            Files.list(folderPath).forEach(nbtFiles::add);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

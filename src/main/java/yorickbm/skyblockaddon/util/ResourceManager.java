@@ -9,8 +9,6 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
-import yorickbm.skyblockaddon.gui.json.GuiHolder;
-import yorickbm.skyblockaddon.util.JSON.JSONEncoder;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,10 +20,13 @@ public class ResourceManager {
     private static final Logger LOGGER = LogManager.getLogger();
     private static CompoundTag IslandNBTData = null;
 
-    public static void generateIslandNBTFile(MinecraftServer server) {
-        try {
-            Resource rs = server.getResourceManager().getResource(new ResourceLocation(SkyblockAddon.MOD_ID, "structures/island.nbt"));
-            CompoundTag nbt = NbtIo.readCompressed(rs.getInputStream());
+    public static void generateIslandNBTFile() {
+        try (InputStream in = SkyblockAddon.class.getResourceAsStream("/assets/"+SkyblockAddon.MOD_ID+"/structures/island.nbt")) {
+            if(in == null) {
+                LOGGER.error("Resource not found '/assets/{}/structures/island.nbt'!", SkyblockAddon.MOD_ID);
+                return;
+            }
+            CompoundTag nbt = NbtIo.readCompressed(in);
             File islandFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/island.nbt");
             if(!islandFile.exists()) {
                 if(islandFile.createNewFile()) { // Make sure we could create the new file
@@ -37,15 +38,18 @@ public class ResourceManager {
         }
     }
 
-    public static void generateLanguageFile(MinecraftServer server) {
+    public static void generateLanguageFile() {
         try {
-            Resource rs = server.getResourceManager().getResource(new ResourceLocation(SkyblockAddon.MOD_ID, "lang/en_us.json"));
             File languageFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/language.json");
 
             //Determine if file doesnt exists
             if(!languageFile.exists()) {
                 if(languageFile.createNewFile()) {
-                    try (InputStream in = rs.getInputStream()) {
+                    try (InputStream in = SkyblockAddon.class.getResourceAsStream("/assets/"+SkyblockAddon.MOD_ID+"/lang/en_us.json")) {
+                        if(in == null) {
+                            LOGGER.error("Resource not found '/assets/{}/lang/en_us.json'!", SkyblockAddon.MOD_ID);
+                            return;
+                        }
                         Files.copy(in, languageFile.toPath(), StandardCopyOption.REPLACE_EXISTING); //Replace it
                     }
                 }
@@ -55,9 +59,20 @@ public class ResourceManager {
         }
     }
 
-    public static void generateGUIFile(MinecraftServer server, String name) {
+    public static void generateGUIFile(String name) {
         try {
-            GuiHolder overview = JSONEncoder.loadFromFile(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/guis/"+name+".json"), GuiHolder.class);
+            File guiFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/guis/"+name+".json");
+            if(!guiFile.exists()) {
+                if(guiFile.createNewFile()) {
+                    try (InputStream in = SkyblockAddon.class.getResourceAsStream("/assets/"+SkyblockAddon.MOD_ID+"/guis/"+name+".json")) {
+                        if(in == null) {
+                            LOGGER.error("Resource not found '/assets/{}/guis/{}.json'!", SkyblockAddon.MOD_ID, name);
+                            return;
+                        }
+                        Files.copy(in, guiFile.toPath(), StandardCopyOption.REPLACE_EXISTING); //Replace it
+                    }
+                }
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

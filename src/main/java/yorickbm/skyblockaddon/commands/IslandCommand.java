@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
+import yorickbm.skyblockaddon.gui.GUIManager;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
@@ -50,8 +51,7 @@ public class IslandCommand {
                 command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.has.no.island")));
                 return;
             }
-
-            command.sendSuccess(new TextComponent("Opening island menu! " + UsernameCache.getBlocking(island.getOwner())).withStyle(ChatFormatting.GREEN), false);
+            GUIManager.getInstance().openMenu("overview", executor, island);
         });
         return Command.SINGLE_SUCCESS;
     }
@@ -73,8 +73,7 @@ public class IslandCommand {
                 else command.sendFailure(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("commands.admin.island.not.found"), islandId.toString())));
                 return;
             }
-
-            command.sendSuccess(new TextComponent("Opening island menu... " + UsernameCache.getBlocking(island.getOwner())).withStyle(ChatFormatting.GREEN), false);
+            GUIManager.getInstance().openMenu("overview", executor, island);
         });
         return Command.SINGLE_SUCCESS;
     }

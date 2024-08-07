@@ -8,7 +8,6 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -35,7 +34,6 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class SkyblockAddonWorldCapability {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -160,9 +158,9 @@ public class SkyblockAddonWorldCapability {
         Path worldPath = serverInstance.getWorldPath(LevelResource.ROOT).normalize();
         Path filePath = worldPath.resolve("islanddata");
 
-        Collection<Island> islands = NBTEncoder.loadFromFile(filePath, Island.class);
+        Collection<Island> islands = NBTEncoder.loadFromFolder(filePath, Island.class);
         islands.forEach(island -> { islandsByUUID.put(island.getId(), island); }); //Store islands in map
-        LOGGER.info("Loaded "+islands.size()+" islands.");
+        LOGGER.info("Loaded: "+islands.size()+" island(s).");
     }
 
     /**

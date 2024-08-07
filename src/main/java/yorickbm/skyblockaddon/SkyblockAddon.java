@@ -11,6 +11,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.VersionChecker;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -19,13 +20,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.events.ModEvents;
-import yorickbm.skyblockaddon.gui.json.GuiHolder;
-import yorickbm.skyblockaddon.util.JSON.JSONEncoder;
+import yorickbm.skyblockaddon.gui.GUIManager;
 import yorickbm.skyblockaddon.util.ResourceManager;
 import yorickbm.skyblockaddon.util.ThreadManager;
 import yorickbm.skyblockaddon.util.UsernameCache;
 import yorickbm.skyblockaddon.util.exceptions.TerralithFoundException;
 
+import java.nio.file.Files;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -48,13 +49,7 @@ public class SkyblockAddon {
     public SkyblockAddon() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::processIMC);
-
-        //Register username cache
-        UsernameCache.initCache(120);
-
-        //Register configs
-        FileUtils.getOrCreateDirectory(FMLPaths.CONFIGDIR.get().resolve(MOD_ID), MOD_ID);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, SkyblockAddonConfig.SPEC, MOD_ID + "/config.toml");
+        bus.addListener(this::onCommonSetup);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -79,21 +74,40 @@ public class SkyblockAddon {
     }
 
     /**
-     * Runs upon server starting event
-     * Responsible for loading resources
+     * Run Common config setup.
+     */
+    private void onCommonSetup(FMLCommonSetupEvent event) {
+        FileUtils.getOrCreateDirectory(FMLPaths.CONFIGDIR.get().resolve(MOD_ID), MOD_ID);
+
+        //Custom island.nbt
+        ResourceManager.generateIslandNBTFile();
+
+        //Custom language.json
+        ResourceManager.generateLanguageFile();
+
+        if(!Files.exists(FMLPaths.CONFIGDIR.get().resolve(MOD_ID + "/guis/"))) {
+            FileUtils.getOrCreateDirectory(FMLPaths.CONFIGDIR.get().resolve(MOD_ID + "/guis/"), MOD_ID + "/guis/");
+
+            //Generate GUIS
+            ResourceManager.generateGUIFile("overview");
+            //TODO: Add other GUIS
+        }
+
+        //Register username cache
+        UsernameCache.initCache(120);
+
+        //Register configs
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, SkyblockAddonConfig.SPEC, MOD_ID + "/config.toml");
+
+        //Register guis
+        GUIManager.getInstance().loadAllGUIS(); //Load guis from file
+    }
+
+    /**
+     * Runs upon server starting event.
      */
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-
-        //Custom island.nbt
-        ResourceManager.generateIslandNBTFile(event.getServer());
-
-        //Custom language.json
-        ResourceManager.generateLanguageFile(event.getServer());
-
-        //GUIS
-
-
         // Check mod version
         Optional<? extends ModContainer> modContainer = ModList.get().getModContainerById(MOD_ID);
         if(modContainer.isPresent()) {
@@ -104,7 +118,6 @@ public class SkyblockAddon {
 
     /**
      * Runs upon Shutdown Event of server.
-     * Responsible for terminating all current running threads.
      */
     @SubscribeEvent
     public void onServerShutDown(ServerStoppedEvent event) {

@@ -14,8 +14,27 @@ public class GuiHolder implements JSONSerializable {
     private List<GuiFiller> fillers;
     private List<GuiItem> items;
 
+    /**
+     * Get GUI configured key.
+     */
+    public String getKey() {
+        return key;
+    }
+
+    /**
+     * Convert string formated Text Component for GUI title.
+     *
+     * @return - TextComponent
+     */
     public TextComponent getTitle() {
         return (TextComponent) Component.Serializer.fromJson(title);
+    }
+
+    /**
+     * Get amount of rows for GUI.
+     */
+    public int getRows() {
+        return rows;
     }
 
     @Override
@@ -34,5 +53,4 @@ public class GuiHolder implements JSONSerializable {
         this.fillers = temp.fillers;
         this.items = temp.items;
     }
-
 }
