@@ -169,7 +169,7 @@ public class ServerGui extends AbstractContainerMenu {
 
     private void attachAction(GuiActionable item, int slotIndex) {
         if(item.getAction().notNone()) { //Only add event listener if action is not none.
-            this.event_bus.addListener(slotIndex, (index, slot, clickType) -> {
+            this.event_bus.addListener(slotIndex, (player, clickType) -> {
                 GuiAction action = item.getAction();
                 switch(clickType) {
                     case 2 -> action.onRightClick(item.getItem().getItemStack(), new TargetHolder(this.sourceEntity, this.sourceEntity.getUUID()), null, this.sourceContext, null);
@@ -186,7 +186,7 @@ public class ServerGui extends AbstractContainerMenu {
 
         Slot slot = this.slots.get(i);
         if(slot.hasItem()) {
-            this.event_bus.trigger(slot.getSlotIndex(), i, slot, j);
+            this.event_bus.trigger(slot.getSlotIndex(), playerEntity, j);
         }
 
         this.broadcastChanges();
