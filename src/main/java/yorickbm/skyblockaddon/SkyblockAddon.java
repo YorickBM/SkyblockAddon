@@ -19,6 +19,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.events.ModEvents;
+import yorickbm.skyblockaddon.gui.json.GuiHolder;
+import yorickbm.skyblockaddon.util.JSON.JSONEncoder;
 import yorickbm.skyblockaddon.util.ResourceManager;
 import yorickbm.skyblockaddon.util.ThreadManager;
 import yorickbm.skyblockaddon.util.UsernameCache;
@@ -88,6 +90,9 @@ public class SkyblockAddon {
 
         //Custom language.json
         ResourceManager.generateLanguageFile(event.getServer());
+
+        //GUIS
+
 
         // Check mod version
         Optional<? extends ModContainer> modContainer = ModList.get().getModContainerById(MOD_ID);

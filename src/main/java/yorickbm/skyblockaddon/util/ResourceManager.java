@@ -9,6 +9,8 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.gui.json.GuiHolder;
+import yorickbm.skyblockaddon.util.JSON.JSONEncoder;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,6 +51,14 @@ public class ResourceManager {
                 }
             }
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void generateGUIFile(MinecraftServer server, String name) {
+        try {
+            GuiHolder overview = JSONEncoder.loadFromFile(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/guis/"+name+".json"), GuiHolder.class);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

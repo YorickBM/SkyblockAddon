@@ -20,14 +20,14 @@ public class IslandCommand {
     public IslandCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
         // Register the command for OPs
         dispatcher.register(Commands.literal("island")
-            //.requires(source -> source.getEntity() instanceof ServerPlayer && !source.hasPermission(3))
+            .requires(source -> source.getEntity() instanceof ServerPlayer)
             .executes(context -> executeNonOP(context.getSource(), (ServerPlayer)context.getSource().getEntity()))
         );
 
         // Register the command for non-OPs
         dispatcher.register(Commands.literal("island")
             .then(Commands.literal("admin")
-            //.requires(source -> source.getEntity() instanceof ServerPlayer && source.hasPermission(3))
+            .requires(source -> source.getEntity() instanceof ServerPlayer && source.hasPermission(3))
                 .then(Commands.literal("menu")
                     .executes(context -> executeOP(context.getSource(), (ServerPlayer)context.getSource().getEntity(), null))
                     .then(Commands.argument("id", UuidArgument.uuid())
@@ -51,7 +51,7 @@ public class IslandCommand {
                 return;
             }
 
-            command.sendSuccess(new TextComponent("Opening island menu! " + UsernameCache.get(island.getOwner())).withStyle(ChatFormatting.GREEN), false);
+            command.sendSuccess(new TextComponent("Opening island menu! " + UsernameCache.getBlocking(island.getOwner())).withStyle(ChatFormatting.GREEN), false);
         });
         return Command.SINGLE_SUCCESS;
     }
@@ -74,7 +74,7 @@ public class IslandCommand {
                 return;
             }
 
-            command.sendSuccess(new TextComponent("Opening island menu... " + UsernameCache.get(island.getOwner())).withStyle(ChatFormatting.GREEN), false);
+            command.sendSuccess(new TextComponent("Opening island menu... " + UsernameCache.getBlocking(island.getOwner())).withStyle(ChatFormatting.GREEN), false);
         });
         return Command.SINGLE_SUCCESS;
     }
