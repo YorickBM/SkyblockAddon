@@ -17,7 +17,7 @@ public class BiomeRegistry extends SkyblockAddonRegistry {
 
     @Override
     public boolean getNextData(CompoundTag tag) {
-        if(this.index >= this.biomes.size()) return false;
+        if(this.index >= this.getSize()) return false;
 
         tag.putString("biome", Objects.requireNonNull(this.biomes.get(this.index).getRegistryName()).toString());
         tag.putString("name", Objects.requireNonNull(this.biomes.get(this.index).getRegistryName()).toString().split(":")[1]);

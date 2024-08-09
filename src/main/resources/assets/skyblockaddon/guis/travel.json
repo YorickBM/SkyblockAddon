@@ -25,7 +25,7 @@
     {
       "item": {
         "display_name": [
-          "{\"text\": \"%dataname%'s Island\", \"color\":\"blue\"}"
+          "{\"text\": \"%dataownername%'s Island\", \"color\":\"blue\"}"
         ],
         "item": "minecraft:PLAYER_HEAD",
         "lore": [
