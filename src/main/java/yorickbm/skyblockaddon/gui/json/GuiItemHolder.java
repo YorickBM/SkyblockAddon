@@ -14,11 +14,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
-import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.gui.interfaces.GuiContext;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 import yorickbm.skyblockaddon.util.ServerHelper;
-import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.util.HashMap;
 import java.util.List;

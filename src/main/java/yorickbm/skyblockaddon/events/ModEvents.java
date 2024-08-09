@@ -19,6 +19,7 @@ import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldCapability;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.commands.IslandCommand;
 import yorickbm.skyblockaddon.commands.IslandTeleportCommand;
+import yorickbm.skyblockaddon.commands.IslandTravelCommand;
 import yorickbm.skyblockaddon.util.NBT.NBTEncoder;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
@@ -32,6 +33,7 @@ public class ModEvents {
     public static void onCommandRegister(RegisterCommandsEvent event) {
         new IslandCommand(event.getDispatcher());
         new IslandTeleportCommand(event.getDispatcher());
+        new IslandTravelCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
         LOGGER.info("Registered commands for " + SkyblockAddon.MOD_ID);

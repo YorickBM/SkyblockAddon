@@ -18,10 +18,10 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.events.ModEvents;
 import yorickbm.skyblockaddon.gui.GUIManager;
-import yorickbm.skyblockaddon.gui.registries.BiomeRegistry;
 import yorickbm.skyblockaddon.util.ResourceManager;
 import yorickbm.skyblockaddon.util.ThreadManager;
 import yorickbm.skyblockaddon.util.UsernameCache;
@@ -86,6 +86,7 @@ public class SkyblockAddon {
 
         //Custom language.json
         ResourceManager.generateLanguageFile();
+        SkyBlockAddonLanguage.loadLocalization();
 
         if (!Files.exists(FMLPaths.CONFIGDIR.get().resolve(MOD_ID + "/guis/"))) {
             FileUtils.getOrCreateDirectory(FMLPaths.CONFIGDIR.get().resolve(MOD_ID + "/guis/"), MOD_ID + "/guis/");

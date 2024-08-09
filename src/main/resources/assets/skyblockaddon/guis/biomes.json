@@ -53,6 +53,23 @@
     {
       "item": {
         "display_name": [
+          "{\"text\": \"%datapagenum% / %datamaxpage%\",\"bold\": true,\"color\": \"blue\"}"
+        ],
+        "item": "minecraft:PAPER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 40,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "NONE",
+        "onSecondClick": "NONE"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
           "{\"text\": \"Back\",\"bold\": true,\"color\": \"red\"}"
         ],
         "item": "minecraft:ARROW",
@@ -67,23 +84,6 @@
         "sourceType": "HOLDER",
         "onClick": "openMenu",
         "onSecondClick": "openMenu"
-      }
-    },
-    {
-      "item": {
-        "display_name": [
-          "{\"text\": \"%datapagenum% / %datamaxpage%\",\"bold\": true,\"color\": \"blue\"}"
-        ],
-        "item": "minecraft:PAPER",
-        "lore": [],
-        "data": {}
-      },
-      "slot": 40,
-      "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
-        "onClick": "NONE",
-        "onSecondClick": "NONE"
       }
     },
     {

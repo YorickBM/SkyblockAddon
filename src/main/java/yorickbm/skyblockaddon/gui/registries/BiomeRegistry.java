@@ -1,11 +1,8 @@
 package yorickbm.skyblockaddon.gui.registries;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.registries.ForgeRegistries;
-import yorickbm.skyblockaddon.SkyblockAddon;
-import yorickbm.skyblockaddon.gui.interfaces.ContextParser;
 import yorickbm.skyblockaddon.gui.interfaces.SkyblockAddonRegistry;
 
 import java.util.List;

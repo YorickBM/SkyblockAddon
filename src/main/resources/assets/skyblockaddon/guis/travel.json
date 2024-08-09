@@ -1,0 +1,121 @@
+{
+  "title": [
+    "{\"text\": \"SkyWorld Travel Map!\"}"
+  ],
+  "rows": 6,
+  "key": "travel",
+  "fillers": [
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"\"}"
+        ],
+        "item": "minecraft:GRAY_STAINED_GLASS_PANE",
+        "lore": [],
+        "data": {}
+      },
+      "pattern": "EDGES",
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "NONE",
+        "onSecondClick": "NONE"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"%dataname%'s Island\", \"color\":\"blue\"}"
+        ],
+        "item": "minecraft:PLAYER_HEAD",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to travel to this island.\",\"color\":\"dark_gray\"}"
+          ]
+        ],
+        "data": {
+          "registry": "IslandRegistry"
+        }
+      },
+      "pattern": "INSIDE",
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "DATA",
+        "onClick": "teleportTo",
+        "onSecondClick": "teleportTo"
+      }
+    }
+  ],
+  "items": [
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"%datapagenum% / %datamaxpage%\",\"bold\": true,\"color\": \"blue\"}"
+        ],
+        "item": "minecraft:PAPER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 49,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "NONE",
+        "onSecondClick": "NONE"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Back\",\"bold\": true,\"color\": \"red\"}"
+        ],
+        "item": "minecraft:ARROW",
+        "lore": [],
+        "data": {
+          "gui": "settings"
+        }
+      },
+      "slot": 53,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "openMenu",
+        "onSecondClick": "openMenu"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Previous\",\"bold\": true,\"color\": \"red\"}"
+        ],
+        "item": "minecraft:RED_BANNER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 48,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "previousPage",
+        "onSecondClick": "previousPage"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Next\",\"bold\": true,\"color\": \"green\"}"
+        ],
+        "item": "minecraft:GREEN_BANNER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 50,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "nextPage",
+        "onSecondClick": "nextPage"
+      }
+    }
+  ]
+}

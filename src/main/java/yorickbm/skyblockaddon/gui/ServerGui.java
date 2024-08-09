@@ -19,7 +19,9 @@ import yorickbm.skyblockaddon.gui.interfaces.SkyblockAddonRegistry;
 import yorickbm.skyblockaddon.gui.json.GuiAction;
 import yorickbm.skyblockaddon.gui.json.GuiHolder;
 import yorickbm.skyblockaddon.gui.registries.BiomeRegistry;
-import yorickbm.skyblockaddon.gui.util.*;
+import yorickbm.skyblockaddon.gui.util.FillerPattern;
+import yorickbm.skyblockaddon.gui.util.GuiActionable;
+import yorickbm.skyblockaddon.gui.util.TargetHolder;
 
 public class ServerGui extends AbstractContainerMenu {
     private static final Logger LOGGER = LogManager.getLogger();
