@@ -1,6 +1,7 @@
 package yorickbm.skyblockaddon.gui.json;
 
 import com.google.gson.Gson;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -34,16 +35,25 @@ public class GuiItemHolder implements JSONSerializable {
      */
     public ItemStack getItemStack(GuiContext context) {
         ItemStack stack = new ItemStack(getItem());
-        stack.setHoverName(getDisplayName(context));
 
-        //Process lore data
-        for (List<String> list : lore) {
-            TextComponent component = new TextComponent("");
-            for(String string : list) {
-                if(context != null) component.append(context.parseTextComponent(Objects.requireNonNull(Component.Serializer.fromJson(string))));
-                else component.append(Objects.requireNonNull(Component.Serializer.fromJson(string)));
+        try {
+            stack.setHoverName(getDisplayName(context));
+        } catch(NullPointerException ex) {
+            stack.setHoverName(new TextComponent("Invalid display name").withStyle(ChatFormatting.RED));
+        }
+
+        try {
+            //Process lore data
+            for (List<String> list : lore) {
+                TextComponent component = new TextComponent("");
+                for(String string : list) {
+                    if(context != null) component.append(context.parseTextComponent(Objects.requireNonNull(Component.Serializer.fromJson(string))));
+                    else component.append(Objects.requireNonNull(Component.Serializer.fromJson(string)));
+                }
+                ServerHelper.addLore(stack, component);
             }
-            ServerHelper.addLore(stack, component);
+        } catch (NullPointerException ex) {
+            ServerHelper.addLore(stack, new TextComponent("Invalid lore").withStyle(ChatFormatting.RED));
         }
 
         //Add custom NBT data
@@ -74,7 +84,7 @@ public class GuiItemHolder implements JSONSerializable {
      *
      * @return - TextComponent
      */
-    public TextComponent getDisplayName(GuiContext context) {
+    public TextComponent getDisplayName(GuiContext context) throws NullPointerException {
         TextComponent component = new TextComponent("");
 
         for(String string : this.display_name) {

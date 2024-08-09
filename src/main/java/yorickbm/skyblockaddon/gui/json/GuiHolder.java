@@ -39,7 +39,7 @@ public class GuiHolder implements JSONSerializable {
      *
      * @return - TextComponent
      */
-    public TextComponent getTitle(GuiContext context) {
+    public TextComponent getTitle(GuiContext context) throws NullPointerException {
         TextComponent component = new TextComponent("");
         for(String string : this.title) {
             Component deserialized = Component.Serializer.fromJson(string);

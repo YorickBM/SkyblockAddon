@@ -1,6 +1,8 @@
 package yorickbm.skyblockaddon.gui;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -42,7 +44,11 @@ public class ServerGui extends AbstractContainerMenu {
 
             @Override
             public @NotNull Component getDisplayName() {
-                return holder.getTitle(context);
+                try {
+                    return holder.getTitle(context);
+                } catch (NullPointerException ex) {
+                    return new TextComponent("Invalid GUI Title").withStyle(ChatFormatting.RED);
+                }
             }
 
             @Override
