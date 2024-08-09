@@ -3,12 +3,15 @@ package yorickbm.skyblockaddon.gui.json;
 import com.google.gson.Gson;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import org.w3c.dom.Text;
+import yorickbm.skyblockaddon.gui.util.GuiContext;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 
 import java.util.List;
+import java.util.Objects;
 
 public class GuiHolder implements JSONSerializable {
-    private String title;
+    private List<String> title;
     private int rows;
     private String key;
     private List<GuiFiller> fillers;
@@ -36,8 +39,14 @@ public class GuiHolder implements JSONSerializable {
      *
      * @return - TextComponent
      */
-    public TextComponent getTitle() {
-        return (TextComponent) Component.Serializer.fromJson(title);
+    public TextComponent getTitle(GuiContext context) {
+        TextComponent component = new TextComponent("");
+        for(String string : this.title) {
+            Component deserialized = Component.Serializer.fromJson(string);
+            if(context != null) component.append(context.parseTextComponent(Objects.requireNonNull(deserialized)));
+            else component.append(Objects.requireNonNull(deserialized));
+        }
+        return component;
     }
 
     /**

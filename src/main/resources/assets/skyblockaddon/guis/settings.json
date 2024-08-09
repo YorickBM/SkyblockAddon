@@ -1,0 +1,107 @@
+{
+  "title": ["{\"text\": \"%owner%'s Island\"}"],
+  "rows": 3,
+  "key": "settings",
+  "fillers": [
+    {
+      "item": {
+        "display_name": ["{\"text\": \"\"}"],
+        "item": "minecraft:GRAY_STAINED_GLASS_PANE",
+        "lore": [],
+        "data": {}
+      },
+      "pattern": "EMPTY",
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "NONE",
+        "onSecondClick": "NONE"
+      }
+    }
+  ],
+  "items": [
+    {
+      "item": {
+        "display_name": ["{\"text\": \"Biome\",\"bold\": true,\"color\": \"blue\"}"],
+        "item": "minecraft:OAK_SAPLING",
+        "lore": [],
+        "data": {
+          "gui": "biome"
+        }
+      },
+      "slot": 10,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "openMenu",
+        "onSecondClick": "openMenu"
+      }
+    },
+    {
+      "item": {
+        "display_name": ["{\"text\": \"Permissions\",\"bold\": true,\"color\": \"blue\"}"],
+        "item": "minecraft:IRON_BARS",
+        "lore": [],
+        "data": {
+          "gui": "permission"
+        }
+      },
+      "slot": 12,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "openMenu",
+        "onSecondClick": "openMenu"
+      }
+    },
+    {
+      "item": {
+        "display_name": ["{\"text\": \"Spawn Point\",\"bold\": true,\"color\": \"blue\"}"],
+        "item": "minecraft:RED_BED",
+        "lore": [
+          ["{\"text\":\"Current: %x%, %y%, %z%\"}"]
+        ],
+        "data": {}
+      },
+      "slot": 14,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "setSpawnPoint",
+        "onSecondClick": "setSpawnPoint"
+      }
+    },
+    {
+      "item": {
+        "display_name": ["{\"text\": \"Transport\",\"bold\": true,\"color\": \"blue\"}"],
+        "item": "minecraft:OAK_BOAT",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 16,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "toggleTravelability",
+        "onSecondClick": "toggleTravelability"
+      }
+    },
+    {
+      "item": {
+        "display_name": ["{\"text\": \"Back\",\"bold\": true,\"color\": \"red\"}"],
+        "item": "minecraft:ARROW",
+        "lore": [],
+        "data": {
+          "gui": "overview"
+        }
+      },
+      "slot": 26,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "openMenu",
+        "onSecondClick": "openMenu"
+      }
+    }
+  ]
+}

@@ -1,11 +1,11 @@
 {
-  "title": "{\"text\": \"%owner%'s Island\"}",
+  "title": ["{\"text\": \"%owner%'s Island\"}"],
   "rows": 3,
   "key": "overview",
   "fillers": [
     {
       "item": {
-        "display_name": "{\"text\": \"\"}",
+        "display_name": ["{\"text\": \"\"}"],
         "item": "minecraft:GRAY_STAINED_GLASS_PANE",
         "lore": [],
         "data": {}
@@ -22,7 +22,7 @@
   "items": [
     {
       "item": {
-        "display_name": "{\"text\": \"Teleport\",\"bold\": true,\"color\": \"blue\"}",
+        "display_name": ["{\"text\": \"Teleport\",\"bold\": true,\"color\": \"blue\"}"],
         "item": "minecraft:ENDER_EYE",
         "lore": [],
         "data": {}
@@ -37,11 +37,9 @@
     },
     {
       "item": {
-        "display_name": "{\"text\": \"Members\",\"bold\": true,\"color\": \"blue\"}",
+        "display_name": ["{\"text\": \"Members\",\"bold\": true,\"color\": \"blue\"}"],
         "item": "minecraft:CHEST",
         "lore": [],
-        "onClick": "open",
-        "onSecondClick": "open",
         "data": {
           "gui": "members"
         }
@@ -56,7 +54,7 @@
     },
     {
       "item": {
-        "display_name": "{\"text\": \"Settings\",\"bold\": true,\"color\": \"blue\"}",
+        "display_name": ["{\"text\": \"Settings\",\"bold\": true,\"color\": \"blue\"}"],
         "item": "minecraft:ANVIL",
         "lore": [],
         "data": {
@@ -73,7 +71,7 @@
     },
     {
       "item": {
-        "display_name": "{\"text\": \"Leave\",\"bold\": true,\"color\": \"blue\"}",
+        "display_name": ["{\"text\": \"Leave\",\"bold\": true,\"color\": \"blue\"}"],
         "item": "minecraft:BARRIER",
         "lore": [],
         "data": {}

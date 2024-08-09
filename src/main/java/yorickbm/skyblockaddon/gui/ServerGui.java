@@ -42,8 +42,7 @@ public class ServerGui extends AbstractContainerMenu {
 
             @Override
             public @NotNull Component getDisplayName() {
-                if(this.context != null) return this.context.parseTextComponent(holder.getTitle()); //Parse through context if available
-                return holder.getTitle();
+                return holder.getTitle(context);
             }
 
             @Override
@@ -121,7 +120,7 @@ public class ServerGui extends AbstractContainerMenu {
 
     private void processItems() {
         this.guiContent.getItems().forEach(guiItem -> {
-            ItemStack item = guiItem.getItem().getItemStack();
+            ItemStack item = guiItem.getItem().getItemStack(this.sourceContext);
             setItem(guiItem.getSlot(), 0, item);
 
             this.attachAction(guiItem, guiItem.getSlot());
@@ -134,7 +133,7 @@ public class ServerGui extends AbstractContainerMenu {
                 case EMPTY -> {
                     for (int slot = 0; slot < this.inventory.getContainerSize(); slot++) {
                         if(!getSlot(slot).hasItem()) {
-                            setItem(slot, 0, filler.getItem().getItemStack());
+                            setItem(slot, 0, filler.getItem().getItemStack(this.sourceContext));
 
                             this.attachAction(filler, slot);
                         }
@@ -146,7 +145,7 @@ public class ServerGui extends AbstractContainerMenu {
                         if((slot < 10 || slot > this.inventory.getContainerSize() - 10)  || (slot%9 == 0 || slot%9 == 8)) continue;
 
                         if(!getSlot(slot).hasItem()) {
-                            setItem(slot, 0, filler.getItem().getItemStack());
+                            setItem(slot, 0, filler.getItem().getItemStack(this.sourceContext));
                             this.attachAction(filler, slot);
                         }
                     }
@@ -157,7 +156,7 @@ public class ServerGui extends AbstractContainerMenu {
                         if(slot >= 10 && slot <= this.inventory.getContainerSize() - 10  && slot%9 != 0 && slot%9 != 8) continue;
 
                         if(!getSlot(slot).hasItem()) {
-                            setItem(slot, 0, filler.getItem().getItemStack());
+                            setItem(slot, 0, filler.getItem().getItemStack(this.sourceContext));
                             this.attachAction(filler, slot);
                         }
                     }
@@ -172,8 +171,8 @@ public class ServerGui extends AbstractContainerMenu {
             this.event_bus.addListener(slotIndex, (player, clickType) -> {
                 GuiAction action = item.getAction();
                 switch(clickType) {
-                    case 2 -> action.onRightClick(item.getItem().getItemStack(), new TargetHolder(this.sourceEntity, this.sourceEntity.getUUID()), null, this.sourceContext, null);
-                    case 1 -> action.onLeftClick(item.getItem().getItemStack(), new TargetHolder(this.sourceEntity, this.sourceEntity.getUUID()), null, this.sourceContext, null);
+                    case 0 -> action.onPrimaryClick(item.getItem().getItemStack(this.sourceContext), new TargetHolder(this.sourceEntity, this.sourceEntity.getUUID()), null, this.sourceContext, null);
+                    case 1 -> action.onSecondaryClick(item.getItem().getItemStack(this.sourceContext), new TargetHolder(this.sourceEntity, this.sourceEntity.getUUID()), null, this.sourceContext, null);
                 }
             });
         }

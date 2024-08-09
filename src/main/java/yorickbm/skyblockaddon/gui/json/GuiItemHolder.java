@@ -11,31 +11,46 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.gui.util.GuiContext;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class GuiItemHolder implements JSONSerializable {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private String display_name;
+    private List<String> display_name;
     private String item;
-    private List<String> lore;
-    private Object data;
+    private List<List<String>> lore;
+    private HashMap<String, String> data;
 
     /**
      * Get itemstack representative of the data within the Holder.
      *
      * @return - Itemstack
      */
-    public ItemStack getItemStack() {
+    public ItemStack getItemStack(GuiContext context) {
         ItemStack stack = new ItemStack(getItem());
-        stack.setHoverName(getDisplayName());
-        for (String string : lore) {
-            ServerHelper.addLore(stack, Component.Serializer.fromJson(string));
+        stack.setHoverName(getDisplayName(context));
+
+        //Process lore data
+        for (List<String> list : lore) {
+            TextComponent component = new TextComponent("");
+            for(String string : list) {
+                if(context != null) component.append(context.parseTextComponent(Objects.requireNonNull(Component.Serializer.fromJson(string))));
+                else component.append(Objects.requireNonNull(Component.Serializer.fromJson(string)));
+            }
+            ServerHelper.addLore(stack, component);
         }
+
+        //Add custom NBT data
         stack.getOrCreateTagElement(SkyblockAddon.MOD_ID);
+        if(!data.isEmpty()) {
+            this.data.forEach((key, value1) -> stack.getOrCreateTagElement(SkyblockAddon.MOD_ID).putString(key, value1));
+        }
         return stack;
     }
     /**
@@ -59,8 +74,16 @@ public class GuiItemHolder implements JSONSerializable {
      *
      * @return - TextComponent
      */
-    public TextComponent getDisplayName() {
-        return (TextComponent) Component.Serializer.fromJson(display_name);
+    public TextComponent getDisplayName(GuiContext context) {
+        TextComponent component = new TextComponent("");
+
+        for(String string : this.display_name) {
+            Component deserialized = Component.Serializer.fromJson(string);
+            if(context != null) component.append(context.parseTextComponent(Objects.requireNonNull(deserialized)));
+            else component.append(Objects.requireNonNull(deserialized));
+        }
+
+        return component;
     }
 
     @Override

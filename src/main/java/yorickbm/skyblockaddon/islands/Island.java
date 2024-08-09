@@ -1,6 +1,7 @@
 package yorickbm.skyblockaddon.islands;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -10,6 +11,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.gui.util.GuiContext;
 import yorickbm.skyblockaddon.islands.data.IslandData;
@@ -65,6 +67,23 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
     }
 
     /**
+     * Alter islands spawn point used for TeleportTo
+     * @param point - New spawn point location
+     */
+    @Override
+    public void setSpawnPoint(Vec3i point) {
+
+    }
+
+    /**
+     * Toggle the islands travel ability from public/private
+     */
+    @Override
+    public void toggleTravelability() {
+
+    }
+
+    /**
      * Determine if entity is part of the island.
      *
      * @param player - Entity whom to check
@@ -110,7 +129,7 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
      * @return - Component where variables are filled with supplied context
      */
     @Override
-    public Component parseTextComponent(Component original) {
+    public Component parseTextComponent(@NotNull Component original) {
         return new TextComponent(original.getString()
                 .replace("%owner%", UsernameCache.getBlocking(getOwner()))
                 .replace("%x%", getSpawn().getX()+"")
