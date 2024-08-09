@@ -1,13 +1,11 @@
-package yorickbm.skyblockaddon.gui.util;
+package yorickbm.skyblockaddon.gui.interfaces;
 
 import net.minecraft.core.Vec3i;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public interface GuiContext {
+public interface GuiContext extends ContextParser {
 
     void teleportTo(Entity entity);
     boolean kickMember(Entity source, UUID entity);
@@ -15,6 +13,5 @@ public interface GuiContext {
     void setSpawnPoint(Vec3i point);
     void toggleVisibility();
 
-    Component parseTextComponent(@NotNull Component original);
-
+    void updateBiome(String biome);
 }

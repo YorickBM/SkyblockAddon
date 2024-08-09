@@ -5,6 +5,7 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
@@ -14,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
-import yorickbm.skyblockaddon.gui.util.GuiContext;
+import yorickbm.skyblockaddon.gui.interfaces.GuiContext;
 import yorickbm.skyblockaddon.islands.data.IslandData;
 import yorickbm.skyblockaddon.util.NBT.IsUnique;
 import yorickbm.skyblockaddon.util.NBT.NBTSerializable;
@@ -81,6 +82,18 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
     @Override
     public void toggleVisibility() {
         setVisibility(!isVisible()); //Set it to inverse of its current.
+    }
+
+    /**
+     * Set the biome for all loaded chunks of island
+     * @param biome - Biome resource location
+     */
+    @Override
+    public void updateBiome(String biome) {
+        ResourceLocation rs = new ResourceLocation(biome);
+        setBiome(biome.split(":")[1]); //Set biome for configuration to part without mod id
+
+        //TODO: Update chunks and shit
     }
 
     /**

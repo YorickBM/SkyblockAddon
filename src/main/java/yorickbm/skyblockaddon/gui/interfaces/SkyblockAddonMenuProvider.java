@@ -1,4 +1,4 @@
-package yorickbm.skyblockaddon.gui.util;
+package yorickbm.skyblockaddon.gui.interfaces;
 
 import net.minecraft.world.MenuProvider;
 

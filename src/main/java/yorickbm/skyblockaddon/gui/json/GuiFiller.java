@@ -8,7 +8,7 @@ import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 public class GuiFiller extends GuiActionable implements JSONSerializable {
     private FillerPattern pattern;
 
-    public FillerPattern getPattern() { return pattern; }
+    public FillerPattern getPattern() { return pattern != null ? pattern : FillerPattern.EMPTY; }
 
     @Override
     public String toJSON() {

@@ -2,6 +2,7 @@ package yorickbm.skyblockaddon.gui.json;
 
 import com.google.gson.Gson;
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -11,10 +12,13 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
-import yorickbm.skyblockaddon.gui.util.GuiContext;
+import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
+import yorickbm.skyblockaddon.gui.interfaces.GuiContext;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 import yorickbm.skyblockaddon.util.ServerHelper;
+import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,11 +37,15 @@ public class GuiItemHolder implements JSONSerializable {
      *
      * @return - Itemstack
      */
-    public ItemStack getItemStack(GuiContext context) {
+    public ItemStack getItemStack(GuiContext context, CompoundTag nbt) {
         ItemStack stack = new ItemStack(getItem());
 
+        //Add custom NBT data
+        stack.addTagElement(SkyblockAddon.MOD_ID, nbt);
+
+        //Set display name
         try {
-            stack.setHoverName(getDisplayName(context));
+            stack.setHoverName(getDisplayName(context, stack));
         } catch(NullPointerException ex) {
             stack.setHoverName(new TextComponent("Invalid display name").withStyle(ChatFormatting.RED));
         }
@@ -53,14 +61,16 @@ public class GuiItemHolder implements JSONSerializable {
         } catch (NullPointerException ex) {
             ServerHelper.addLore(stack, new TextComponent("Invalid lore").withStyle(ChatFormatting.RED));
         }
-
-        //Add custom NBT data
-        stack.getOrCreateTagElement(SkyblockAddon.MOD_ID);
-        if(!data.isEmpty()) {
-            this.data.forEach((key, value1) -> stack.getOrCreateTagElement(SkyblockAddon.MOD_ID).putString(key, value1));
-        }
         return stack;
     }
+
+    public CompoundTag getTag(CompoundTag tag) {
+        if(!data.isEmpty()) {
+            this.data.forEach(tag::putString);
+        }
+        return tag;
+    }
+
     /**
      * Get item from ForgeRegistries.
      * If not found returns BARRIER.
@@ -82,16 +92,30 @@ public class GuiItemHolder implements JSONSerializable {
      *
      * @return - TextComponent
      */
-    public TextComponent getDisplayName(GuiContext context) throws NullPointerException {
+    public TextComponent getDisplayName(GuiContext context, ItemStack stack) throws NullPointerException {
         TextComponent component = new TextComponent("");
 
         for(String string : this.display_name) {
             Component deserialized = Component.Serializer.fromJson(string);
-            if(context != null) component.append(context.parseTextComponent(Objects.requireNonNull(deserialized)));
-            else component.append(Objects.requireNonNull(deserialized));
+            if(context != null) component.append(context.parseTextComponent(parseTextComponent(Objects.requireNonNull(deserialized), stack)));
+            else component.append(parseTextComponent(Objects.requireNonNull(deserialized), stack));
         }
 
         return component;
+    }
+
+    /**
+     * Allow NBT data to be used as variables in text
+     */
+    public Component parseTextComponent(@NotNull Component original, ItemStack stack) {
+
+        String msg = original.getString();
+
+        for(String key : stack.getOrCreateTagElement(SkyblockAddon.MOD_ID).getAllKeys()) {
+            msg = msg.replace("%data" + key + "%", stack.getOrCreateTagElement(SkyblockAddon.MOD_ID).getString(key));
+        }
+
+        return new TextComponent(msg).withStyle(original.getStyle());
     }
 
     @Override

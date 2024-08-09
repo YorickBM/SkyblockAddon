@@ -21,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.events.ModEvents;
 import yorickbm.skyblockaddon.gui.GUIManager;
+import yorickbm.skyblockaddon.gui.registries.BiomeRegistry;
 import yorickbm.skyblockaddon.util.ResourceManager;
 import yorickbm.skyblockaddon.util.ThreadManager;
 import yorickbm.skyblockaddon.util.UsernameCache;
@@ -42,6 +43,7 @@ public class SkyblockAddon {
     public static final String VERSION = "7.0";
 
     public static final float UI_SOUND_VOL = 0.5f;
+    public static final float UI_SUCCESS_VOL = 3f;
     public static final float EFFECT_SOUND_VOL = 0.2f;
     public static final int ISLAND_BUFFER = 200;
     public static final int ISLAND_SIZE = 400;
@@ -91,6 +93,7 @@ public class SkyblockAddon {
             //Generate GUIS
             ResourceManager.generateGUIFile("overview");
             ResourceManager.generateGUIFile("settings");
+            ResourceManager.generateGUIFile("biomes");
             //TODO: Add other GUIS
         }
 

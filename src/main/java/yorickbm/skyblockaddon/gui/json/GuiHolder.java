@@ -3,7 +3,7 @@ package yorickbm.skyblockaddon.gui.json;
 import com.google.gson.Gson;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import yorickbm.skyblockaddon.gui.util.GuiContext;
+import yorickbm.skyblockaddon.gui.interfaces.GuiContext;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 
 import java.util.List;

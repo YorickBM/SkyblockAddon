@@ -1,6 +1,7 @@
 package yorickbm.skyblockaddon.gui;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.SimpleContainer;
@@ -11,12 +12,14 @@ import net.minecraft.world.item.ItemStack;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.gui.interfaces.GuiContext;
+import yorickbm.skyblockaddon.gui.interfaces.SkyblockAddonMenuProvider;
+import yorickbm.skyblockaddon.gui.interfaces.SkyblockAddonRegistry;
 import yorickbm.skyblockaddon.gui.json.GuiAction;
 import yorickbm.skyblockaddon.gui.json.GuiHolder;
-import yorickbm.skyblockaddon.gui.util.GuiActionable;
-import yorickbm.skyblockaddon.gui.util.GuiContext;
-import yorickbm.skyblockaddon.gui.util.SkyblockAddonMenuProvider;
-import yorickbm.skyblockaddon.gui.util.TargetHolder;
+import yorickbm.skyblockaddon.gui.registries.BiomeRegistry;
+import yorickbm.skyblockaddon.gui.util.*;
 
 public class ServerGui extends AbstractContainerMenu {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -27,6 +30,9 @@ public class ServerGui extends AbstractContainerMenu {
     protected final GuiHolder guiContent;
 
     protected final GuiListener event_bus;
+
+    private int page = 0;
+    private int maxPage = 1;
 
     @Override
     public boolean stillValid(@NotNull Player player) {
@@ -120,18 +126,46 @@ public class ServerGui extends AbstractContainerMenu {
             });
         }
 
-        processItems();
-        processFillers();
+        this.draw();
+    }
+
+    /**
+     * Store GUI data into NBT tag
+     * @param tag - NBT Tag
+     */
+    private void setGuiNBT(CompoundTag tag) {
+        tag.putString("pagenum", (this.page+1)+"");
+        tag.putString("maxpage", this.maxPage+"");
+    }
+
+    /**
+     * Trigger next page
+     */
+    public void nextPage() {
+        this.page += 1;
+        if(this.page >= this.maxPage) this.page = 0;
+        this.draw();
+    }
+
+    /**
+     * Trigger previous page
+     */
+    public void previousPage() {
+        this.page -= 1;
+        if(this.page < 0) this.page = maxPage - 1;
+
+        this.draw();
     }
 
     /**
      * Redraw contents of GUI
      */
-    public void reDraw() {
+    public void draw() {
         inventory.clearContent();
 
+        processPreFillers();
         processItems();
-        processFillers();
+        processPostFillers();
     }
 
     /**
@@ -147,7 +181,10 @@ public class ServerGui extends AbstractContainerMenu {
      */
     private void processItems() {
         this.guiContent.getItems().forEach(guiItem -> {
-            ItemStack item = guiItem.getItem().getItemStack(this.sourceContext);
+            CompoundTag tag = new CompoundTag();
+            this.setGuiNBT(tag);
+
+            ItemStack item = guiItem.getItem().getItemStack(this.sourceContext, guiItem.getItem().getTag(tag));
             setItem(guiItem.getSlot(), 0, item);
 
             this.attachAction(guiItem, guiItem.getSlot());
@@ -157,42 +194,62 @@ public class ServerGui extends AbstractContainerMenu {
     /**
      * Process Gui Holders Fillers
      */
-    private void processFillers() {
-        this.guiContent.getFillers().forEach(filler -> {
+    private void processPreFillers() {
+        this.guiContent.getFillers().stream().filter(f -> f.getPattern() == FillerPattern.INSIDE).forEach(filler -> {
+            ItemStack slotItem = filler.getItem().getItemStack(this.sourceContext, filler.getItem().getTag(new CompoundTag()));
+            SkyblockAddonRegistry registry = null;
 
-            switch (filler.getPattern()) {
-                case EMPTY -> {
-                    for (int slot = 0; slot < this.inventory.getContainerSize(); slot++) {
-                        if(!getSlot(slot).hasItem()) {
-                            setItem(slot, 0, filler.getItem().getItemStack(this.sourceContext));
-
-                            this.attachAction(filler, slot);
-                        }
-                    }
+            if(slotItem.getOrCreateTagElement(SkyblockAddon.MOD_ID).contains("registry")) {
+                switch (slotItem.getOrCreateTagElement(SkyblockAddon.MOD_ID).getString("registry")) {
+                    case "BiomeRegistry":
+                        registry = new BiomeRegistry();
+                        int rows = (this.inventory.getContainerSize() + 1) / 9;
+                        int slots = this.inventory.getContainerSize() - (18 + (2 * (rows - 2)));
+                        registry.setIndex(slots * this.page);
+                        this.maxPage = (int) Math.ceil((double) registry.getSize() / slots);
+                        break;
                 }
-                case INSIDE -> {
-                    for (int slot = 0; slot < this.inventory.getContainerSize(); slot++) {
+            }
 
-                        if((slot < 10 || slot > this.inventory.getContainerSize() - 10)  || (slot%9 == 0 || slot%9 == 8)) continue;
+            for (int slot = 0; slot < this.inventory.getContainerSize(); slot++) {
+                if((slot < 10 || slot > this.inventory.getContainerSize() - 10)  || (slot%9 == 0 || slot%9 == 8)) continue;
+                if(!getSlot(slot).hasItem()) {
+                    CompoundTag tag = new CompoundTag();
 
-                        if(!getSlot(slot).hasItem()) {
-                            setItem(slot, 0, filler.getItem().getItemStack(this.sourceContext));
-                            this.attachAction(filler, slot);
-                        }
+                    if(registry != null) {
+                        boolean isValid = registry.getNextData(tag);
+                        if(!isValid) break; //Reached end
                     }
+
+                    ItemStack item = filler.getItem().getItemStack(this.sourceContext, filler.getItem().getTag(tag));
+                    setItem(slot, 0, item);
+                    this.attachAction(filler, slot);
                 }
-                case EDGES -> {
-                    for (int slot = 0; slot < this.inventory.getContainerSize(); slot++) {
-
-                        if(slot >= 10 && slot <= this.inventory.getContainerSize() - 10  && slot%9 != 0 && slot%9 != 8) continue;
-
-                        if(!getSlot(slot).hasItem()) {
-                            setItem(slot, 0, filler.getItem().getItemStack(this.sourceContext));
-                            this.attachAction(filler, slot);
-                        }
-                    }
+            }
+        });
+        this.guiContent.getFillers().stream().filter(f -> f.getPattern() == FillerPattern.EDGES).forEach(filler -> {
+            ItemStack slotItem = filler.getItem().getItemStack(this.sourceContext, filler.getItem().getTag(new CompoundTag()));
+            for (int slot = 0; slot < this.inventory.getContainerSize(); slot++) {
+                if(slot >= 10 && slot <= this.inventory.getContainerSize() - 10  && slot%9 != 0 && slot%9 != 8) continue;
+                if(!getSlot(slot).hasItem()) {
+                    setItem(slot, 0, slotItem);
+                    this.attachAction(filler, slot);
                 }
+            }
+        });
+    }
 
+    /**
+     * Process Gui Holders Fillers
+     */
+    private void processPostFillers() {
+        this.guiContent.getFillers().stream().filter(f -> f.getPattern() == FillerPattern.EMPTY).forEach(filler -> {
+            ItemStack slotItem = filler.getItem().getItemStack(this.sourceContext, filler.getItem().getTag(new CompoundTag()));
+            for (int slot = 0; slot < this.inventory.getContainerSize(); slot++) {
+                if(!getSlot(slot).hasItem()) {
+                    setItem(slot, 0, slotItem);
+                    this.attachAction(filler, slot);
+                }
             }
         });
     }
@@ -207,12 +264,15 @@ public class ServerGui extends AbstractContainerMenu {
         if(item.getAction().notNone()) { //Only add event listener if action is not none.
             this.event_bus.addListener(slotIndex, (player, clickType) -> {
                 GuiAction action = item.getAction();
+                CompoundTag tag = new CompoundTag();
+                this.setGuiNBT(tag);
+
                 switch(clickType) {
-                    case 0 -> action.onPrimaryClick(item.getItem().getItemStack(this.sourceContext),
+                    case 0 -> action.onPrimaryClick(item.getItem().getItemStack(this.sourceContext, item.getItem().getTag(tag)),
                             new TargetHolder(this.sourceEntity, this.sourceEntity.getUUID()), null,
                             this.sourceContext, null,
                             this);
-                    case 1 -> action.onSecondaryClick(item.getItem().getItemStack(this.sourceContext),
+                    case 1 -> action.onSecondaryClick(item.getItem().getItemStack(this.sourceContext, item.getItem().getTag(tag)),
                             new TargetHolder(this.sourceEntity, this.sourceEntity.getUUID()), null,
                             this.sourceContext, null,
                             this);

@@ -7,8 +7,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.gui.json.GuiHolder;
-import yorickbm.skyblockaddon.gui.util.GuiContext;
-import yorickbm.skyblockaddon.gui.util.SkyblockAddonMenuProvider;
+import yorickbm.skyblockaddon.gui.interfaces.GuiContext;
+import yorickbm.skyblockaddon.gui.interfaces.SkyblockAddonMenuProvider;
 import yorickbm.skyblockaddon.util.JSON.JSONEncoder;
 
 import java.util.Collection;
