@@ -16,9 +16,11 @@ import yorickbm.skyblockaddon.gui.util.GuiContext;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class GuiItemHolder implements JSONSerializable {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -44,14 +46,12 @@ public class GuiItemHolder implements JSONSerializable {
 
         try {
             //Process lore data
-            for (List<String> list : lore) {
+            Component[] finalLore = lore.stream().map(l -> {
                 TextComponent component = new TextComponent("");
-                for(String string : list) {
-                    if(context != null) component.append(context.parseTextComponent(Objects.requireNonNull(Component.Serializer.fromJson(string))));
-                    else component.append(Objects.requireNonNull(Component.Serializer.fromJson(string)));
-                }
-                ServerHelper.addLore(stack, component);
-            }
+                l.stream().map(Component.Serializer::fromJson).filter(Objects::nonNull).map(context::parseTextComponent).forEach(component::append);
+                return component;
+            }).toArray(Component[]::new);
+            ServerHelper.addLore(stack, finalLore);
         } catch (NullPointerException ex) {
             ServerHelper.addLore(stack, new TextComponent("Invalid lore").withStyle(ChatFormatting.RED));
         }

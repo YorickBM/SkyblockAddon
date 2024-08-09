@@ -68,11 +68,11 @@ public class IslandData implements NBTSerializable {
         this.biome = biome;
     }
 
-    public boolean canTravel() {
+    public boolean isVisible() {
         return travelability;
     }
 
-    public void setTravelability(boolean travelability) {
+    public void setVisibility(boolean travelability) {
         this.travelability = travelability;
     }
 
@@ -105,7 +105,7 @@ public class IslandData implements NBTSerializable {
         tag.putUUID("Id", getId());
         tag.putString("owner", getOwner().toString());
         tag.putString("biome", getBiome());
-        tag.putBoolean("travelability", canTravel());
+        tag.putBoolean("travelability", isVisible());
         tag.put("spawn", NBTUtil.Vec3iToNBT(getSpawn()));
         tag.put("center", NBTUtil.Vec3iToNBT(getCenter()));
 
@@ -117,7 +117,7 @@ public class IslandData implements NBTSerializable {
         setId(tag.getUUID("Id"));
         if (tag.getString("owner").length() > 3) setOwner(UUID.fromString(tag.getString("owner")));
         setBiome(tag.getString("biome"));
-        setTravelability(tag.getBoolean("travelability"));
+        setVisibility(tag.getBoolean("travelability"));
         setSpawn(NBTUtil.NBTToVec3i(tag.getCompound("spawn")));
         setCenter(NBTUtil.NBTToVec3i(tag.getCompound("center")));
     }

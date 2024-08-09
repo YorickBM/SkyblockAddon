@@ -1,11 +1,15 @@
 {
-  "title": ["{\"text\": \"%owner%'s Island\"}"],
+  "title": [
+    "{\"text\": \"%owner%'s Island\"}"
+  ],
   "rows": 3,
   "key": "settings",
   "fillers": [
     {
       "item": {
-        "display_name": ["{\"text\": \"\"}"],
+        "display_name": [
+          "{\"text\": \"\"}"
+        ],
         "item": "minecraft:GRAY_STAINED_GLASS_PANE",
         "lore": [],
         "data": {}
@@ -24,7 +28,14 @@
       "item": {
         "display_name": ["{\"text\": \"Biome\",\"bold\": true,\"color\": \"blue\"}"],
         "item": "minecraft:OAK_SAPLING",
-        "lore": [],
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Change the biome of your island.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Current: \",\"color\":\"dark_gray\"}", "{\"text\":\"%biome%\",\"color\":\"white\"}"
+          ]
+        ],
         "data": {
           "gui": "biome"
         }
@@ -39,7 +50,9 @@
     },
     {
       "item": {
-        "display_name": ["{\"text\": \"Permissions\",\"bold\": true,\"color\": \"blue\"}"],
+        "display_name": [
+          "{\"text\": \"Permissions\",\"bold\": true,\"color\": \"blue\"}"
+        ],
         "item": "minecraft:IRON_BARS",
         "lore": [],
         "data": {
@@ -56,10 +69,22 @@
     },
     {
       "item": {
-        "display_name": ["{\"text\": \"Spawn Point\",\"bold\": true,\"color\": \"blue\"}"],
+        "display_name": [
+          "{\"text\": \"Spawn Point\",\"bold\": true,\"color\": \"blue\"}"
+        ],
         "item": "minecraft:RED_BED",
         "lore": [
-          ["{\"text\":\"Current: %x%, %y%, %z%\"}"]
+          [
+            "{\"text\":\"\u00bb Set the spawn point of your island.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Current: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%x%\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%y%\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%z%\",\"color\":\"white\"}"
+          ]
         ],
         "data": {}
       },
@@ -73,22 +98,34 @@
     },
     {
       "item": {
-        "display_name": ["{\"text\": \"Transport\",\"bold\": true,\"color\": \"blue\"}"],
+        "display_name": [
+          "{\"text\": \"Visibility\",\"bold\": true,\"color\": \"blue\"}"
+        ],
         "item": "minecraft:OAK_BOAT",
-        "lore": [],
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Change visibility of your island.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Current: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%visibility%\",\"color\":\"white\"}"
+          ]
+        ],
         "data": {}
       },
       "slot": 16,
       "action": {
         "targetType": "HOLDER",
         "sourceType": "HOLDER",
-        "onClick": "toggleTravelability",
-        "onSecondClick": "toggleTravelability"
+        "onClick": "toggleVisibility",
+        "onSecondClick": "toggleVisibility"
       }
     },
     {
       "item": {
-        "display_name": ["{\"text\": \"Back\",\"bold\": true,\"color\": \"red\"}"],
+        "display_name": [
+          "{\"text\": \"Back\",\"bold\": true,\"color\": \"red\"}"
+        ],
         "item": "minecraft:ARROW",
         "lore": [],
         "data": {

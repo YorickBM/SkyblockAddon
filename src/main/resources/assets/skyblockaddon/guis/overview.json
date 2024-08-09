@@ -5,7 +5,9 @@
   "fillers": [
     {
       "item": {
-        "display_name": ["{\"text\": \"\"}"],
+        "display_name": [
+          "{\"text\": \"\"}"
+        ],
         "item": "minecraft:GRAY_STAINED_GLASS_PANE",
         "lore": [],
         "data": {}
@@ -22,9 +24,15 @@
   "items": [
     {
       "item": {
-        "display_name": ["{\"text\": \"Teleport\",\"bold\": true,\"color\": \"blue\"}"],
+        "display_name": [
+          "{\"text\": \"Teleport\",\"bold\": true,\"color\": \"blue\"}"
+        ],
         "item": "minecraft:ENDER_EYE",
-        "lore": [],
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Teleport to your islands spawn location.\",\"color\":\"dark_gray\"}"
+          ]
+        ],
         "data": {}
       },
       "slot": 10,
@@ -37,9 +45,15 @@
     },
     {
       "item": {
-        "display_name": ["{\"text\": \"Members\",\"bold\": true,\"color\": \"blue\"}"],
+        "display_name": [
+          "{\"text\": \"Members\",\"bold\": true,\"color\": \"blue\"}"
+        ],
         "item": "minecraft:CHEST",
-        "lore": [],
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Overview all islands members and invite others.\",\"color\":\"dark_gray\"}"
+          ]
+        ],
         "data": {
           "gui": "members"
         }
@@ -54,9 +68,15 @@
     },
     {
       "item": {
-        "display_name": ["{\"text\": \"Settings\",\"bold\": true,\"color\": \"blue\"}"],
+        "display_name": [
+          "{\"text\": \"Settings\",\"bold\": true,\"color\": \"blue\"}"
+        ],
         "item": "minecraft:ANVIL",
-        "lore": [],
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Change the settings of your island.\",\"color\":\"dark_gray\"}"
+          ]
+        ],
         "data": {
           "gui": "settings"
         }
@@ -71,9 +91,18 @@
     },
     {
       "item": {
-        "display_name": ["{\"text\": \"Leave\",\"bold\": true,\"color\": \"blue\"}"],
+        "display_name": [
+          "{\"text\": \"Leave\",\"bold\": true,\"color\": \"blue\"}"
+        ],
         "item": "minecraft:BARRIER",
-        "lore": [],
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Leave the island.\n\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Beware, if you are the last member, the island will be removed!\",\"italic\":true,\"color\":\"red\"}"
+          ]
+        ],
         "data": {}
       },
       "slot": 16,

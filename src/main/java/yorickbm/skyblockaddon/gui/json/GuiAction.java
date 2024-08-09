@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.gui.GUIManager;
+import yorickbm.skyblockaddon.gui.ServerGui;
 import yorickbm.skyblockaddon.gui.util.GuiContext;
 import yorickbm.skyblockaddon.gui.util.TargetHolder;
 import yorickbm.skyblockaddon.gui.util.TargetType;
@@ -22,14 +23,20 @@ public class GuiAction implements JSONSerializable {
     private TargetType targetType;
     private TargetType sourceType;
 
-    public void onPrimaryClick(ItemStack item, TargetHolder source, TargetHolder target, GuiContext cSource, GuiContext cTarget) {
-        handleClick(onClick, item, source, target, cSource, cTarget);
+    public void onPrimaryClick(ItemStack item,
+                               TargetHolder source, TargetHolder target,
+                               GuiContext cSource, GuiContext cTarget,
+                               ServerGui gui) {
+        handleClick(onClick, item, source, target, cSource, cTarget, gui);
     }
-    public void onSecondaryClick(ItemStack item, TargetHolder source, TargetHolder target, GuiContext cSource, GuiContext cTarget) {
-        handleClick(onSecondClick, item,  source, target, cSource, cTarget);
+    public void onSecondaryClick(ItemStack item,
+                                 TargetHolder source, TargetHolder target,
+                                 GuiContext cSource, GuiContext cTarget,
+                                 ServerGui gui) {
+        handleClick(onSecondClick, item,  source, target, cSource, cTarget, gui);
     }
 
-    private void handleClick(String action, ItemStack item, TargetHolder source, TargetHolder target, GuiContext cSource, GuiContext cTarget) {
+    private void handleClick(String action, ItemStack item, TargetHolder source, TargetHolder target, GuiContext cSource, GuiContext cTarget, ServerGui gui) {
         switch (action) {
             case "openMenu":
                 if(!item.getOrCreateTagElement(SkyblockAddon.MOD_ID).contains("gui")) return;
@@ -43,12 +50,17 @@ public class GuiAction implements JSONSerializable {
                 return;
             case "teleportTo":
                 getSourceContext(cSource, cTarget).teleportTo(getTargetEntity(source, target).getEntity());
+                gui.close();
                 return;
             case "kickMember":
                 getSourceContext(cSource, cTarget).kickMember(getSourceEntity(source, target).getEntity(), getTargetEntity(source, target).getUuid());
+                gui.close();
                 return;
 
             case "setSpawnPoint":
+                if(getSourceEntity(source, target).getEntity() == null) return; //Source is not a valid entity
+                getSourceContext(cSource, cTarget).setSpawnPoint(getSourceEntity(source, target).getEntity().blockPosition());
+                gui.reDraw(); //Update GUI items
                 return;
 
         }

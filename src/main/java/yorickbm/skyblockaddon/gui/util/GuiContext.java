@@ -13,7 +13,7 @@ public interface GuiContext {
     boolean kickMember(Entity source, UUID entity);
 
     void setSpawnPoint(Vec3i point);
-    void toggleTravelability();
+    void toggleVisibility();
 
     Component parseTextComponent(@NotNull Component original);
 

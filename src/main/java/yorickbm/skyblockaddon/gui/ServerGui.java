@@ -124,6 +124,27 @@ public class ServerGui extends AbstractContainerMenu {
         processFillers();
     }
 
+    /**
+     * Redraw contents of GUI
+     */
+    public void reDraw() {
+        inventory.clearContent();
+
+        processItems();
+        processFillers();
+    }
+
+    /**
+     * Close container for the source entity.
+     * Source Entity - Who opened the GUI
+     */
+    public void close() {
+        this.sourceEntity.closeContainer();
+    }
+
+    /**
+     * Process Gui Holders Items
+     */
     private void processItems() {
         this.guiContent.getItems().forEach(guiItem -> {
             ItemStack item = guiItem.getItem().getItemStack(this.sourceContext);
@@ -132,6 +153,10 @@ public class ServerGui extends AbstractContainerMenu {
             this.attachAction(guiItem, guiItem.getSlot());
         });
     }
+
+    /**
+     * Process Gui Holders Fillers
+     */
     private void processFillers() {
         this.guiContent.getFillers().forEach(filler -> {
 
@@ -172,18 +197,33 @@ public class ServerGui extends AbstractContainerMenu {
         });
     }
 
+    /**
+     * Attach a Gui Action to certain slot for container
+     *
+     * @param item - Gui Action
+     * @param slotIndex - Slot to attach it too
+     */
     private void attachAction(GuiActionable item, int slotIndex) {
         if(item.getAction().notNone()) { //Only add event listener if action is not none.
             this.event_bus.addListener(slotIndex, (player, clickType) -> {
                 GuiAction action = item.getAction();
                 switch(clickType) {
-                    case 0 -> action.onPrimaryClick(item.getItem().getItemStack(this.sourceContext), new TargetHolder(this.sourceEntity, this.sourceEntity.getUUID()), null, this.sourceContext, null);
-                    case 1 -> action.onSecondaryClick(item.getItem().getItemStack(this.sourceContext), new TargetHolder(this.sourceEntity, this.sourceEntity.getUUID()), null, this.sourceContext, null);
+                    case 0 -> action.onPrimaryClick(item.getItem().getItemStack(this.sourceContext),
+                            new TargetHolder(this.sourceEntity, this.sourceEntity.getUUID()), null,
+                            this.sourceContext, null,
+                            this);
+                    case 1 -> action.onSecondaryClick(item.getItem().getItemStack(this.sourceContext),
+                            new TargetHolder(this.sourceEntity, this.sourceEntity.getUUID()), null,
+                            this.sourceContext, null,
+                            this);
                 }
             });
         }
     }
 
+    /**
+     * Event triggers upon clicking an items within the GUI
+     */
     @Override
     public void clicked(int i, int j, @NotNull ClickType actionType, @NotNull Player playerEntity) {
         if (i < 0)

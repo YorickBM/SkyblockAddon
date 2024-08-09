@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.gui.util.GuiContext;
 import yorickbm.skyblockaddon.islands.data.IslandData;
 import yorickbm.skyblockaddon.util.NBT.IsUnique;
@@ -52,7 +53,6 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
     @Override
     public boolean kickMember(Entity source, UUID entity) {
         //TODO: Implement functionality
-        LOGGER.warn("Attempted to execute empty function: 'kickMember'");
 
         //Teleport entity to world spawn
         BlockPos worldSpawn = Objects.requireNonNull(Objects.requireNonNull(source.getServer()).getLevel(Level.OVERWORLD)).getSharedSpawnPos();
@@ -72,15 +72,15 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
      */
     @Override
     public void setSpawnPoint(Vec3i point) {
-
+        setSpawn(point.offset(0, 0.5, 0)); //Set it 0.5 blocks higher.
     }
 
     /**
-     * Toggle the islands travel ability from public/private
+     * Toggle the islands visibility from public/private
      */
     @Override
-    public void toggleTravelability() {
-
+    public void toggleVisibility() {
+        setVisibility(!isVisible()); //Set it to inverse of its current.
     }
 
     /**
@@ -135,6 +135,8 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
                 .replace("%x%", getSpawn().getX()+"")
                 .replace("%y%", getSpawn().getY()+"")
                 .replace("%z%", getSpawn().getZ()+"")
-        ).withStyle(original.getStyle()); //TODO: Parse original.getString()
+                .replace("%biome%", getBiome())
+                .replace("%visibility%", this.isVisible() ? SkyBlockAddonLanguage.getLocalizedString("island.public") : SkyBlockAddonLanguage.getLocalizedString("island.private"))
+        ).withStyle(original.getStyle());
     }
 }

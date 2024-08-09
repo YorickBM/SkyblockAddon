@@ -90,6 +90,7 @@ public class SkyblockAddon {
 
             //Generate GUIS
             ResourceManager.generateGUIFile("overview");
+            ResourceManager.generateGUIFile("settings");
             //TODO: Add other GUIS
         }
 
