@@ -9,19 +9,25 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.capabilities.Capability;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldCapability;
+import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.gui.interfaces.GuiContext;
 import yorickbm.skyblockaddon.gui.interfaces.SkyblockAddonMenuProvider;
 import yorickbm.skyblockaddon.gui.interfaces.SkyblockAddonRegistry;
 import yorickbm.skyblockaddon.gui.json.GuiAction;
 import yorickbm.skyblockaddon.gui.json.GuiHolder;
 import yorickbm.skyblockaddon.gui.registries.BiomeRegistry;
+import yorickbm.skyblockaddon.gui.registries.IslandRegistry;
 import yorickbm.skyblockaddon.gui.util.FillerPattern;
 import yorickbm.skyblockaddon.gui.util.GuiActionable;
 import yorickbm.skyblockaddon.gui.util.TargetHolder;
+
+import java.util.Optional;
 
 public class ServerGui extends AbstractContainerMenu {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -205,11 +211,20 @@ public class ServerGui extends AbstractContainerMenu {
                 switch (slotItem.getOrCreateTagElement(SkyblockAddon.MOD_ID).getString("registry")) {
                     case "BiomeRegistry":
                         registry = new BiomeRegistry();
-                        int rows = (this.inventory.getContainerSize() + 1) / 9;
-                        int slots = this.inventory.getContainerSize() - (18 + (2 * (rows - 2)));
-                        registry.setIndex(slots * this.page);
-                        this.maxPage = (int) Math.ceil((double) registry.getSize() / slots);
                         break;
+                    case "IslandRegistry":
+                        Optional<SkyblockAddonWorldCapability> cap = this.sourceEntity.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).resolve();
+                        if(cap.isEmpty()) break; //Capability not found
+                        registry = new IslandRegistry(cap.get());
+                        break;
+                }
+
+                if(registry != null) {
+                    int rows = (this.inventory.getContainerSize() + 1) / 9;
+                    int slots = this.inventory.getContainerSize() - (18 + (2 * (rows - 2)));
+
+                    registry.setIndex(slots * this.page);
+                    this.maxPage = (int) Math.ceil((double) registry.getSize() / slots);
                 }
             }
 

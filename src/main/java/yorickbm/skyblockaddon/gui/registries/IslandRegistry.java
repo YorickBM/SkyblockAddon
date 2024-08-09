@@ -32,6 +32,6 @@ public class IslandRegistry extends SkyblockAddonRegistry {
 
     @Override
     public int getSize() {
-        return 0;
+        return islands.size();
     }
 }
