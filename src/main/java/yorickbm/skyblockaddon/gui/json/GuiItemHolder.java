@@ -40,6 +40,7 @@ public class GuiItemHolder implements JSONSerializable {
 
         //Add custom NBT data
         stack.addTagElement(SkyblockAddon.MOD_ID, nbt);
+        if(nbt.contains("SkullOwner")) stack.getOrCreateTag().putString("SkullOwner", nbt.getString("SkullOwner"));
 
         //Set display name
         try {
