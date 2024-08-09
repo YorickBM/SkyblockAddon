@@ -16,11 +16,9 @@ import yorickbm.skyblockaddon.gui.util.GuiContext;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class GuiItemHolder implements JSONSerializable {
     private static final Logger LOGGER = LogManager.getLogger();

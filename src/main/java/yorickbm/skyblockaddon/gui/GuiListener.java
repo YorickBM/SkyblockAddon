@@ -1,9 +1,7 @@
 package yorickbm.skyblockaddon.gui;
 
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.Slot;
 import org.apache.logging.log4j.util.BiConsumer;
-import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.HashMap;
 import java.util.Map;
