@@ -32,6 +32,7 @@ public class IslandCommand extends OverWorldCommandStack {
             }
             GUIManager.getInstance().openMenu("overview", executor, island);
         });
+
         return Command.SINGLE_SUCCESS;
     }
 }

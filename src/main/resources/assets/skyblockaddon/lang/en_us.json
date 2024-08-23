@@ -5,15 +5,23 @@
   "commands.admin.no.island": "This command requires you to be standing on an island.",
   "commands.admin.island.not.found.uuid": "Could not find the island with UUID '%s'.",
   "commands.admin.island.not.found.player": "Could not find the island for player '%s'.",
-  "commands.admin.island.found.id": "Id found for island '%s', click to copy.",
+  "commands.admin.island.found.id": "Id found for island '%s', click me to copy.",
 
   "commands.teleporting.own": "Teleporting you to your island...",
   "commands.teleporting.other": "Teleporting you to %s's island...",
   "commands.teleporting.requested": "Requested teleport to %s's island...",
-  "commands.teleporting.request": "Click to accept teleport request from %s to your island.",
+  "commands.teleporting.request": "Click me to accept teleport request from %s to your island.",
   "commands.teleporting.accepted": "Teleporting %s to your island...",
+
+  "commands.leave": "You have left your island, click me to undo this action.",
+  "commands.leave.failure": "We could not remove you from the island, try again at a later moment.",
+  "commands.leave.undo": "We have added you back to the island as a member.",
+  "commands.leave.undo.failure": "We could not add you to island '%s', please contact a server admin and share this id.",
+
   "commands.expired": "The action you are trying to perform is no longer available.",
+
   "menu.not.found": "Could not find the menu %s you are trying to open. Sorry!",
+
   "island.biome": "Your island biome has changed into %s.",
   "island.travel": "Travelling you through the void and time..."
 }

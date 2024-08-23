@@ -36,4 +36,8 @@ public class FunctionRegistry {
             throw new FunctionNotFoundException(hash);
         }
     }
+
+    public static String getCommand(UUID uuid) {
+        return "/island registry %s".formatted(uuid.toString());
+    }
 }

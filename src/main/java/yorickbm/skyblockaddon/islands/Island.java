@@ -56,7 +56,7 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
     /**
      * Kick entity from island
      *
-     * @param source - Whom is kicking the entity
+     * @param source - Who is kicking the entity
      * @param entity - UUID of entity to remove
      */
     @Override
@@ -72,6 +72,22 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
         ) {
             player.teleportTo(worldSpawn.getX(), worldSpawn.getY(), worldSpawn.getZ()); //Teleport player
         }
+        return true;
+    }
+
+    /**
+     * Add entity as member to island
+     *
+     * @param source - Who is adding the entity
+     * @param entity - UUID of entity to add
+     */
+    public boolean addMember(Entity source, UUID entity) {
+        //TODO: Implement functionality
+
+        //Teleport entity to island
+        ServerPlayer player = Objects.requireNonNull(source.getServer()).getPlayerList().getPlayer(entity); //Get entity from online player list
+        if(player != null) this.teleportTo(player);
+
         return true;
     }
 
