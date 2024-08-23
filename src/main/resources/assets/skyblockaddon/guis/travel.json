@@ -25,27 +25,24 @@
     {
       "item": {
         "display_name": [
-          "{\"text\": \"%dataname%\", \"color\":\"blue\"}"
+          "{\"text\": \"%dataownername%'s Island\", \"color\":\"blue\"}"
         ],
-        "item": "minecraft:PAPER",
+        "item": "minecraft:PLAYER_HEAD",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to change the biome of your island.\",\"color\":\"dark_gray\"}"
-          ],
-          [
-            "{\"text\":\"\u2666 Current: \",\"color\":\"dark_gray\"}", "{\"text\":\"%biome%\",\"color\":\"white\"}"
+            "{\"text\":\"\u00bb Click to travel to this island.\",\"color\":\"dark_gray\"}"
           ]
         ],
         "data": {
-          "registry": "BiomeRegistry"
+          "registry": "IslandRegistry"
         }
       },
       "pattern": "INSIDE",
       "action": {
-        "targetType": "DATA",
-        "sourceType": "HOLDER",
-        "onClick": "updateBiome",
-        "onSecondClick": "updateBiome"
+        "targetType": "HOLDER",
+        "sourceType": "DATA",
+        "onClick": "teleportTo",
+        "onSecondClick": "teleportTo"
       }
     }
   ],
