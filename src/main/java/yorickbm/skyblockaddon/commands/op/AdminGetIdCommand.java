@@ -2,6 +2,7 @@ package yorickbm.skyblockaddon.commands.op;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -51,6 +52,7 @@ public class AdminGetIdCommand extends OverWorldCommandStack {
 
                 command.sendSuccess(
                         new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.admin.island.found.id").formatted(island.getId().toString()))
+                                .withStyle(ChatFormatting.GREEN)
                                 .withStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, island.getId().toString())))
                         , false);
             });
@@ -74,6 +76,7 @@ public class AdminGetIdCommand extends OverWorldCommandStack {
 
             command.sendSuccess(
                     new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.admin.island.found.id").formatted(island.getId().toString()))
+                            .withStyle(ChatFormatting.GREEN)
                             .withStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, island.getId().toString())))
                     , false);
         });

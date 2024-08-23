@@ -18,9 +18,16 @@
   "commands.leave.undo": "We have added you back to the island as a member.",
   "commands.leave.undo.failure": "We could not add you to island '%s', please contact a server admin and share this id.",
 
+  "commands.invite.self": "You cannot invite yourself, sorry.",
+  "commands.invite.success": "You have invited %s to join your island.",
+  "commands.invite.invited": "You have been invited to join %s's island by %s.",
+  "commands.invite.accepted": "%s has joined your island.",
+  "commands.invite.teleporting": "Teleporting you to your island.",
+  "commands.invite.failure": "%s could not add you to %s's island. Try again another time.",
+
   "commands.expired": "The action you are trying to perform is no longer available.",
 
-  "menu.not.found": "Could not find the menu %s you are trying to open. Sorry!",
+  "menu.not.found": "Could not find the menu %s you are trying to open.",
 
   "island.biome": "Your island biome has changed into %s.",
   "island.travel": "Travelling you through the void and time..."
