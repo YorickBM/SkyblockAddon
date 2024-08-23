@@ -85,8 +85,9 @@ public class IslandTeleportCommand extends OverWorldCommandStack {
                 return;
             }
 
+            //Determine if it is a public island
             //Determine if user is OP
-            if(executor.hasPermissions(Commands.LEVEL_ADMINS)) {
+            if(island.isVisible() || executor.hasPermissions(Commands.LEVEL_ADMINS)) {
                 command.sendSuccess(new TextComponent(
                         SkyBlockAddonLanguage.getLocalizedString("commands.teleporting.other")
                                 .formatted(requested.getDisplayName().getString()))
