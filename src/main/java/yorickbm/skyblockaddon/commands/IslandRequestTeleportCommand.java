@@ -34,6 +34,11 @@ public class IslandRequestTeleportCommand extends OverWorldCommandStack {
     public int execute(CommandSourceStack command, ServerPlayer executor, ServerPlayer target) {
         if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
+        if(executor.getUUID().equals(target.getUUID())) {
+            command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.request.self")));
+            return Command.SINGLE_SUCCESS;
+        }
+
         command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
             Island island = cap.getIslandByEntityUUID(executor.getUUID());
             if (island == null) {

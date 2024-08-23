@@ -26,6 +26,7 @@
   "commands.invite.teleporting": "Teleporting you to your island.",
   "commands.invite.failure": "%s could not add you to %s's island. Try again another time.",
 
+  "commands.request.self": "You cannot request yourself to teleport to your own island, sorry.",
   "commands.request.other": "Teleporting you to %s's island...",
   "commands.request.requested": "Requested %s to teleport to your island.",
   "commands.request.request": "Click me to accept the request of %s to teleport to their island.",
