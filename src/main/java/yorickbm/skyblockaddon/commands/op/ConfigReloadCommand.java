@@ -2,10 +2,11 @@ package yorickbm.skyblockaddon.commands.op;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
-import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.gui.GUIManager;
 import yorickbm.skyblockaddon.util.ResourceManager;
 
@@ -24,6 +25,8 @@ public class ConfigReloadCommand {
     public int execute(CommandSourceStack command, ServerPlayer executor) {
         ResourceManager.commonSetup();
         GUIManager.getInstance().loadAllGUIS(); //Load guis from file
+
+        command.sendSuccess(new TextComponent("Configuration files have been reloaded!").withStyle(ChatFormatting.GREEN), true);
 
         return Command.SINGLE_SUCCESS;
     }

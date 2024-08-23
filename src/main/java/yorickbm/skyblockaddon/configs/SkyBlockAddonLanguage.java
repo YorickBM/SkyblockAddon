@@ -1,8 +1,6 @@
 package yorickbm.skyblockaddon.configs;
 
 import com.google.gson.Gson;
-import net.minecraftforge.fml.loading.FMLPaths;
-import yorickbm.skyblockaddon.SkyblockAddon;
 
 import java.io.BufferedReader;
 import java.io.IOException;
