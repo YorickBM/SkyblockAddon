@@ -83,20 +83,20 @@ public class IslandTeleportCommand {
             UUID functionKey = UUID.randomUUID();
             FunctionRegistry.registerFunction(functionKey, (e) -> {
                 command.sendSuccess(new TextComponent(
-                        SkyBlockAddonLanguage.getLocalizedString("commands.teleporting.other")
-                                .formatted(requested.getDisplayName().getString()))
-                        .withStyle(ChatFormatting.GREEN), false);
+                    SkyBlockAddonLanguage.getLocalizedString("commands.teleporting.other")
+                        .formatted(requested.getDisplayName().getString()))
+                    .withStyle(ChatFormatting.GREEN), false);
                 requested.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.teleporting.accepted").formatted(executor.getDisplayName().getString())), requested.getUUID());
                 island.teleportTo(executor);
             }, 5); //Register function to teleport under hash 'functionKey' for 5 minutes.
 
             //Sending clickable message to accept request to requested
             requested.sendMessage(new TextComponent(
-                    SkyBlockAddonLanguage.getLocalizedString("commands.teleporting.request")
-                            .formatted(executor.getDisplayName().getString()))
-                    .withStyle(ChatFormatting.GREEN)
-                    .withStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island registry %s".formatted(functionKey.toString()))))
-                    , requested.getUUID());
+                SkyBlockAddonLanguage.getLocalizedString("commands.teleporting.request")
+                        .formatted(executor.getDisplayName().getString()))
+                .withStyle(ChatFormatting.GREEN)
+                .withStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/island registry %s".formatted(functionKey.toString()))))
+                , requested.getUUID());
 
         });
         return Command.SINGLE_SUCCESS;
