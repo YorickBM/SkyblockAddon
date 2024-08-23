@@ -56,6 +56,11 @@ public class IslandTeleportCommand {
             return Command.SINGLE_SUCCESS;
         }
 
+        //Requesting to teleport to his own island
+        if(executor.getUUID().equals(requested.getUUID())) {
+            return executePersonal(command, executor); //Run personal execution with command details
+        }
+
         command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
             Island island = cap.getIslandByEntityUUID(requested.getUUID());
             if (island == null) {

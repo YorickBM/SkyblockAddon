@@ -8,5 +8,6 @@
   "commands.teleporting.requested": "Requested teleport to %s's island...",
   "commands.teleporting.request": "Click to accept teleport request from %s to your island.",
   "commands.teleporting.accepted": "Teleporting %s to your island...",
-  "commands.expired": "The action you are trying to perform is no longer available."
+  "commands.expired": "The action you are trying to perform is no longer available.",
+  "menu.not.found": "Could not find the menu %s you are trying to open. Sorry!"
 }
