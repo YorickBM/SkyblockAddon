@@ -45,7 +45,7 @@ public class GuiItemHolder implements JSONSerializable {
         //Set display name
         try {
             stack.setHoverName(getDisplayName(context, stack));
-        } catch(NullPointerException ex) {
+        } catch(Exception ex) {
             stack.setHoverName(new TextComponent("Invalid display name").withStyle(ChatFormatting.RED));
         }
 
@@ -57,7 +57,7 @@ public class GuiItemHolder implements JSONSerializable {
                 return component;
             }).toArray(Component[]::new);
             ServerHelper.addLore(stack, finalLore);
-        } catch (NullPointerException ex) {
+        } catch (Exception ex) {
             ServerHelper.addLore(stack, new TextComponent("Invalid lore").withStyle(ChatFormatting.RED));
         }
         return stack;

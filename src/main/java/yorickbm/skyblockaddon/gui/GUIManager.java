@@ -28,6 +28,8 @@ public class GUIManager {
     }
 
     public void loadAllGUIS() {
+        guis.clear(); //make sure its empty
+
         Collection<GuiHolder> guiHolders = JSONEncoder.loadFromFolder(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/guis/"), GuiHolder.class);
         guiHolders.forEach(gui -> guis.put(gui.getKey(), ServerGui.getProvider(gui)));
 

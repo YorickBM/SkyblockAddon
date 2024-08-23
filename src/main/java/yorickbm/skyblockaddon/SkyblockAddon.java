@@ -78,26 +78,8 @@ public class SkyblockAddon {
     /**
      * Run Common config setup.
      */
-    private void onCommonSetup(FMLCommonSetupEvent event) {
-        FileUtils.getOrCreateDirectory(FMLPaths.CONFIGDIR.get().resolve(MOD_ID), MOD_ID);
-
-        //Custom island.nbt
-        ResourceManager.generateIslandNBTFile();
-
-        //Custom language.json
-        ResourceManager.generateLanguageFile();
-        SkyBlockAddonLanguage.loadLocalization(FMLPaths.CONFIGDIR.get().resolve(MOD_ID + "/language.json"));
-
-        if (!Files.exists(FMLPaths.CONFIGDIR.get().resolve(MOD_ID + "/guis/"))) {
-            FileUtils.getOrCreateDirectory(FMLPaths.CONFIGDIR.get().resolve(MOD_ID + "/guis/"), MOD_ID + "/guis/");
-
-            //Generate GUIS
-            ResourceManager.generateGUIFile("overview");
-            ResourceManager.generateGUIFile("settings");
-            ResourceManager.generateGUIFile("biomes");
-            ResourceManager.generateGUIFile("travel");
-            //TODO: Add other GUIS
-        }
+    public void onCommonSetup(FMLCommonSetupEvent event) {
+        ResourceManager.commonSetup();
 
         //Register username cache
         UsernameCache.initCache(120);

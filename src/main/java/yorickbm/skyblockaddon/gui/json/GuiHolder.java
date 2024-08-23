@@ -1,6 +1,7 @@
 package yorickbm.skyblockaddon.gui.json;
 
 import com.google.gson.Gson;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import yorickbm.skyblockaddon.gui.interfaces.GuiContext;
@@ -40,10 +41,14 @@ public class GuiHolder implements JSONSerializable {
      */
     public TextComponent getTitle(GuiContext context) throws NullPointerException {
         TextComponent component = new TextComponent("");
-        for(String string : this.title) {
-            Component deserialized = Component.Serializer.fromJson(string);
-            if(context != null) component.append(context.parseTextComponent(Objects.requireNonNull(deserialized)));
-            else component.append(Objects.requireNonNull(deserialized));
+        try {
+            for(String string : this.title) {
+                Component deserialized = Component.Serializer.fromJson(string);
+                if(context != null) component.append(context.parseTextComponent(Objects.requireNonNull(deserialized)));
+                else component.append(Objects.requireNonNull(deserialized));
+            }
+        } catch (Exception ex) {
+            return (TextComponent) new TextComponent("Invalid JSON in title").withStyle(ChatFormatting.RED);
         }
         return component;
     }

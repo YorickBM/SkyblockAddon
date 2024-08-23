@@ -1,8 +1,8 @@
 {
   "title": [
-    "{\"text\": \"SkyWorld Travel Map!\"}"
+    "{\"text\": \"SkyWorld Travel Map\"}"
   ],
-  "rows": 6,
+  "rows": 5,
   "key": "travel",
   "fillers": [
     {
@@ -25,24 +25,27 @@
     {
       "item": {
         "display_name": [
-          "{\"text\": \"%dataownername%'s Island\", \"color\":\"blue\"}"
+          "{\"text\": \"%dataname%\", \"color\":\"blue\"}"
         ],
-        "item": "minecraft:PLAYER_HEAD",
+        "item": "minecraft:PAPER",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to travel to this island.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to change the biome of your island.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Current: \",\"color\":\"dark_gray\"}", "{\"text\":\"%biome%\",\"color\":\"white\"}"
           ]
         ],
         "data": {
-          "registry": "IslandRegistry"
+          "registry": "BiomeRegistry"
         }
       },
       "pattern": "INSIDE",
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "DATA",
-        "onClick": "teleportTo",
-        "onSecondClick": "teleportTo"
+        "targetType": "DATA",
+        "sourceType": "HOLDER",
+        "onClick": "updateBiome",
+        "onSecondClick": "updateBiome"
       }
     }
   ],
@@ -56,31 +59,12 @@
         "lore": [],
         "data": {}
       },
-      "slot": 49,
+      "slot": 40,
       "action": {
         "targetType": "HOLDER",
         "sourceType": "HOLDER",
         "onClick": "NONE",
         "onSecondClick": "NONE"
-      }
-    },
-    {
-      "item": {
-        "display_name": [
-          "{\"text\": \"Back\",\"bold\": true,\"color\": \"red\"}"
-        ],
-        "item": "minecraft:ARROW",
-        "lore": [],
-        "data": {
-          "gui": "settings"
-        }
-      },
-      "slot": 53,
-      "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
-        "onClick": "openMenu",
-        "onSecondClick": "openMenu"
       }
     },
     {
@@ -92,7 +76,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 48,
+      "slot": 39,
       "action": {
         "targetType": "HOLDER",
         "sourceType": "HOLDER",
@@ -109,7 +93,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 50,
+      "slot": 41,
       "action": {
         "targetType": "HOLDER",
         "sourceType": "HOLDER",

@@ -6,9 +6,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.fml.loading.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 
 import java.io.File;
 import java.io.IOException;
@@ -100,5 +102,27 @@ public class ResourceManager {
             }
         }
         return IslandNBTData;
+    }
+
+    public static void commonSetup() {
+        FileUtils.getOrCreateDirectory(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID), SkyblockAddon.MOD_ID);
+
+        //Custom island.nbt
+        ResourceManager.generateIslandNBTFile();
+
+        //Custom language.json
+        ResourceManager.generateLanguageFile();
+        SkyBlockAddonLanguage.loadLocalization(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/language.json"));
+
+        if (!Files.exists(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/guis/"))) {
+            FileUtils.getOrCreateDirectory(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/guis/"), SkyblockAddon.MOD_ID + "/guis/");
+
+            //Generate GUIS
+            ResourceManager.generateGUIFile("overview");
+            ResourceManager.generateGUIFile("settings");
+            ResourceManager.generateGUIFile("biomes");
+            ResourceManager.generateGUIFile("travel");
+            //TODO: Add other GUIS
+        }
     }
 }

@@ -17,6 +17,8 @@ public class SkyBlockAddonLanguage {
     private static final Map<String, String> LANGUAGE_MAP = new HashMap<>();
 
     public static void loadLocalization(Path path) {
+        LANGUAGE_MAP.clear(); //Make sure its empty
+
         try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
             Map<String, String> map = GSON.fromJson(reader, HashMap.class);
             LANGUAGE_MAP.putAll(map);
