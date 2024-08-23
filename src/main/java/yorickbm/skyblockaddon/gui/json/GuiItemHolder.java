@@ -5,16 +5,15 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.gui.interfaces.GuiContext;
+import yorickbm.skyblockaddon.registries.interfaces.CustomItems;
+import yorickbm.skyblockaddon.registries.interfaces.SkyblockAddonRegistry;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
@@ -35,8 +34,11 @@ public class GuiItemHolder implements JSONSerializable {
      *
      * @return - Itemstack
      */
-    public ItemStack getItemStack(GuiContext context, CompoundTag nbt) {
-        ItemStack stack = new ItemStack(getItem());
+    public ItemStack getItemStack(GuiContext context, CompoundTag nbt) { return getItemStack(context, nbt, null); }
+    public ItemStack getItemStack(GuiContext context, CompoundTag nbt, SkyblockAddonRegistry registry) {
+        ItemStack stack = new ItemStack(
+                registry instanceof CustomItems reg ? reg.getItemFor(nbt) : ServerHelper.getItem(item.toLowerCase(), Items.BARRIER)
+        );
 
         //Add custom NBT data
         stack.addTagElement(SkyblockAddon.MOD_ID, nbt);
@@ -68,22 +70,6 @@ public class GuiItemHolder implements JSONSerializable {
             this.data.forEach(tag::putString);
         }
         return tag;
-    }
-
-    /**
-     * Get item from ForgeRegistries.
-     * If not found returns BARRIER.
-     *
-     * @return - Minecraft Registry Item
-     */
-    public Item getItem() {
-        try {
-            Item mcItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(item.toLowerCase()));
-            return mcItem != null ? mcItem : Items.BARRIER;
-        } catch (Exception ex) {
-            LOGGER.error(item.toLowerCase() + " could not be found for GUI rendering.");
-            return Items.BARRIER;
-        }
     }
 
     /**

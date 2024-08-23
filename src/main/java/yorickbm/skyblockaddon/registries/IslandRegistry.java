@@ -1,10 +1,10 @@
-package yorickbm.skyblockaddon.gui.registries;
+package yorickbm.skyblockaddon.registries;
 
 import net.minecraft.nbt.CompoundTag;
 import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldCapability;
-import yorickbm.skyblockaddon.gui.interfaces.SkyblockAddonRegistry;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.islands.data.IslandData;
+import yorickbm.skyblockaddon.registries.interfaces.SkyblockAddonRegistry;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.util.List;

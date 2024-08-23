@@ -13,10 +13,13 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -45,6 +48,21 @@ public class ServerHelper {
 
     public static Component styledText(String text, Style style, ChatFormatting... formattings) {
         return new TextComponent(text).setStyle(style.applyFormats(formattings));
+    }
+
+    /**
+     * Get item from ForgeRegistries.
+     * If not found returns @param basic
+     *
+     * @return - Minecraft Registry Item
+     */
+    public static Item getItem(String item, Item basic) {
+        try {
+            Item mcItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(item));
+            return mcItem != null ? mcItem : basic;
+        } catch (Exception ex) {
+            return basic;
+        }
     }
 
     public static void addLore(ItemStack stack, Component... components) {

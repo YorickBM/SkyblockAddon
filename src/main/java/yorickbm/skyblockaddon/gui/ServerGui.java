@@ -17,14 +17,14 @@ import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldCapability;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.gui.interfaces.GuiContext;
 import yorickbm.skyblockaddon.gui.interfaces.SkyblockAddonMenuProvider;
-import yorickbm.skyblockaddon.gui.interfaces.SkyblockAddonRegistry;
 import yorickbm.skyblockaddon.gui.json.GuiAction;
 import yorickbm.skyblockaddon.gui.json.GuiHolder;
-import yorickbm.skyblockaddon.gui.registries.BiomeRegistry;
-import yorickbm.skyblockaddon.gui.registries.IslandRegistry;
 import yorickbm.skyblockaddon.gui.util.FillerPattern;
 import yorickbm.skyblockaddon.gui.util.GuiActionable;
 import yorickbm.skyblockaddon.gui.util.TargetHolder;
+import yorickbm.skyblockaddon.registries.BiomeRegistry;
+import yorickbm.skyblockaddon.registries.IslandRegistry;
+import yorickbm.skyblockaddon.registries.interfaces.SkyblockAddonRegistry;
 
 import java.util.Optional;
 
@@ -206,8 +206,10 @@ public class ServerGui extends AbstractContainerMenu {
             ItemStack slotItem = filler.getItem().getItemStack(this.sourceContext, filler.getItem().getTag(new CompoundTag()));
             SkyblockAddonRegistry registry = null;
 
-            if(slotItem.getOrCreateTagElement(SkyblockAddon.MOD_ID).contains("registry")) {
-                switch (slotItem.getOrCreateTagElement(SkyblockAddon.MOD_ID).getString("registry")) {
+            CompoundTag modTag = slotItem.getOrCreateTagElement(SkyblockAddon.MOD_ID);
+
+            if(modTag.contains("registry")) {
+                switch (modTag.getString("registry")) {
                     case "BiomeRegistry":
                         registry = new BiomeRegistry();
                         break;

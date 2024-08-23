@@ -7,7 +7,6 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +20,6 @@ import yorickbm.skyblockaddon.gui.util.TargetHolder;
 import yorickbm.skyblockaddon.gui.util.TargetType;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 import yorickbm.skyblockaddon.util.ServerHelper;
-import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -65,12 +63,6 @@ public class GuiAction implements JSONSerializable {
             target = new TargetHolder(playerEntity, playerUUID);
         }
 
-        modTag.getAllKeys().forEach(i -> {
-            if(!i.endsWith("Id")) LOGGER.info("%s -> %s".formatted(i, modTag.getString(i)));
-            else LOGGER.info("%s -> %s".formatted(i, modTag.getUUID(i)));
-        });
-
-
         switch (action) {
             case "openMenu":
                 if(!modTag.contains("gui")) return;
@@ -82,6 +74,7 @@ public class GuiAction implements JSONSerializable {
                 if(!hasOpened && source.getEntity() != null) source.getEntity().sendMessage(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("menu.not.found"), modTag.getString("gui"))).withStyle(ChatFormatting.RED), source.getEntity().getUUID());
 
                 return;
+
             case "teleportTo":
                 getContext(cSource, cTarget.get()).teleportTo(getTargetEntity(source, target).getEntity());
                 gui.close();
@@ -92,6 +85,7 @@ public class GuiAction implements JSONSerializable {
                 ).withStyle(ChatFormatting.GREEN),source.getUuid());
 
                 return;
+
             case "kickMember":
                 getContext(cSource, cTarget.get()).kickMember(getEntity(source, target).getEntity(), getTargetEntity(source, target).getUuid());
                 gui.close();
@@ -102,6 +96,7 @@ public class GuiAction implements JSONSerializable {
                 getContext(cSource, cTarget.get()).setSpawnPoint(getEntity(source, target).getEntity().blockPosition());
                 gui.draw(); //Update GUI items
                 return;
+
             case "toggleVisibility":
                 getContext(cSource, cTarget.get()).toggleVisibility();
                 gui.draw();
@@ -116,13 +111,15 @@ public class GuiAction implements JSONSerializable {
                 ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.AMETHYST_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
                 getEntity(source, target).getEntity().sendMessage(
                         new TextComponent(
-                                String.format(SkyBlockAddonLanguage.getLocalizedString("island.biome"), biome)),
+                                String.format(SkyBlockAddonLanguage.getLocalizedString("island.biome"), biome))
+                                .withStyle(ChatFormatting.GREEN),
                         getEntity(source, target).getUuid());
                 return;
 
             case "previousPage":
                 gui.previousPage();
                 return;
+
             case "nextPage":
                 gui.nextPage();
                 return;

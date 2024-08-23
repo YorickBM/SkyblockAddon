@@ -1,4 +1,4 @@
-package yorickbm.skyblockaddon.gui.interfaces;
+package yorickbm.skyblockaddon.registries.interfaces;
 
 import net.minecraft.nbt.CompoundTag;
 

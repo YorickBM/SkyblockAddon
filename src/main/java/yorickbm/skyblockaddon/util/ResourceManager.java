@@ -22,6 +22,29 @@ public class ResourceManager {
     private static final Logger LOGGER = LogManager.getLogger();
     private static CompoundTag IslandNBTData = null;
 
+    private static void generateFile(String file, String asset) {
+        try {
+            File languageFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/" + file);
+
+            //Determine if file doesnt exists
+            if (!languageFile.exists()) {
+                if (languageFile.createNewFile()) {
+                    try (InputStream in = SkyblockAddon.class.getResourceAsStream("/assets/" + SkyblockAddon.MOD_ID + "/" + asset)) {
+                        if (in == null) {
+                            LOGGER.error("Resource not found '/assets/{}/{}'!", SkyblockAddon.MOD_ID, asset);
+                            return;
+                        }
+
+                        //Copy asset into file
+                        Files.copy(in, languageFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void generateIslandNBTFile() {
         try (InputStream in = SkyblockAddon.class.getResourceAsStream("/assets/" + SkyblockAddon.MOD_ID + "/structures/island.nbt")) {
             if (in == null) {
@@ -36,46 +59,6 @@ public class ResourceManager {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static void generateLanguageFile() {
-        try {
-            File languageFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/language.json");
-
-            //Determine if file doesnt exists
-            if (!languageFile.exists()) {
-                if (languageFile.createNewFile()) {
-                    try (InputStream in = SkyblockAddon.class.getResourceAsStream("/assets/" + SkyblockAddon.MOD_ID + "/lang/en_us.json")) {
-                        if (in == null) {
-                            LOGGER.error("Resource not found '/assets/{}/lang/en_us.json'!", SkyblockAddon.MOD_ID);
-                            return;
-                        }
-                        Files.copy(in, languageFile.toPath(), StandardCopyOption.REPLACE_EXISTING); //Replace it
-                    }
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static void generateGUIFile(String name) {
-        try {
-            File guiFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/guis/" + name + ".json");
-            if (!guiFile.exists()) {
-                if (guiFile.createNewFile()) {
-                    try (InputStream in = SkyblockAddon.class.getResourceAsStream("/assets/" + SkyblockAddon.MOD_ID + "/guis/" + name + ".json")) {
-                        if (in == null) {
-                            LOGGER.error("Resource not found '/assets/{}/guis/{}.json'!", SkyblockAddon.MOD_ID, name);
-                            return;
-                        }
-                        Files.copy(in, guiFile.toPath(), StandardCopyOption.REPLACE_EXISTING); //Replace it
-                    }
-                }
-            }
-        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -111,17 +94,24 @@ public class ResourceManager {
         ResourceManager.generateIslandNBTFile();
 
         //Custom language.json
-        ResourceManager.generateLanguageFile();
+        generateFile("language.json", "lang/en_us.json");
         SkyBlockAddonLanguage.loadLocalization(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/language.json"));
 
+        //Generate registries
+        if (!Files.exists(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/registries/"))) {
+            FileUtils.getOrCreateDirectory(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/registries/"), SkyblockAddon.MOD_ID + "/registries/");
+
+            generateFile("registries/BiomeRegistry.json", "registries/BiomeRegistry.json");
+        }
+
+        //Generate GUIS
         if (!Files.exists(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/guis/"))) {
             FileUtils.getOrCreateDirectory(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/guis/"), SkyblockAddon.MOD_ID + "/guis/");
 
-            //Generate GUIS
-            ResourceManager.generateGUIFile("overview");
-            ResourceManager.generateGUIFile("settings");
-            ResourceManager.generateGUIFile("biomes");
-            ResourceManager.generateGUIFile("travel");
+            generateFile("guis/overview.json", "guis/overview.json");
+            generateFile("guis/settings.json", "guis/settings.json");
+            generateFile("guis/biomes.json", "guis/biomes.json");
+            generateFile("guis/travel.json", "guis/travel.json");
             //TODO: Add other GUIS
         }
     }

@@ -27,7 +27,7 @@
         "display_name": [
           "{\"text\": \"%dataname%\", \"color\":\"blue\"}"
         ],
-        "item": "minecraft:PAPER",
+        "item": "minecraft:DEAD_BUSH",
         "lore": [
           [
             "{\"text\":\"\u00bb Click to change the biome of your island.\",\"color\":\"dark_gray\"}"
