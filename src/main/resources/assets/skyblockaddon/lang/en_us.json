@@ -4,5 +4,9 @@
   "commands.admin.no.island": "This command requires you to be standing on an island.",
   "commands.admin.island.not.found": "Could not find the island with UUID '%s'.",
   "commands.teleporting.own": "Teleporting you to your island...",
-  "commands.teleporting.other": "Teleporting you to %s's island..."
+  "commands.teleporting.other": "Teleporting you to %s's island...",
+  "commands.teleporting.requested": "Requested teleport to %s's island...",
+  "commands.teleporting.request": "Click to accept teleport request from %s to your island.",
+  "commands.teleporting.accepted": "Teleporting %s to your island...",
+  "commands.expired": "The action you are trying to perform is no longer available."
 }

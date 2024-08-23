@@ -44,7 +44,7 @@ public class IslandCommand {
         }
 
         command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island island = cap.getIslandByEntityUUID(executor);
+            Island island = cap.getIslandByEntityUUID(executor.getUUID());
             if (island == null) {
                 command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.has.no.island")));
                 return;
