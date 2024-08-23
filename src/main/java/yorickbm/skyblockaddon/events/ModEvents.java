@@ -36,6 +36,7 @@ public class ModEvents {
         new IslandCreateCommand(event.getDispatcher());
         new IslandInviteCommand(event.getDispatcher());
         new IslandLeaveCommand(event.getDispatcher());
+        new IslandRequestTeleportCommand(event.getDispatcher());
         new IslandTeleportCommand(event.getDispatcher());
         new IslandTravelCommand(event.getDispatcher());
 
