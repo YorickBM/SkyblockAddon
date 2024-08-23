@@ -86,7 +86,7 @@ public class SkyblockAddon {
 
         //Custom language.json
         ResourceManager.generateLanguageFile();
-        SkyBlockAddonLanguage.loadLocalization();
+        SkyBlockAddonLanguage.loadLocalization(FMLPaths.CONFIGDIR.get().resolve(MOD_ID + "/language.json"));
 
         if (!Files.exists(FMLPaths.CONFIGDIR.get().resolve(MOD_ID + "/guis/"))) {
             FileUtils.getOrCreateDirectory(FMLPaths.CONFIGDIR.get().resolve(MOD_ID + "/guis/"), MOD_ID + "/guis/");
