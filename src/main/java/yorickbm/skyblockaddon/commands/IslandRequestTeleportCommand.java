@@ -15,7 +15,6 @@ import yorickbm.skyblockaddon.commands.interfaces.OverWorldCommandStack;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.util.FunctionRegistry;
-import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.util.UUID;
 
