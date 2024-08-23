@@ -25,6 +25,11 @@
   "commands.invite.teleporting": "Teleporting you to your island.",
   "commands.invite.failure": "%s could not add you to %s's island. Try again another time.",
 
+  "commands.request.other": "Teleporting you to %s's island...",
+  "commands.request.requested": "Requested %s to teleport to your island.",
+  "commands.request.request": "Click me to accept the request of %s to teleport to their island.",
+  "commands.request.accepted": "%s is teleporting to your island.",
+
   "commands.expired": "The action you are trying to perform is no longer available.",
 
   "menu.not.found": "Could not find the menu %s you are trying to open.",
