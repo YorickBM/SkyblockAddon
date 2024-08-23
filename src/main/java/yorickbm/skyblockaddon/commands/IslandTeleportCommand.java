@@ -25,7 +25,7 @@ public class IslandTeleportCommand {
                         .requires(source -> source.getEntity() instanceof ServerPlayer)
                         .executes(context -> executePersonal(context.getSource(), (ServerPlayer) context.getSource().getEntity()))
                         .then(Commands.argument("player", EntityArgument.players())
-                                .executes(context -> executeRequest(context.getSource(), (ServerPlayer) context.getSource().getEntity(), EntityArgument.getPlayer(context, "player")))
+                            .executes(context -> executeRequest(context.getSource(), (ServerPlayer) context.getSource().getEntity(), EntityArgument.getPlayer(context, "player")))
                         )
                 )
         );
@@ -63,15 +63,18 @@ public class IslandTeleportCommand {
                 return;
             }
 
-            if(executor.hasPermissions(3)) { //If player is OP skip request
+            //Determine if user is OP
+            if(executor.hasPermissions(3)) {
                 command.sendSuccess(new TextComponent(
                         SkyBlockAddonLanguage.getLocalizedString("commands.teleporting.other")
                                 .formatted(requested.getDisplayName().getString()))
                         .withStyle(ChatFormatting.GREEN), false);
+                requested.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.teleporting.accepted").formatted(executor.getDisplayName().getString())), requested.getUUID());
                 island.teleportTo(executor);
                 return;
             }
 
+            //Register teleport function into registry
             UUID functionKey = UUID.randomUUID();
             FunctionRegistry.registerFunction(functionKey, (e) -> {
                 command.sendSuccess(new TextComponent(
@@ -81,6 +84,8 @@ public class IslandTeleportCommand {
                 requested.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.teleporting.accepted").formatted(executor.getDisplayName().getString())), requested.getUUID());
                 island.teleportTo(executor);
             }, 5); //Register function to teleport under hash 'functionKey' for 5 minutes.
+
+            //Sending clickable message to accept request to requested
             requested.sendMessage(new TextComponent(
                     SkyBlockAddonLanguage.getLocalizedString("commands.teleporting.request")
                             .formatted(executor.getDisplayName().getString()))
