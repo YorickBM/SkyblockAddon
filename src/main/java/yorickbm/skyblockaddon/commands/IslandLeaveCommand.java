@@ -3,15 +3,25 @@ package yorickbm.skyblockaddon.commands;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerPlayer;
+import yorickbm.skyblockaddon.commands.interfaces.OverWorldCommandStack;
 
-public class IslandLeaveCommand {
+public class IslandLeaveCommand extends OverWorldCommandStack {
 
     public IslandLeaveCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
-
+        dispatcher.register(Commands.literal("island")
+            .then(Commands.literal("leave")
+                .requires(source -> source.getEntity() instanceof ServerPlayer)
+                .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity()))
+            )
+        );
     }
 
+    @Override
     public int execute(CommandSourceStack command, ServerPlayer executor) {
+        if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
+
         return Command.SINGLE_SUCCESS;
     }
 

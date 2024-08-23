@@ -10,15 +10,15 @@ import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
+import yorickbm.skyblockaddon.commands.interfaces.OverWorldCommandStack;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.util.FunctionRegistry;
 
 import java.util.UUID;
 
-public class IslandTeleportCommand {
+public class IslandTeleportCommand extends OverWorldCommandStack {
     public IslandTeleportCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
                 .then(Commands.literal("tp")
@@ -32,10 +32,7 @@ public class IslandTeleportCommand {
     }
 
     private int executePersonal(CommandSourceStack command, ServerPlayer executor) {
-        if (executor.level.dimension() != Level.OVERWORLD) {
-            command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.not.in.overworld")));
-            return Command.SINGLE_SUCCESS;
-        }
+        if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
         command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
             Island island = cap.getIslandByEntityUUID(executor.getUUID());
@@ -51,10 +48,7 @@ public class IslandTeleportCommand {
     }
 
     private int executeRequest(CommandSourceStack command, ServerPlayer executor, ServerPlayer requested) {
-        if (executor.level.dimension() != Level.OVERWORLD) {
-            command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.not.in.overworld")));
-            return Command.SINGLE_SUCCESS;
-        }
+        if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
         //Requesting to teleport to his own island
         if(executor.getUUID().equals(requested.getUUID())) {
@@ -69,7 +63,7 @@ public class IslandTeleportCommand {
             }
 
             //Determine if user is OP
-            if(executor.hasPermissions(3)) {
+            if(executor.hasPermissions(Commands.LEVEL_ADMINS)) {
                 command.sendSuccess(new TextComponent(
                         SkyBlockAddonLanguage.getLocalizedString("commands.teleporting.other")
                                 .formatted(requested.getDisplayName().getString()))

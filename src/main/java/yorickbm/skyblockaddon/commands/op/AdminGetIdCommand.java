@@ -10,19 +10,19 @@ import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
+import yorickbm.skyblockaddon.commands.interfaces.OverWorldCommandStack;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.util.UUID;
 
-public class AdminGetIdCommand {
+public class AdminGetIdCommand extends OverWorldCommandStack {
     public AdminGetIdCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
             .then(Commands.literal("admin")
-                .requires(source -> source.getEntity() instanceof ServerPlayer && source.hasPermission(3))
+                .requires(source -> source.getEntity() instanceof ServerPlayer && source.hasPermission(Commands.LEVEL_ADMINS))
                 .then(Commands.literal("getId")
                     .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity(), (ServerPlayer) null))
                     .then(Commands.argument("player", EntityArgument.players())
@@ -40,10 +40,7 @@ public class AdminGetIdCommand {
     public int execute(CommandSourceStack command, ServerPlayer executor, ServerPlayer target) {
 
         if(target == null) { //Require over-world if admin is not running a player check
-            if (executor.level.dimension() != Level.OVERWORLD) {
-                command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.not.in.overworld")));
-                return Command.SINGLE_SUCCESS;
-            }
+            if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
             command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
                 Island island = cap.getIslandPlayerIsStandingOn(executor);
