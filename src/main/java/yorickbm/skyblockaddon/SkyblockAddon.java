@@ -1,5 +1,6 @@
 package yorickbm.skyblockaddon;
 
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
@@ -16,6 +17,7 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.events.ModEvents;
 import yorickbm.skyblockaddon.gui.GUIManager;
@@ -92,6 +94,12 @@ public class SkyblockAddon {
      */
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
+
+        //Loading public island owner names into username cache.
+        event.getServer().getLevel(Level.OVERWORLD).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
+            cap.getIslands().stream().filter(i -> i.isVisible()).map(i -> i.getOwner()).forEach(uuid -> UsernameCache.get(uuid));
+        });
+
         // Check mod version
         Optional<? extends ModContainer> modContainer = ModList.get().getModContainerById(MOD_ID);
         if (modContainer.isPresent()) {

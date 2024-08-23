@@ -25,7 +25,12 @@ public class IslandRegistry extends SkyblockAddonRegistry {
 
         tag.putString("SkullOwner", username);
         tag.putString("ownername", username);
+
         tag.putString("biome", island.getBiome());
+
+        tag.putUUID("islandId", island.getId());
+        tag.putUUID("playerId", island.getOwner());
+
         index++;
         return true;
     }

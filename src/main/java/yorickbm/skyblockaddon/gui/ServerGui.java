@@ -284,13 +284,13 @@ public class ServerGui extends AbstractContainerMenu {
                 this.setGuiNBT(tag);
 
                 switch(clickType) {
-                    case 0 -> action.onPrimaryClick(item.getItem().getItemStack(this.sourceContext, item.getItem().getTag(tag)),
-                            new TargetHolder(this.sourceEntity, this.sourceEntity.getUUID()), null,
-                            this.sourceContext, null,
+                    case 0 -> action.onPrimaryClick(getSlot(slotIndex).getItem(),
+                            new TargetHolder(this.sourceEntity, this.sourceEntity.getUUID()),
+                            this.sourceContext,
                             this);
-                    case 1 -> action.onSecondaryClick(item.getItem().getItemStack(this.sourceContext, item.getItem().getTag(tag)),
-                            new TargetHolder(this.sourceEntity, this.sourceEntity.getUUID()), null,
-                            this.sourceContext, null,
+                    case 1 -> action.onSecondaryClick(getSlot(slotIndex).getItem(),
+                            new TargetHolder(this.sourceEntity, this.sourceEntity.getUUID()),
+                            this.sourceContext,
                             this);
                 }
             });
