@@ -4,7 +4,7 @@
 
   "commands.admin.no.island": "This command requires you to be standing on an island.",
   "commands.admin.island.not.found.uuid": "Could not find the island with UUID '%s'.",
-  "commands.admin.island.not.found.player": "Could not find the island for player '%s'.",
+  "commands.admin.island.not.found.player": "Could not find the island for '%s'.",
   "commands.admin.island.found.id": "Id found for island '%s', click me to copy.",
 
   "commands.teleporting.own": "Teleporting you to your island...",

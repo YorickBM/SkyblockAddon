@@ -6,6 +6,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.arguments.UuidArgument;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
@@ -15,6 +16,7 @@ import yorickbm.skyblockaddon.commands.interfaces.OverWorldCommandStack;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.util.FunctionRegistry;
+import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.util.UUID;
 
@@ -27,8 +29,29 @@ public class IslandTeleportCommand extends OverWorldCommandStack {
                         .then(Commands.argument("player", EntityArgument.players())
                             .executes(context -> executeRequest(context.getSource(), (ServerPlayer) context.getSource().getEntity(), EntityArgument.getPlayer(context, "player")))
                         )
+                        .then(Commands.argument("uuid", UuidArgument.uuid())
+                            .requires(source -> source.getEntity() instanceof ServerPlayer && source.hasPermission(Commands.LEVEL_ADMINS))
+                            .executes(context -> executeAdmin(context.getSource(), (ServerPlayer) context.getSource().getEntity(), UuidArgument.getUuid(context, "uuid")))
+                        )
                 )
         );
+    }
+
+    private int executeAdmin(CommandSourceStack command, ServerPlayer executor, UUID uuid) {
+        if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
+
+        command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
+            Island island = cap.getIslandByEntityUUID(uuid);
+            if (island == null) {
+                command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.admin.island.not.found.player").formatted(UsernameCache.getBlocking(uuid))));
+                return;
+            }
+
+            command.sendSuccess(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.teleporting.other").formatted(UsernameCache.getBlocking(uuid))).withStyle(ChatFormatting.GREEN), false);
+            island.teleportTo(executor);
+        });
+
+        return Command.SINGLE_SUCCESS;
     }
 
     private int executePersonal(CommandSourceStack command, ServerPlayer executor) {

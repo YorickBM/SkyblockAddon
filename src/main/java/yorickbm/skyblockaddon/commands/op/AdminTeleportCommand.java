@@ -20,7 +20,7 @@ public class AdminTeleportCommand extends OverWorldCommandStack {
     public AdminTeleportCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
             .then(Commands.literal("admin")
-                .requires(source -> source.getEntity() instanceof ServerPlayer && source.hasPermission(3))
+                .requires(source -> source.getEntity() instanceof ServerPlayer && source.hasPermission(Commands.LEVEL_ADMINS))
                 .then(Commands.literal("tp")
                     .then(Commands.argument("uuid", UuidArgument.uuid())
                         .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity(), UuidArgument.getUuid(context, "uuid")))
