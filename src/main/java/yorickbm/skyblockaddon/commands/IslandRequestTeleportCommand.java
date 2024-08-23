@@ -50,7 +50,7 @@ public class IslandRequestTeleportCommand extends OverWorldCommandStack {
                     SkyBlockAddonLanguage.getLocalizedString("commands.request.other")
                         .formatted(executor.getDisplayName().getString()))
                     .withStyle(ChatFormatting.GREEN), e.getUUID());
-                executor.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.request.accepted").formatted(target.getDisplayName().getString())), executor.getUUID());
+                executor.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.request.accepted").formatted(target.getDisplayName().getString())).withStyle(ChatFormatting.GREEN), executor.getUUID());
                 island.teleportTo(e);
             }, 5); //Register function to teleport under hash 'functionKey' for 5 minutes.
 
