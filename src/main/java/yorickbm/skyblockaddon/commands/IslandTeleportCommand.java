@@ -26,7 +26,7 @@ public class IslandTeleportCommand extends OverWorldCommandStack {
                 .then(Commands.literal("tp")
                         .requires(source -> source.getEntity() instanceof ServerPlayer)
                         .executes(context -> executePersonal(context.getSource(), (ServerPlayer) context.getSource().getEntity()))
-                        .then(Commands.argument("player", EntityArgument.players())
+                        .then(Commands.argument("player", EntityArgument.player())
                             .executes(context -> executeRequest(context.getSource(), (ServerPlayer) context.getSource().getEntity(), EntityArgument.getPlayer(context, "player")))
                         )
                         .then(Commands.argument("uuid", UuidArgument.uuid())

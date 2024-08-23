@@ -26,7 +26,7 @@ public class AdminGetIdCommand extends OverWorldCommandStack {
                 .requires(source -> source.getEntity() instanceof ServerPlayer && source.hasPermission(Commands.LEVEL_ADMINS))
                 .then(Commands.literal("getId")
                     .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity(), (ServerPlayer) null))
-                    .then(Commands.argument("player", EntityArgument.players())
+                    .then(Commands.argument("player", EntityArgument.player())
                         .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity(), EntityArgument.getPlayer(context, "player")))
                     )
                     .then(Commands.argument("uuid", UuidArgument.uuid())

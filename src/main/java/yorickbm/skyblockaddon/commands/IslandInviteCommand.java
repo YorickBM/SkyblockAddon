@@ -23,7 +23,7 @@ public class IslandInviteCommand extends OverWorldCommandStack {
     public IslandInviteCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
             .then(Commands.literal("invite")
-                .then(Commands.argument("player", EntityArgument.players())
+                .then(Commands.argument("player", EntityArgument.player())
                     .requires(source -> source.getEntity() instanceof ServerPlayer)
                         .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity(), EntityArgument.getPlayer(context, "player")))
                 )
