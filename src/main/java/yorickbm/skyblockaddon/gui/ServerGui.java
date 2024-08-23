@@ -59,7 +59,7 @@ public class ServerGui extends AbstractContainerMenu {
             public @NotNull Component getDisplayName() {
                 try {
                     return holder.getTitle(context);
-                } catch (NullPointerException ex) {
+                } catch (Exception ex) {
                     return new TextComponent("Invalid GUI Title").withStyle(ChatFormatting.RED);
                 }
             }

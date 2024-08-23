@@ -48,7 +48,7 @@ public class GUIManager {
         if (!(entity instanceof Player player)) return false; //Not valid entity
 
         SkyblockAddonMenuProvider provider = guis.get(key);
-        provider.setContext(context);
+        if(context != null) provider.setContext(context);
         return player.openMenu(provider).isPresent();
     }
 

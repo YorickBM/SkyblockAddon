@@ -167,7 +167,7 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
      * @return - Component where variables are filled with supplied context
      */
     @Override
-    public Component parseTextComponent(@NotNull Component original) {
+    public @NotNull Component parseTextComponent(@NotNull Component original) {
         return new TextComponent(original.getString()
                 .replace("%owner%", UsernameCache.getBlocking(getOwner()))
                 .replace("%x%", getSpawn().getX()+"")

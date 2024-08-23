@@ -4,5 +4,5 @@ import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
 public interface ContextParser {
-    Component parseTextComponent(@NotNull Component original);
+    @NotNull Component parseTextComponent(@NotNull Component original);
 }

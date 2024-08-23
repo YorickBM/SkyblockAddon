@@ -61,8 +61,8 @@ public class IslandTravelCommand {
             }
 
             @Override
-            public Component parseTextComponent(@NotNull Component original) {
-                return null;
+            public @NotNull Component parseTextComponent(@NotNull Component original) {
+                return original;
             }
         });
         return Command.SINGLE_SUCCESS;
