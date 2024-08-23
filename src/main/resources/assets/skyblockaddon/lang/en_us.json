@@ -1,8 +1,12 @@
 {
   "commands.not.in.overworld": "You can only execute this command in the overworld.",
   "commands.has.no.island": "You can not execute this command without having an island. Use '/island create' to make one.",
+
   "commands.admin.no.island": "This command requires you to be standing on an island.",
-  "commands.admin.island.not.found": "Could not find the island with UUID '%s'.",
+  "commands.admin.island.not.found.uuid": "Could not find the island with UUID '%s'.",
+  "commands.admin.island.not.found.player": "Could not find the island for player '%s'.",
+  "commands.admin.island.found.id": "Id found for island '%s', click to copy.",
+
   "commands.teleporting.own": "Teleporting you to your island...",
   "commands.teleporting.other": "Teleporting you to %s's island...",
   "commands.teleporting.requested": "Requested teleport to %s's island...",

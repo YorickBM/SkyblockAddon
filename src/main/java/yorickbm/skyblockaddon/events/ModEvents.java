@@ -17,10 +17,8 @@ import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldCapability;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
-import yorickbm.skyblockaddon.commands.FunctionRegistryCommand;
-import yorickbm.skyblockaddon.commands.IslandCommand;
-import yorickbm.skyblockaddon.commands.IslandTeleportCommand;
-import yorickbm.skyblockaddon.commands.IslandTravelCommand;
+import yorickbm.skyblockaddon.commands.*;
+import yorickbm.skyblockaddon.commands.op.AdminGetIdCommand;
 import yorickbm.skyblockaddon.commands.op.ConfigReloadCommand;
 import yorickbm.skyblockaddon.util.NBT.NBTEncoder;
 import yorickbm.skyblockaddon.util.UsernameCache;
@@ -35,6 +33,9 @@ public class ModEvents {
     public static void onCommandRegister(RegisterCommandsEvent event) {
         //Basic commands
         new IslandCommand(event.getDispatcher());
+        new IslandCreateCommand(event.getDispatcher());
+        new IslandInviteCommand(event.getDispatcher());
+        new IslandLeaveCommand(event.getDispatcher());
         new IslandTeleportCommand(event.getDispatcher());
         new IslandTravelCommand(event.getDispatcher());
 
@@ -43,6 +44,7 @@ public class ModEvents {
 
         //Admin commands
         new ConfigReloadCommand(event.getDispatcher());
+        new AdminGetIdCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
         LOGGER.info("Registered commands for " + SkyblockAddon.MOD_ID);

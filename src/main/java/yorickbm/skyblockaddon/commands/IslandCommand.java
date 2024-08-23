@@ -70,7 +70,7 @@ public class IslandCommand {
                 if (islandId == null)
                     command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.admin.no.island")));
                 else
-                    command.sendFailure(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("commands.admin.island.not.found"), islandId.toString())));
+                    command.sendFailure(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("commands.admin.island.not.found.uuid"), islandId.toString())));
                 return;
             }
             GUIManager.getInstance().openMenu("overview", executor, island);

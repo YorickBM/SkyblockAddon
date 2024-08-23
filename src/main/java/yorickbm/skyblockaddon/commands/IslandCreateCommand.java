@@ -5,8 +5,8 @@ import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.level.ServerPlayer;
 
-public class IslandInviteCommand {
-    public IslandInviteCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+public class IslandCreateCommand {
+    public IslandCreateCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
 
     }
 
