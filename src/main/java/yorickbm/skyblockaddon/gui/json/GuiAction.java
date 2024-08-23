@@ -3,6 +3,7 @@ package yorickbm.skyblockaddon.gui.json;
 import com.google.gson.Gson;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ItemStack;
@@ -75,7 +76,7 @@ public class GuiAction implements JSONSerializable {
                 if(!item.getOrCreateTagElement(SkyblockAddon.MOD_ID).contains("biome")) return;
                 String biome = item.getOrCreateTagElement(SkyblockAddon.MOD_ID).getString("biome");
 
-                getContext(cSource, cTarget).updateBiome(biome);
+                getContext(cSource, cTarget).updateBiome(biome, (ServerLevel) source.getEntity().getLevel());
                 gui.close();
                 ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.AMETHYST_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
                 getEntity(source, target).getEntity().sendMessage(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("island.set.biome"), biome)), getEntity(source, target).getUuid());

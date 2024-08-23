@@ -1,15 +1,22 @@
 package yorickbm.skyblockaddon.islands;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
+import net.minecraft.core.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.ChunkStatus;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -17,6 +24,7 @@ import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.gui.interfaces.GuiContext;
 import yorickbm.skyblockaddon.islands.data.IslandData;
+import yorickbm.skyblockaddon.util.BiomeUtil;
 import yorickbm.skyblockaddon.util.NBT.IsUnique;
 import yorickbm.skyblockaddon.util.NBT.NBTSerializable;
 import yorickbm.skyblockaddon.util.ServerHelper;
@@ -87,13 +95,30 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
     /**
      * Set the biome for all loaded chunks of island
      * @param biome - Biome resource location
+     * @param serverlevel - Over-world of server
      */
     @Override
-    public void updateBiome(String biome) {
-        ResourceLocation rs = new ResourceLocation(biome);
+    public void updateBiome(String biome, ServerLevel serverlevel) {
         setBiome(biome.split(":")[1]); //Set biome for configuration to part without mod id
 
-        //TODO: Update chunks and shit
+        BoundingBox boundingbox = getIslandBoundingBox();
+        MutableInt mutableint = new MutableInt(0);
+        Holder<Biome> holder = serverlevel.registryAccess()
+                .registryOrThrow(Registry.BIOME_REGISTRY)
+                .getOrCreateHolder(ResourceKey.create(ForgeRegistries.BIOMES.getRegistryKey(), new ResourceLocation(biome)));
+
+        for(int j = SectionPos.blockToSectionCoord(boundingbox.minZ()); j <= SectionPos.blockToSectionCoord(boundingbox.maxZ()); ++j) {
+            for(int k = SectionPos.blockToSectionCoord(boundingbox.minX()); k <= SectionPos.blockToSectionCoord(boundingbox.maxX()); ++k) {
+                ChunkAccess chunkaccess = serverlevel.getChunk(k, j, ChunkStatus.FULL, false);
+                if (chunkaccess == null) {
+                    continue; //Skip unloaded chunks
+                }
+                chunkaccess.fillBiomesFromNoise(
+                        BiomeUtil.makeResolver(mutableint, chunkaccess, boundingbox, holder, (p_262543_) -> true),
+                        serverlevel.getChunkSource().getGenerator().climateSampler());
+                BiomeUtil.updateChunk(serverlevel.getChunk(k, j), serverlevel);
+            }
+        }
     }
 
     /**

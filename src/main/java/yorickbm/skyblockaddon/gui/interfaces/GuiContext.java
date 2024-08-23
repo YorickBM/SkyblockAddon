@@ -1,6 +1,7 @@
 package yorickbm.skyblockaddon.gui.interfaces;
 
 import net.minecraft.core.Vec3i;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 
 import java.util.UUID;
@@ -13,5 +14,5 @@ public interface GuiContext extends ContextParser {
     void setSpawnPoint(Vec3i point);
     void toggleVisibility();
 
-    void updateBiome(String biome);
+    void updateBiome(String biome, ServerLevel serverlevel);
 }

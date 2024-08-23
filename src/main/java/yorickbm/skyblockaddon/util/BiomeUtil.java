@@ -4,11 +4,18 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
 import net.minecraft.core.Vec3i;
+import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeResolver;
 import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import org.apache.commons.lang3.mutable.MutableInt;
+import org.apache.commons.lang3.mutable.MutableObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
@@ -34,5 +41,23 @@ public class BiomeUtil {
                 return holder;
             }
         };
+    }
+
+    /**
+     * Send chunk update to player client
+     * @param levelChunk Chunk to update
+     * @param serverlevel Server level chunk is part off
+     */
+    public static void updateChunk(@NotNull LevelChunk levelChunk, ServerLevel serverlevel) {
+        ChunkPos chunkPos = levelChunk.getPos();
+        MutableObject<ClientboundLevelChunkWithLightPacket> mutableObject = new MutableObject<>();
+
+        for(ServerPlayer serverPlayer : serverlevel.getChunkSource().chunkMap.getPlayers(chunkPos, false)) {
+            if(mutableObject.getValue() == null) {
+                mutableObject.setValue(new ClientboundLevelChunkWithLightPacket(levelChunk, serverlevel.getLightEngine(), null, null, true));
+            }
+            //serverPlayer.untrackChunk(chunkPos);
+            serverPlayer.trackChunk(chunkPos, mutableObject.getValue());
+        }
     }
 }

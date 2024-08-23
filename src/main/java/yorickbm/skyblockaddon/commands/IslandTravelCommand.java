@@ -7,6 +7,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -55,7 +56,7 @@ public class IslandTravelCommand {
             }
 
             @Override
-            public void updateBiome(String biome) {
+            public void updateBiome(String biome, ServerLevel serverlevel) {
 
             }
 
