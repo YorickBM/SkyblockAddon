@@ -21,6 +21,7 @@ import yorickbm.skyblockaddon.gui.util.TargetHolder;
 import yorickbm.skyblockaddon.gui.util.TargetType;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 import yorickbm.skyblockaddon.util.ServerHelper;
+import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -84,6 +85,12 @@ public class GuiAction implements JSONSerializable {
             case "teleportTo":
                 getContext(cSource, cTarget.get()).teleportTo(getTargetEntity(source, target).getEntity());
                 gui.close();
+
+                ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.AMETHYST_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
+                source.getEntity().sendMessage(new TextComponent(
+                        SkyBlockAddonLanguage.getLocalizedString("island.travel")
+                ).withStyle(ChatFormatting.GREEN),source.getUuid());
+
                 return;
             case "kickMember":
                 getContext(cSource, cTarget.get()).kickMember(getEntity(source, target).getEntity(), getTargetEntity(source, target).getUuid());
@@ -107,7 +114,10 @@ public class GuiAction implements JSONSerializable {
                 getContext(cSource, cTarget.get()).updateBiome(biome, (ServerLevel) source.getEntity().getLevel());
                 gui.close();
                 ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.AMETHYST_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
-                getEntity(source, target).getEntity().sendMessage(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("island.set.biome"), biome)), getEntity(source, target).getUuid());
+                getEntity(source, target).getEntity().sendMessage(
+                        new TextComponent(
+                                String.format(SkyBlockAddonLanguage.getLocalizedString("island.biome"), biome)),
+                        getEntity(source, target).getUuid());
                 return;
 
             case "previousPage":
