@@ -41,6 +41,8 @@ public class IslandLeaveCommand extends OverWorldCommandStack {
 
             UUID functionKey = UUID.randomUUID();
             FunctionRegistry.registerFunction(functionKey, (e) -> {
+                if(super.execute(command, e) == 0) return;
+
                 e.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.leave.undo")).withStyle(ChatFormatting.GREEN), e.getUUID());
                 if(!island.addMember(e, e.getUUID())) {
                     e.sendMessage(

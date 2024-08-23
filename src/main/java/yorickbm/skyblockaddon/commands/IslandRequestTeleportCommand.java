@@ -11,17 +11,19 @@ import yorickbm.skyblockaddon.commands.interfaces.OverWorldCommandStack;
 public class IslandRequestTeleportCommand extends OverWorldCommandStack {
     public IslandRequestTeleportCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
-                .then(Commands.literal("request_tp")
-                        .then(Commands.argument("player", EntityArgument.player())
-
-                        )
+            .then(Commands.literal("request_tp")
+                .requires(source -> source.getEntity() instanceof ServerPlayer)
+                .then(Commands.argument("player", EntityArgument.player())
+                    .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity(), EntityArgument.getPlayer(context, "player")))
                 )
+            )
         );
     }
 
-    @Override
-    public int execute(CommandSourceStack command, ServerPlayer executor) {
+    public int execute(CommandSourceStack command, ServerPlayer executor, ServerPlayer target) {
         if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
+
+
 
         return Command.SINGLE_SUCCESS;
     }

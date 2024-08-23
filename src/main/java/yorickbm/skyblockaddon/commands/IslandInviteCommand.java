@@ -48,6 +48,8 @@ public class IslandInviteCommand extends OverWorldCommandStack {
 
             UUID functionKey = UUID.randomUUID();
             FunctionRegistry.registerFunction(functionKey, (e) -> {
+                if(super.execute(command, e) == 0) return;
+
                 Island targetIsland = cap.getIslandByEntityUUID(target.getUUID());
                 if(targetIsland != null) {
                     targetIsland.kickMember(target, target.getUUID()); //Kick himself off the island.
