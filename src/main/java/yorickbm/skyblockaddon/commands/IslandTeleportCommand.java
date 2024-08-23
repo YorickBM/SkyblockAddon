@@ -101,7 +101,13 @@ public class IslandTeleportCommand extends OverWorldCommandStack {
             //Register teleport function into registry
             UUID functionKey = UUID.randomUUID();
             FunctionRegistry.registerFunction(functionKey, (e) -> {
-                if(super.execute(command, e) == 0) return;
+                if (executor.level.dimension() != Level.OVERWORLD) {
+                    e.sendMessage(
+                            new TextComponent(
+                                    SkyBlockAddonLanguage.getLocalizedString("commands.other.not.in.overworld")
+                            ).withStyle(ChatFormatting.RED),
+                            e.getUUID());
+                }
 
                 e.sendMessage(new TextComponent(
                     SkyBlockAddonLanguage.getLocalizedString("commands.teleporting.other")
