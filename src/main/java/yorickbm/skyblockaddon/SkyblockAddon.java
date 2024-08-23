@@ -95,6 +95,7 @@ public class SkyblockAddon {
             ResourceManager.generateGUIFile("overview");
             ResourceManager.generateGUIFile("settings");
             ResourceManager.generateGUIFile("biomes");
+            ResourceManager.generateGUIFile("travel");
             //TODO: Add other GUIS
         }
 
