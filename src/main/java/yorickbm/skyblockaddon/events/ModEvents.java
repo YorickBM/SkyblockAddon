@@ -20,6 +20,7 @@ import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.commands.*;
 import yorickbm.skyblockaddon.commands.op.AdminGetIdCommand;
 import yorickbm.skyblockaddon.commands.op.AdminMenuCommand;
+import yorickbm.skyblockaddon.commands.op.AdminTeleportCommand;
 import yorickbm.skyblockaddon.commands.op.ConfigReloadCommand;
 import yorickbm.skyblockaddon.util.NBT.NBTEncoder;
 import yorickbm.skyblockaddon.util.UsernameCache;
@@ -47,6 +48,7 @@ public class ModEvents {
         //Admin commands
         new AdminGetIdCommand(event.getDispatcher());
         new AdminMenuCommand(event.getDispatcher());
+        new AdminTeleportCommand(event.getDispatcher());
         new ConfigReloadCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
