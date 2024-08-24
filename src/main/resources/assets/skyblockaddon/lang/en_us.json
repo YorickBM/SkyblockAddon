@@ -32,6 +32,11 @@
   "commands.request.request": "Click me to accept the request of %s to teleport to their island.",
   "commands.request.accepted": "%s is teleporting to your island.",
 
+  "commands.create.already": "You are already part of an island. Leave this island with /island leave before creating a new one.",
+  "commands.create.failure": "We have failed to generate your island, try again later.",
+  "commands.create.success": "Teleporting you to your new island...",
+  "commands.create.generating": "We are generating your island, this may take a moment.",
+
   "commands.expired": "The action you are trying to perform is no longer available.",
 
   "menu.not.found": "Could not find the menu %s you are trying to open.",

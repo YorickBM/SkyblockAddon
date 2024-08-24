@@ -1,18 +1,20 @@
 package yorickbm.skyblockaddon.islands.data;
 
+import it.unimi.dsi.fastutil.ints.Int2IntMaps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Unmodifiable;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.util.BiomeUtil;
 import yorickbm.skyblockaddon.util.NBT.NBTSerializable;
 import yorickbm.skyblockaddon.util.NBT.NBTUtil;
 import yorickbm.skyblockaddon.util.geometry.Square;
 
-import java.util.UUID;
+import java.util.*;
 
 public class IslandData implements NBTSerializable {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -24,7 +26,26 @@ public class IslandData implements NBTSerializable {
     private String biome = "Unknown";
     private boolean travelability = false;
 
+    //TODO: Implement ranking system
+    Map<UUID, Object> members = new HashMap<>(); //Members map
+
     public IslandData() {
+    }
+
+    public Map<UUID, Object> getMembers() {
+        return Collections.unmodifiableMap(members);
+    }
+
+    public List<UUID> getMembersList() {
+        return members.keySet().stream().toList();
+    }
+
+    public void removeMember(UUID uuid) {
+        members.remove(uuid);
+    }
+
+    public void addMember(UUID entity, Object o) {
+        this.members.put(entity, o);  //TODO: Implement ranking system
     }
 
     public UUID getId() {

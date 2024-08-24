@@ -30,6 +30,7 @@ import yorickbm.skyblockaddon.util.NBT.NBTSerializable;
 import yorickbm.skyblockaddon.util.ServerHelper;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -38,6 +39,14 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
     CompoundTag legacyDataOnlyHereWhileTesting;
 
     public Island() {
+    }
+
+    public Island(UUID uuid, Vec3i vec) {
+        super.setId(UUID.randomUUID());
+        super.setOwner(uuid);
+        super.setSpawn(vec);
+        super.setCenter(vec);
+        super.setVisibility(false);
     }
 
     /**
@@ -61,7 +70,15 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
      */
     @Override
     public boolean kickMember(Entity source, UUID entity) {
-        //TODO: Implement functionality
+        if(isOwner(entity)) {
+            if(!getMembers().isEmpty()) super.setOwner(getMembersList().get(0));
+            else {
+                super.setOwner(SkyblockAddon.MOD_UUID);
+                super.setVisibility(false); //Close island if we are the last one
+            }
+        } else {
+            super.removeMember(entity);
+        }
 
         //Teleport entity to world spawn
         BlockPos worldSpawn = Objects.requireNonNull(Objects.requireNonNull(source.getServer()).getLevel(Level.OVERWORLD)).getSharedSpawnPos();
@@ -82,7 +99,11 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
      * @param entity - UUID of entity to add
      */
     public boolean addMember(Entity source, UUID entity) {
-        //TODO: Implement functionality
+        if(this.getOwner().equals(SkyblockAddon.MOD_UUID)) {
+            super.setOwner(entity);
+        } else {
+            super.addMember(entity, null); //TODO: Implement ranking system
+        }
 
         //Teleport entity to island
         ServerPlayer player = Objects.requireNonNull(source.getServer()).getPlayerList().getPlayer(entity); //Get entity from online player list
@@ -97,7 +118,7 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
      */
     @Override
     public void setSpawnPoint(Vec3i point) {
-        setSpawn(point.offset(0, 0.5, 0)); //Set it 0.5 blocks higher.
+        super.setSpawn(point.offset(0, 0.5, 0)); //Set it 0.5 blocks higher.
     }
 
     /**
@@ -154,7 +175,7 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
      * @return - Boolean
      */
     public boolean isOwner(UUID uuid) {
-        return getOwner().equals(uuid);
+        return super.getOwner().equals(uuid);
     }
 
     /**

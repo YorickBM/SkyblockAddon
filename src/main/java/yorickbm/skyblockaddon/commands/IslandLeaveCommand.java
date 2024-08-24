@@ -58,6 +58,8 @@ public class IslandLeaveCommand extends OverWorldCommandStack {
                 return;
             }
 
+            cap.clearCacheForPlayer(executor.getUUID());
+
             command.sendSuccess(
                 new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.leave"))
                     .withStyle(ChatFormatting.GREEN)

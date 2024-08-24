@@ -56,6 +56,10 @@ public class SkyblockAddonWorldCapability {
         initializeCaches(server);
     }
 
+    public void clearCacheForPlayer(UUID uuid) {
+        CACHE_islandByPlayerUUID.invalidate(uuid);
+    }
+
     /**
      * Creates reverse lookup caches for optimized performance.
      */
@@ -159,9 +163,7 @@ public class SkyblockAddonWorldCapability {
         Path filePath = worldPath.resolve("islanddata");
 
         Collection<Island> islands = NBTEncoder.loadFromFolder(filePath, Island.class);
-        islands.forEach(island -> {
-            islandsByUUID.put(island.getId(), island);
-        }); //Store islands in map
+        islands.forEach(this::registerIsland); //Store islands in map
         LOGGER.info("Loaded: " + islands.size() + " island(s).");
     }
 
@@ -248,5 +250,13 @@ public class SkyblockAddonWorldCapability {
 
         if (x <= 0) return new Vec3i(x, 0, z + d);
         return new Vec3i(x, 0, z - d);
+    }
+
+    /**
+     * Register a new island through object
+     * @param island - Island to register
+     */
+    public void registerIsland(Island island) {
+        islandsByUUID.put(island.getId(), island);
     }
 }
