@@ -20,7 +20,9 @@ import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.events.ModEvents;
+import yorickbm.skyblockaddon.events.ParticleEvents;
 import yorickbm.skyblockaddon.gui.GUIManager;
+import yorickbm.skyblockaddon.islands.data.IslandData;
 import yorickbm.skyblockaddon.util.ResourceManager;
 import yorickbm.skyblockaddon.util.ThreadManager;
 import yorickbm.skyblockaddon.util.UsernameCache;
@@ -54,6 +56,7 @@ public class SkyblockAddon {
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ModEvents());
+        MinecraftForge.EVENT_BUS.register(new ParticleEvents());
     }
 
     /**
@@ -96,9 +99,7 @@ public class SkyblockAddon {
     public void onServerStarting(ServerStartingEvent event) {
 
         //Loading public island owner names into username cache.
-        event.getServer().getLevel(Level.OVERWORLD).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            cap.getIslands().stream().filter(i -> i.isVisible()).map(i -> i.getOwner()).forEach(uuid -> UsernameCache.get(uuid));
-        });
+        event.getServer().getLevel(Level.OVERWORLD).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> cap.getIslands().stream().filter(IslandData::isVisible).map(IslandData::getOwner).forEach(UsernameCache::get));
 
         // Check mod version
         Optional<? extends ModContainer> modContainer = ModList.get().getModContainerById(MOD_ID);
