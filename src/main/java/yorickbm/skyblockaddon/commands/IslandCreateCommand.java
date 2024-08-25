@@ -42,7 +42,7 @@ public class IslandCreateCommand extends OverWorldCommandStack {
                 }
 
                 Island newIsland = new Island(executor.getUUID(), vec);
-                cap.registerIsland(newIsland);
+                cap.registerIsland(newIsland, executor.getUUID());
 
                 executor.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.create.success")).withStyle(ChatFormatting.GREEN), executor.getUUID());
                 newIsland.teleportTo(executor);

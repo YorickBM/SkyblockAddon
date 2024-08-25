@@ -58,6 +58,7 @@ public class SkyblockAddonWorldCapability {
 
     public void clearCacheForPlayer(UUID uuid) {
         CACHE_islandByPlayerUUID.invalidate(uuid);
+        CACHE_islandByPlayerUUID.put(uuid, Optional.empty());
     }
 
     /**
@@ -163,7 +164,7 @@ public class SkyblockAddonWorldCapability {
         Path filePath = worldPath.resolve("islanddata");
 
         Collection<Island> islands = NBTEncoder.loadFromFolder(filePath, Island.class);
-        islands.forEach(this::registerIsland); //Store islands in map
+        islands.forEach(island -> islandsByUUID.put(island.getId(), island)); //Store islands in map
         LOGGER.info("Loaded: " + islands.size() + " island(s).");
     }
 
@@ -256,7 +257,11 @@ public class SkyblockAddonWorldCapability {
      * Register a new island through object
      * @param island - Island to register
      */
-    public void registerIsland(Island island) {
+    public void registerIsland(Island island, UUID entity) {
         islandsByUUID.put(island.getId(), island);
+
+        //Register island into cache
+        CACHE_islandByPlayerUUID.put(entity, Optional.of(island.getId()));
+        CACHE_islandByBoundingBox.put(island.getIslandBoundingBox(), Optional.of(island.getId()));
     }
 }

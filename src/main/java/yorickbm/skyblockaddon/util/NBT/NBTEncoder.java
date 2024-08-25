@@ -2,6 +2,8 @@ package yorickbm.skyblockaddon.util.NBT;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,6 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class NBTEncoder {
+    private static final Logger LOGGER = LogManager.getLogger();
 
     /**
      * Load NBT files into a collection of clazz.
@@ -46,7 +49,7 @@ public class NBTEncoder {
                 instance.deserializeNBT(NBT);
                 objects.add(instance);
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.error("Failed to load '"+path.toFile().getName()+"'");
             }
         }
         return objects;

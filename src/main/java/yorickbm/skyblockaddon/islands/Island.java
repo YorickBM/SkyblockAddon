@@ -184,7 +184,7 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = super.serializeNBT();
-        tag.put("permissions", legacyDataOnlyHereWhileTesting);
+        if(legacyDataOnlyHereWhileTesting != null) tag.put("permissions", legacyDataOnlyHereWhileTesting);
         return tag;
     }
 
