@@ -1,6 +1,6 @@
 {
   "biomes": {
-    "minecraft:badlands": "minecraft:BAMBOO",
+    "minecraft:badlands": "minecraft:DEAD_BUSH",
     "minecraft:bamboo_jungle": "minecraft:DEAD_BUSH",
     "minecraft:basalt_deltas": "minecraft:DEAD_BUSH",
     "minecraft:beach": "minecraft:DEAD_BUSH",

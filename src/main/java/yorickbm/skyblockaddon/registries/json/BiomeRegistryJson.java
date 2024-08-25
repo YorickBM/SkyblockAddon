@@ -6,11 +6,11 @@ import net.minecraft.world.item.Items;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class BiomeRegistryJson implements JSONSerializable {
-    HashMap<String, String> biomes;
+    LinkedHashMap<String, String> biomes;
 
     @Override
     public String toJSON() {
@@ -25,7 +25,7 @@ public class BiomeRegistryJson implements JSONSerializable {
     }
 
     public Map<String, Item> toMap() {
-        Map<String, Item> data = new HashMap<>();
+        Map<String, Item> data = new LinkedHashMap<>();
 
         this.biomes.forEach((s,v) -> {
             data.put(s.toLowerCase(), ServerHelper.getItem(v.toLowerCase(), Items.DEAD_BUSH));

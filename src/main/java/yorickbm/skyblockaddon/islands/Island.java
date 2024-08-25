@@ -30,7 +30,6 @@ import yorickbm.skyblockaddon.util.NBT.NBTSerializable;
 import yorickbm.skyblockaddon.util.ServerHelper;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
-import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 

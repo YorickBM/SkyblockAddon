@@ -9,8 +9,6 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.islands.Island;
@@ -20,7 +18,6 @@ import java.util.*;
 
 @Mod.EventBusSubscriber(modid = SkyblockAddon.MOD_ID)
 public class ParticleEvents {
-    private static final Logger LOGGER = LogManager.getLogger();
     private final Map<UUID, Island> LastIslandOn = new HashMap<>();
 
     @SubscribeEvent

@@ -20,6 +20,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,6 +29,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class ServerHelper {
+    private static final Logger LOGGER = LogManager.getLogger();
     private static final HashMap<UUID, UUID> spawnerTracker = new HashMap<>();
     private static final HashMap<UUID, UUID> terminatorTracker = new HashMap<>();
 
@@ -61,6 +64,8 @@ public class ServerHelper {
             Item mcItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(item));
             return mcItem != null ? mcItem : basic;
         } catch (Exception ex) {
+            LOGGER.error("Failure to find item '{}';", item);
+            LOGGER.error(ex);
             return basic;
         }
     }

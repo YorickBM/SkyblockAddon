@@ -239,7 +239,7 @@ public class ServerGui extends AbstractContainerMenu {
                         if(!isValid) break; //Reached end
                     }
 
-                    ItemStack item = filler.getItem().getItemStack(this.sourceContext, filler.getItem().getTag(tag));
+                    ItemStack item = filler.getItem().getItemStack(this.sourceContext, filler.getItem().getTag(tag), registry);
                     setItem(slot, 0, item);
                     this.attachAction(filler, slot);
                 }
