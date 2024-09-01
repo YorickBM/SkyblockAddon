@@ -1,20 +1,52 @@
 {
-  "item": {
-    "display_name": [
-      "{\"text\": \"Island Admin\", \"color\":\"blue\"}"
-    ],
-    "item": "minecraft:PAPER",
-    "lore": [
-      [
-        "{\"text\":\"\u00bb Allows island setting and member configuration.\",\"color\":\"dark_gray\"}"
-      ]
-    ]
-  },
-  "triggers": [
-    ""
-  ],
-  "includes": [
-    "skyblockaddon:settings",
-    "skyblockaddon:members"
+  "permissions": [
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Island Admin\", \"color\":\"blue\"}"
+        ],
+        "item": "minecraft:PAPER",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Allows island setting and member configuration.\",\"color\":\"dark_gray\"}"
+          ]
+        ]
+      },
+      "category": "General",
+      "triggers": [
+        "onGui"
+      ],
+      "data": {
+        "skyblockaddon": [
+          "gui:settings", "gui:members"
+        ],
+        "items": [],
+        "blocks": [],
+        "entities": []
+        }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Waystones\", \"color\":\"blue\"}"
+        ],
+        "item": "minecraft:PAPER",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Allows waystones to be used.\",\"color\":\"dark_gray\"}"
+          ]
+        ]
+      },
+      "category": "Transport",
+      "triggers": [
+        "onRightClickBlock"
+      ],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    }
   ]
 }

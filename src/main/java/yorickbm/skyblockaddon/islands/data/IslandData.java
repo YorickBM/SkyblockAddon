@@ -7,6 +7,7 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.islands.groups.IslandGroup;
 import yorickbm.skyblockaddon.util.BiomeUtil;
 import yorickbm.skyblockaddon.util.NBT.NBTSerializable;
 import yorickbm.skyblockaddon.util.NBT.NBTUtil;
@@ -24,32 +25,37 @@ public class IslandData implements NBTSerializable {
     private String biome = "Unknown";
     private boolean travelability = false;
 
-    //TODO: Implement ranking system
-    Map<UUID, Object> members = new HashMap<>(); //Members map
+    private final Map<UUID, IslandGroup> islandGroups = new HashMap<>();
+    private final Map<UUID, UUID> members = new HashMap<>(); //Members map
 
     public IslandData() {
     }
 
-    public Map<UUID, Object> getMembers() {
+    public Map<UUID, UUID> getMembers() {
         return Collections.unmodifiableMap(members);
     }
-
     public List<UUID> getMembersList() {
         return members.keySet().stream().toList();
     }
-
     public void removeMember(UUID uuid) {
         members.remove(uuid);
     }
+    public void addMember(UUID entity, UUID id) {
+        this.members.put(entity, id != null ? id : SkyblockAddon.MOD_UUID);
+    }
 
-    public void addMember(UUID entity, Object o) {
-        this.members.put(entity, o);  //TODO: Implement ranking system
+    public Collection<IslandGroup> getGroups() { return islandGroups.values(); }
+    public IslandGroup getGroup(UUID uuid) { return islandGroups.get(uuid); }
+    public void addGroup(IslandGroup group) {islandGroups.put(group.getId(), group);}
+    public boolean removeGroup(UUID uuid) {
+        if(islandGroups.size() <= 1) return false;
+        islandGroups.remove(uuid);
+        return true;
     }
 
     public UUID getId() {
         return id;
     }
-
     public void setId(UUID id) {
         this.id = id;
     }
@@ -58,7 +64,6 @@ public class IslandData implements NBTSerializable {
         if (owner == null) return SkyblockAddon.MOD_UUID;
         return owner;
     }
-
     public void setOwner(UUID owner) {
         this.owner = owner;
     }
@@ -66,7 +71,6 @@ public class IslandData implements NBTSerializable {
     public Vec3i getSpawn() {
         return spawn;
     }
-
     public void setSpawn(Vec3i spawn) {
         this.spawn = spawn;
     }
@@ -74,7 +78,6 @@ public class IslandData implements NBTSerializable {
     public Vec3i getCenter() {
         return center;
     }
-
     protected void setCenter(Vec3i center) {
         this.center = center;
     }
@@ -82,7 +85,6 @@ public class IslandData implements NBTSerializable {
     public String getBiome() {
         return biome;
     }
-
     public void setBiome(String biome) {
         this.biome = biome;
     }
@@ -90,7 +92,6 @@ public class IslandData implements NBTSerializable {
     public boolean isVisible() {
         return travelability;
     }
-
     public void setVisibility(boolean travelability) {
         this.travelability = travelability;
     }
@@ -128,6 +129,18 @@ public class IslandData implements NBTSerializable {
         tag.put("spawn", NBTUtil.Vec3iToNBT(getSpawn()));
         tag.put("center", NBTUtil.Vec3iToNBT(getCenter()));
 
+        CompoundTag groups = new CompoundTag();
+        for(IslandGroup group : getGroups()) {
+            groups.put(group.getId().toString(), group.serializeNBT());
+        }
+        tag.put("groups", groups);
+
+        CompoundTag members = new CompoundTag();
+        for( Map.Entry<UUID, UUID> data : getMembers().entrySet()) {
+            members.putUUID(data.getKey().toString(), data.getValue());
+        }
+        tag.put("members", members);
+
         return tag;
     }
 
@@ -139,5 +152,17 @@ public class IslandData implements NBTSerializable {
         setVisibility(tag.getBoolean("travelability"));
         setSpawn(NBTUtil.NBTToVec3i(tag.getCompound("spawn")));
         setCenter(NBTUtil.NBTToVec3i(tag.getCompound("center")));
+
+        CompoundTag groups = tag.getCompound("groups");
+        for(String groupUuid : groups.getAllKeys()) {
+            IslandGroup group = new IslandGroup();
+            group.deserializeNBT(groups.getCompound(groupUuid));
+            this.islandGroups.put(group.getId(), group);
+        }
+
+        CompoundTag members = tag.getCompound("members");
+        for(String memberUuid : members.getAllKeys()) {
+            this.members.put(UUID.fromString(memberUuid), tag.getUUID(memberUuid));
+        }
     }
 }
