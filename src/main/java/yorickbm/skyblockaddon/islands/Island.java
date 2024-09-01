@@ -105,11 +105,7 @@ public class Island extends IslandData implements IsUnique, NBTSerializable {
      * @param entity - UUID of entity to add
      */
     public boolean addMember(Entity source, UUID entity) {
-        if(this.getOwner().equals(SkyblockAddon.MOD_UUID)) {
-            super.setOwner(entity);
-        } else {
-            super.addMember(entity, null); //TODO: Implement ranking system
-        }
+        super.addMember(entity, SkyblockAddon.MOD_UUID);
 
         //Teleport entity to island
         ServerPlayer player = Objects.requireNonNull(source.getServer()).getPlayerList().getPlayer(entity); //Get entity from online player list
@@ -168,7 +164,7 @@ public class Island extends IslandData implements IsUnique, NBTSerializable {
      * @return - Boolean
      */
     public boolean isPartOf(UUID player) {
-        return isOwner(player);
+        return isOwner(player) || super.getMembersList().contains(player);
     }
 
     /**

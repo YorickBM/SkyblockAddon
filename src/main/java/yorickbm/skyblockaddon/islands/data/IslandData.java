@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.islands.groups.IslandGroup;
 import yorickbm.skyblockaddon.util.BiomeUtil;
@@ -40,8 +41,14 @@ public class IslandData implements NBTSerializable {
     public void removeMember(UUID uuid) {
         members.remove(uuid);
     }
-    public boolean addMember(UUID entity, UUID id) {
-        this.members.put(entity, id != null ? id : SkyblockAddon.MOD_UUID);
+    public boolean addMember(UUID entity, @NotNull UUID id) {
+        if(getOwner().equals(entity) || getMembersList().contains(entity)) return false;
+
+        if(this.getOwner().equals(SkyblockAddon.MOD_UUID)) {
+            setOwner(entity);
+        } else {
+            this.members.put(entity, id);
+        }
         return true;
     }
 
@@ -163,7 +170,7 @@ public class IslandData implements NBTSerializable {
 
         CompoundTag members = tag.getCompound("members");
         for(String memberUuid : members.getAllKeys()) {
-            this.members.put(UUID.fromString(memberUuid), tag.getUUID(memberUuid));
+            this.members.put(UUID.fromString(memberUuid), members.getUUID(memberUuid));
         }
     }
 }
