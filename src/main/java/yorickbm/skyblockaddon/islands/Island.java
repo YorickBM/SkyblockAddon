@@ -25,7 +25,6 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
-import yorickbm.skyblockaddon.gui.interfaces.GuiContext;
 import yorickbm.skyblockaddon.islands.data.IslandData;
 import yorickbm.skyblockaddon.islands.groups.IslandGroup;
 import yorickbm.skyblockaddon.util.BiomeUtil;
@@ -37,7 +36,7 @@ import yorickbm.skyblockaddon.util.UsernameCache;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Island extends IslandData implements IsUnique, NBTSerializable, GuiContext {
+public class Island extends IslandData implements IsUnique, NBTSerializable {
     private static final Logger LOGGER = LogManager.getLogger();
     CompoundTag legacyDataOnlyHereWhileTesting;
 
@@ -76,7 +75,6 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
      * @param source - Who is kicking the entity
      * @param entity - UUID of entity to remove
      */
-    @Override
     public boolean kickMember(Entity source, UUID entity) {
         if(isOwner(entity)) {
             if(!getMembers().isEmpty()) super.setOwner(getMembersList().get(0));
@@ -124,7 +122,6 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
      * Alter islands spawn point used for TeleportTo
      * @param point - New spawn point location
      */
-    @Override
     public void setSpawnPoint(Vec3i point) {
         super.setSpawn(point.offset(0, 0.5, 0)); //Set it 0.5 blocks higher.
     }
@@ -132,7 +129,6 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
     /**
      * Toggle the islands visibility from public/private
      */
-    @Override
     public void toggleVisibility() {
         setVisibility(!isVisible()); //Set it to inverse of its current.
     }
@@ -142,7 +138,6 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
      * @param biome - Biome resource location
      * @param serverlevel - Over-world of server
      */
-    @Override
     public void updateBiome(String biome, ServerLevel serverlevel) {
         setBiome(biome.split(":")[1]); //Set biome for configuration to part without mod id
 
@@ -211,7 +206,6 @@ public class Island extends IslandData implements IsUnique, NBTSerializable, Gui
      * @param original - Original Component containing variables
      * @return - Component where variables are filled with supplied context
      */
-    @Override
     public @NotNull Component parseTextComponent(@NotNull Component original) {
         return new TextComponent(original.getString()
                 .replace("%owner%", UsernameCache.getBlocking(getOwner()))

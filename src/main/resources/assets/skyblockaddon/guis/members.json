@@ -1,0 +1,121 @@
+{
+  "title": [
+    "{\"text\": \"%owner%'s Island\"}"
+  ],
+  "rows": 5,
+  "key": "members",
+  "fillers": [
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"\"}"
+        ],
+        "item": "minecraft:GRAY_STAINED_GLASS_PANE",
+        "lore": [],
+        "data": {}
+      },
+      "pattern": "EDGES",
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "NONE",
+        "onSecondClick": "NONE"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"%dataownername%\", \"color\":\"blue\"}"
+        ],
+        "item": "minecraft:PLAYER_HEAD",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to change the group this member is a part of.\",\"color\":\"dark_gray\"}"
+          ]
+        ],
+        "data": {
+          "registry": "MemberRegistry"
+        }
+      },
+      "pattern": "INSIDE",
+      "action": {
+        "targetType": "DATA",
+        "sourceType": "HOLDER",
+        "onClick": "setGroup",
+        "onSecondClick": "setGroup"
+      }
+    }
+  ],
+  "items": [
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"%datapagenum% / %datamaxpage%\",\"bold\": true,\"color\": \"blue\"}"
+        ],
+        "item": "minecraft:PAPER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 40,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "NONE",
+        "onSecondClick": "NONE"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Back\",\"bold\": true,\"color\": \"red\"}"
+        ],
+        "item": "minecraft:ARROW",
+        "lore": [],
+        "data": {
+          "gui": "settings"
+        }
+      },
+      "slot": 44,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "openMenu",
+        "onSecondClick": "openMenu"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Previous\",\"bold\": true,\"color\": \"red\"}"
+        ],
+        "item": "minecraft:RED_BANNER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 39,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "previousPage",
+        "onSecondClick": "previousPage"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Next\",\"bold\": true,\"color\": \"green\"}"
+        ],
+        "item": "minecraft:GREEN_BANNER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 41,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "nextPage",
+        "onSecondClick": "nextPage"
+      }
+    }
+  ]
+}

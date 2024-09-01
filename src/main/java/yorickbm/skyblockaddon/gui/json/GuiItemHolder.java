@@ -11,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
-import yorickbm.skyblockaddon.gui.interfaces.GuiContext;
+import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.registries.interfaces.CustomItems;
 import yorickbm.skyblockaddon.registries.interfaces.SkyblockAddonRegistry;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
@@ -34,8 +34,8 @@ public class GuiItemHolder implements JSONSerializable {
      *
      * @return - Itemstack
      */
-    public ItemStack getItemStack(GuiContext context, CompoundTag nbt) { return getItemStack(context, nbt, null); }
-    public ItemStack getItemStack(GuiContext context, CompoundTag nbt, SkyblockAddonRegistry registry) {
+    public ItemStack getItemStack(Island context, CompoundTag nbt) { return getItemStack(context, nbt, null); }
+    public ItemStack getItemStack(Island context, CompoundTag nbt, SkyblockAddonRegistry registry) {
         ItemStack stack = new ItemStack(
                 registry instanceof CustomItems reg ? reg.getItemFor(nbt) : ServerHelper.getItem(item.toLowerCase(), Items.BARRIER)
         );
@@ -77,7 +77,7 @@ public class GuiItemHolder implements JSONSerializable {
      *
      * @return - TextComponent
      */
-    public TextComponent getDisplayName(GuiContext context, ItemStack stack) throws NullPointerException {
+    public TextComponent getDisplayName(Island context, ItemStack stack) throws NullPointerException {
         TextComponent component = new TextComponent("");
 
         for(String string : this.display_name) {

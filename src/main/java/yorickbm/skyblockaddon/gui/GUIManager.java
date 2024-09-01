@@ -6,9 +6,9 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
-import yorickbm.skyblockaddon.gui.interfaces.GuiContext;
 import yorickbm.skyblockaddon.gui.interfaces.SkyblockAddonMenuProvider;
 import yorickbm.skyblockaddon.gui.json.GuiHolder;
+import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.util.JSON.JSONEncoder;
 
 import java.util.Collection;
@@ -43,7 +43,7 @@ public class GUIManager {
      * @param entity - Entity to open GUI for.
      * @return Boolean - If GUI could be opened for entity.
      */
-    public boolean openMenu(String key, Entity entity, GuiContext context) {
+    public boolean openMenu(String key, Entity entity, Island context) {
         if (!guis.containsKey(key)) return false; //GUI does not exist
         if (!(entity instanceof Player player)) return false; //Not valid entity
 

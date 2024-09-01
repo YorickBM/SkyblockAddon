@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import yorickbm.skyblockaddon.gui.interfaces.GuiContext;
+import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 
 import java.util.List;
@@ -39,7 +39,7 @@ public class GuiHolder implements JSONSerializable {
      *
      * @return - TextComponent
      */
-    public TextComponent getTitle(GuiContext context) throws NullPointerException {
+    public TextComponent getTitle(Island context) throws NullPointerException {
         TextComponent component = new TextComponent("");
         try {
             for(String string : this.title) {

@@ -15,15 +15,16 @@ import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldCapability;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
-import yorickbm.skyblockaddon.gui.interfaces.GuiContext;
 import yorickbm.skyblockaddon.gui.interfaces.SkyblockAddonMenuProvider;
 import yorickbm.skyblockaddon.gui.json.GuiAction;
 import yorickbm.skyblockaddon.gui.json.GuiHolder;
 import yorickbm.skyblockaddon.gui.util.FillerPattern;
 import yorickbm.skyblockaddon.gui.util.GuiActionable;
 import yorickbm.skyblockaddon.gui.util.TargetHolder;
+import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.registries.BiomeRegistry;
 import yorickbm.skyblockaddon.registries.IslandRegistry;
+import yorickbm.skyblockaddon.registries.MemberRegistry;
 import yorickbm.skyblockaddon.registries.interfaces.SkyblockAddonRegistry;
 
 import java.util.Optional;
@@ -32,7 +33,7 @@ public class ServerGui extends AbstractContainerMenu {
     private static final Logger LOGGER = LogManager.getLogger();
 
     protected final SimpleContainer inventory;
-    protected final GuiContext sourceContext;
+    protected final Island sourceContext;
     protected final Player sourceEntity;
     protected final GuiHolder guiContent;
 
@@ -48,10 +49,10 @@ public class ServerGui extends AbstractContainerMenu {
 
     public static SkyblockAddonMenuProvider getProvider(GuiHolder holder) {
         return new SkyblockAddonMenuProvider() {
-            GuiContext context = null;
+            Island context = null;
 
             @Override
-            public void setContext(GuiContext context) {
+            public void setContext(Island context) {
                 this.context = context;
             }
 
@@ -71,7 +72,7 @@ public class ServerGui extends AbstractContainerMenu {
         };
     }
 
-    protected ServerGui(int syncId, Inventory playerInventory, GuiHolder content, GuiContext context, Player entity) {
+    protected ServerGui(int syncId, Inventory playerInventory, GuiHolder content, Island context, Player entity) {
         super(fromRows(content.getRows()), syncId);
 
         this.event_bus = new GuiListener();
@@ -217,6 +218,9 @@ public class ServerGui extends AbstractContainerMenu {
                         Optional<SkyblockAddonWorldCapability> cap = this.sourceEntity.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).resolve();
                         if(cap.isEmpty()) break; //Capability not found
                         registry = new IslandRegistry(cap.get());
+                        break;
+                    case "MemberRegistry":
+                       registry = new MemberRegistry(this.sourceContext);
                         break;
                 }
 

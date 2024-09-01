@@ -15,9 +15,9 @@ import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.gui.GUIManager;
 import yorickbm.skyblockaddon.gui.ServerGui;
-import yorickbm.skyblockaddon.gui.interfaces.GuiContext;
 import yorickbm.skyblockaddon.gui.util.TargetHolder;
 import yorickbm.skyblockaddon.gui.util.TargetType;
+import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
@@ -35,22 +35,22 @@ public class GuiAction implements JSONSerializable {
 
     public void onPrimaryClick(ItemStack item,
                                TargetHolder source,
-                               GuiContext cSource,
+                               Island cSource,
                                ServerGui gui) {
         handleClick(onClick, item, source, cSource, gui);
     }
     public void onSecondaryClick(ItemStack item,
                                  TargetHolder source,
-                                 GuiContext cSource,
+                                 Island cSource,
                                  ServerGui gui) {
         handleClick(onSecondClick, item,  source, cSource, gui);
     }
 
-    private void handleClick(String action, ItemStack item, TargetHolder source, GuiContext cSource, ServerGui gui) {
+    private void handleClick(String action, ItemStack item, TargetHolder source, Island cSource, ServerGui gui) {
         ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.UI_BUTTON_CLICK, SkyblockAddon.UI_SOUND_VOL, 1f);
 
         TargetHolder target = null;
-        AtomicReference<GuiContext> cTarget = new AtomicReference<>();
+        AtomicReference<Island> cTarget = new AtomicReference<>();
         CompoundTag modTag = item.getOrCreateTagElement(SkyblockAddon.MOD_ID);
 
         if(modTag.contains("islandId")) source.getEntity().getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
@@ -131,13 +131,13 @@ public class GuiAction implements JSONSerializable {
     private TargetHolder getEntity(TargetHolder source, TargetHolder target) {
         return sourceType == TargetType.HOLDER ? source : target;
     }
-    private GuiContext getContext(GuiContext source, GuiContext target) {
+    private Island getContext(Island source, Island target) {
         return sourceType == TargetType.HOLDER ? source : target;
     }
     private TargetHolder getTargetEntity(TargetHolder source, TargetHolder target) {
         return targetType == TargetType.HOLDER ? source : target;
     }
-    private GuiContext getTargetContext(GuiContext source, GuiContext target) {
+    private Island getTargetContext(Island source, Island target) {
         return targetType == TargetType.HOLDER ? source : target;
     }
 

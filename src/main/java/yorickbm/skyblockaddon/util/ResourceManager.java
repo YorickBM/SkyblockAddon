@@ -102,6 +102,7 @@ public class ResourceManager {
             FileUtils.getOrCreateDirectory(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/registries/"), SkyblockAddon.MOD_ID + "/registries/");
 
             generateFile("registries/BiomeRegistry.json", "registries/BiomeRegistry.json");
+            generateFile("registries/PermissionRegistry.json", "registries/PermissionRegistry.json");
         }
 
         //Generate GUIS
@@ -112,6 +113,7 @@ public class ResourceManager {
             generateFile("guis/settings.json", "guis/settings.json");
             generateFile("guis/biomes.json", "guis/biomes.json");
             generateFile("guis/travel.json", "guis/travel.json");
+            generateFile("guis/members.json", "guis/members.json");
             //TODO: Add other GUIS
         }
     }
