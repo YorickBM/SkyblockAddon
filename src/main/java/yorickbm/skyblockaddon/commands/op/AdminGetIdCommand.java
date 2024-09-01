@@ -37,7 +37,6 @@ public class AdminGetIdCommand extends OverWorldCommandStack {
         );
     }
 
-
     public int execute(CommandSourceStack command, ServerPlayer executor, ServerPlayer target) {
 
         if(target == null) { //Require over-world if admin is not running a player check

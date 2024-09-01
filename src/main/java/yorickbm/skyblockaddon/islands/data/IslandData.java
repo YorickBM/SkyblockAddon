@@ -40,8 +40,9 @@ public class IslandData implements NBTSerializable {
     public void removeMember(UUID uuid) {
         members.remove(uuid);
     }
-    public void addMember(UUID entity, UUID id) {
+    public boolean addMember(UUID entity, UUID id) {
         this.members.put(entity, id != null ? id : SkyblockAddon.MOD_UUID);
+        return true;
     }
 
     public Collection<IslandGroup> getGroups() { return islandGroups.values(); }

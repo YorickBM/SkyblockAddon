@@ -160,7 +160,7 @@ public class ServerGui extends AbstractContainerMenu {
      */
     public void previousPage() {
         this.page -= 1;
-        if(this.page < 0) this.page = maxPage - 1;
+        if(this.page < 0) this.page = (maxPage >= 1 ? maxPage - 1 : 0);
 
         this.draw();
     }

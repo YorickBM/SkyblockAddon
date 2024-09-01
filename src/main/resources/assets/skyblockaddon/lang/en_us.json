@@ -7,6 +7,10 @@
   "commands.admin.island.not.found.uuid": "Could not find the island with UUID '%s'.",
   "commands.admin.island.not.found.player": "Could not find the island for '%s'.",
   "commands.admin.island.found.id": "Id found for island '%s', click me to copy.",
+  "commands.admin.island.has.island": "%s is already part of an island.",
+  "commands.admin.island.member.part": "%s is already part of this island.",
+  "commands.admin.island.member.added": "%s is added to %s's island.",
+  "commands.admin.island.member.failure": "Could not add %s to %s's island.",
 
   "commands.teleporting.own": "Teleporting you to your island...",
   "commands.teleporting.other": "Teleporting you to %s's island...",
