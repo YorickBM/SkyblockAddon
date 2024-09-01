@@ -56,7 +56,7 @@
         "item": "minecraft:IRON_BARS",
         "lore": [],
         "data": {
-          "gui": "permission"
+          "gui": "groups"
         }
       },
       "slot": 12,

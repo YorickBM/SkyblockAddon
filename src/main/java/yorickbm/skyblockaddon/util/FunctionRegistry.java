@@ -10,14 +10,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class FunctionRegistry {
-    private static final Map<UUID, Consumer<ServerPlayer>> functionMap = new HashMap<>();
+    private static final Map<UUID, Function<ServerPlayer, Boolean>> functionMap = new HashMap<>();
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
 
     // Method to register a function with a unique hash
-    public static void registerFunction(UUID hash, Consumer<ServerPlayer> function, int duration) {
+    public static void registerFunction(UUID hash, Function<ServerPlayer, Boolean> function, int duration) {
         functionMap.put(hash, function);
 
         // Schedule the removal of the hash after the specified duration
@@ -28,10 +29,9 @@ public class FunctionRegistry {
 
     // Method to execute a function based on the hash
     public static void executeFunction(UUID hash, ServerPlayer executor) {
-        Consumer<ServerPlayer> function = functionMap.get(hash);
+        Function<ServerPlayer, Boolean> function = functionMap.get(hash);
         if (function != null) {
-            function.accept(executor);
-            functionMap.remove(hash);
+            if(function.apply(executor)) functionMap.remove(hash);
         } else {
             throw new FunctionNotFoundException(hash);
         }

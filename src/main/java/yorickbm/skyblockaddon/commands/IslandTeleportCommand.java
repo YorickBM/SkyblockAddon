@@ -115,6 +115,7 @@ public class IslandTeleportCommand extends OverWorldCommandStack {
                     .withStyle(ChatFormatting.GREEN), e.getUUID());
                 requested.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.teleporting.accepted").formatted(executor.getDisplayName().getString())).withStyle(ChatFormatting.GREEN), requested.getUUID());
                 island.teleportTo(executor);
+                return true;
             }, 5); //Register function to teleport under hash 'functionKey' for 5 minutes.
 
             //Sending clickable message to accept request to requested

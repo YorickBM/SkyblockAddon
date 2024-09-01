@@ -41,7 +41,7 @@ public class IslandLeaveCommand extends OverWorldCommandStack {
 
             UUID functionKey = UUID.randomUUID();
             FunctionRegistry.registerFunction(functionKey, (e) -> {
-                if(super.execute(command, e) == 0) return;
+                if(super.execute(command, e) == 0) return true;
 
                 e.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.leave.undo")).withStyle(ChatFormatting.GREEN), e.getUUID());
                 if(!island.addMember(e, e.getUUID())) {
@@ -51,6 +51,8 @@ public class IslandLeaveCommand extends OverWorldCommandStack {
                         .withStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, island.getId().toString())))
                     , e.getUUID());
                 }
+
+                return true;
             }, 15);
 
             if(!island.kickMember(executor, executor.getUUID())) {

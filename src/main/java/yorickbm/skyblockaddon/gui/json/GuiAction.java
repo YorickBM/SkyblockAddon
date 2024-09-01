@@ -3,6 +3,8 @@ package yorickbm.skyblockaddon.gui.json;
 import com.google.gson.Gson;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,12 +20,16 @@ import yorickbm.skyblockaddon.gui.ServerGui;
 import yorickbm.skyblockaddon.gui.util.TargetHolder;
 import yorickbm.skyblockaddon.gui.util.TargetType;
 import yorickbm.skyblockaddon.islands.Island;
+import yorickbm.skyblockaddon.islands.groups.IslandGroup;
+import yorickbm.skyblockaddon.util.FunctionRegistry;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class GuiAction implements JSONSerializable {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -122,6 +128,36 @@ public class GuiAction implements JSONSerializable {
 
             case "nextPage":
                 gui.nextPage();
+                return;
+
+            case "createGroup":
+                gui.close();
+
+                UUID id = UUID.randomUUID();
+                Function<ServerPlayer, Boolean> function = executor -> {
+                    if(executor.getMainHandItem().isEmpty()) {
+                        executor.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.group.failure").formatted(executor.getMainHandItem().getDisplayName().getString(), Objects.requireNonNull(executor.getMainHandItem().getItem().getRegistryName()).toString().split(":")[1]))
+                                        .withStyle(ChatFormatting.RED)
+                                ,executor.getUUID());
+                        return false; //Keep hash function alive.
+                    }
+
+                    ServerHelper.playSongToPlayer(executor, SoundEvents.AMETHYST_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
+                    getContext(cSource, cTarget.get()).addGroup(new IslandGroup(UUID.randomUUID(), executor.getMainHandItem(), false));
+
+                    executor.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.group.created").formatted(executor.getMainHandItem().getDisplayName().getString(), Objects.requireNonNull(executor.getMainHandItem().getItem().getRegistryName()).toString().split(":")[1]))
+                                    .withStyle(ChatFormatting.GREEN)
+                            ,executor.getUUID());
+
+                    return true;
+                };
+                FunctionRegistry.registerFunction(id, function, 15);
+
+                source.getEntity().sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.group.create"))
+                            .withStyle(ChatFormatting.GREEN)
+                            .withStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, FunctionRegistry.getCommand(id))))
+                    ,source.getUuid());
+
                 return;
 
         }

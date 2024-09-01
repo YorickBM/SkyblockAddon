@@ -48,7 +48,7 @@ public class IslandInviteCommand extends OverWorldCommandStack {
 
             UUID functionKey = UUID.randomUUID();
             FunctionRegistry.registerFunction(functionKey, (e) -> {
-                if(super.execute(command, e) == 0) return;
+                if(super.execute(command, e) == 0) return true;
 
                 Island targetIsland = cap.getIslandByEntityUUID(target.getUUID());
                 if(targetIsland != null) {
@@ -57,12 +57,12 @@ public class IslandInviteCommand extends OverWorldCommandStack {
 
                 if(sourceIsland.addMember(executor, target.getUUID())) {
                     target.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.invite.failure").formatted(executor.getDisplayName().getString(), sourceIsland.getOwner())).withStyle(ChatFormatting.RED), target.getUUID());
-                    return;
+                    return true;
                 }
 
                 executor.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.invite.accepted").formatted(target.getDisplayName().getString())).withStyle(ChatFormatting.GREEN), executor.getUUID());
                 target.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.invite.teleporting")).withStyle(ChatFormatting.GREEN), target.getUUID());
-
+                return true;
             }, 5);
 
             command.sendSuccess(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.invite.success").formatted(target.getDisplayName().getString())).withStyle(ChatFormatting.GREEN), false);

@@ -48,7 +48,7 @@ public class IslandRequestTeleportCommand extends OverWorldCommandStack {
             //Register teleport function into registry
             UUID functionKey = UUID.randomUUID();
             FunctionRegistry.registerFunction(functionKey, (e) -> {
-                if(super.execute(command, e) == 0) return;
+                if(super.execute(command, e) == 0) return true;
 
                 e.sendMessage(new TextComponent(
                     SkyBlockAddonLanguage.getLocalizedString("commands.request.other")
@@ -56,6 +56,7 @@ public class IslandRequestTeleportCommand extends OverWorldCommandStack {
                     .withStyle(ChatFormatting.GREEN), e.getUUID());
                 executor.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.request.accepted").formatted(target.getDisplayName().getString())).withStyle(ChatFormatting.GREEN), executor.getUUID());
                 island.teleportTo(e);
+                return true;
             }, 5); //Register function to teleport under hash 'functionKey' for 5 minutes.
 
             //Sending clickable message to accept request to requested
