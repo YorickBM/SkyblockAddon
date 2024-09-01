@@ -1,0 +1,20 @@
+{
+  "item": {
+    "display_name": [
+      "{\"text\": \"Island Admin\", \"color\":\"blue\"}"
+    ],
+    "item": "minecraft:PAPER",
+    "lore": [
+      [
+        "{\"text\":\"\u00bb Allows island setting and member configuration.\",\"color\":\"dark_gray\"}"
+      ]
+    ]
+  },
+  "triggers": [
+    ""
+  ],
+  "includes": [
+    "skyblockaddon:settings",
+    "skyblockaddon:members"
+  ]
+}

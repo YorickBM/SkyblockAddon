@@ -21,6 +21,8 @@ import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.events.ModEvents;
 import yorickbm.skyblockaddon.events.ParticleEvents;
+import yorickbm.skyblockaddon.events.PermissionEvents;
+import yorickbm.skyblockaddon.events.PlayerEvents;
 import yorickbm.skyblockaddon.gui.GUIManager;
 import yorickbm.skyblockaddon.islands.data.IslandData;
 import yorickbm.skyblockaddon.util.ResourceManager;
@@ -57,6 +59,8 @@ public class SkyblockAddon {
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ModEvents());
         MinecraftForge.EVENT_BUS.register(new ParticleEvents());
+        MinecraftForge.EVENT_BUS.register(new PlayerEvents());
+        MinecraftForge.EVENT_BUS.register(new PermissionEvents());
     }
 
     /**
