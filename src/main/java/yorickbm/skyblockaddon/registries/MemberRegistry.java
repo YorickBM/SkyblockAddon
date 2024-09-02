@@ -35,7 +35,8 @@ public class MemberRegistry extends SkyblockAddonRegistry {
 
         tag.putUUID("playerId", this.members.get(this.index));
 
-        return ++this.index < this.getSize();
+        this.index++;
+        return true;
     }
 
     @Override

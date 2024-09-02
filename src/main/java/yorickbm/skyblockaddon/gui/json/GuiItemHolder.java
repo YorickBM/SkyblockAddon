@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.islands.Island;
+import yorickbm.skyblockaddon.registries.interfaces.CustomItemStack;
 import yorickbm.skyblockaddon.registries.interfaces.CustomItems;
 import yorickbm.skyblockaddon.registries.interfaces.SkyblockAddonRegistry;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
@@ -36,7 +37,7 @@ public class GuiItemHolder implements JSONSerializable {
      */
     public ItemStack getItemStack(Island context, CompoundTag nbt) { return getItemStack(context, nbt, null); }
     public ItemStack getItemStack(Island context, CompoundTag nbt, SkyblockAddonRegistry registry) {
-        ItemStack stack = new ItemStack(
+        ItemStack stack = registry instanceof CustomItemStack is ? is.getItemFor(nbt) : new ItemStack(
                 registry instanceof CustomItems reg ? reg.getItemFor(nbt) : ServerHelper.getItem(item.toLowerCase(), Items.BARRIER)
         );
 
