@@ -1,8 +1,12 @@
 package yorickbm.skyblockaddon.islands.data;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,27 +31,23 @@ public class IslandData implements NBTSerializable {
     private boolean travelability = false;
 
     private final Map<UUID, IslandGroup> islandGroups = new HashMap<>();
-    private final Map<UUID, UUID> members = new HashMap<>(); //Members map
 
     public IslandData() {
     }
 
-    public Map<UUID, UUID> getMembers() {
-        return Collections.unmodifiableMap(members);
+    public List<UUID> getMembers() {
+        return this.islandGroups.get(SkyblockAddon.MOD_UUID).getMembers();
     }
-    public List<UUID> getMembersList() {
-        return members.keySet().stream().toList();
-    }
-    public void removeMember(UUID uuid) {
-        members.remove(uuid);
+    public void removeMember(UUID entity, @NotNull UUID id) {
+        this.islandGroups.get(id).removeMember(entity);
     }
     public boolean addMember(UUID entity, @NotNull UUID id) {
-        if(getOwner().equals(entity) || getMembersList().contains(entity)) return false;
+        if(getOwner().equals(entity) || getMembers().contains(entity)) return false;
 
         if(this.getOwner().equals(SkyblockAddon.MOD_UUID)) {
             setOwner(entity);
         } else {
-            this.members.put(entity, id);
+            this.islandGroups.get(id).addMember(entity);
         }
         return true;
     }
@@ -143,12 +143,6 @@ public class IslandData implements NBTSerializable {
         }
         tag.put("groups", groups);
 
-        CompoundTag members = new CompoundTag();
-        for( Map.Entry<UUID, UUID> data : getMembers().entrySet()) {
-            members.putUUID(data.getKey().toString(), data.getValue());
-        }
-        tag.put("members", members);
-
         return tag;
     }
 
@@ -168,9 +162,13 @@ public class IslandData implements NBTSerializable {
             this.islandGroups.put(group.getId(), group);
         }
 
-        CompoundTag members = tag.getCompound("members");
-        for(String memberUuid : members.getAllKeys()) {
-            this.members.put(UUID.fromString(memberUuid), members.getUUID(memberUuid));
+        if(this.islandGroups.size() == 0) {
+            ItemStack item = new ItemStack(Items.RED_MUSHROOM);
+            item.setHoverName(new TextComponent("Default").withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.BLUE));
+
+            IslandGroup defaultG = new IslandGroup(SkyblockAddon.MOD_UUID, item, true);
+            this.islandGroups.put(defaultG.getId(), defaultG);
         }
+
     }
 }

@@ -18,6 +18,8 @@ public class GroupsRegistry extends SkyblockAddonRegistry {
 
     @Override
     public boolean getNextData(CompoundTag tag) {
+        if(this.index >= this.getSize()) return false;
+
         tag.putUUID("groupId", this.groups.get(this.index).getId());
 
         return ++this.index < this.getSize();

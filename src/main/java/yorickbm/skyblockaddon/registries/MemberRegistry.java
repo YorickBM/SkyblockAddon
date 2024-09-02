@@ -12,12 +12,10 @@ import java.util.UUID;
 
 public class MemberRegistry extends SkyblockAddonRegistry {
 
-    protected final Map<UUID, UUID> members;
-    private final List<Map.Entry<UUID, UUID>> entries;
+    private final List<UUID> members;
 
     public MemberRegistry(Island island) {
         this.members = island.getMembers();
-        this.entries =  new ArrayList<>(this.members.entrySet());
     }
 
     /**
@@ -29,18 +27,15 @@ public class MemberRegistry extends SkyblockAddonRegistry {
     @Override
     public boolean getNextData(CompoundTag tag) {
         if(this.index >= this.getSize()) return false;
-        Map.Entry<UUID, UUID> entry = this.entries.get(this.index);
 
-        String username = UsernameCache.getBlocking(entry.getKey());
+        String username = UsernameCache.getBlocking(this.members.get(this.index));
 
         tag.putString("SkullOwner", username);
         tag.putString("ownername", username);
 
-        tag.putUUID("playerId", entry.getKey());
-        tag.putUUID("groupId", entry.getValue());
+        tag.putUUID("playerId", this.members.get(this.index));
 
-        index++;
-        return true;
+        return ++this.index < this.getSize();
     }
 
     @Override

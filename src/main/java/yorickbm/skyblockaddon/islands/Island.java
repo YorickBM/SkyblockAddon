@@ -77,13 +77,13 @@ public class Island extends IslandData implements IsUnique, NBTSerializable {
      */
     public boolean kickMember(Entity source, UUID entity) {
         if(isOwner(entity)) {
-            if(!getMembers().isEmpty()) super.setOwner(getMembersList().get(0));
+            if(!getMembers().isEmpty()) super.setOwner(getMembers().get(0));
             else {
                 super.setOwner(SkyblockAddon.MOD_UUID);
                 super.setVisibility(false); //Close island if we are the last one
             }
         } else {
-            super.removeMember(entity);
+            super.removeMember(entity, SkyblockAddon.MOD_UUID);
         }
 
         //Teleport entity to world spawn
@@ -164,7 +164,7 @@ public class Island extends IslandData implements IsUnique, NBTSerializable {
      * @return - Boolean
      */
     public boolean isPartOf(UUID player) {
-        return isOwner(player) || super.getMembersList().contains(player);
+        return isOwner(player) || super.getMembers().contains(player);
     }
 
     /**
