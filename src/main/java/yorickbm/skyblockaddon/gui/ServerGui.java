@@ -23,6 +23,7 @@ import yorickbm.skyblockaddon.gui.util.GuiActionable;
 import yorickbm.skyblockaddon.gui.util.TargetHolder;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.registries.BiomeRegistry;
+import yorickbm.skyblockaddon.registries.GroupsRegistry;
 import yorickbm.skyblockaddon.registries.IslandRegistry;
 import yorickbm.skyblockaddon.registries.MemberRegistry;
 import yorickbm.skyblockaddon.registries.interfaces.SkyblockAddonRegistry;
@@ -221,6 +222,9 @@ public class ServerGui extends AbstractContainerMenu {
                         break;
                     case "MemberRegistry":
                        registry = new MemberRegistry(this.sourceContext);
+                        break;
+                    case "GroupsRegistry":
+                        registry = new GroupsRegistry(this.sourceContext);
                         break;
                 }
 
