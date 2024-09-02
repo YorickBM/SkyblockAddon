@@ -28,7 +28,6 @@ public class NBTUtil {
         CompoundTag tag = new CompoundTag();
 
         tag.putString("registryName", Objects.requireNonNull(item.getItem().getRegistryName()).toString());
-        tag.putString("name", Component.Serializer.toJson(item.getDisplayName()));
         tag.put("NBT", item.getOrCreateTag());
 
         return tag;
@@ -36,7 +35,6 @@ public class NBTUtil {
 
     public static ItemStack NBTToItemStack(CompoundTag tag) {
         ItemStack item = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(tag.getString("registryName"))));
-        item.setHoverName(Component.Serializer.fromJson(tag.getString("name")));
         item.setTag(tag.getCompound("NBT"));
         return item;
     }

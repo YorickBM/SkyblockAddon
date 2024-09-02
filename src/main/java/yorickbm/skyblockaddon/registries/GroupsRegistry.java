@@ -24,7 +24,7 @@ public class GroupsRegistry extends SkyblockAddonRegistry implements CustomItemS
     public boolean getNextData(CompoundTag tag) {
         if(this.index >= this.getSize()) return false;
 
-        tag.put("group", this.groups.get(this.index).serializeNBT());
+        tag.putUUID("groupId", this.groups.get(this.index).getId());
 
         this.index++;
         return true;
@@ -37,9 +37,7 @@ public class GroupsRegistry extends SkyblockAddonRegistry implements CustomItemS
 
     @Override
     public ItemStack getItemFor(CompoundTag tag) {
-        IslandGroup group = new IslandGroup();
-        group.deserializeNBT(tag.getCompound("group"));
-
+        IslandGroup group = island.getGroup(tag.getUUID("groupId"));
         return group.getItem();
     }
 }

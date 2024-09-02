@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.islands.groups.IslandGroup;
 import yorickbm.skyblockaddon.util.BiomeUtil;
 import yorickbm.skyblockaddon.util.NBT.NBTSerializable;
@@ -162,9 +163,9 @@ public class IslandData implements NBTSerializable {
             this.islandGroups.put(group.getId(), group);
         }
 
-        if(this.islandGroups.size() == 0) {
+        if(this.islandGroups.isEmpty()) {
             ItemStack item = new ItemStack(Items.RED_MUSHROOM);
-            item.setHoverName(new TextComponent("Default").withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.BLUE));
+            item.setHoverName(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("gui.group.default.name")).withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.BLUE));
 
             IslandGroup defaultG = new IslandGroup(SkyblockAddon.MOD_UUID, item, true);
             this.islandGroups.put(defaultG.getId(), defaultG);

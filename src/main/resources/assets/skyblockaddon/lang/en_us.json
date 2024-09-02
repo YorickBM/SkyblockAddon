@@ -49,8 +49,10 @@
 
   "menu.not.found": "Could not find the menu %s you are trying to open.",
 
-  "gui.group.default.name": "Basic",
+  "gui.group.default.name": "Members",
 
   "island.biome": "Your island biome has changed into %s.",
-  "island.travel": "Travelling you through the void and time..."
+  "island.travel": "Travelling you through the void and time...",
+  "island.private": "Closed",
+  "island.public": "Public"
 }

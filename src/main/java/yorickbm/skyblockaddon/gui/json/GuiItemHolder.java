@@ -5,6 +5,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.apache.logging.log4j.LogManager;
@@ -37,7 +38,15 @@ public class GuiItemHolder implements JSONSerializable {
      */
     public ItemStack getItemStack(Island context, CompoundTag nbt) { return getItemStack(context, nbt, null); }
     public ItemStack getItemStack(Island context, CompoundTag nbt, SkyblockAddonRegistry registry) {
-        ItemStack stack = registry instanceof CustomItemStack is ? is.getItemFor(nbt) : new ItemStack(
+        if(registry instanceof CustomItemStack reg) {
+            ItemStack stack = new ItemStack(reg.getItemFor(nbt).getItem());
+            stack.setTag(reg.getItemFor(nbt).getTag());
+            if(nbt.contains("SkullOwner")) stack.getOrCreateTag().putString("SkullOwner", nbt.getString("SkullOwner"));
+            stack.addTagElement(SkyblockAddon.MOD_ID, nbt);
+            return stack;
+        }
+
+        ItemStack stack = new ItemStack(
                 registry instanceof CustomItems reg ? reg.getItemFor(nbt) : ServerHelper.getItem(item.toLowerCase(), Items.BARRIER)
         );
 
