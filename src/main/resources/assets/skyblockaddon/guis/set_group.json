@@ -1,0 +1,115 @@
+{
+  "title": [
+    "{\"text\": \"%owner%'s Island\"}"
+  ],
+  "rows": 3,
+  "key": "set_group",
+  "fillers": [
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"\"}"
+        ],
+        "item": "minecraft:GRAY_STAINED_GLASS_PANE",
+        "lore": [],
+        "data": {}
+      },
+      "pattern": "EDGES",
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "NONE",
+        "onSecondClick": "NONE"
+      }
+    },
+    {
+      "item": {
+        "display_name": [],
+        "item": "minecraft:PAPER",
+        "lore": [],
+        "data": {
+          "registry": "GroupsRegistry"
+        }
+      },
+      "pattern": "INSIDE",
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "groupSet",
+        "onSecondClick": "groupSet"
+      }
+    }
+  ],
+  "items": [
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"%datapagenum% / %datamaxpage%\",\"bold\": true,\"color\": \"blue\"}"
+        ],
+        "item": "minecraft:PAPER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 22,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "NONE",
+        "onSecondClick": "NONE"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Back\",\"bold\": true,\"color\": \"red\"}"
+        ],
+        "item": "minecraft:ARROW",
+        "lore": [],
+        "data": {
+          "gui": "members"
+        }
+      },
+      "slot": 26,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "openMenu",
+        "onSecondClick": "openMenu"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Previous\",\"bold\": true,\"color\": \"red\"}"
+        ],
+        "item": "minecraft:RED_BANNER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 21,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "previousPage",
+        "onSecondClick": "previousPage"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Next\",\"bold\": true,\"color\": \"green\"}"
+        ],
+        "item": "minecraft:GREEN_BANNER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 23,
+      "action": {
+        "targetType": "HOLDER",
+        "sourceType": "HOLDER",
+        "onClick": "nextPage",
+        "onSecondClick": "nextPage"
+      }
+    }
+  ]
+}

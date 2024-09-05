@@ -54,5 +54,6 @@
   "island.biome": "Your island biome has changed into %s.",
   "island.travel": "Travelling you through the void and time...",
   "island.private": "Closed",
-  "island.public": "Public"
+  "island.public": "Public",
+  "island.member.group.set": "%s has been added to the group '%s'."
 }

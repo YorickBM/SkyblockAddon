@@ -115,6 +115,7 @@ public class ResourceManager {
             generateFile("guis/travel.json", "guis/travel.json");
             generateFile("guis/members.json", "guis/members.json");
             generateFile("guis/groups.json", "guis/groups.json");
+            generateFile("guis/set_group.json", "guis/set_group.json");
             //TODO: Add other GUIS
         }
     }

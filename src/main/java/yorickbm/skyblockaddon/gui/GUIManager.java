@@ -1,10 +1,12 @@
 package yorickbm.skyblockaddon.gui;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.gui.interfaces.SkyblockAddonMenuProvider;
 import yorickbm.skyblockaddon.gui.json.GuiHolder;
@@ -43,12 +45,13 @@ public class GUIManager {
      * @param entity - Entity to open GUI for.
      * @return Boolean - If GUI could be opened for entity.
      */
-    public boolean openMenu(String key, Entity entity, Island context) {
+    public boolean openMenu(String key, Entity entity, Island context, @NotNull CompoundTag nbt) {
         if (!guis.containsKey(key)) return false; //GUI does not exist
         if (!(entity instanceof Player player)) return false; //Not valid entity
 
         SkyblockAddonMenuProvider provider = guis.get(key);
         if(context != null) provider.setContext(context);
+        provider.setNBT(nbt);
         return player.openMenu(provider).isPresent();
     }
 

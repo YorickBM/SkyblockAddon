@@ -4,16 +4,10 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.core.Vec3i;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
-import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.commands.interfaces.OverWorldCommandStack;
 import yorickbm.skyblockaddon.gui.GUIManager;
-
-import java.util.UUID;
 
 public class IslandTravelCommand extends OverWorldCommandStack {
     public IslandTravelCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -29,7 +23,7 @@ public class IslandTravelCommand extends OverWorldCommandStack {
     public int execute(CommandSourceStack command, ServerPlayer executor) {
         if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
-        GUIManager.getInstance().openMenu("travel", executor, null);
+        GUIManager.getInstance().openMenu("travel", executor, null, new CompoundTag());
         return Command.SINGLE_SUCCESS;
     }
 }

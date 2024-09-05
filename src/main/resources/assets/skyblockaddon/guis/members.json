@@ -34,7 +34,8 @@
           ]
         ],
         "data": {
-          "registry": "MemberRegistry"
+          "registry": "MemberRegistry",
+          "gui": "set_group"
         }
       },
       "pattern": "INSIDE",

@@ -28,7 +28,8 @@
         "item": "minecraft:PAPER",
         "lore": [],
         "data": {
-          "registry": "GroupsRegistry"
+          "registry": "GroupsRegistry",
+          "gui": ""
         }
       },
       "pattern": "INSIDE",

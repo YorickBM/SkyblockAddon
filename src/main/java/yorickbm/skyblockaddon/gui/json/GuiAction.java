@@ -24,11 +24,11 @@ import yorickbm.skyblockaddon.islands.groups.IslandGroup;
 import yorickbm.skyblockaddon.util.FunctionRegistry;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 import yorickbm.skyblockaddon.util.ServerHelper;
+import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class GuiAction implements JSONSerializable {
@@ -75,7 +75,7 @@ public class GuiAction implements JSONSerializable {
                 boolean hasOpened = GUIManager.getInstance().openMenu(
                         modTag.getString("gui"),
                         getTargetEntity(source, target).getEntity(),
-                        getContext(cSource, cTarget.get()));
+                        getContext(cSource, cTarget.get()), new CompoundTag());
 
                 if(!hasOpened && source.getEntity() != null) source.getEntity().sendMessage(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("menu.not.found"), modTag.getString("gui"))).withStyle(ChatFormatting.RED), source.getEntity().getUUID());
 
@@ -91,6 +91,44 @@ public class GuiAction implements JSONSerializable {
                 ).withStyle(ChatFormatting.GREEN),source.getUuid());
 
                 return;
+
+            case "setGroup":
+                CompoundTag data = new CompoundTag();
+                data.putUUID("playerId", modTag.getUUID("playerId"));
+
+                boolean hasOpened2 = GUIManager.getInstance().openMenu(
+                        modTag.getString("gui"),
+                        getTargetEntity(source, target).getEntity(),
+                        getContext(cSource, cTarget.get()), data);
+
+                if(!hasOpened2 && source.getEntity() != null) source.getEntity().sendMessage(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("menu.not.found"), modTag.getString("gui"))).withStyle(ChatFormatting.RED), source.getEntity().getUUID());
+                break;
+            case "groupSet":
+                cSource.addMember(gui.getNBT().getUUID("playerId"), modTag.getUUID("groupId"));
+                ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.AMETHYST_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
+
+                source.getEntity().sendMessage(new TextComponent(
+                        SkyBlockAddonLanguage.getLocalizedString("island.member.group.set")
+                        .formatted(
+                            UsernameCache.getBlocking(gui.getNBT().getUUID("playerId")),
+                            cSource.getGroup(modTag.getUUID("groupId")).getItem().getDisplayName().getString()
+                        )
+                ).withStyle(ChatFormatting.GREEN),source.getUuid());
+
+                gui.close();
+                break;
+
+            case "viewPermissions":
+                CompoundTag data2 = new CompoundTag();
+                data2.putUUID("groupId", modTag.getUUID("groupId"));
+
+                boolean hasOpened3 = GUIManager.getInstance().openMenu(
+                        modTag.getString("gui"),
+                        getTargetEntity(source, target).getEntity(),
+                        getContext(cSource, cTarget.get()), data2);
+
+                if(!hasOpened3 && source.getEntity() != null) source.getEntity().sendMessage(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("menu.not.found"), modTag.getString("gui"))).withStyle(ChatFormatting.RED), source.getEntity().getUUID());
+                break;
 
             case "kickMember":
                 getContext(cSource, cTarget.get()).kickMember(getEntity(source, target).getEntity(), getTargetEntity(source, target).getUuid());

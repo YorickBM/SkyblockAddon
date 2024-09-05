@@ -5,6 +5,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.UuidArgument;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
@@ -46,7 +47,7 @@ public class AdminMenuCommand extends OverWorldCommandStack {
                     command.sendFailure(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("commands.admin.island.not.found.uuid"), islandId.toString())));
                 return;
             }
-            GUIManager.getInstance().openMenu("overview", executor, island);
+            GUIManager.getInstance().openMenu("overview", executor, island, new CompoundTag());
         });
         return Command.SINGLE_SUCCESS;
     }

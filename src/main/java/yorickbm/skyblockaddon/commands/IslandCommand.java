@@ -4,6 +4,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
@@ -30,7 +31,7 @@ public class IslandCommand extends OverWorldCommandStack {
                 command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.has.no.island")));
                 return;
             }
-            GUIManager.getInstance().openMenu("overview", executor, island);
+            GUIManager.getInstance().openMenu("overview", executor, island, new CompoundTag());
         });
 
         return Command.SINGLE_SUCCESS;

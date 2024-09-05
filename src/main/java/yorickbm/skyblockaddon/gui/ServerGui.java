@@ -35,6 +35,7 @@ public class ServerGui extends AbstractContainerMenu {
 
     protected final SimpleContainer inventory;
     protected final Island sourceContext;
+    protected final CompoundTag NBT;
     protected final Player sourceEntity;
     protected final GuiHolder guiContent;
 
@@ -51,10 +52,16 @@ public class ServerGui extends AbstractContainerMenu {
     public static SkyblockAddonMenuProvider getProvider(GuiHolder holder) {
         return new SkyblockAddonMenuProvider() {
             Island context = null;
+            CompoundTag NBT = null;
 
             @Override
             public void setContext(Island context) {
                 this.context = context;
+            }
+
+            @Override
+            public void setNBT(CompoundTag nbt) {
+                this.NBT = nbt;
             }
 
             @Override
@@ -68,12 +75,12 @@ public class ServerGui extends AbstractContainerMenu {
 
             @Override
             public @NotNull AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory, @NotNull Player player) {
-                return new ServerGui(i, inventory, holder, this.context, player);
+                return new ServerGui(i, inventory, holder, this.context, player, this.NBT);
             }
         };
     }
 
-    protected ServerGui(int syncId, Inventory playerInventory, GuiHolder content, Island context, Player entity) {
+    protected ServerGui(int syncId, Inventory playerInventory, GuiHolder content, Island context, Player entity, CompoundTag nbt) {
         super(fromRows(content.getRows()), syncId);
 
         this.event_bus = new GuiListener();
@@ -82,6 +89,8 @@ public class ServerGui extends AbstractContainerMenu {
         this.sourceContext = context;
         this.sourceEntity = entity;
         this.guiContent = content;
+
+        this.NBT = nbt;
 
         int i = (content.getRows() - 4) * 18;
         int n, m;
@@ -139,12 +148,20 @@ public class ServerGui extends AbstractContainerMenu {
     }
 
     /**
-     * Store GUI data into NBT tag
+     * Store GUI page data into NBT tag
      * @param tag - NBT Tag
      */
-    private void setGuiNBT(CompoundTag tag) {
+    private void collectPageData(CompoundTag tag) {
         tag.putString("pagenum", (this.page+1)+"");
         tag.putString("maxpage", this.maxPage+"");
+    }
+
+    /**
+     * Get NBT data associated with GUI
+     * @return CompoundTag
+     */
+    public CompoundTag getNBT() {
+        return this.NBT;
     }
 
     /**
@@ -191,7 +208,7 @@ public class ServerGui extends AbstractContainerMenu {
     private void processItems() {
         this.guiContent.getItems().forEach(guiItem -> {
             CompoundTag tag = new CompoundTag();
-            this.setGuiNBT(tag);
+            this.collectPageData(tag);
 
             ItemStack item = guiItem.getItem().getItemStack(this.sourceContext, guiItem.getItem().getTag(tag));
             setItem(guiItem.getSlot(), 0, item);
@@ -291,7 +308,7 @@ public class ServerGui extends AbstractContainerMenu {
             this.event_bus.addListener(slotIndex, (player, clickType) -> {
                 GuiAction action = item.getAction();
                 CompoundTag tag = new CompoundTag();
-                this.setGuiNBT(tag);
+                this.collectPageData(tag);
 
                 switch(clickType) {
                     case 0 -> action.onPrimaryClick(getSlot(slotIndex).getItem(),

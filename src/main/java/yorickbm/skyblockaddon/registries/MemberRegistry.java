@@ -5,9 +5,7 @@ import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.registries.interfaces.SkyblockAddonRegistry;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class MemberRegistry extends SkyblockAddonRegistry {
