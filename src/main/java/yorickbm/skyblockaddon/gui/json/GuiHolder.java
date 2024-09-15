@@ -2,6 +2,7 @@ package yorickbm.skyblockaddon.gui.json;
 
 import com.google.gson.Gson;
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import yorickbm.skyblockaddon.islands.Island;
@@ -44,7 +45,7 @@ public class GuiHolder implements JSONSerializable {
         try {
             for(String string : this.title) {
                 Component deserialized = Component.Serializer.fromJson(string);
-                if(context != null) component.append(context.parseTextComponent(Objects.requireNonNull(deserialized)));
+                if(context != null) component.append(context.parseTextComponent(Objects.requireNonNull(deserialized), new CompoundTag()));
                 else component.append(Objects.requireNonNull(deserialized));
             }
         } catch (Exception ex) {

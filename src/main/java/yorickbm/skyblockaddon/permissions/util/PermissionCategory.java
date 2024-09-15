@@ -31,7 +31,7 @@ public class PermissionCategory implements JSONSerializable, NBTSerializable {
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
         tag.putString("id", this.id);
-        tag.put("item", this.item.serializeNBT());
+
         return tag;
     }
 

@@ -174,6 +174,6 @@ public class IslandData implements NBTSerializable {
     }
 
     public String getPermissionState(String id, UUID groupId) {
-        return "";
+        return islandGroups.get(groupId).getPermission(id) ? SkyBlockAddonLanguage.getLocalizedString("island.permission.enabled") : SkyBlockAddonLanguage.getLocalizedString("island.permission.disabled");
     }
 }

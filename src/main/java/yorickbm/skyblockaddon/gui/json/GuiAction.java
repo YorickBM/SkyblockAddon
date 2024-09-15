@@ -74,10 +74,7 @@ public class GuiAction implements JSONSerializable {
             case "setGroup":
             case "viewPermissions":
             case "openPermissionCategory":
-                if(!modTag.contains("gui")) {
-                    LOGGER.warn("User trying to trigger action '"+action+"' without GUI id to open.");
-                    return;
-                }
+                if(!modTag.contains("gui")) return;
 
                 CompoundTag data = new CompoundTag();
                 if(action.equals("setGroup")) data.putUUID("playerId", modTag.getUUID("playerId"));
@@ -99,7 +96,12 @@ public class GuiAction implements JSONSerializable {
                 return;
 
             case "permissionSet":
+                String permissionId = modTag.getString("permissionId");
+                UUID groupId = modTag.getUUID("groupId");
+                cSource.getGroup(groupId).inversePermission(permissionId);
 
+                gui.draw();
+                ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.AMETHYST_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
                 return;
 
             case "teleportTo":

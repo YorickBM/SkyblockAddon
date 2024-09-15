@@ -26,7 +26,6 @@ import yorickbm.skyblockaddon.registries.*;
 import yorickbm.skyblockaddon.registries.interfaces.SkyblockAddonRegistry;
 
 import java.util.Optional;
-import java.util.UUID;
 
 public class ServerGui extends AbstractContainerMenu {
     private static final Logger LOGGER = LogManager.getLogger();

@@ -16,17 +16,13 @@ import yorickbm.skyblockaddon.registries.interfaces.CustomItemStack;
 import yorickbm.skyblockaddon.registries.interfaces.CustomItems;
 import yorickbm.skyblockaddon.registries.interfaces.SkyblockAddonRegistry;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
-import yorickbm.skyblockaddon.util.NBT.NBTSerializable;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-public class GuiItemHolder implements JSONSerializable, NBTSerializable {
+public class GuiItemHolder implements JSONSerializable {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private List<String> display_name;
@@ -74,8 +70,8 @@ public class GuiItemHolder implements JSONSerializable, NBTSerializable {
             //Process lore data
             Component[] finalLore = lore.stream().map(l -> {
                 TextComponent component = new TextComponent("");
-                if(context != null) l.stream().map(Component.Serializer::fromJson).filter(Objects::nonNull).map(context::parseTextComponent).forEach(component::append);
-                else l.stream().map(Component.Serializer::fromJson).filter(Objects::nonNull).forEach(component::append);
+                if(context != null) l.stream().map(Component.Serializer::fromJson).filter(Objects::nonNull).map(comp -> context.parseTextComponent(parseTextComponent(comp, stack), nbt)).forEach(component::append);
+                else l.stream().map(Component.Serializer::fromJson).filter(Objects::nonNull).map(comp -> parseTextComponent(comp, stack)).forEach(component::append);
                 return component;
             }).toArray(Component[]::new);
             ServerHelper.addLore(stack, finalLore);
@@ -102,7 +98,7 @@ public class GuiItemHolder implements JSONSerializable, NBTSerializable {
 
         for(String string : this.display_name) {
             Component deserialized = Component.Serializer.fromJson(string);
-            if(context != null) component.append(context.parseTextComponent(parseTextComponent(Objects.requireNonNull(deserialized), stack)));
+            if(context != null) component.append(context.parseTextComponent(parseTextComponent(Objects.requireNonNull(deserialized), stack), new CompoundTag()));
             else component.append(parseTextComponent(Objects.requireNonNull(deserialized), stack));
         }
 
@@ -137,59 +133,5 @@ public class GuiItemHolder implements JSONSerializable, NBTSerializable {
         this.item = temp.item;
         this.lore = temp.lore;
         this.data = temp.data;
-    }
-
-    @Override
-    public CompoundTag serializeNBT() {
-        CompoundTag tag = new CompoundTag();
-        tag.putString("item", this.item);
-
-        CompoundTag display_name = new CompoundTag();
-        IntStream.range(0, this.display_name.size())
-                .forEach(i -> display_name.putString(String.valueOf(i), this.display_name.get(i)));
-
-        CompoundTag lore = new CompoundTag();
-        IntStream.range(0, this.lore.size())
-                .forEach(i -> {
-                    List<String> innerList = this.lore.get(i);
-                    CompoundTag fragments = new CompoundTag();
-                    IntStream.range(0, innerList.size())
-                            .forEach(j -> fragments.putString(String.valueOf(j), innerList.get(j)));
-                    lore.put(String.valueOf(i), fragments);
-                });
-
-        CompoundTag data = new CompoundTag();
-        this.data.forEach(data::putString);
-
-        tag.put("display_name", display_name);
-        tag.put("lore", lore);
-        tag.put("data", data);
-
-        return tag;
-    }
-
-    @Override
-    public void deserializeNBT(CompoundTag tag) {
-
-        this.item = tag.getString("item");
-        this.display_name = new ArrayList<>();
-        this.lore = new ArrayList<>();
-        this.data = new HashMap<>();
-
-        CompoundTag displayNameTag = tag.getCompound("display_name");
-        displayNameTag.getAllKeys().forEach(key -> this.display_name.add(displayNameTag.getString(key)));
-
-        CompoundTag loreTag = tag.getCompound("lore");
-        loreTag.getAllKeys().forEach(key -> {
-            var fragmentsTag = loreTag.getCompound(key);
-            var fragmentsList = fragmentsTag.getAllKeys().stream()
-                    .map(fragmentsTag::getString)
-                    .collect(Collectors.toList());
-            this.lore.add(fragmentsList);
-        });
-
-        CompoundTag dataTag = tag.getCompound("data");
-        dataTag.getAllKeys().forEach(key -> this.data.put(key, dataTag.getString(key)));
-
     }
 }

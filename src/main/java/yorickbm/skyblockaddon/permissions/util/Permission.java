@@ -2,10 +2,12 @@ package yorickbm.skyblockaddon.permissions.util;
 
 import com.google.gson.Gson;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import yorickbm.skyblockaddon.gui.json.GuiItemHolder;
+import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
+
+import java.util.UUID;
 
 public class Permission implements JSONSerializable {
 
@@ -30,11 +32,14 @@ public class Permission implements JSONSerializable {
         this.triggers = temp.triggers;
     }
 
-    public ItemStack getItemStack() {
+    public ItemStack getItemStack(Island island, UUID groupId) {
         CompoundTag tag = new CompoundTag();
-        tag.putString("id", this.id);
+        tag.putString("permissionId", this.id);
+        tag.putString("category", this.category);
+        tag.putString("group", island.getGroup(groupId).getItem().getDisplayName().getContents());
+        tag.putString("status", island.getPermissionState(this.id, groupId));
 
-        return this.item.getItemStack(null, tag);
+        return this.item.getItemStack(island, tag);
     }
 
     public String getCategory() {

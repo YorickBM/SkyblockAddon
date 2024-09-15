@@ -202,7 +202,7 @@ public class Island extends IslandData implements IsUnique, NBTSerializable {
      * @param original - Original Component containing variables
      * @return - Component where variables are filled with supplied context
      */
-    public @NotNull Component parseTextComponent(@NotNull Component original) {
+    public @NotNull Component parseTextComponent(@NotNull Component original, CompoundTag data) {
         return new TextComponent(original.getString()
                 .replace("%owner%", UsernameCache.getBlocking(getOwner()))
                 .replace("%x%", getSpawn().getX()+"")
@@ -210,6 +210,7 @@ public class Island extends IslandData implements IsUnique, NBTSerializable {
                 .replace("%z%", getSpawn().getZ()+"")
                 .replace("%biome%", getBiome())
                 .replace("%visibility%", this.isVisible() ? SkyBlockAddonLanguage.getLocalizedString("island.public") : SkyBlockAddonLanguage.getLocalizedString("island.private"))
+
         ).withStyle(original.getStyle());
     }
 }

@@ -1,11 +1,8 @@
 package yorickbm.skyblockaddon.registries;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.permissions.PermissionManager;
 import yorickbm.skyblockaddon.permissions.util.Permission;
@@ -44,26 +41,9 @@ public class PermissionRegistry extends SkyblockAddonRegistry implements CustomI
     @Override
     public ItemStack getItemFor(CompoundTag tag) {
         Permission permission = this.permissions.get(tag.getInt("permission"));
-        ItemStack stack = permission.getItemStack();
-
-        ListTag lore = (ListTag) stack.getOrCreateTagElement("display").get("Lore");
-        ListTag lore2 = new ListTag();
-
-        lore.forEach(l -> {
-            Component comp = Component.Serializer.fromJson(l.getAsString());
-            if(comp == null) return; //Failure to create component from lore value
-
-            String newContent = comp.getContents()
-                    .replace("permission_category", permission.getCategory())
-                    .replace("permission_status", this.island.getPermissionState(permission.getId(), this.groupId))
-                    //.replace("permission_group", this.island.getGroup(this.groupId).getItem().getDisplayName().getContents())
-                    ;
-
-            lore2.add(StringTag.valueOf(Component.Serializer.toJson(new TextComponent(newContent).withStyle(comp.getStyle()))));
-        });
-
-        stack.getOrCreateTagElement("display").put("Lore", lore2);
-
+        ItemStack stack = permission.getItemStack(this.island, this.groupId);
+        stack.getOrCreateTagElement(SkyblockAddon.MOD_ID).putString("permissionId", permission.getId());
+        stack.getOrCreateTagElement(SkyblockAddon.MOD_ID).putUUID("groupId", this.groupId);
         return stack;
     }
 }

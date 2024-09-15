@@ -3,28 +3,37 @@ package yorickbm.skyblockaddon.islands.groups;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import yorickbm.skyblockaddon.permissions.PermissionManager;
 import yorickbm.skyblockaddon.util.NBT.IsUnique;
 import yorickbm.skyblockaddon.util.NBT.NBTSerializable;
 import yorickbm.skyblockaddon.util.NBT.NBTUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class IslandGroup implements IsUnique, NBTSerializable {
 
     private UUID uuid;
     private ItemStack item;
 
+    private final Map<String, Boolean> permissions = new HashMap<>();
+
     private final List<UUID> members = new ArrayList<>();
 
     public IslandGroup() {
         this.uuid = UUID.randomUUID();
         this.item = new ItemStack(Items.PAPER);
+
+        PermissionManager.getInstance().getPermissions().forEach(p -> {
+            this.permissions.put(p.getId(), false);
+        });
     }
     public IslandGroup(UUID uuid, ItemStack item, boolean allowAll) {
         this.uuid = uuid;
         this.item = item;
+
+        PermissionManager.getInstance().getPermissions().forEach(p -> {
+            this.permissions.put(p.getId(), allowAll);
+        });
     }
 
     public List<UUID> getMembers() {
@@ -59,6 +68,12 @@ public class IslandGroup implements IsUnique, NBTSerializable {
 
         tag.put("item", NBTUtil.ItemStackToNBT(this.item));
 
+        CompoundTag permissions = new CompoundTag();
+        for(var permission : this.permissions.entrySet()) {
+            permissions.putBoolean(permission.getKey(), permission.getValue());
+        }
+        tag.put("permissions", permissions);
+
         return tag;
     }
 
@@ -73,5 +88,22 @@ public class IslandGroup implements IsUnique, NBTSerializable {
 
         this.item = NBTUtil.NBTToItemStack(tag.getCompound("item"));
 
+        CompoundTag permissions = tag.getCompound("permissions");
+        for(String key : permissions.getAllKeys()) {
+            this.permissions.put(key, permissions.getBoolean(key));
+        }
+    }
+
+    public boolean getPermission(String id) {
+        if(!this.permissions.containsKey(id)) return false;
+        return this.permissions.get(id);
+    }
+
+    public void setPermission(String id, boolean value) {
+        this.permissions.put(id, value);
+    }
+
+    public void inversePermission(String id) {
+        this.setPermission(id, !this.getPermission(id));
     }
 }

@@ -12,10 +12,13 @@
             "{\"text\":\"\u00bb Allows island setting and member configuration.\",\"color\":\"dark_gray\"}"
           ],
           [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
             "{\"text\":\"\u00bb Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%permission_status%\",\"color\":\"white\"}",
-            "{\"text\":\"%permission_category%\",\"color\":\"white\"}",
-            "{\"text\":\"%permission_group%\",\"color\":\"white\"}"
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}",
+            "{\"text\":\"%datacategory% \",\"color\":\"white\"}",
+            "{\"text\":\"%datagroup% \",\"color\":\"white\"}"
           ]
         ]
       },
