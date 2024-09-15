@@ -45,7 +45,13 @@ public class GuiItemHolder implements JSONSerializable, NBTSerializable {
             ItemStack stack = new ItemStack(reg.getItemFor(nbt).getItem());
             stack.setTag(reg.getItemFor(nbt).getTag());
             if(nbt.contains("SkullOwner")) stack.getOrCreateTag().putString("SkullOwner", nbt.getString("SkullOwner"));
-            stack.addTagElement(SkyblockAddon.MOD_ID, nbt);
+
+            nbt.getAllKeys().forEach(key -> {
+                if(!stack.getOrCreateTagElement(SkyblockAddon.MOD_ID).contains(key)) {
+                    stack.getOrCreateTagElement(SkyblockAddon.MOD_ID).put(key, Objects.requireNonNull(nbt.get(key)));
+                }
+            });
+
             return stack;
         }
 

@@ -245,7 +245,7 @@ public class ServerGui extends AbstractContainerMenu {
                         registry = new PermissionCategoryRegistry(this.sourceContext, getNBT().getUUID("groupId"));
                         break;
                     case "PermissionRegistry":
-                        registry = new PermissionRegistry(this.sourceContext, "transport", UUID.randomUUID());
+                        registry = new PermissionRegistry(this.sourceContext, getNBT().getString("categoryId"), getNBT().getUUID("groupId"));
                         break;
                 }
 

@@ -2,6 +2,7 @@ package yorickbm.skyblockaddon.registries;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.permissions.PermissionManager;
 import yorickbm.skyblockaddon.permissions.util.PermissionCategory;
@@ -23,7 +24,7 @@ public class PermissionCategoryRegistry extends SkyblockAddonRegistry implements
     @Override
     public boolean getNextData(CompoundTag tag) {
         if(this.index >= this.getSize()) return false;
-        tag.putInt("categoryId", index);
+        tag.putInt("index", index);
 
         index++;
         return true;
@@ -36,7 +37,11 @@ public class PermissionCategoryRegistry extends SkyblockAddonRegistry implements
 
     @Override
     public ItemStack getItemFor(CompoundTag tag) {
-        PermissionCategory category = PermissionManager.getInstance().getCategories().get(tag.getInt("categoryId"));
-        return category.getItemStack();
+        PermissionCategory category = PermissionManager.getInstance().getCategories().get(tag.getInt("index"));
+        ItemStack stack = category.getItemStack();
+
+        stack.getOrCreateTagElement(SkyblockAddon.MOD_ID).putString("categoryId", category.getId());
+
+        return stack;
     }
 }

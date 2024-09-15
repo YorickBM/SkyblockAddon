@@ -45,4 +45,6 @@ public class PermissionCategory implements JSONSerializable, NBTSerializable {
 
         return this.item.getItemStack(null, tag);
     }
+
+    public String getId() { return this.id; }
 }

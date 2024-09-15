@@ -81,10 +81,12 @@ public class GuiAction implements JSONSerializable {
 
                 CompoundTag data = new CompoundTag();
                 if(action.equals("setGroup")) data.putUUID("playerId", modTag.getUUID("playerId"));
-                if(action.equals("viewPermissions")) data.putUUID("groupId", modTag.getUUID("groupId"));
+                if(action.equals("viewPermissions")) {
+                    data.putUUID("groupId", modTag.contains("groupId") ? modTag.getUUID("groupId") : gui.getNBT().getUUID("groupId"));
+                }
                 if(action.equals("openPermissionCategory")) {
                     data.putUUID("groupId", gui.getNBT().getUUID("groupId"));
-                    data.putInt("categoryId", modTag.getInt("categoryId"));
+                    data.putString("categoryId", modTag.getString("categoryId"));
                 }
 
                 boolean hasOpened = GUIManager.getInstance().openMenu(

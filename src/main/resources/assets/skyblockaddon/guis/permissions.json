@@ -51,7 +51,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 22,
+      "slot": 31,
       "action": {
         "targetType": "HOLDER",
         "sourceType": "HOLDER",
@@ -70,7 +70,7 @@
           "gui": "groups"
         }
       },
-      "slot": 26,
+      "slot": 35,
       "action": {
         "targetType": "HOLDER",
         "sourceType": "HOLDER",
@@ -87,7 +87,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 21,
+      "slot": 30,
       "action": {
         "targetType": "HOLDER",
         "sourceType": "HOLDER",
@@ -104,7 +104,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 23,
+      "slot": 32,
       "action": {
         "targetType": "HOLDER",
         "sourceType": "HOLDER",
