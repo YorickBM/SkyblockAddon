@@ -1,0 +1,31 @@
+{
+  "categories": [
+    {
+      "id": "transport",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Transport\", \"color\":\"blue\"}"
+        ],
+        "item": "minecraft:PAPER",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Change transport permissions.\",\"color\":\"dark_gray\"}"
+          ]
+        ]
+      }
+    },{
+      "id": "general",
+      "item": {
+        "display_name": [
+          "{\"text\": \"General\", \"color\":\"blue\"}"
+        ],
+        "item": "minecraft:PAPER",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Change general permissions.\",\"color\":\"dark_gray\"}"
+          ]
+        ]
+      }
+    }
+  ]
+}

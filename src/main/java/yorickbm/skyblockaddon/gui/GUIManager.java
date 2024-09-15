@@ -19,9 +19,9 @@ import java.util.HashMap;
 public class GUIManager {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private HashMap<String, SkyblockAddonMenuProvider> guis;
+    private final HashMap<String, SkyblockAddonMenuProvider> guis;
 
-    private static GUIManager instance = new GUIManager();
+    private static final GUIManager instance = new GUIManager();
     public static GUIManager getInstance() {
         return instance;
     }

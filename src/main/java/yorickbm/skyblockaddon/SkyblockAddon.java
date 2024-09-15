@@ -25,6 +25,7 @@ import yorickbm.skyblockaddon.events.PermissionEvents;
 import yorickbm.skyblockaddon.events.PlayerEvents;
 import yorickbm.skyblockaddon.gui.GUIManager;
 import yorickbm.skyblockaddon.islands.data.IslandData;
+import yorickbm.skyblockaddon.permissions.PermissionManager;
 import yorickbm.skyblockaddon.util.ResourceManager;
 import yorickbm.skyblockaddon.util.ThreadManager;
 import yorickbm.skyblockaddon.util.UsernameCache;
@@ -94,6 +95,9 @@ public class SkyblockAddon {
 
         //Register guis
         GUIManager.getInstance().loadAllGUIS(); //Load guis from file
+
+        //Register permissions
+        PermissionManager.getInstance().loadPermissions();
     }
 
     /**

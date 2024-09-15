@@ -22,13 +22,11 @@ import yorickbm.skyblockaddon.gui.util.FillerPattern;
 import yorickbm.skyblockaddon.gui.util.GuiActionable;
 import yorickbm.skyblockaddon.gui.util.TargetHolder;
 import yorickbm.skyblockaddon.islands.Island;
-import yorickbm.skyblockaddon.registries.BiomeRegistry;
-import yorickbm.skyblockaddon.registries.GroupsRegistry;
-import yorickbm.skyblockaddon.registries.IslandRegistry;
-import yorickbm.skyblockaddon.registries.MemberRegistry;
+import yorickbm.skyblockaddon.registries.*;
 import yorickbm.skyblockaddon.registries.interfaces.SkyblockAddonRegistry;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public class ServerGui extends AbstractContainerMenu {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -242,6 +240,12 @@ public class ServerGui extends AbstractContainerMenu {
                         break;
                     case "GroupsRegistry":
                         registry = new GroupsRegistry(this.sourceContext);
+                        break;
+                    case "PermissionCategoryRegistry":
+                        registry = new PermissionCategoryRegistry(this.sourceContext, getNBT().getUUID("groupId"));
+                        break;
+                    case "PermissionRegistry":
+                        registry = new PermissionRegistry(this.sourceContext, "transport", UUID.randomUUID());
                         break;
                 }
 

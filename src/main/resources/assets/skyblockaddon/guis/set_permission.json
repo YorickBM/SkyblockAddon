@@ -3,7 +3,7 @@
     "{\"text\": \"%owner%'s Island\"}"
   ],
   "rows": 4,
-  "key": "permissions",
+  "key": "set_permission",
   "fillers": [
     {
       "item": {
@@ -28,16 +28,15 @@
         "item": "minecraft:PAPER",
         "lore": [],
         "data": {
-          "registry": "PermissionCategoryRegistry",
-          "gui": "set_permission"
+          "registry": "PermissionRegistry"
         }
       },
       "pattern": "INSIDE",
       "action": {
         "targetType": "HOLDER",
         "sourceType": "HOLDER",
-        "onClick": "openPermissionCategory",
-        "onSecondClick": "openPermissionCategory"
+        "onClick": "permissionSet",
+        "onSecondClick": "permissionSet"
       }
     }
   ],
@@ -67,7 +66,7 @@
         "item": "minecraft:ARROW",
         "lore": [],
         "data": {
-          "gui": "groups"
+          "gui": "permissions"
         }
       },
       "slot": 26,

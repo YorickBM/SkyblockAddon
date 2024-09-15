@@ -172,4 +172,8 @@ public class IslandData implements NBTSerializable {
         }
 
     }
+
+    public String getPermissionState(String id, UUID groupId) {
+        return "";
+    }
 }

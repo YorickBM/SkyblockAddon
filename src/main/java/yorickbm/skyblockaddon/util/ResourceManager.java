@@ -103,6 +103,7 @@ public class ResourceManager {
 
             generateFile("registries/BiomeRegistry.json", "registries/BiomeRegistry.json");
             generateFile("registries/PermissionRegistry.json", "registries/PermissionRegistry.json");
+            generateFile("registries/PermissionCategoryRegistry.json", "registries/PermissionCategoryRegistry.json");
         }
 
         //Generate GUIS
@@ -116,6 +117,8 @@ public class ResourceManager {
             generateFile("guis/members.json", "guis/members.json");
             generateFile("guis/groups.json", "guis/groups.json");
             generateFile("guis/set_group.json", "guis/set_group.json");
+            generateFile("guis/permissions.json", "guis/permissions.json");
+            generateFile("guis/set_permission.json", "guis/set_permission.json");
             //TODO: Add other GUIS
         }
     }

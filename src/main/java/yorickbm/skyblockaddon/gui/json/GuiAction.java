@@ -71,13 +71,32 @@ public class GuiAction implements JSONSerializable {
 
         switch (action) {
             case "openMenu":
-                if(!modTag.contains("gui")) return;
+            case "setGroup":
+            case "viewPermissions":
+            case "openPermissionCategory":
+                if(!modTag.contains("gui")) {
+                    LOGGER.warn("User trying to trigger action '"+action+"' without GUI id to open.");
+                    return;
+                }
+
+                CompoundTag data = new CompoundTag();
+                if(action.equals("setGroup")) data.putUUID("playerId", modTag.getUUID("playerId"));
+                if(action.equals("viewPermissions")) data.putUUID("groupId", modTag.getUUID("groupId"));
+                if(action.equals("openPermissionCategory")) {
+                    data.putUUID("groupId", gui.getNBT().getUUID("groupId"));
+                    data.putInt("categoryId", modTag.getInt("categoryId"));
+                }
+
                 boolean hasOpened = GUIManager.getInstance().openMenu(
                         modTag.getString("gui"),
                         getTargetEntity(source, target).getEntity(),
-                        getContext(cSource, cTarget.get()), new CompoundTag());
+                        getContext(cSource, cTarget.get()), data);
 
                 if(!hasOpened && source.getEntity() != null) source.getEntity().sendMessage(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("menu.not.found"), modTag.getString("gui"))).withStyle(ChatFormatting.RED), source.getEntity().getUUID());
+
+                return;
+
+            case "permissionSet":
 
                 return;
 
@@ -92,17 +111,6 @@ public class GuiAction implements JSONSerializable {
 
                 return;
 
-            case "setGroup":
-                CompoundTag data = new CompoundTag();
-                data.putUUID("playerId", modTag.getUUID("playerId"));
-
-                boolean hasOpened2 = GUIManager.getInstance().openMenu(
-                        modTag.getString("gui"),
-                        getTargetEntity(source, target).getEntity(),
-                        getContext(cSource, cTarget.get()), data);
-
-                if(!hasOpened2 && source.getEntity() != null) source.getEntity().sendMessage(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("menu.not.found"), modTag.getString("gui"))).withStyle(ChatFormatting.RED), source.getEntity().getUUID());
-                break;
             case "groupSet":
                 cSource.addMember(gui.getNBT().getUUID("playerId"), modTag.getUUID("groupId"));
                 ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.AMETHYST_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
@@ -116,19 +124,7 @@ public class GuiAction implements JSONSerializable {
                 ).withStyle(ChatFormatting.GREEN),source.getUuid());
 
                 gui.close();
-                break;
-
-            case "viewPermissions":
-                CompoundTag data2 = new CompoundTag();
-                data2.putUUID("groupId", modTag.getUUID("groupId"));
-
-                boolean hasOpened3 = GUIManager.getInstance().openMenu(
-                        modTag.getString("gui"),
-                        getTargetEntity(source, target).getEntity(),
-                        getContext(cSource, cTarget.get()), data2);
-
-                if(!hasOpened3 && source.getEntity() != null) source.getEntity().sendMessage(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("menu.not.found"), modTag.getString("gui"))).withStyle(ChatFormatting.RED), source.getEntity().getUUID());
-                break;
+                return;
 
             case "kickMember":
                 getContext(cSource, cTarget.get()).kickMember(getEntity(source, target).getEntity(), getTargetEntity(source, target).getUuid());
@@ -197,9 +193,7 @@ public class GuiAction implements JSONSerializable {
                     ,source.getUuid());
 
                 return;
-
         }
-        return;
     }
 
     private TargetHolder getEntity(TargetHolder source, TargetHolder target) {

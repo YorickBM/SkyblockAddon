@@ -1,6 +1,7 @@
 {
   "permissions": [
     {
+      "id": "admin_menu",
       "item": {
         "display_name": [
           "{\"text\": \"Island Admin\", \"color\":\"blue\"}"
@@ -9,6 +10,12 @@
         "lore": [
           [
             "{\"text\":\"\u00bb Allows island setting and member configuration.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u00bb Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%permission_status%\",\"color\":\"white\"}",
+            "{\"text\":\"%permission_category%\",\"color\":\"white\"}",
+            "{\"text\":\"%permission_group%\",\"color\":\"white\"}"
           ]
         ]
       },
@@ -26,6 +33,7 @@
         }
     },
     {
+      "id": "waystones",
       "item": {
         "display_name": [
           "{\"text\": \"Waystones\", \"color\":\"blue\"}"
