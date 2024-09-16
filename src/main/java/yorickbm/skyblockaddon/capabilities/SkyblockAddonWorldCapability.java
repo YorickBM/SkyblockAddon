@@ -121,6 +121,12 @@ public class SkyblockAddonWorldCapability {
      */
     public Island getIslandByEntityUUID(UUID uuid) {
         Optional<UUID> islandId = CACHE_islandByPlayerUUID.getIfPresent(uuid); //Check if cache contains island.
+        if(islandId == null) {
+            Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.isPartOf(uuid)).findFirst();
+            island.ifPresent(value -> CACHE_islandByPlayerUUID.put(uuid, Optional.ofNullable(value.getId())));
+            return island.orElse(null);
+        }
+
         return islandId.map(this::getIslandByUUID).orElse(null);
     }
 

@@ -38,11 +38,8 @@ import java.util.UUID;
 
 public class Island extends IslandData implements IsUnique, NBTSerializable {
     private static final Logger LOGGER = LogManager.getLogger();
-    CompoundTag legacyDataOnlyHereWhileTesting;
 
-    public Island() {
-    }
-
+    public Island() {}
     public Island(UUID uuid, Vec3i vec) {
         super.setId(UUID.randomUUID());
         super.setOwner(uuid);
@@ -183,7 +180,6 @@ public class Island extends IslandData implements IsUnique, NBTSerializable {
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = super.serializeNBT();
-        if(legacyDataOnlyHereWhileTesting != null) tag.put("permissions", legacyDataOnlyHereWhileTesting);
         return tag;
     }
 
@@ -193,7 +189,6 @@ public class Island extends IslandData implements IsUnique, NBTSerializable {
     @Override
     public void deserializeNBT(CompoundTag nbt) {
         super.deserializeNBT(nbt);
-        legacyDataOnlyHereWhileTesting = nbt.getCompound("permissions");
     }
 
     /**

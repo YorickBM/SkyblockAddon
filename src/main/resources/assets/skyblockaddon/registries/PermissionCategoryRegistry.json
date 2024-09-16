@@ -1,19 +1,6 @@
 {
   "categories": [
     {
-      "id": "transport",
-      "item": {
-        "display_name": [
-          "{\"text\": \"Transport\", \"color\":\"blue\"}"
-        ],
-        "item": "minecraft:PAPER",
-        "lore": [
-          [
-            "{\"text\":\"\u00bb Change transport permissions.\",\"color\":\"dark_gray\"}"
-          ]
-        ]
-      }
-    },{
       "id": "general",
       "item": {
         "display_name": [
@@ -23,6 +10,71 @@
         "lore": [
           [
             "{\"text\":\"\u00bb Change general permissions.\",\"color\":\"dark_gray\"}"
+          ]
+        ]
+      }
+    },{
+      "id": "transport",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Transport\", \"color\":\"blue\"}"
+        ],
+        "item": "minecraft:MINECART",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Change transport permissions.\",\"color\":\"dark_gray\"}"
+          ]
+        ]
+      }
+    },{
+      "id": "redstone",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Redstone\", \"color\":\"blue\"}"
+        ],
+        "item": "minecraft:REDSTONE_DUST",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Change redstone permissions.\",\"color\":\"dark_gray\"}"
+          ]
+        ]
+      }
+    },{
+      "id": "storage",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Storage\", \"color\":\"blue\"}"
+        ],
+        "item": "minecraft:chest",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Change storage permissions.\",\"color\":\"dark_gray\"}"
+          ]
+        ]
+      }
+    },{
+      "id": "interactables",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Interactables\", \"color\":\"blue\"}"
+        ],
+        "item": "minecraft:crafting_table",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Change interactable permissions.\",\"color\":\"dark_gray\"}"
+          ]
+        ]
+      }
+    },{
+      "id": "vaulthunters",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Vault Hunters\", \"color\":\"blue\"}"
+        ],
+        "item": "the_vault:crystal",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Change vaulthunter related permissions.\",\"color\":\"dark_gray\"}"
           ]
         ]
       }
