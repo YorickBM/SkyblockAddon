@@ -16,8 +16,6 @@
       },
       "pattern": "EDGES",
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "NONE",
         "onSecondClick": "NONE"
       }
@@ -40,8 +38,6 @@
       },
       "pattern": "INSIDE",
       "action": {
-        "targetType": "DATA",
-        "sourceType": "HOLDER",
         "onClick": "setGroup",
         "onSecondClick": "setGroup"
       }
@@ -59,8 +55,6 @@
       },
       "slot": 40,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "NONE",
         "onSecondClick": "NONE"
       }
@@ -78,8 +72,6 @@
       },
       "slot": 44,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "openMenu",
         "onSecondClick": "openMenu"
       }
@@ -95,8 +87,6 @@
       },
       "slot": 39,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "previousPage",
         "onSecondClick": "previousPage"
       }
@@ -112,8 +102,6 @@
       },
       "slot": 41,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "nextPage",
         "onSecondClick": "nextPage"
       }

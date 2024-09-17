@@ -36,8 +36,6 @@ public class GuiAction implements JSONSerializable {
 
     private String onClick;
     private String onSecondClick;
-    private TargetType targetType;
-    private TargetType sourceType;
 
     public void onPrimaryClick(ItemStack item,
                                TargetHolder source,
@@ -88,8 +86,8 @@ public class GuiAction implements JSONSerializable {
 
                 boolean hasOpened = GUIManager.getInstance().openMenu(
                         modTag.getString("gui"),
-                        getTargetEntity(source, target).getEntity(),
-                        getContext(cSource, cTarget.get()), data);
+                        source.getEntity(),
+                        cSource, data);
 
                 if(!hasOpened && source.getEntity() != null) source.getEntity().sendMessage(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("menu.not.found"), modTag.getString("gui"))).withStyle(ChatFormatting.RED), source.getEntity().getUUID());
 
@@ -104,8 +102,19 @@ public class GuiAction implements JSONSerializable {
                 ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.AMETHYST_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
                 return;
 
-            case "teleportTo":
-                getContext(cSource, cTarget.get()).teleportTo(getTargetEntity(source, target).getEntity());
+            case "teleportSource":
+                cSource.teleportTo(source.getEntity());
+                gui.close();
+
+                ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.AMETHYST_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
+                source.getEntity().sendMessage(new TextComponent(
+                        SkyBlockAddonLanguage.getLocalizedString("island.travel")
+                ).withStyle(ChatFormatting.GREEN),source.getUuid());
+
+                return;
+
+            case "teleportTarget":
+                cTarget.get().teleportTo(source.getEntity());
                 gui.close();
 
                 ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.AMETHYST_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
@@ -131,18 +140,18 @@ public class GuiAction implements JSONSerializable {
                 return;
 
             case "kickMember":
-                getContext(cSource, cTarget.get()).kickMember(getEntity(source, target).getEntity(), getTargetEntity(source, target).getUuid());
+                cSource.kickMember(source.getEntity(), target.getUuid());
                 gui.close();
                 return;
 
             case "setSpawnPoint":
-                if(getEntity(source, target).getEntity() == null) return; //Source is not a valid entity
-                getContext(cSource, cTarget.get()).setSpawnPoint(getEntity(source, target).getEntity().blockPosition());
+                if(source.getEntity() == null) return; //Source is not a valid entity
+                cSource.setSpawnPoint(source.getEntity().blockPosition());
                 gui.draw(); //Update GUI items
                 return;
 
             case "toggleVisibility":
-                getContext(cSource, cTarget.get()).toggleVisibility();
+                cSource.toggleVisibility();
                 gui.draw();
                 return;
 
@@ -150,14 +159,14 @@ public class GuiAction implements JSONSerializable {
                 if(!modTag.contains("biome")) return;
                 String biome = modTag.getString("biome");
 
-                getContext(cSource, cTarget.get()).updateBiome(biome, (ServerLevel) source.getEntity().getLevel());
+                cSource.updateBiome(biome, (ServerLevel) source.getEntity().getLevel());
                 gui.close();
                 ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.AMETHYST_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
-                getEntity(source, target).getEntity().sendMessage(
+                source.getEntity().sendMessage(
                         new TextComponent(
                                 String.format(SkyBlockAddonLanguage.getLocalizedString("island.biome"), biome))
                                 .withStyle(ChatFormatting.GREEN),
-                        getEntity(source, target).getUuid());
+                        source.getUuid());
                 return;
 
             case "previousPage":
@@ -181,7 +190,7 @@ public class GuiAction implements JSONSerializable {
                     }
 
                     ServerHelper.playSongToPlayer(executor, SoundEvents.AMETHYST_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
-                    getContext(cSource, cTarget.get()).addGroup(new IslandGroup(UUID.randomUUID(), executor.getMainHandItem(), false));
+                    cSource.addGroup(new IslandGroup(UUID.randomUUID(), executor.getMainHandItem(), false));
 
                     executor.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.group.created").formatted(executor.getMainHandItem().getDisplayName().getString(), Objects.requireNonNull(executor.getMainHandItem().getItem().getRegistryName()).toString().split(":")[1]))
                                     .withStyle(ChatFormatting.GREEN)
@@ -200,19 +209,6 @@ public class GuiAction implements JSONSerializable {
         }
     }
 
-    private TargetHolder getEntity(TargetHolder source, TargetHolder target) {
-        return sourceType == TargetType.HOLDER ? source : target;
-    }
-    private Island getContext(Island source, Island target) {
-        return sourceType == TargetType.HOLDER ? source : target;
-    }
-    private TargetHolder getTargetEntity(TargetHolder source, TargetHolder target) {
-        return targetType == TargetType.HOLDER ? source : target;
-    }
-    private Island getTargetContext(Island source, Island target) {
-        return targetType == TargetType.HOLDER ? source : target;
-    }
-
     @Override
     public String toJSON() {
         Gson gson = new Gson();
@@ -225,8 +221,6 @@ public class GuiAction implements JSONSerializable {
         GuiAction temp = gson.fromJson(json, GuiAction.class);
         this.onClick = temp.onClick;
         this.onSecondClick = temp.onSecondClick;
-        this.targetType = temp.targetType;
-        this.sourceType = temp.sourceType;
     }
 
     public boolean notNone() {

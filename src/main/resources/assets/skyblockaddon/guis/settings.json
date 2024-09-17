@@ -16,8 +16,6 @@
       },
       "pattern": "EMPTY",
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "NONE",
         "onSecondClick": "NONE"
       }
@@ -42,8 +40,6 @@
       },
       "slot": 10,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "openMenu",
         "onSecondClick": "openMenu"
       }
@@ -61,8 +57,6 @@
       },
       "slot": 12,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "openMenu",
         "onSecondClick": "openMenu"
       }
@@ -90,8 +84,6 @@
       },
       "slot": 14,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "setSpawnPoint",
         "onSecondClick": "setSpawnPoint"
       }
@@ -115,8 +107,6 @@
       },
       "slot": 16,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "toggleVisibility",
         "onSecondClick": "toggleVisibility"
       }
@@ -134,8 +124,6 @@
       },
       "slot": 26,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "openMenu",
         "onSecondClick": "openMenu"
       }

@@ -14,8 +14,6 @@
       },
       "pattern": "EMPTY",
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "NONE",
         "onSecondClick": "NONE"
       }
@@ -37,10 +35,8 @@
       },
       "slot": 10,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
-        "onClick": "teleportTo",
-        "onSecondClick": "teleportTo"
+        "onClick": "teleportSource",
+        "onSecondClick": "teleportSource"
       }
     },
     {
@@ -60,8 +56,6 @@
       },
       "slot": 12,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "openMenu",
         "onSecondClick": "openMenu"
       }
@@ -83,8 +77,6 @@
       },
       "slot": 14,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "openMenu",
         "onSecondClick": "openMenu"
       }
@@ -107,8 +99,6 @@
       },
       "slot": 16,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "kickMember",
         "onSecondClick": "kickMember"
       }

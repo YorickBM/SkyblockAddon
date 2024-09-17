@@ -16,8 +16,6 @@
       },
       "pattern": "EMPTY",
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "NONE",
         "onSecondClick": "NONE"
       }

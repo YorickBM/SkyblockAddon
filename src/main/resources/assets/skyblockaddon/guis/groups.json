@@ -16,8 +16,6 @@
       },
       "pattern": "EDGES",
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "NONE",
         "onSecondClick": "NONE"
       }
@@ -34,8 +32,6 @@
       },
       "pattern": "INSIDE",
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "viewPermissions",
         "onSecondClick": "viewPermissions"
       }
@@ -53,8 +49,6 @@
       },
       "slot": 22,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "NONE",
         "onSecondClick": "NONE"
       }
@@ -72,8 +66,6 @@
       },
       "slot": 26,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "openMenu",
         "onSecondClick": "openMenu"
       }
@@ -89,8 +81,6 @@
       },
       "slot": 21,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "previousPage",
         "onSecondClick": "previousPage"
       }
@@ -106,8 +96,6 @@
       },
       "slot": 23,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "nextPage",
         "onSecondClick": "nextPage"
       }
@@ -123,8 +111,6 @@
       },
       "slot": 18,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "createGroup",
         "onSecondClick": "createGroup"
       }
