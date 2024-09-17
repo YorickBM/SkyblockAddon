@@ -35,7 +35,7 @@ public final class UsernameCache {
         return get(uuid).exceptionally(ex -> {
             LOGGER.warn("Failure while contacting Mojang API (" + uuid.toString() + ").");
             return "-"; // Default value if there's an error
-        }).getNow(uuid.toString());
+        }).getNow("...");
     }
 
     public static CompletableFuture<String> get(UUID uuid) {
