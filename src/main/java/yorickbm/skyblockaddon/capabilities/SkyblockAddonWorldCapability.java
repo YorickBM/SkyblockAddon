@@ -171,7 +171,7 @@ public class SkyblockAddonWorldCapability {
 
         Collection<Island> islands = NBTEncoder.loadFromFolder(filePath, Island.class);
         islands.forEach(island -> islandsByUUID.put(island.getId(), island)); //Store islands in map
-        LOGGER.info("Loaded: " + islands.size() + " island(s).");
+        LOGGER.info("Loaded {} island(s).", islands.size());
     }
 
     /**
