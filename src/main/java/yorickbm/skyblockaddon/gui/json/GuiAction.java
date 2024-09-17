@@ -18,7 +18,6 @@ import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.gui.GUIManager;
 import yorickbm.skyblockaddon.gui.ServerGui;
 import yorickbm.skyblockaddon.gui.util.TargetHolder;
-import yorickbm.skyblockaddon.gui.util.TargetType;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.islands.groups.IslandGroup;
 import yorickbm.skyblockaddon.util.FunctionRegistry;
