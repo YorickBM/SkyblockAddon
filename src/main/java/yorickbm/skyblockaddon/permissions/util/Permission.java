@@ -36,7 +36,7 @@ public class Permission implements JSONSerializable {
         CompoundTag tag = new CompoundTag();
         tag.putString("permissionId", this.id);
         tag.putString("category", this.category);
-        tag.putString("group", island.getGroup(groupId).getItem().getDisplayName().getContents());
+        tag.putString("groupname", island.getGroup(groupId).getItem().getDisplayName().getString());
         tag.putString("status", island.getPermissionState(this.id, groupId));
 
         return this.item.getItemStack(island, tag);

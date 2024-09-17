@@ -2,7 +2,7 @@
   "title": [
     "{\"text\": \"%owner%'s Island\"}"
   ],
-  "rows": 4,
+  "rows": 3,
   "key": "permissions",
   "fillers": [
     {
@@ -14,30 +14,12 @@
         "lore": [],
         "data": {}
       },
-      "pattern": "EDGES",
+      "pattern": "EMPTY",
       "action": {
         "targetType": "HOLDER",
         "sourceType": "HOLDER",
         "onClick": "NONE",
         "onSecondClick": "NONE"
-      }
-    },
-    {
-      "item": {
-        "display_name": [],
-        "item": "minecraft:PAPER",
-        "lore": [],
-        "data": {
-          "registry": "PermissionCategoryRegistry",
-          "gui": "set_permission"
-        }
-      },
-      "pattern": "INSIDE",
-      "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
-        "onClick": "openPermissionCategory",
-        "onSecondClick": "openPermissionCategory"
       }
     }
   ],
@@ -45,18 +27,128 @@
     {
       "item": {
         "display_name": [
-          "{\"text\": \"%datapagenum% / %datamaxpage%\",\"bold\": true,\"color\": \"blue\"}"
+          "{\"text\": \"General\", \"color\":\"blue\",\"bold\": true}"
         ],
-        "item": "minecraft:PAPER",
-        "lore": [],
-        "data": {}
+        "item": "minecraft:GRASS_BLOCK",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Change general permissions.\",\"color\":\"dark_gray\"}"
+          ]
+        ],
+        "data": {
+          "gui": "set_permission",
+          "categoryId": "general"
+        }
       },
-      "slot": 31,
+      "slot": 10,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
-        "onClick": "NONE",
-        "onSecondClick": "NONE"
+        "onClick": "openPermissionCategory",
+        "onSecondClick": "openPermissionCategory"
+      }
+    },{
+      "item": {
+        "display_name": [
+          "{\"text\": \"Transport\", \"color\":\"blue\",\"bold\": true}"
+        ],
+        "item": "minecraft:MINECART",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Change transport permissions.\",\"color\":\"dark_gray\"}"
+          ]
+        ],
+        "data": {
+          "gui": "set_permission",
+          "categoryId": "transport"
+        }
+      },
+      "slot": 11,
+      "action": {
+        "onClick": "openPermissionCategory",
+        "onSecondClick": "openPermissionCategory"
+      }
+    },{
+      "item": {
+        "display_name": [
+          "{\"text\": \"Redstone\", \"color\":\"blue\",\"bold\": true}"
+        ],
+        "item": "minecraft:REDSTONE",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Change redstone permissions.\",\"color\":\"dark_gray\"}"
+          ]
+        ],
+        "data": {
+          "gui": "set_permission",
+          "categoryId": "redstone"
+        }
+      },
+      "slot": 12,
+      "action": {
+        "onClick": "openPermissionCategory",
+        "onSecondClick": "openPermissionCategory"
+      }
+    },{
+      "item": {
+        "display_name": [
+          "{\"text\": \"Storage\", \"color\":\"blue\",\"bold\": true}"
+        ],
+        "item": "minecraft:chest",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Change storage permissions.\",\"color\":\"dark_gray\"}"
+          ]
+        ],
+        "data": {
+          "gui": "set_permission",
+          "categoryId": "storage"
+        }
+      },
+      "slot": 14,
+      "action": {
+        "onClick": "openPermissionCategory",
+        "onSecondClick": "openPermissionCategory"
+      }
+    },{
+      "item": {
+        "display_name": [
+          "{\"text\": \"Interactables\", \"color\":\"blue\",\"bold\": true}"
+        ],
+        "item": "minecraft:crafting_table",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Change interactable permissions.\",\"color\":\"dark_gray\"}"
+          ]
+        ],
+        "data": {
+          "gui": "set_permission",
+          "categoryId": "interactables"
+        }
+      },
+      "slot": 15,
+      "action": {
+        "onClick": "openPermissionCategory",
+        "onSecondClick": "openPermissionCategory"
+      }
+    },{
+      "item": {
+        "display_name": [
+          "{\"text\": \"Vault Hunters\", \"color\":\"blue\",\"bold\": true}"
+        ],
+        "item": "the_vault:vault_crystal",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Change vaulthunter related permissions.\",\"color\":\"dark_gray\"}"
+          ]
+        ],
+        "data": {
+          "gui": "set_permission",
+          "categoryId": "vaulthunters"
+        }
+      },
+      "slot": 16,
+      "action": {
+        "onClick": "openPermissionCategory",
+        "onSecondClick": "openPermissionCategory"
       }
     },
     {
@@ -70,46 +162,10 @@
           "gui": "groups"
         }
       },
-      "slot": 35,
+      "slot": 26,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
         "onClick": "openMenu",
         "onSecondClick": "openMenu"
-      }
-    },
-    {
-      "item": {
-        "display_name": [
-          "{\"text\": \"Previous\",\"bold\": true,\"color\": \"red\"}"
-        ],
-        "item": "minecraft:RED_BANNER",
-        "lore": [],
-        "data": {}
-      },
-      "slot": 30,
-      "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
-        "onClick": "previousPage",
-        "onSecondClick": "previousPage"
-      }
-    },
-    {
-      "item": {
-        "display_name": [
-          "{\"text\": \"Next\",\"bold\": true,\"color\": \"green\"}"
-        ],
-        "item": "minecraft:GREEN_BANNER",
-        "lore": [],
-        "data": {}
-      },
-      "slot": 32,
-      "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
-        "onClick": "nextPage",
-        "onSecondClick": "nextPage"
       }
     }
   ]

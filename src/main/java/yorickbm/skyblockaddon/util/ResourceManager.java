@@ -103,7 +103,6 @@ public class ResourceManager {
 
             generateFile("registries/BiomeRegistry.json", "registries/BiomeRegistry.json");
             generateFile("registries/PermissionRegistry.json", "registries/PermissionRegistry.json");
-            generateFile("registries/PermissionCategoryRegistry.json", "registries/PermissionCategoryRegistry.json");
         }
 
         //Generate GUIS

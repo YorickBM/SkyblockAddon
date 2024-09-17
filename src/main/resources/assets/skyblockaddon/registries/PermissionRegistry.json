@@ -9,16 +9,14 @@
         "item": "minecraft:PAPER",
         "lore": [
           [
-            "{\"text\":\"\u00bb Allows island setting and member configuration.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u00bb Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}",
-            "{\"text\":\"%datacategory% \",\"color\":\"white\"}",
-            "{\"text\":\"%datagroup% \",\"color\":\"white\"}"
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
           ]
         ]
       },
