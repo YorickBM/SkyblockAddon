@@ -35,7 +35,7 @@ public class GUIManager {
         Collection<GuiHolder> guiHolders = JSONEncoder.loadFromFolder(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/guis/"), GuiHolder.class);
         guiHolders.forEach(gui -> guis.put(gui.getKey(), ServerGui.getProvider(gui)));
 
-        LOGGER.info("Loaded: " + guis.size() + " gui(s).");
+        LOGGER.info("Loaded {} gui(s).", guis.size());
     }
 
     /**

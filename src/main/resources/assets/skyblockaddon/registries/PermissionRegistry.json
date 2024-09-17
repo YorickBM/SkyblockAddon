@@ -1,12 +1,12 @@
 {
   "permissions": [
     {
-      "id": "admin_menu",
+      "id": "interact_fluids",
       "item": {
         "display_name": [
-          "{\"text\": \"Island Admin\", \"color\":\"blue\"}"
+          "{\"text\": \"Place/Pickup fluids\", \"color\":\"blue\", \"bold\":\"true\"}"
         ],
-        "item": "minecraft:PAPER",
+        "item": "minecraft:BUCKET",
         "lore": [
           [
             "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
@@ -15,7 +15,123 @@
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
-            "{\"text\":\"\u00bb Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "General",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "place_blocks",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Place blocks\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:BRICKS",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "General",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "destroy_blocks",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Destory Blocks\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:IRON_PICKAXE",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "General",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "trample_framland",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Trample Crops\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:FARMLAND",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "General",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "admin_menu",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Island Admin\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:ANVIL",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
           ]
         ]
@@ -31,25 +147,784 @@
         "items": [],
         "blocks": [],
         "entities": []
-        }
+      }
     },
     {
-      "id": "waystones",
+      "id": "travel_nether",
       "item": {
         "display_name": [
-          "{\"text\": \"Waystones\", \"color\":\"blue\"}"
+          "{\"text\": \"Use Nether Portal\", \"color\":\"blue\", \"bold\":\"true\"}"
         ],
-        "item": "minecraft:PAPER",
+        "item": "minecraft:OBSIDIAN",
         "lore": [
           [
-            "{\"text\":\"\u00bb Allows waystones to be used.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
           ]
         ]
       },
       "category": "Transport",
-      "triggers": [
-        "onRightClickBlock"
-      ],
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "activate_waystones",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Activate Waystones\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "waystones:WAYSTONE",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Transport",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "use_vehicles",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Use Vehicles\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:OAK_BOAT",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Minecarts\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Boats\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Create Trains\",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+          ]
+        ]
+      },
+      "category": "Transport",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "transport_misc",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Miscellaneous\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:ender_pearl",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Ender Pearls\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Chorus fruit\",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+          ]
+        ]
+      },
+      "category": "Transport",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "open_chests",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Interact with Chests\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:CHEST",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Storage",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "open_colossalchests",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Interact with Colossal Chests\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "colossalchests:interface_wood",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Storage",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "open_shulker_box",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Interact with Shulker boxes\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:SHULKER_BOX",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Storage",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "open_backpacks",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Interact with Backpacks\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "sophisticatedbackpacks:backpack",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Storage",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "open_AE",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Interact with Applied Energistics network\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "ae2:controller",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Storage",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "open_RF",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Interact with Refined Storage network\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "refinedstorage:creative_controller",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Storage",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "interact_doors",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Interact with Doors/Trapdoors\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:oak_door",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "interact_XP",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Collect XP Orbs\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:experience_bottle",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "interact_items",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Pickup/Drop Items\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:CANDLE",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "interact_easy_villagers",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Interact with Easy Villagers chambers\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "easy_villagers:TRADER",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "interact_entities",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Attack entities\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:IRON_SWORD",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "interact_spawn",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Spawn entities\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:CHEST",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "interact_elevator",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Interact with Elevator Blocks\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "elevatorid:elevator_white",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "interact_bed",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Sleep in beds\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:RED_BED",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "interact_animal_pen",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Interact with Animal Pen\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "the_vault:ANIMAL_PEN",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Allows: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Feed\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Collect\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Attack\",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+          ]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "interact_misc",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Miscellaneous\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:BONE_MEAL",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Bone Meal\",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+          ]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "vh_spirit_extractor",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Use Spirit Extractor\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "the_vault:spirit_extractor",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Vaulthunters",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "vh_wardrobes",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Use Wardrobes\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "the_vault:wardrobe",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Vaulthunters",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "vh_crystal_stations",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Can Crystal Craft\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "the_vault:vault_altar",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Altar\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Crystal Workbench\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Catalyst Infusion Table\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Catalyst Infusion Table\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Inscription Table\",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+          ]
+        ]
+      },
+      "category": "Vaulthunters",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "vh_gear_stations",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Use Gear Stations\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "the_vault:chestplate",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Tool Station\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Artisan Station\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Jewel Cutter\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Vault Forge\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Transmogrification Table\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Modifier Workbench\",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+          ]
+        ]
+      },
+      "category": "Vaulthunters",
+      "triggers": [],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "vh_miscs",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Miscellaneous\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "the_vault:crystal_seal_empty",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Vaulthunters",
+      "triggers": [],
       "data": {
         "skyblockaddon": [],
         "items": [],
