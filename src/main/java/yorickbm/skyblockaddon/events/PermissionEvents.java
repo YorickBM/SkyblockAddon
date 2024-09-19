@@ -190,17 +190,26 @@ public class PermissionEvents {
             if(runFail) break; //Break loop if we determine failure
 
             // Get permission item data and check for empty
-            List<String> itemsData = perm.getData().getItemsData();
+            List<String> data = perm.getData().getItemsData();
 
-            if(itemsData.isEmpty()) runFail = !group.get().canDo(perm.getId());
+            if(data.isEmpty()) runFail = !group.get().canDo(perm.getId());
             else {
-                String pickupItem = Objects.requireNonNull(event.getItem().getItem().getItem().getRegistryName()).toString();
-                for(String item : itemsData) {
+                String pickedupItem = Objects.requireNonNull(event.getItem().getItem().getItem().getRegistryName()).toString();
+                boolean onlyNegate = true;
+
+                for(String item : data) {
                     boolean isNegation = item.startsWith("!");
                     String itemToCheck = isNegation ? item.substring(1) : item;
 
-                    runFail = isNegation != pickupItem.equalsIgnoreCase(itemToCheck);
+                    if(pickedupItem.equalsIgnoreCase(itemToCheck)) {
+                        runFail = !isNegation;
+                    }
+
+                    if(!isNegation) onlyNegate = false;
+                    if(runFail) break; //Failure reached
                 }
+
+                if(!runFail && onlyNegate) runFail = true;
             }
         }
 
@@ -231,17 +240,26 @@ public class PermissionEvents {
             if(runFail) break; //Break loop if we determine failure
 
             // Get permission item data and check for empty
-            List<String> itemsData = perm.getData().getItemsData();
+            List<String> data = perm.getData().getItemsData();
 
-            if(itemsData.isEmpty()) runFail = !group.get().canDo(perm.getId());
+            if(data.isEmpty()) runFail = !group.get().canDo(perm.getId());
             else {
-                String pickupItem = Objects.requireNonNull(event.getEntityItem().getItem().getItem().getRegistryName()).toString();
-                for(String item : itemsData) {
+                String droppedItem = Objects.requireNonNull(event.getEntityItem().getItem().getItem().getRegistryName()).toString();
+                boolean onlyNegate = true;
+
+                for(String item : data) {
                     boolean isNegation = item.startsWith("!");
                     String itemToCheck = isNegation ? item.substring(1) : item;
 
-                    runFail = isNegation != pickupItem.equalsIgnoreCase(itemToCheck);
+                    if(droppedItem.equalsIgnoreCase(itemToCheck)) {
+                        runFail = !isNegation;
+                    }
+
+                    if(!isNegation) onlyNegate = false;
+                    if(runFail) break; //Failure reached
                 }
+
+                if(!runFail && onlyNegate) runFail = true;
             }
         }
 
@@ -270,17 +288,26 @@ public class PermissionEvents {
             if(runFail) break; //Break loop if we determine failure
 
             // Get permission item data and check for empty
-            List<String> itemsData = perm.getData().getItemsData();
+            List<String> data = perm.getData().getItemsData();
 
-            if(itemsData.isEmpty()) runFail = !group.get().canDo(perm.getId());
+            if(data.isEmpty()) runFail = !group.get().canDo(perm.getId());
             else {
-                String pickupItem = Objects.requireNonNull(event.getFilledBucket().getItem().getRegistryName()).toString();
-                for(String item : itemsData) {
-                    boolean isNegation = item.startsWith("!");
-                    String itemToCheck = isNegation ? item.substring(1) : item;
+                String filledBucket = Objects.requireNonNull(event.getFilledBucket().getItem().getRegistryName()).toString();
+                boolean onlyNegate = true;
 
-                    runFail = isNegation != pickupItem.equalsIgnoreCase(itemToCheck);
+                for(String fluid : data) {
+                    boolean isNegation = fluid.startsWith("!");
+                    String fluidToCheck = isNegation ? fluid.substring(1) : fluid;
+
+                    if(filledBucket.equalsIgnoreCase(fluidToCheck)) {
+                        runFail = !isNegation;
+                    }
+
+                    if(!isNegation) onlyNegate = false;
+                    if(runFail) break; //Failure reached
                 }
+
+                if(!runFail && onlyNegate) runFail = true;
             }
         }
 
@@ -311,17 +338,26 @@ public class PermissionEvents {
             if(runFail) break; //Break loop if we determine failure
 
             // Get permission item data and check for empty
-            List<String> data = perm.getData().getItemsData();
+            List<String> data = perm.getData().getEntitiesData();
 
             if(data.isEmpty()) runFail = !group.get().canDo(perm.getId());
             else {
                 String mountedEntity = Objects.requireNonNull(EntityType.getKey(event.getEntityBeingMounted().getType())).toString();
+                boolean onlyNegate = true;
+
                 for(String entity : data) {
                     boolean isNegation = entity.startsWith("!");
                     String entityToCheck = isNegation ? entity.substring(1) : entity;
 
-                    runFail = isNegation != mountedEntity.equalsIgnoreCase(entityToCheck);
+                    if(mountedEntity.equalsIgnoreCase(entityToCheck)) {
+                        runFail = !isNegation;
+                    }
+
+                    if(!isNegation) onlyNegate = false;
+                    if(runFail) break; //Failure reached
                 }
+
+                if(!runFail && onlyNegate) runFail = true;
             }
         }
 
@@ -395,13 +431,22 @@ public class PermissionEvents {
 
             if(data.isEmpty()) runFail = !group.get().canDo(perm.getId());
             else {
-                String pickupItem = Objects.requireNonNull(EntityType.getKey(event.getTarget().getType())).toString();
+                String attackTarget = Objects.requireNonNull(EntityType.getKey(event.getTarget().getType())).toString();
+                boolean onlyNegate = true;
+
                 for(String entity : data) {
                     boolean isNegation = entity.startsWith("!");
                     String entityToCheck = isNegation ? entity.substring(1) : entity;
 
-                    runFail = isNegation != pickupItem.equalsIgnoreCase(entityToCheck);
+                    if(attackTarget.equalsIgnoreCase(entityToCheck)) {
+                        runFail = !isNegation;
+                    }
+
+                    if(!isNegation) onlyNegate = false;
+                    if(runFail) break; //Failure reached
                 }
+
+                if(!runFail && onlyNegate) runFail = true;
             }
         }
 
@@ -432,17 +477,26 @@ public class PermissionEvents {
             if(runFail) break; //Break loop if we determine failure
 
             // Get permission item data and check for empty
-            List<String> itemsData = perm.getData().getItemsData();
+            List<String> data = perm.getData().getItemsData();
 
-            if(itemsData.isEmpty()) runFail = !group.get().canDo(perm.getId());
+            if(data.isEmpty()) runFail = !group.get().canDo(perm.getId());
             else {
-                String pickupItem = Objects.requireNonNull(event.getItem().getItem().getRegistryName()).toString();
-                for(String item : itemsData) {
+                String usedItem = Objects.requireNonNull(event.getItem().getItem().getRegistryName()).toString();
+                boolean onlyNegate = true;
+
+                for(String item : data) {
                     boolean isNegation = item.startsWith("!");
                     String itemToCheck = isNegation ? item.substring(1) : item;
 
-                    runFail = isNegation != pickupItem.equalsIgnoreCase(itemToCheck);
+                    if(usedItem.equalsIgnoreCase(itemToCheck)) {
+                        runFail = !isNegation;
+                    }
+
+                    if(!isNegation) onlyNegate = false;
+                    if(runFail) break; //Failure reached
                 }
+
+                if(!runFail && onlyNegate) runFail = true;
             }
         }
 
