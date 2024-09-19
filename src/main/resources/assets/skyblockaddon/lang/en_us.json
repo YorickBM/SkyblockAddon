@@ -48,8 +48,8 @@
   "commands.expired": "The action you are trying to perform is no longer available.",
 
   "menu.not.found": "Could not find the menu %s you are trying to open.",
-
   "gui.group.default.name": "Members",
+  "toolbar.overlay.nothere": "You can not do this here.",
 
   "island.biome": "Your island biome has changed into %s.",
   "island.travel": "Travelling you through the void and time...",

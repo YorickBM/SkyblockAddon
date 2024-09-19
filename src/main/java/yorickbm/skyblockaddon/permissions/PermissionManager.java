@@ -40,4 +40,8 @@ public class PermissionManager {
     public List<Permission> getPermissionsFor(String category) {
         return this.permissions.stream().filter(pm -> pm.getCategory().equalsIgnoreCase(category)).collect(Collectors.toList());
     }
+
+    public List<Permission> getPermissionsForTrigger(String trigger) {
+        return this.permissions.stream().filter(pm -> pm.hasTrigger(trigger)).collect(Collectors.toList());
+    }
 }

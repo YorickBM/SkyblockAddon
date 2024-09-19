@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
@@ -174,6 +175,10 @@ public class IslandData implements NBTSerializable {
     }
 
     public String getPermissionState(String id, UUID groupId) {
-        return islandGroups.get(groupId).getPermission(id) ? SkyBlockAddonLanguage.getLocalizedString("island.permission.enabled") : SkyBlockAddonLanguage.getLocalizedString("island.permission.disabled");
+        return islandGroups.get(groupId).canDo(id) ? SkyBlockAddonLanguage.getLocalizedString("island.permission.enabled") : SkyBlockAddonLanguage.getLocalizedString("island.permission.disabled");
+    }
+
+    public Optional<IslandGroup> getGroupForEntity(Entity entity) {
+        return islandGroups.values().stream().filter(g -> g.hasMember(entity.getUUID())).findFirst();
     }
 }

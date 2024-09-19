@@ -5,8 +5,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import yorickbm.skyblockaddon.gui.json.GuiItemHolder;
 import yorickbm.skyblockaddon.islands.Island;
+import yorickbm.skyblockaddon.permissions.json.PermissionDataHolder;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public class Permission implements JSONSerializable {
@@ -15,6 +18,7 @@ public class Permission implements JSONSerializable {
     protected String category;
     protected GuiItemHolder item;
     protected String[] triggers;
+    protected PermissionDataHolder data;
 
     @Override
     public String toJSON() {
@@ -30,6 +34,7 @@ public class Permission implements JSONSerializable {
         this.category = temp.category;
         this.item = temp.item;
         this.triggers = temp.triggers;
+        this.data = temp.data;
     }
 
     public ItemStack getItemStack(Island island, UUID groupId) {
@@ -49,4 +54,10 @@ public class Permission implements JSONSerializable {
     public String getId() {
         return id;
     }
+
+    public boolean hasTrigger(String trigger) {
+        return Arrays.stream(triggers).toList().contains(trigger);
+    }
+
+    public PermissionDataHolder getData() { return this.data; }
 }

@@ -45,6 +45,9 @@ public class IslandGroup implements IsUnique, NBTSerializable {
     public void removeMember(UUID entity) {
         this.members.remove(entity);
     }
+    public boolean hasMember(UUID entity) {
+        return this.members.contains(entity);
+    }
 
     public ItemStack getItem() {
         return this.item;
@@ -94,16 +97,14 @@ public class IslandGroup implements IsUnique, NBTSerializable {
         }
     }
 
-    public boolean getPermission(String id) {
+    public boolean canDo(String id) {
         if(!this.permissions.containsKey(id)) return false;
         return this.permissions.get(id);
     }
-
     public void setPermission(String id, boolean value) {
         this.permissions.put(id, value);
     }
-
     public void inversePermission(String id) {
-        this.setPermission(id, !this.getPermission(id));
+        this.setPermission(id, !this.canDo(id));
     }
 }

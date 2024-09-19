@@ -21,7 +21,9 @@
         ]
       },
       "category": "General",
-      "triggers": [],
+      "triggers": [
+        "onBucket"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
@@ -273,7 +275,10 @@
         ]
       },
       "category": "Transport",
-      "triggers": [],
+      "triggers": [
+        "onEnderPearl",
+        "onChorusFruit"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
@@ -505,7 +510,9 @@
         ]
       },
       "category": "Interactables",
-      "triggers": [],
+      "triggers": [
+        "onXp"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
@@ -534,7 +541,10 @@
         ]
       },
       "category": "Interactables",
-      "triggers": [],
+      "triggers": [
+        "onPickup",
+        "onDrop"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
@@ -679,7 +689,9 @@
         ]
       },
       "category": "Interactables",
-      "triggers": [],
+      "triggers": [
+        "onSleepInBed"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
@@ -751,7 +763,9 @@
         ]
       },
       "category": "Interactables",
-      "triggers": [],
+      "triggers": [
+        "onBonemeal"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
