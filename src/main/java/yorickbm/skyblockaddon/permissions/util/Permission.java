@@ -9,7 +9,6 @@ import yorickbm.skyblockaddon.permissions.json.PermissionDataHolder;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 public class Permission implements JSONSerializable {
