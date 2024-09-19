@@ -5,7 +5,10 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
@@ -31,6 +34,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Pattern;
 
 @Mod.EventBusSubscriber(modid = SkyblockAddon.MOD_ID)
 public class PermissionEvents {
@@ -370,19 +374,85 @@ public class PermissionEvents {
     @SubscribeEvent
     public void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         LOGGER.info("onRightClickBlock");
-
         AtomicReference<Island> standingOn = new AtomicReference<>();
         if(verifyEntity(event.getEntity(), standingOn)) return;
+
+        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        if(group.isEmpty()) {
+            event.setCanceled(true);
+            return; //Not part of any group so not allowed!!
+        }
+
+        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onRightClickBlock");
+        if(perms.isEmpty()) return; //No permission to protect against it
+
+        boolean runFail = false;
+        for(Permission perm : perms) {
+            if(runFail) break; //Break loop if we determine failure
+
+            // Get permission item data and check for empty
+            List<String> itemsData = perm.getData().getItemsData();
+            List<String> blocksData = perm.getData().getBlocksData();
+
+            // Determine default
+            if(itemsData.isEmpty() && blocksData.isEmpty() && !group.get().canDo(perm.getId())) {
+                runFail = true;
+                break;
+            }
+
+            boolean itemAllowed = true;
+            boolean blockAllowed = true;
+
+            ItemStack handItem = event.getItemStack();
+            if(!handItem.isEmpty() && !itemsData.isEmpty()) {
+                String item = Objects.requireNonNull(handItem.getItem().getRegistryName()).toString();
+                boolean onlyNegate = true;
+
+                for(String itemInData : itemsData) {
+                    boolean isNegation = itemInData.startsWith("!");
+                    Pattern itemToCheck = isNegation ? Pattern.compile(itemInData.substring(1).replace("*", ".*"), Pattern.CASE_INSENSITIVE) : Pattern.compile(itemInData.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
+
+                    if(itemToCheck.matcher(item).matches()) {
+                        itemAllowed = isNegation;
+                    }
+
+                    if(!isNegation) onlyNegate = false;
+                    if(!itemAllowed) break; //Failure reached
+                }
+
+                if(itemAllowed && onlyNegate) itemAllowed = false;
+            }
+
+            BlockState clickedState = event.getWorld().getBlockState(event.getPos());
+            if(!clickedState.isAir() && !blocksData.isEmpty()) {
+                Block clickedBlock = clickedState.getBlock();
+                String block = Objects.requireNonNull(clickedBlock.getRegistryName()).toString();
+                boolean onlyNegate = true;
+
+                for(String blockInData : blocksData) {
+                    boolean isNegation = blockInData.startsWith("!");
+                    Pattern blockToCheck = isNegation ? Pattern.compile(blockInData.substring(1).replace("*", ".*"), Pattern.CASE_INSENSITIVE) : Pattern.compile(blockInData.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
+
+                    if(blockToCheck.matcher(block).matches()) {
+                        blockAllowed = isNegation;
+                    }
+
+                    if(!isNegation) onlyNegate = false;
+                    if(!blockAllowed) break; //Failure reached
+                }
+
+                if(blockAllowed && onlyNegate) blockAllowed = false;
+            }
+        }
+
+        if(runFail) {
+            ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
+            event.setCanceled(true);
+        }
     }
     @SubscribeEvent
     public void onRightClickEmpty(PlayerInteractEvent.RightClickEmpty event) {
         LOGGER.info("onRightClickEmpty");
-        AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(verifyEntity(event.getEntity(), standingOn)) return;
-    }
-    @SubscribeEvent
-    public void onRightClickItem(PlayerInteractEvent.RightClickEmpty event) {
-        LOGGER.info("onRightClickItem");
         AtomicReference<Island> standingOn = new AtomicReference<>();
         if(verifyEntity(event.getEntity(), standingOn)) return;
     }
@@ -392,16 +462,83 @@ public class PermissionEvents {
         LOGGER.info("onLeftClickBlock");
         AtomicReference<Island> standingOn = new AtomicReference<>();
         if(verifyEntity(event.getEntity(), standingOn)) return;
+
+        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        if(group.isEmpty()) {
+            event.setCanceled(true);
+            return; //Not part of any group so not allowed!!
+        }
+
+        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onLeftClickBlock");
+        if(perms.isEmpty()) return; //No permission to protect against it
+
+        boolean runFail = false;
+        for(Permission perm : perms) {
+            if(runFail) break; //Break loop if we determine failure
+
+            // Get permission item data and check for empty
+            List<String> itemsData = perm.getData().getItemsData();
+            List<String> blocksData = perm.getData().getBlocksData();
+
+            // Determine default
+            if(itemsData.isEmpty() && blocksData.isEmpty() && !group.get().canDo(perm.getId())) {
+                runFail = true;
+                break;
+            }
+
+            boolean itemAllowed = true;
+            boolean blockAllowed = true;
+
+            ItemStack handItem = event.getItemStack();
+            if(!handItem.isEmpty() && !itemsData.isEmpty()) {
+                String item = Objects.requireNonNull(handItem.getItem().getRegistryName()).toString();
+                boolean onlyNegate = true;
+
+                for(String itemInData : itemsData) {
+                    boolean isNegation = itemInData.startsWith("!");
+                    String itemToCheck = isNegation ? itemInData.substring(1) : itemInData;
+
+                    if(itemToCheck.equalsIgnoreCase(item)) {
+                        itemAllowed = isNegation;
+                    }
+
+                    if(!isNegation) onlyNegate = false;
+                    if(!itemAllowed) break; //Failure reached
+                }
+
+                if(itemAllowed && onlyNegate) itemAllowed = false;
+            }
+
+            BlockState clickedState = event.getWorld().getBlockState(event.getPos());
+            if(!clickedState.isAir() && !blocksData.isEmpty()) {
+                Block clickedBlock = clickedState.getBlock();
+                String block = Objects.requireNonNull(clickedBlock.getRegistryName()).toString();
+                boolean onlyNegate = true;
+
+                for(String blockInData : blocksData) {
+                    boolean isNegation = blockInData.startsWith("!");
+                    String blockToCheck = isNegation ? blockInData.substring(1) : blockInData;
+
+                    if(blockToCheck.equalsIgnoreCase(block)) {
+                        blockAllowed = isNegation;
+                    }
+
+                    if(!isNegation) onlyNegate = false;
+                    if(!blockAllowed) break; //Failure reached
+                }
+
+                if(blockAllowed && onlyNegate) blockAllowed = false;
+            }
+        }
+
+        if(runFail) {
+            ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
+            event.setCanceled(true);
+        }
     }
     @SubscribeEvent
     public void onLeftClickEmpty(PlayerInteractEvent.LeftClickEmpty event) {
         LOGGER.info("onLeftClickEmpty");
-        AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(verifyEntity(event.getEntity(), standingOn)) return;
-    }
-    @SubscribeEvent
-    public void onLeftClickItem(PlayerInteractEvent.LeftClickEmpty event) {
-        LOGGER.info("onLeftClickItem");
         AtomicReference<Island> standingOn = new AtomicReference<>();
         if(verifyEntity(event.getEntity(), standingOn)) return;
     }

@@ -57,8 +57,36 @@
       ],
       "data": {
         "skyblockaddon": [],
-        "items": [],
-        "blocks": [],
+        "items": [
+          "!easy_villagers:villager",
+          "!*:*_spawn_egg"
+        ],
+        "blocks": [
+          "!waystones:waystone",
+          "!*:*_chest",
+          "!the_vault:*_chest_placeable",
+          "!colossalchests:*",
+          "!minecraft:shulker_box",
+          "!sophisticatedbackpacks:*",
+          "!*:*_door",
+          "!*:*_trapdoor",
+          "!easy_villagers:*",
+          "!storagedrawers:*",
+          "!the_vault:animal_pen",
+          "!the_vault:spirit_extractor",
+          "!the_vault:wardrobe",
+          "!the_vault:vault_altar",
+          "!the_vault:crystal_workbench",
+          "!the_vault:catalyst_infusion_table",
+          "!the_vault:Inscription_table",
+          "!the_vault:tool_station",
+          "!the_vault:artisan_station",
+          "!the_vault:jewel_cutter",
+          "!the_vault:vault_forge",
+          "!the_vault:transmog_table",
+          "!the_vault:modifier_workbench",
+          "!the_vault:vault_crystal"
+        ],
         "entities": []
       }
     },
@@ -90,7 +118,10 @@
       "data": {
         "skyblockaddon": [],
         "items": [],
-        "blocks": [],
+        "blocks": [
+          "!storagedrawers:*",
+          "!the_vault:animal_pen"
+        ],
         "entities": [
           "minecraft:minecart",
           "minecraft:chest_minecart",
