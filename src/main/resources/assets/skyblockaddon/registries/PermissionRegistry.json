@@ -648,6 +648,40 @@
       }
     },
     {
+      "id": "interact_easy_villagers",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Interact with Storage Drawers\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "storagedrawers:oak_full_drawers_1",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": [
+        "onRightClickBlock",
+        "onLeftClickBlock"
+      ],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [
+          "storagedrawers:*"
+        ],
+        "entities": []
+      }
+    },
+    {
       "id": "interact_entities",
       "item": {
         "display_name": [
