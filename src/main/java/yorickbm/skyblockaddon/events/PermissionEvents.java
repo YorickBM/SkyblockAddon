@@ -4,15 +4,20 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.*;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldCapability;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
@@ -29,7 +34,30 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Mod.EventBusSubscriber(modid = SkyblockAddon.MOD_ID)
 public class PermissionEvents {
+    private static final Logger LOGGER = LogManager.getLogger();
 
+    @SubscribeEvent
+    public void onTrample(BlockEvent.FarmlandTrampleEvent event) {
+        AtomicReference<Island> standingOn = new AtomicReference<>();
+        if(verifyEntity(event.getEntity(), standingOn)) return;
+
+        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        if(group.isEmpty()) {
+            ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
+            if(event.isCancelable()) event.setCanceled(true);
+            else event.setResult(Event.Result.DENY);
+            return; //Not part of any group so not allowed!!
+        }
+
+        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onTrample");
+        if(perms.isEmpty()) return; //No permission to protect against it
+
+        if(!group.get().canDo(perms.get(0).getId())) { //Group may not run this
+            ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
+            if(event.isCancelable()) event.setCanceled(true);
+            else event.setResult(Event.Result.DENY);
+        }
+    }
     @SubscribeEvent
     public void onEnderPearl(EntityTeleportEvent.EnderPearl event) {
         AtomicReference<Island> standingOn = new AtomicReference<>();
@@ -263,47 +291,165 @@ public class PermissionEvents {
     }
 
     @SubscribeEvent
+    public void onMount(EntityMountEvent event) {
+        AtomicReference<Island> standingOn = new AtomicReference<>();
+        if(verifyEntity(event.getEntity(), standingOn)) return;
+
+        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        if(group.isEmpty()) {
+            ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
+            if(event.isCancelable()) event.setCanceled(true);
+            else event.setResult(Event.Result.DENY);
+            return; //Not part of any group so not allowed!!
+        }
+
+        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onMount");
+        if(perms.isEmpty()) return; //No permission to protect against it
+
+        boolean runFail = false;
+        for(Permission perm : perms) {
+            if(runFail) break; //Break loop if we determine failure
+
+            // Get permission item data and check for empty
+            List<String> data = perm.getData().getItemsData();
+
+            if(data.isEmpty()) runFail = !group.get().canDo(perm.getId());
+            else {
+                String mountedEntity = Objects.requireNonNull(EntityType.getKey(event.getEntityBeingMounted().getType())).toString();
+                for(String entity : data) {
+                    boolean isNegation = entity.startsWith("!");
+                    String entityToCheck = isNegation ? entity.substring(1) : entity;
+
+                    runFail = isNegation != mountedEntity.equalsIgnoreCase(entityToCheck);
+                }
+            }
+        }
+
+        if(runFail) {
+            ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
     public void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        LOGGER.info("onRightClickBlock");
+
         AtomicReference<Island> standingOn = new AtomicReference<>();
         if(verifyEntity(event.getEntity(), standingOn)) return;
     }
     @SubscribeEvent
     public void onRightClickEmpty(PlayerInteractEvent.RightClickEmpty event) {
+        LOGGER.info("onRightClickEmpty");
         AtomicReference<Island> standingOn = new AtomicReference<>();
         if(verifyEntity(event.getEntity(), standingOn)) return;
     }
     @SubscribeEvent
     public void onRightClickItem(PlayerInteractEvent.RightClickEmpty event) {
+        LOGGER.info("onRightClickItem");
         AtomicReference<Island> standingOn = new AtomicReference<>();
         if(verifyEntity(event.getEntity(), standingOn)) return;
     }
 
     @SubscribeEvent
     public void onLeftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
+        LOGGER.info("onLeftClickBlock");
         AtomicReference<Island> standingOn = new AtomicReference<>();
         if(verifyEntity(event.getEntity(), standingOn)) return;
     }
     @SubscribeEvent
     public void onLeftClickEmpty(PlayerInteractEvent.LeftClickEmpty event) {
+        LOGGER.info("onLeftClickEmpty");
         AtomicReference<Island> standingOn = new AtomicReference<>();
         if(verifyEntity(event.getEntity(), standingOn)) return;
     }
     @SubscribeEvent
     public void onLeftClickItem(PlayerInteractEvent.LeftClickEmpty event) {
+        LOGGER.info("onLeftClickItem");
         AtomicReference<Island> standingOn = new AtomicReference<>();
         if(verifyEntity(event.getEntity(), standingOn)) return;
     }
 
     @SubscribeEvent
     public void onAttack(AttackEntityEvent event) {
+        LOGGER.info("onAttack");
+
         AtomicReference<Island> standingOn = new AtomicReference<>();
         if(verifyEntity(event.getEntity(), standingOn)) return;
+
+        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        if(group.isEmpty()) {
+            event.setCanceled(true);
+            return; //Not part of any group so not allowed!!
+        }
+
+        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onAttack");
+        if(perms.isEmpty()) return; //No permission to protect against it
+
+        boolean runFail = false;
+        for(Permission perm : perms) {
+            if(runFail) break; //Break loop if we determine failure
+
+            // Get permission item data and check for empty
+            List<String> data = perm.getData().getEntitiesData();
+
+            if(data.isEmpty()) runFail = !group.get().canDo(perm.getId());
+            else {
+                String pickupItem = Objects.requireNonNull(EntityType.getKey(event.getTarget().getType())).toString();
+                for(String entity : data) {
+                    boolean isNegation = entity.startsWith("!");
+                    String entityToCheck = isNegation ? entity.substring(1) : entity;
+
+                    runFail = isNegation != pickupItem.equalsIgnoreCase(entityToCheck);
+                }
+            }
+        }
+
+        if(runFail) {
+            ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
+            event.setCanceled(true);
+        }
     }
 
     @SubscribeEvent
     public void onUse(LivingEntityUseItemEvent event) {
+        LOGGER.info("onUse");
+
         AtomicReference<Island> standingOn = new AtomicReference<>();
         if(verifyEntity(event.getEntity(), standingOn)) return;
+
+        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        if(group.isEmpty()) {
+            event.setCanceled(true);
+            return; //Not part of any group so not allowed!!
+        }
+
+        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onUse");
+        if(perms.isEmpty()) return; //No permission to protect against it
+
+        boolean runFail = false;
+        for(Permission perm : perms) {
+            if(runFail) break; //Break loop if we determine failure
+
+            // Get permission item data and check for empty
+            List<String> itemsData = perm.getData().getItemsData();
+
+            if(itemsData.isEmpty()) runFail = !group.get().canDo(perm.getId());
+            else {
+                String pickupItem = Objects.requireNonNull(event.getItem().getItem().getRegistryName()).toString();
+                for(String item : itemsData) {
+                    boolean isNegation = item.startsWith("!");
+                    String itemToCheck = isNegation ? item.substring(1) : item;
+
+                    runFail = isNegation != pickupItem.equalsIgnoreCase(itemToCheck);
+                }
+            }
+        }
+
+        if(runFail) {
+            ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
+            event.setCanceled(true);
+        }
     }
 
     /**

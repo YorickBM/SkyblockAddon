@@ -52,7 +52,9 @@
         ]
       },
       "category": "General",
-      "triggers": [],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
@@ -81,12 +83,34 @@
         ]
       },
       "category": "General",
-      "triggers": [],
+      "triggers": [
+        "onLeftClickBlock",
+        "onAttack"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
         "blocks": [],
-        "entities": []
+        "entities": [
+          "minecraft:minecart",
+          "minecraft:chest_minecart",
+          "minecraft:furnace_minecart",
+          "minecraft:tnt_minecart",
+          "minecraft:hopper_minecart",
+          "minecraft:oak_boat",
+          "minecraft:spruce_boat",
+          "minecraft:birch_boat",
+          "minecraft:jungle_boat",
+          "minecraft:acacia_boat",
+          "minecraft:dark_oak_boat",
+          "twigs:stripped_bamboo_boat",
+          "supplementaries:dispenser_minecart",
+          "quark:blossom_boat",
+          "quark:azalea_boat",
+          "minecraft:armor_stand",
+          "minecraft:item_frame",
+          "minecraft:glow_item_frame"
+        ]
       }
     },
     {
@@ -110,7 +134,9 @@
         ]
       },
       "category": "General",
-      "triggers": [],
+      "triggers": [
+        "onTrample"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
@@ -201,11 +227,15 @@
         ]
       },
       "category": "Transport",
-      "triggers": [],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
-        "blocks": [],
+        "blocks": [
+          "waystones:waystone"
+        ],
         "entities": []
       }
     },
@@ -233,13 +263,15 @@
             "{\"text\":\", \",\"color\":\"dark_gray\"}",
             "{\"text\":\"Boats\",\"color\":\"white\"}",
             "{\"text\":\", \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"Create Trains\",\"color\":\"white\"}",
+            "{\"text\":\"Saddled Entities\",\"color\":\"white\"}",
             "{\"text\":\".\",\"color\":\"dark_gray\"}"
           ]
         ]
       },
       "category": "Transport",
-      "triggers": [],
+      "triggers": [
+        "onMount"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
@@ -307,11 +339,16 @@
         ]
       },
       "category": "Storage",
-      "triggers": [],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
-        "blocks": [],
+        "blocks": [
+          "*:*_chest",
+          "the_vault:*_chest_placeable"
+        ],
         "entities": []
       }
     },
@@ -336,11 +373,15 @@
         ]
       },
       "category": "Storage",
-      "triggers": [],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
-        "blocks": [],
+        "blocks": [
+          "colossalchests:*"
+        ],
         "entities": []
       }
     },
@@ -365,11 +406,15 @@
         ]
       },
       "category": "Storage",
-      "triggers": [],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
-        "blocks": [],
+        "blocks": [
+          "minecraft:shulker_box"
+        ],
         "entities": []
       }
     },
@@ -394,11 +439,15 @@
         ]
       },
       "category": "Storage",
-      "triggers": [],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
-        "blocks": [],
+        "blocks": [
+          "sophisticatedbackpacks:*"
+        ],
         "entities": []
       }
     },
@@ -427,7 +476,9 @@
       "data": {
         "skyblockaddon": [],
         "items": [],
-        "blocks": [],
+        "blocks": [
+          "ae2:*"
+        ],
         "entities": []
       }
     },
@@ -456,7 +507,9 @@
       "data": {
         "skyblockaddon": [],
         "items": [],
-        "blocks": [],
+        "blocks": [
+          "refinedstorage:*"
+        ],
         "entities": []
       }
     },
@@ -481,11 +534,16 @@
         ]
       },
       "category": "Interactables",
-      "triggers": [],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
-        "blocks": [],
+        "blocks": [
+          "*:*_door",
+          "*:*_trapdoor"
+        ],
         "entities": []
       }
     },
@@ -573,12 +631,20 @@
         ]
       },
       "category": "Interactables",
-      "triggers": [],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
         "skyblockaddon": [],
-        "items": [],
-        "blocks": [],
-        "entities": []
+        "items": [
+          "easy_villagers:villager"
+        ],
+        "blocks": [
+          "easy_villagers:*"
+        ],
+        "entities": [
+          "minecraft:villager"
+        ]
       }
     },
     {
@@ -602,12 +668,33 @@
         ]
       },
       "category": "Interactables",
-      "triggers": [],
+      "triggers": [
+        "onAttack"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
         "blocks": [],
-        "entities": []
+        "entities": [
+          "!minecraft:minecart",
+          "!minecraft:chest_minecart",
+          "!minecraft:furnace_minecart",
+          "!minecraft:tnt_minecart",
+          "!minecraft:hopper_minecart",
+          "!minecraft:oak_boat",
+          "!minecraft:spruce_boat",
+          "!minecraft:birch_boat",
+          "!minecraft:jungle_boat",
+          "!minecraft:acacia_boat",
+          "!minecraft:dark_oak_boat",
+          "!twigs:stripped_bamboo_boat",
+          "!supplementaries:dispenser_minecart",
+          "!quark:blossom_boat",
+          "!quark:azalea_boat",
+          "!minecraft:armor_stand",
+          "!minecraft:item_frame",
+          "!minecraft:glow_item_frame"
+        ]
       }
     },
     {
@@ -616,7 +703,7 @@
         "display_name": [
           "{\"text\": \"Spawn entities\", \"color\":\"blue\", \"bold\":\"true\"}"
         ],
-        "item": "minecraft:CHEST",
+        "item": "minecraft:SPAWN_EGG",
         "lore": [
           [
             "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
@@ -631,10 +718,14 @@
         ]
       },
       "category": "Interactables",
-      "triggers": [],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
         "skyblockaddon": [],
-        "items": [],
+        "items": [
+          "*:*_spawn_egg"
+        ],
         "blocks": [],
         "entities": []
       }
@@ -729,11 +820,16 @@
         ]
       },
       "category": "Interactables",
-      "triggers": [],
+      "triggers": [
+        "onRightClickBlock",
+        "onLeftClickBlock"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
-        "blocks": [],
+        "blocks": [
+          "the_vault:animal_pen"
+        ],
         "entities": []
       }
     },
@@ -794,11 +890,15 @@
         ]
       },
       "category": "Vaulthunters",
-      "triggers": [],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
-        "blocks": [],
+        "blocks": [
+          "the_vault:spirit_extractor"
+        ],
         "entities": []
       }
     },
@@ -823,11 +923,15 @@
         ]
       },
       "category": "Vaulthunters",
-      "triggers": [],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
-        "blocks": [],
+        "blocks": [
+          "the_vault:wardrobe"
+        ],
         "entities": []
       }
     },
@@ -857,19 +961,24 @@
             "{\"text\":\", \",\"color\":\"dark_gray\"}",
             "{\"text\":\"Catalyst Infusion Table\",\"color\":\"white\"}",
             "{\"text\":\", \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"Catalyst Infusion Table\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
             "{\"text\":\"Inscription Table\",\"color\":\"white\"}",
             "{\"text\":\".\",\"color\":\"dark_gray\"}"
           ]
         ]
       },
       "category": "Vaulthunters",
-      "triggers": [],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
-        "blocks": [],
+        "blocks": [
+          "the_vault:vault_altar",
+          "the_vault:crystal_workbench",
+          "the_vault:catalyst_infusion_table",
+          "the_vault:Inscription_table"
+        ],
         "entities": []
       }
     },
@@ -909,11 +1018,20 @@
         ]
       },
       "category": "Vaulthunters",
-      "triggers": [],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
-        "blocks": [],
+        "blocks": [
+          "the_vault:tool_station",
+          "the_vault:artisan_station",
+          "the_vault:jewel_cutter",
+          "the_vault:vault_forge",
+          "the_vault:transmog_table",
+          "the_vault:modifier_workbench"
+        ],
         "entities": []
       }
     },
@@ -938,10 +1056,14 @@
         ]
       },
       "category": "Vaulthunters",
-      "triggers": [],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
         "skyblockaddon": [],
-        "items": [],
+        "items": [
+          "the_vault:vault_crystal"
+        ],
         "blocks": [],
         "entities": []
       }
