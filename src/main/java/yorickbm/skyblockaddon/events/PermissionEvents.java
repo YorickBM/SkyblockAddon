@@ -42,6 +42,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Mod.EventBusSubscriber(modid = SkyblockAddon.MOD_ID)
 public class PermissionEvents {
@@ -211,11 +212,9 @@ public class PermissionEvents {
 
                 for(String item : data) {
                     boolean isNegation = item.startsWith("!");
-                    String itemToCheck = isNegation ? item.substring(1) : item;
+                    Pattern itemToCheck = isNegation ? Pattern.compile(item.substring(1).replace("*", ".*"), Pattern.CASE_INSENSITIVE) : Pattern.compile(item.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
 
-                    if(pickedupItem.equalsIgnoreCase(itemToCheck)) {
-                        runFail = !isNegation;
-                    }
+                    runFail = isNegation != itemToCheck.matcher(pickedupItem).matches();
 
                     if(!isNegation) onlyNegate = false;
                     if(runFail) break; //Failure reached
@@ -262,11 +261,9 @@ public class PermissionEvents {
 
                 for(String item : data) {
                     boolean isNegation = item.startsWith("!");
-                    String itemToCheck = isNegation ? item.substring(1) : item;
+                    Pattern itemToCheck = isNegation ? Pattern.compile(item.substring(1).replace("*", ".*"), Pattern.CASE_INSENSITIVE) : Pattern.compile(item.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
 
-                    if(droppedItem.equalsIgnoreCase(itemToCheck)) {
-                        runFail = !isNegation;
-                    }
+                    runFail = isNegation != itemToCheck.matcher(droppedItem).matches();
 
                     if(!isNegation) onlyNegate = false;
                     if(runFail) break; //Failure reached
@@ -311,11 +308,9 @@ public class PermissionEvents {
 
                 for(String fluid : data) {
                     boolean isNegation = fluid.startsWith("!");
-                    String fluidToCheck = isNegation ? fluid.substring(1) : fluid;
+                    Pattern fluidToCheck = isNegation ? Pattern.compile(fluid.substring(1).replace("*", ".*"), Pattern.CASE_INSENSITIVE) : Pattern.compile(fluid.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
 
-                    if(filledBucket.equalsIgnoreCase(fluidToCheck)) {
-                        runFail = !isNegation;
-                    }
+                    runFail = isNegation != fluidToCheck.matcher(filledBucket).matches();
 
                     if(!isNegation) onlyNegate = false;
                     if(runFail) break; //Failure reached
@@ -362,11 +357,9 @@ public class PermissionEvents {
 
                 for(String entity : data) {
                     boolean isNegation = entity.startsWith("!");
-                    String entityToCheck = isNegation ? entity.substring(1) : entity;
+                    Pattern entityToCheck = isNegation ? Pattern.compile(entity.substring(1).replace("*", ".*"), Pattern.CASE_INSENSITIVE) : Pattern.compile(entity.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
 
-                    if(mountedEntity.equalsIgnoreCase(entityToCheck)) {
-                        runFail = !isNegation;
-                    }
+                    runFail = isNegation != entityToCheck.matcher(mountedEntity).matches();
 
                     if(!isNegation) onlyNegate = false;
                     if(runFail) break; //Failure reached
@@ -447,16 +440,14 @@ public class PermissionEvents {
 
             if(data.isEmpty()) runFail = !group.get().canDo(perm.getId());
             else {
-                String attackTarget = Objects.requireNonNull(EntityType.getKey(event.getTarget().getType())).toString();
+                String attackedEntity = Objects.requireNonNull(EntityType.getKey(event.getTarget().getType())).toString();
                 boolean onlyNegate = true;
 
                 for(String entity : data) {
                     boolean isNegation = entity.startsWith("!");
-                    String entityToCheck = isNegation ? entity.substring(1) : entity;
+                    Pattern entityToCheck = isNegation ? Pattern.compile(entity.substring(1).replace("*", ".*"), Pattern.CASE_INSENSITIVE) : Pattern.compile(entity.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
 
-                    if(attackTarget.equalsIgnoreCase(entityToCheck)) {
-                        runFail = !isNegation;
-                    }
+                    runFail = isNegation != entityToCheck.matcher(attackedEntity).matches();
 
                     if(!isNegation) onlyNegate = false;
                     if(runFail) break; //Failure reached
@@ -504,11 +495,9 @@ public class PermissionEvents {
 
                 for(String item : data) {
                     boolean isNegation = item.startsWith("!");
-                    String itemToCheck = isNegation ? item.substring(1) : item;
+                    Pattern itemToCheck = isNegation ? Pattern.compile(item.substring(1).replace("*", ".*"), Pattern.CASE_INSENSITIVE) : Pattern.compile(item.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
 
-                    if(usedItem.equalsIgnoreCase(itemToCheck)) {
-                        runFail = !isNegation;
-                    }
+                    runFail = isNegation != itemToCheck.matcher(usedItem).matches();
 
                     if(!isNegation) onlyNegate = false;
                     if(runFail) break; //Failure reached
@@ -531,8 +520,35 @@ public class PermissionEvents {
 
         LOGGER.warn("onPlayerChangedDimension");
 
+        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        if(group.isEmpty()) {
+            ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
+            event.setCanceled(true);
+            return; //Not part of any group so not allowed!!
+        }
+
+        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onPlayerChangedDimension");
+        if(perms.isEmpty()) return; //No permission to protect against it
+
         ResourceKey<Level> fromDim = event.getFrom();
         ResourceKey<Level> toDim = event.getTo();
+
+        boolean runFail = false;
+        for(Permission perm : perms) {
+            if (group.get().canDo(perm.getId())) continue;
+            if (runFail) break; //Break loop if we determine failure
+
+            // Get permission data
+            List<String> data = perm.getData().getSkyblockaddonData().stream().filter(s -> s.startsWith("dimension:")).collect(Collectors.toCollection());
+            for(String dimension : data) {
+
+            }
+        }
+
+        if(runFail) {
+            ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
+            event.setCanceled(true);
+        }
     }
 
     /**
