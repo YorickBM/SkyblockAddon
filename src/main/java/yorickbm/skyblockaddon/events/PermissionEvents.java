@@ -212,7 +212,7 @@ public class PermissionEvents {
 
                 for(String item : data) {
                     boolean isNegation = item.startsWith("!");
-                    Pattern itemToCheck = isNegation ? Pattern.compile(item.substring(1).replace("*", ".*"), Pattern.CASE_INSENSITIVE) : Pattern.compile(item.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
+                    Pattern itemToCheck = isNegation ? Pattern.compile(item.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(item, Pattern.CASE_INSENSITIVE);
 
                     runFail = isNegation != itemToCheck.matcher(pickedupItem).matches();
 
@@ -261,7 +261,7 @@ public class PermissionEvents {
 
                 for(String item : data) {
                     boolean isNegation = item.startsWith("!");
-                    Pattern itemToCheck = isNegation ? Pattern.compile(item.substring(1).replace("*", ".*"), Pattern.CASE_INSENSITIVE) : Pattern.compile(item.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
+                    Pattern itemToCheck = isNegation ? Pattern.compile(item.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(item, Pattern.CASE_INSENSITIVE);
 
                     runFail = isNegation != itemToCheck.matcher(droppedItem).matches();
 
@@ -308,7 +308,7 @@ public class PermissionEvents {
 
                 for(String fluid : data) {
                     boolean isNegation = fluid.startsWith("!");
-                    Pattern fluidToCheck = isNegation ? Pattern.compile(fluid.substring(1).replace("*", ".*"), Pattern.CASE_INSENSITIVE) : Pattern.compile(fluid.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
+                    Pattern fluidToCheck = isNegation ? Pattern.compile(fluid.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(fluid, Pattern.CASE_INSENSITIVE);
 
                     runFail = isNegation != fluidToCheck.matcher(filledBucket).matches();
 
@@ -357,7 +357,7 @@ public class PermissionEvents {
 
                 for(String entity : data) {
                     boolean isNegation = entity.startsWith("!");
-                    Pattern entityToCheck = isNegation ? Pattern.compile(entity.substring(1).replace("*", ".*"), Pattern.CASE_INSENSITIVE) : Pattern.compile(entity.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
+                    Pattern entityToCheck = isNegation ? Pattern.compile(entity.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(entity, Pattern.CASE_INSENSITIVE);
 
                     runFail = isNegation != entityToCheck.matcher(mountedEntity).matches();
 
@@ -445,7 +445,7 @@ public class PermissionEvents {
 
                 for(String entity : data) {
                     boolean isNegation = entity.startsWith("!");
-                    Pattern entityToCheck = isNegation ? Pattern.compile(entity.substring(1).replace("*", ".*"), Pattern.CASE_INSENSITIVE) : Pattern.compile(entity.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
+                    Pattern entityToCheck = isNegation ? Pattern.compile(entity.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(entity, Pattern.CASE_INSENSITIVE);
 
                     runFail = isNegation != entityToCheck.matcher(attackedEntity).matches();
 
@@ -495,7 +495,7 @@ public class PermissionEvents {
 
                 for(String item : data) {
                     boolean isNegation = item.startsWith("!");
-                    Pattern itemToCheck = isNegation ? Pattern.compile(item.substring(1).replace("*", ".*"), Pattern.CASE_INSENSITIVE) : Pattern.compile(item.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
+                    Pattern itemToCheck = isNegation ? Pattern.compile(item.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(item, Pattern.CASE_INSENSITIVE);
 
                     runFail = isNegation != itemToCheck.matcher(usedItem).matches();
 
@@ -655,7 +655,7 @@ public class PermissionEvents {
 
                 for(String itemInData : itemsData) {
                     boolean isNegation = itemInData.startsWith("!");
-                    Pattern itemToCheck = isNegation ? Pattern.compile(itemInData.substring(1).replace("*", ".*"), Pattern.CASE_INSENSITIVE) : Pattern.compile(itemInData.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
+                    Pattern itemToCheck = isNegation ? Pattern.compile(itemInData.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(itemInData, Pattern.CASE_INSENSITIVE);
 
                     itemAllowed = isNegation == itemToCheck.matcher(item).matches();
 
@@ -674,7 +674,7 @@ public class PermissionEvents {
 
                 for(String blockInData : blocksData) {
                     boolean isNegation = blockInData.startsWith("!");
-                    Pattern blockToCheck = isNegation ? Pattern.compile(blockInData.substring(1).replace("*", ".*"), Pattern.CASE_INSENSITIVE) : Pattern.compile(blockInData.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
+                    Pattern blockToCheck = isNegation ? Pattern.compile(blockInData.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(blockInData, Pattern.CASE_INSENSITIVE);
 
                     blockAllowed = isNegation == blockToCheck.matcher(block).matches();
 

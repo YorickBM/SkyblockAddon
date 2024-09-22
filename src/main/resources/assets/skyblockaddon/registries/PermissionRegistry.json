@@ -385,8 +385,8 @@
         "skyblockaddon": [],
         "items": [],
         "blocks": [
-          "*:*_chest",
-          "the_vault:*_chest_placeable"
+          ".*:.*_chest",
+          "the_vault:.*_chest_placeable"
         ],
         "entities": []
       }
@@ -419,7 +419,7 @@
         "skyblockaddon": [],
         "items": [],
         "blocks": [
-          "colossalchests:*"
+          "colossalchests:.*"
         ],
         "entities": []
       }
@@ -485,7 +485,7 @@
         "skyblockaddon": [],
         "items": [],
         "blocks": [
-          "sophisticatedbackpacks:*"
+          "sophisticatedbackpacks:.*"
         ],
         "entities": []
       }
@@ -516,7 +516,7 @@
         "skyblockaddon": [],
         "items": [],
         "blocks": [
-          "ae2:*"
+          "ae2:.*"
         ],
         "entities": []
       }
@@ -547,7 +547,7 @@
         "skyblockaddon": [],
         "items": [],
         "blocks": [
-          "refinedstorage:*"
+          "refinedstorage:.*"
         ],
         "entities": []
       }
@@ -580,8 +580,8 @@
         "skyblockaddon": [],
         "items": [],
         "blocks": [
-          "*:*_door",
-          "*:*_trapdoor"
+          ".*:.*_door",
+          ".*:.*_trapdoor"
         ],
         "entities": []
       }
@@ -679,7 +679,7 @@
           "easy_villagers:villager"
         ],
         "blocks": [
-          "easy_villagers:*"
+          "easy_villagers:.*"
         ],
         "entities": [
           "minecraft:villager"
@@ -715,7 +715,7 @@
         "skyblockaddon": [],
         "items": [],
         "blocks": [
-          "storagedrawers:*"
+          "storagedrawers:.*"
         ],
         "entities": []
       }
@@ -797,7 +797,7 @@
       "data": {
         "skyblockaddon": [],
         "items": [
-          "*:*_spawn_egg"
+          ".*:.*_spawn_egg"
         ],
         "blocks": [],
         "entities": []
