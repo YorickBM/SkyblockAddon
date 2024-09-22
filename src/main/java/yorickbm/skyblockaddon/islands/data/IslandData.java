@@ -44,7 +44,13 @@ public class IslandData implements NBTSerializable {
     }
     public void removeMember(UUID entity, @NotNull UUID id) {
         this.members.remove(entity);
+        this.removeGroupMember(entity, id);
+    }
+    public void removeGroupMember(UUID entity, @NotNull UUID id) {
         this.islandGroups.get(id).removeMember(entity);
+        if(this.members.contains(entity) && !this.isInAnyGroup(entity)) {
+            this.addMember(entity, SkyblockAddon.MOD_UUID); //Add back into default group since he/she is an island member
+        }
     }
     public boolean addMember(UUID entity, @NotNull UUID id) {
         if(getOwner().equals(entity)) return false;
@@ -52,6 +58,7 @@ public class IslandData implements NBTSerializable {
         if(this.getOwner().equals(SkyblockAddon.MOD_UUID)) {
             setOwner(entity);
         } else {
+            this.islandGroups.forEach(((uuid, islandGroup) -> islandGroup.removeMember(entity))); //Remove entity from all groups
             if(id.equals(SkyblockAddon.MOD_UUID) && !this.members.contains(entity)) this.members.add(entity);
             this.islandGroups.get(id).addMember(entity);
         }
@@ -65,6 +72,9 @@ public class IslandData implements NBTSerializable {
         if(islandGroups.size() <= 1) return false;
         islandGroups.remove(uuid);
         return true;
+    }
+    public boolean isInAnyGroup(UUID entity) {
+        return this.islandGroups.values().stream().anyMatch(ig -> ig.hasMember(entity));
     }
 
     public UUID getId() {

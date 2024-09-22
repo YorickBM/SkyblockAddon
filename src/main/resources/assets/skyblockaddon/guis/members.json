@@ -35,7 +35,8 @@
           ],
           [
             "{\"text\":\"\u2666 Part of: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datagroup% \",\"color\":\"white\"}"
+            "{\"text\":\"%datagroup% \",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
           ]
         ],
         "data": {
