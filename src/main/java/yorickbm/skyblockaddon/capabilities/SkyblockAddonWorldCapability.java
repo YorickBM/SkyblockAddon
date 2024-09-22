@@ -137,13 +137,22 @@ public class SkyblockAddonWorldCapability {
      * @return - Island entity is on
      */
     public Island getIslandPlayerIsStandingOn(Entity entity) {
+        return getIslandByPos(entity.getOnPos());
+    }
+
+    /**
+     * Get the island for a specific block position
+     * @param pos - Block position
+     * @return - Island block position falls in
+     */
+    public Island getIslandByPos(BlockPos pos) {
         Optional<UUID> islandId = CACHE_islandByBoundingBox.asMap().entrySet().stream()
-                .filter(entry -> entry.getKey().isInside(entity.getOnPos()))
+                .filter(entry -> entry.getKey().isInside(pos))
                 .map(Map.Entry::getValue)
                 .findFirst().orElse(Optional.empty());
         if (islandId.isPresent()) return getIslandByUUID(islandId.get());
 
-        Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.getIslandBoundingBox().isInside(entity.getOnPos())).findFirst();
+        Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.getIslandBoundingBox().isInside(pos)).findFirst();
         island.ifPresent(value -> CACHE_islandByBoundingBox.put(value.getIslandBoundingBox(), Optional.of(value.getId()))); //Store island into cache
         return island.orElse(null);
     }

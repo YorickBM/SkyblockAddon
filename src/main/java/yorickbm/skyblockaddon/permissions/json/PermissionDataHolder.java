@@ -12,6 +12,7 @@ public class PermissionDataHolder implements JSONSerializable {
     protected String[] items;
     protected String[] blocks;
     protected String[] entities;
+    protected boolean stacked = false;
 
     @Override
     public String toJSON() {
@@ -28,10 +29,12 @@ public class PermissionDataHolder implements JSONSerializable {
         this.items = temp.items;
         this.blocks = temp.blocks;
         this.entities = temp.entities;
+        this.stacked = temp.stacked;
     }
 
     public List<String> getSkyblockaddonData() { return Arrays.stream(this.skyblockaddon).toList(); }
     public List<String> getItemsData() { return Arrays.stream(this.items).toList(); }
     public List<String> getBlocksData() { return Arrays.stream(this.blocks).toList(); }
     public List<String> getEntitiesData() { return Arrays.stream(this.entities).toList(); }
+    public boolean isStacked() { return this.stacked; }
 }

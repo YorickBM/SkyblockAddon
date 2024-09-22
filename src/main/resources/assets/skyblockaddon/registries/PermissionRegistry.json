@@ -53,13 +53,15 @@
       },
       "category": "General",
       "triggers": [
-        "onRightClickBlock"
+        "onRightClickBlock",
+        "onUse"
       ],
       "data": {
         "skyblockaddon": [],
         "items": [
           "!easy_villagers:villager",
-          "!*:*_spawn_egg"
+          "!*:*_spawn_egg",
+          "supplementaries:slingshot"
         ],
         "blocks": [
           "!waystones:waystone",
@@ -229,7 +231,9 @@
         ]
       },
       "category": "Transport",
-      "triggers": [],
+      "triggers": [
+        "onPortalIgnition"
+      ],
       "data": {
         "skyblockaddon": [],
         "items": [],
@@ -698,7 +702,7 @@
           ]
         ]
       },
-      "category": "Interactables",
+      "category": "Storage",
       "triggers": [
         "onRightClickBlock",
         "onLeftClickBlock"
@@ -791,35 +795,6 @@
         "items": [
           "*:*_spawn_egg"
         ],
-        "blocks": [],
-        "entities": []
-      }
-    },
-    {
-      "id": "interact_elevator",
-      "item": {
-        "display_name": [
-          "{\"text\": \"Interact with Elevator Blocks\", \"color\":\"blue\", \"bold\":\"true\"}"
-        ],
-        "item": "elevatorid:elevator_white",
-        "lore": [
-          [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
-          ],
-          [
-            "{\"text\":\" \",\"color\":\"dark_gray\"}"
-          ],
-          [
-            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
-          ]
-        ]
-      },
-      "category": "Interactables",
-      "triggers": [],
-      "data": {
-        "skyblockaddon": [],
-        "items": [],
         "blocks": [],
         "entities": []
       }
