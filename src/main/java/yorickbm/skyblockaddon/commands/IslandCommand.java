@@ -12,6 +12,7 @@ import yorickbm.skyblockaddon.commands.interfaces.OverWorldCommandStack;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.gui.GUIManager;
 import yorickbm.skyblockaddon.islands.Island;
+import yorickbm.skyblockaddon.util.UsernameCache;
 
 public class IslandCommand extends OverWorldCommandStack {
     public IslandCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -31,6 +32,8 @@ public class IslandCommand extends OverWorldCommandStack {
                 command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.has.no.island")));
                 return;
             }
+
+            UsernameCache.getBlocking(island.getOwner()); //Load owner UUID into cache
             GUIManager.getInstance().openMenu("overview", executor, island, new CompoundTag());
         });
 

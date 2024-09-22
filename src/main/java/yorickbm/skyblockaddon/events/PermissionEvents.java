@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
+import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.*;
@@ -515,9 +516,9 @@ public class PermissionEvents {
     }
 
     @SubscribeEvent
-    public void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+    public void onPlayerChangedDimension(EntityTravelToDimensionEvent event) {
         AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(verifyEntity(event.getEntity(), standingOn)) return;
+        if(verifyEntity(event.getEntity(), standingOn) && verifyNetherEntity(event.getEntity(), standingOn, event.getEntity().getOnPos())) return;
 
         LOGGER.warn("onPlayerChangedDimension");
 
@@ -531,8 +532,7 @@ public class PermissionEvents {
         List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onPlayerChangedDimension");
         if(perms.isEmpty()) return; //No permission to protect against it
 
-        ResourceKey<Level> fromDim = event.getFrom();
-        ResourceKey<Level> toDim = event.getTo();
+        ResourceKey<Level> toDim = event.getDimension();
 
         boolean runFail = false;
         for(Permission perm : perms) {
@@ -551,6 +551,8 @@ public class PermissionEvents {
                 for(String dimension : data) {
                     boolean isNegation = dimension.startsWith("!");
                     Pattern dimensionToCheck = isNegation ? Pattern.compile(dimension.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(dimension, Pattern.CASE_INSENSITIVE);
+
+                    LOGGER.warn("{} - {}", dimension, toDim.getRegistryName().toString());
 
                     runFail = isNegation != dimensionToCheck.matcher(toDim.getRegistryName().toString()).matches();
 
@@ -701,10 +703,8 @@ public class PermissionEvents {
 
                 if(blockAllowed && onlyNegate) blockAllowed = false;
             }
-
-            LOGGER.info("{} - {} - {}",  perm.getData().isStacked(), blockAllowed, itemAllowed);
-
-            runFail = perm.getData().isStacked() ? (!blockAllowed && !itemAllowed) : (!blockAllowed || !itemAllowed);
+            
+            runFail = (!blockAllowed || !itemAllowed);
         }
 
         if(runFail) {

@@ -33,7 +33,7 @@ public final class UsernameCache {
 
     public static String getBlocking(UUID uuid) {
         return get(uuid).exceptionally(ex -> {
-            LOGGER.warn("Failure while contacting Mojang API (" + uuid.toString() + ").");
+            //LOGGER.warn("Failure while contacting Mojang API (" + uuid.toString() + ").");
             return "-"; // Default value if there's an error
         }).getNow("...");
     }
@@ -85,7 +85,7 @@ public final class UsernameCache {
             String uuidString = DASH_MATCHER.removeFrom(uuid.toString());
             try (BufferedReader reader = Resources.asCharSource(new URL(String.format(USERNAME_API_URL, uuidString)), StandardCharsets.UTF_8).openBufferedStream()) {
                 JsonReader json = new JsonReader(reader);
-                String name = null;
+                String name = "";
 
                 json.beginObject();
                 while (json.hasNext()) {
@@ -97,10 +97,6 @@ public final class UsernameCache {
                     }
                 }
                 json.endObject();
-
-                if (name == null) {
-                    throw new IOException("Failed connecting to the Mojang API");
-                }
 
                 return name;
             }

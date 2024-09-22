@@ -237,8 +237,7 @@
       ],
       "data": {
         "skyblockaddon": [
-          "dimension:minecraft:nether",
-          "dimension:minecraft:overworld"
+          "dimension:minecraft:dimension"
         ],
         "items": [],
         "blocks": [],
