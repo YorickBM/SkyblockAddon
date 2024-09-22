@@ -37,6 +37,7 @@ import yorickbm.skyblockaddon.permissions.PermissionManager;
 import yorickbm.skyblockaddon.permissions.util.Permission;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -205,7 +206,7 @@ public class PermissionEvents {
             // Get permission item data and check for empty
             List<String> data = perm.getData().getItemsData();
 
-            if(data.isEmpty()) runFail = !group.get().canDo(perm.getId());
+            if(data.isEmpty()) runFail = true;
             else {
                 String pickedupItem = Objects.requireNonNull(event.getItem().getItem().getItem().getRegistryName()).toString();
                 boolean onlyNegate = true;
@@ -254,7 +255,7 @@ public class PermissionEvents {
             // Get permission item data and check for empty
             List<String> data = perm.getData().getItemsData();
 
-            if(data.isEmpty()) runFail = !group.get().canDo(perm.getId());
+            if(data.isEmpty()) runFail = true;
             else {
                 String droppedItem = Objects.requireNonNull(event.getEntityItem().getItem().getItem().getRegistryName()).toString();
                 boolean onlyNegate = true;
@@ -301,7 +302,7 @@ public class PermissionEvents {
             // Get permission item data and check for empty
             List<String> data = perm.getData().getItemsData();
 
-            if(data.isEmpty()) runFail = !group.get().canDo(perm.getId());
+            if(data.isEmpty()) runFail = true;
             else {
                 String filledBucket = Objects.requireNonNull(event.getFilledBucket().getItem().getRegistryName()).toString();
                 boolean onlyNegate = true;
@@ -350,7 +351,7 @@ public class PermissionEvents {
             // Get permission item data and check for empty
             List<String> data = perm.getData().getEntitiesData();
 
-            if(data.isEmpty()) runFail = !group.get().canDo(perm.getId());
+            if(data.isEmpty()) runFail = true;
             else {
                 String mountedEntity = Objects.requireNonNull(EntityType.getKey(event.getEntityBeingMounted().getType())).toString();
                 boolean onlyNegate = true;
@@ -438,7 +439,7 @@ public class PermissionEvents {
             // Get permission item data and check for empty
             List<String> data = perm.getData().getEntitiesData();
 
-            if(data.isEmpty()) runFail = !group.get().canDo(perm.getId());
+            if(data.isEmpty()) runFail = true;
             else {
                 String attackedEntity = Objects.requireNonNull(EntityType.getKey(event.getTarget().getType())).toString();
                 boolean onlyNegate = true;
@@ -488,7 +489,7 @@ public class PermissionEvents {
             // Get permission item data and check for empty
             List<String> data = perm.getData().getItemsData();
 
-            if(data.isEmpty()) runFail = !group.get().canDo(perm.getId());
+            if(data.isEmpty()) runFail = true;
             else {
                 String usedItem = Objects.requireNonNull(event.getItem().getItem().getRegistryName()).toString();
                 boolean onlyNegate = true;
@@ -537,11 +538,27 @@ public class PermissionEvents {
         for(Permission perm : perms) {
             if (group.get().canDo(perm.getId())) continue;
             if (runFail) break; //Break loop if we determine failure
+            boolean onlyNegate = true;
 
             // Get permission data
-            List<String> data = perm.getData().getSkyblockaddonData().stream().filter(s -> s.startsWith("dimension:")).collect(Collectors.toCollection());
-            for(String dimension : data) {
+            List<String> data = perm.getData().getSkyblockaddonData().stream()
+                    .filter(s -> s.startsWith("dimension:"))
+                    .map( s -> s.replace("dimension:", ""))
+                    .collect(Collectors.toCollection(ArrayList::new));
 
+            if(data.isEmpty()) runFail = true;
+            else {
+                for(String dimension : data) {
+                    boolean isNegation = dimension.startsWith("!");
+                    Pattern dimensionToCheck = isNegation ? Pattern.compile(dimension.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(dimension, Pattern.CASE_INSENSITIVE);
+
+                    runFail = isNegation != dimensionToCheck.matcher(toDim.getRegistryName().toString()).matches();
+
+                    if(!isNegation) onlyNegate = false;
+                    if(runFail) break;
+                }
+
+                if(!runFail && onlyNegate) runFail = true;
             }
         }
 
