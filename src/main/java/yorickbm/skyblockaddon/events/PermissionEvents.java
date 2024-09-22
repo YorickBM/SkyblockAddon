@@ -1,6 +1,7 @@
 package yorickbm.skyblockaddon.events;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
@@ -581,7 +582,7 @@ public class PermissionEvents {
     private boolean verifyEntity(Entity entity, AtomicReference<Island> standingOn) {
         if(!(entity instanceof ServerPlayer player) || entity instanceof FakePlayer) return true; //Allowed types
         if(player.getLevel().dimension() != Level.OVERWORLD) return true; //Is not in over-world
-        if(player.hasPermissions(3)) return true; //Player is admin;
+        if(player.hasPermissions(Commands.LEVEL_ADMINS)) return true; //Player is admin;
 
         Optional<SkyblockAddonWorldCapability> cap = player.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).resolve();
         if(cap.isEmpty()) return true; //Could not find Capability
@@ -604,7 +605,7 @@ public class PermissionEvents {
     private boolean verifyNetherEntity(Entity entity, AtomicReference<Island> standingOn, BlockPos triggerPoint) {
         if(!(entity instanceof ServerPlayer player) || entity instanceof FakePlayer) return true; //Allowed types
         if(player.getLevel().dimension() != Level.NETHER) return true; //Is not in nether
-        if(player.hasPermissions(3)) return true; //Player is admin;
+        if(player.hasPermissions(Commands.LEVEL_ADMINS)) return true; //Player is admin;
 
         Optional<SkyblockAddonWorldCapability> cap = Objects.requireNonNull(Objects.requireNonNull(player.getServer()).getLevel(Level.OVERWORLD)).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).resolve();
         if(cap.isEmpty()) return true; //Could not find Capability
@@ -703,7 +704,7 @@ public class PermissionEvents {
 
                 if(blockAllowed && onlyNegate) blockAllowed = false;
             }
-            
+
             runFail = (!blockAllowed || !itemAllowed);
         }
 

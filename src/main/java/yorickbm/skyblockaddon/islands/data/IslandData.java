@@ -4,6 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
@@ -32,23 +33,26 @@ public class IslandData implements NBTSerializable {
     private String biome = "Unknown";
     private boolean travelability = false;
 
+    private final List<UUID> members = new ArrayList<>();
     private final Map<UUID, IslandGroup> islandGroups = new HashMap<>();
 
     public IslandData() {
     }
 
     public List<UUID> getMembers() {
-        return this.islandGroups.get(SkyblockAddon.MOD_UUID).getMembers();
+        return this.members;
     }
     public void removeMember(UUID entity, @NotNull UUID id) {
+        this.members.remove(entity);
         this.islandGroups.get(id).removeMember(entity);
     }
     public boolean addMember(UUID entity, @NotNull UUID id) {
-        if(getOwner().equals(entity) || getMembers().contains(entity)) return false;
+        if(getOwner().equals(entity)) return false;
 
         if(this.getOwner().equals(SkyblockAddon.MOD_UUID)) {
             setOwner(entity);
         } else {
+            if(id.equals(SkyblockAddon.MOD_UUID) && !this.members.contains(entity)) this.members.add(entity);
             this.islandGroups.get(id).addMember(entity);
         }
         return true;
@@ -145,6 +149,12 @@ public class IslandData implements NBTSerializable {
         }
         tag.put("groups", groups);
 
+        CompoundTag members = new CompoundTag();
+        for(int i = 0; i < this.members.size(); i++) {
+            members.putUUID(i+"", this.members.get(i));
+        }
+        tag.put("members", members);
+
         return tag;
     }
 
@@ -172,6 +182,11 @@ public class IslandData implements NBTSerializable {
             this.islandGroups.put(defaultG.getId(), defaultG);
         }
 
+        CompoundTag members = tag.getCompound("members");
+        for(String key : members.getAllKeys()) {
+            this.members.add(members.getUUID(key));
+        }
+
     }
 
     public String getPermissionState(String id, UUID groupId) {
@@ -180,5 +195,9 @@ public class IslandData implements NBTSerializable {
 
     public Optional<IslandGroup> getGroupForEntity(Entity entity) {
         return islandGroups.values().stream().filter(g -> g.hasMember(entity.getUUID())).findFirst();
+    }
+
+    public Optional<IslandGroup> getGroupForEntityUUID(UUID uuid) {
+        return islandGroups.values().stream().filter(g -> g.hasMember(uuid)).findFirst();
     }
 }

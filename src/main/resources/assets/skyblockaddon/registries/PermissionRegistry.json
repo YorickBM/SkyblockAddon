@@ -203,7 +203,7 @@
       ],
       "data": {
         "skyblockaddon": [
-          "gui:settings", "gui:members"
+          "gui:members","gui:settings"
         ],
         "items": [],
         "blocks": [],

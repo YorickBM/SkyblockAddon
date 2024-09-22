@@ -111,7 +111,6 @@ public class GuiItemHolder implements JSONSerializable {
     public Component parseTextComponent(@NotNull Component original, ItemStack stack) {
 
         String msg = original.getString();
-
         for(String key : stack.getOrCreateTagElement(SkyblockAddon.MOD_ID).getAllKeys()) {
             msg = msg.replace("%data" + key + "%", stack.getOrCreateTagElement(SkyblockAddon.MOD_ID).getString(key));
         }

@@ -88,7 +88,7 @@ public class SkyblockAddon {
         ResourceManager.commonSetup();
 
         //Register username cache
-        UsernameCache.initCache(250);
+        UsernameCache.initCache(500);
 
         //Register configs
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, SkyblockAddonConfig.SPEC, MOD_ID + "/config.toml");

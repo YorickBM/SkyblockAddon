@@ -33,7 +33,6 @@ public class IslandCommand extends OverWorldCommandStack {
                 return;
             }
 
-            UsernameCache.getBlocking(island.getOwner()); //Load owner UUID into cache
             GUIManager.getInstance().openMenu("overview", executor, island, new CompoundTag());
         });
 

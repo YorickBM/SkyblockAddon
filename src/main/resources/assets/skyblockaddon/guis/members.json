@@ -29,6 +29,13 @@
         "lore": [
           [
             "{\"text\":\"\u00bb Click to change the group this member is a part of.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Part of: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datagroup% \",\"color\":\"white\"}"
           ]
         ],
         "data": {

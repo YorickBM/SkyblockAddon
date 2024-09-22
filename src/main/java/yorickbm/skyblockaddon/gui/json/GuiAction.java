@@ -131,7 +131,7 @@ public class GuiAction implements JSONSerializable {
                         SkyBlockAddonLanguage.getLocalizedString("island.member.group.set")
                         .formatted(
                             UsernameCache.getBlocking(gui.getNBT().getUUID("playerId")),
-                            cSource.getGroup(modTag.getUUID("groupId")).getItem().getDisplayName().getString()
+                            cSource.getGroup(modTag.getUUID("groupId")).getItem().getDisplayName().getString().trim()
                         )
                 ).withStyle(ChatFormatting.GREEN),source.getUuid());
 
