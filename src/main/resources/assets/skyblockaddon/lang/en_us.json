@@ -41,7 +41,7 @@
   "commands.create.success": "Teleporting you to your new island...",
   "commands.create.generating": "We are generating your island, this may take a moment.",
 
-  "commands.group.create": "Click here to create a group, the item your holding will identify your new group.",
+  "commands.group.create": "Click here to create a group, the group will use the item you will be holding & it's name when clicking.",
   "commands.group.created": "Created the group '%s' with item '%s'.",
   "commands.group.failure": "Could not create a group with the item in your hand, try again with another item.",
 

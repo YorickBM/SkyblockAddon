@@ -232,10 +232,14 @@
       },
       "category": "Transport",
       "triggers": [
-        "onPortalIgnition"
+        "onPortalIgnition",
+        "onPlayerChangedDimension"
       ],
       "data": {
-        "skyblockaddon": [],
+        "skyblockaddon": [
+          "dimension:nether",
+          "dimension:overworld"
+        ],
         "items": [],
         "blocks": [],
         "entities": []

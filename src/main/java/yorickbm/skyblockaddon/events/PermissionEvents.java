@@ -4,6 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -428,6 +429,7 @@ public class PermissionEvents {
 
         Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
+            ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
             return; //Not part of any group so not allowed!!
         }
@@ -479,6 +481,7 @@ public class PermissionEvents {
 
         Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
+            ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             event.setCanceled(true);
             return; //Not part of any group so not allowed!!
         }
@@ -526,7 +529,10 @@ public class PermissionEvents {
         AtomicReference<Island> standingOn = new AtomicReference<>();
         if(verifyEntity(event.getEntity(), standingOn)) return;
 
-        LOGGER.warn("onPlayerInteraction");
+        LOGGER.warn("onPlayerChangedDimension");
+
+        ResourceKey<Level> fromDim = event.getFrom();
+        ResourceKey<Level> toDim = event.getTo();
     }
 
     /**
