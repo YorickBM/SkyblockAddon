@@ -57,5 +57,6 @@
   "island.public": "Public",
   "island.permission.enabled": "Enabled",
   "island.permission.disabled": "Disabled",
-  "island.member.group.set": "%s has been added to the group '%s'."
+  "island.member.group.set": "%s has been added to the group '%s'.",
+  "island.group.remove.failed": "The group can not be removed as its the default group."
 }

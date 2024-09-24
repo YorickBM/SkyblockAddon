@@ -71,6 +71,7 @@ public class GuiAction implements JSONSerializable {
             case "setGroup":
             case "viewPermissions":
             case "openPermissionCategory":
+            case "membersGroup":
                 if(!modTag.contains("gui")) return;
 
                 CompoundTag data = new CompoundTag();
@@ -82,14 +83,34 @@ public class GuiAction implements JSONSerializable {
                     data.putUUID("groupId", gui.getNBT().getUUID("groupId"));
                     data.putString("categoryId", modTag.getString("categoryId"));
                 }
+                if(action.equals("membersGroup")) {
+                    data.putUUID("groupId", gui.getNBT().getUUID("groupId"));
+                }
 
                 boolean hasOpened = GUIManager.getInstance().openMenu(
                         modTag.getString("gui"),
                         source.getEntity(),
                         cSource, data);
 
-                if(!hasOpened && source.getEntity() != null) source.getEntity().sendMessage(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("menu.not.found"), modTag.getString("gui"))).withStyle(ChatFormatting.RED), source.getEntity().getUUID());
+                if(!hasOpened && source.getEntity() != null) {
+                    ((ServerPlayer)source.getEntity()).displayClientMessage(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("menu.not.found"), modTag.getString("gui"))).withStyle(ChatFormatting.DARK_RED), true);
+                }
 
+                return;
+
+            case "removeGroup":
+                if(cSource.removeGroup(gui.getNBT().getUUID("groupId"))) {
+                    ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.NOTE_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
+                    gui.close();
+                } else {
+                    ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.NOTE_BLOCK_BASS, SkyblockAddon.UI_SUCCESS_VOL, 1f);
+
+                    source.getEntity().sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("island.group.remove.failed"))
+                                    .withStyle(ChatFormatting.RED)
+                            ,source.getEntity().getUUID());
+
+                    gui.close();
+                }
                 return;
 
             case "permissionSet":
@@ -98,14 +119,14 @@ public class GuiAction implements JSONSerializable {
                 cSource.getGroup(groupId).inversePermission(permissionId);
 
                 gui.draw();
-                ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.AMETHYST_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
+                ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.NOTE_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
                 return;
 
             case "teleportSource":
                 cSource.teleportTo(source.getEntity());
                 gui.close();
 
-                ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.AMETHYST_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
+                ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.NOTE_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
                 source.getEntity().sendMessage(new TextComponent(
                         SkyBlockAddonLanguage.getLocalizedString("island.travel")
                 ).withStyle(ChatFormatting.GREEN),source.getUuid());
@@ -116,7 +137,7 @@ public class GuiAction implements JSONSerializable {
                 cTarget.get().teleportTo(source.getEntity());
                 gui.close();
 
-                ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.AMETHYST_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
+                ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.NOTE_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
                 source.getEntity().sendMessage(new TextComponent(
                         SkyBlockAddonLanguage.getLocalizedString("island.travel")
                 ).withStyle(ChatFormatting.GREEN),source.getUuid());
@@ -125,7 +146,7 @@ public class GuiAction implements JSONSerializable {
 
             case "groupSet":
                 cSource.addMember(gui.getNBT().getUUID("playerId"), modTag.getUUID("groupId"));
-                ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.AMETHYST_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
+                ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.NOTE_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
 
                 source.getEntity().sendMessage(new TextComponent(
                         SkyBlockAddonLanguage.getLocalizedString("island.member.group.set")
@@ -139,7 +160,7 @@ public class GuiAction implements JSONSerializable {
                 return;
 
             case "kickMember":
-                cSource.kickMember(source.getEntity(), target.getUuid());
+                cSource.kickMember(source.getEntity(), gui.getNBT().getUUID("playerId"));
                 gui.close();
                 return;
 
@@ -160,7 +181,7 @@ public class GuiAction implements JSONSerializable {
 
                 cSource.updateBiome(biome, (ServerLevel) source.getEntity().getLevel());
                 gui.close();
-                ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.AMETHYST_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
+                ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.NOTE_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
                 source.getEntity().sendMessage(
                         new TextComponent(
                                 String.format(SkyBlockAddonLanguage.getLocalizedString("island.biome"), biome))
@@ -188,10 +209,10 @@ public class GuiAction implements JSONSerializable {
                         return false; //Keep hash function alive.
                     }
 
-                    ServerHelper.playSongToPlayer(executor, SoundEvents.AMETHYST_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
+                    ServerHelper.playSongToPlayer(executor, SoundEvents.NOTE_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
                     cSource.addGroup(new IslandGroup(UUID.randomUUID(), executor.getMainHandItem(), false));
 
-                    executor.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.group.created").formatted(executor.getMainHandItem().getDisplayName().getString(), Objects.requireNonNull(executor.getMainHandItem().getItem().getRegistryName()).toString().split(":")[1]))
+                    executor.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.group.created").formatted(executor.getMainHandItem().getDisplayName().getString().trim(), Objects.requireNonNull(executor.getMainHandItem().getItem().getRegistryName()).toString().split(":")[1].trim()))
                                     .withStyle(ChatFormatting.GREEN)
                             ,executor.getUUID());
 

@@ -34,6 +34,7 @@ import yorickbm.skyblockaddon.util.ServerHelper;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 public class Island extends IslandData implements IsUnique, NBTSerializable {
@@ -80,7 +81,11 @@ public class Island extends IslandData implements IsUnique, NBTSerializable {
                 super.setVisibility(false); //Close island if we are the last one
             }
         } else {
-            super.removeMember(entity, SkyblockAddon.MOD_UUID);
+            Optional<IslandGroup> group = getGroupForEntityUUID(entity);
+            group.ifPresentOrElse(
+                    g -> super.removeMember(entity, g.getId()),
+                    () -> super.removeMember(entity, SkyblockAddon.MOD_UUID)
+            );
         }
 
         //Teleport entity to world spawn

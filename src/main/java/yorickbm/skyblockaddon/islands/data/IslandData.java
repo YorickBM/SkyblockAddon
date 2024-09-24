@@ -59,8 +59,12 @@ public class IslandData implements NBTSerializable {
             setOwner(entity);
         } else {
             this.islandGroups.forEach(((uuid, islandGroup) -> islandGroup.removeMember(entity))); //Remove entity from all groups
+
+            IslandGroup group = this.islandGroups.get(id);
+            if(group == null) return false;
+
+            group.addMember(entity);
             if(id.equals(SkyblockAddon.MOD_UUID) && !this.members.contains(entity)) this.members.add(entity);
-            this.islandGroups.get(id).addMember(entity);
         }
         return true;
     }
@@ -69,7 +73,13 @@ public class IslandData implements NBTSerializable {
     public IslandGroup getGroup(UUID uuid) { return islandGroups.get(uuid); }
     public void addGroup(IslandGroup group) {islandGroups.put(group.getId(), group);}
     public boolean removeGroup(UUID uuid) {
-        if(islandGroups.size() <= 1) return false;
+        if(islandGroups.size() <= 1 || uuid.equals(SkyblockAddon.MOD_UUID)) return false;
+        if(!islandGroups.get(uuid).getMembers().isEmpty()) { //Move them all to default group
+            islandGroups.get(uuid).getMembers().forEach(p -> {
+                islandGroups.get(SkyblockAddon.MOD_UUID).addMember(p);
+            });
+        }
+
         islandGroups.remove(uuid);
         return true;
     }

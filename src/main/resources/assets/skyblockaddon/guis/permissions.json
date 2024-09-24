@@ -165,6 +165,38 @@
         "onClick": "openMenu",
         "onSecondClick": "openMenu"
       }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Remove group\",\"bold\": true,\"color\": \"red\"}"
+        ],
+        "item": "minecraft:BARRIER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 18,
+      "action": {
+        "onClick": "removeGroup",
+        "onSecondClick": "removeGroup"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Members\",\"bold\": true,\"color\": \"blue\"}"
+        ],
+        "item": "minecraft:OAK_BOAT",
+        "lore": [],
+        "data": {
+          "gui": "members_group"
+        }
+      },
+      "slot": 22,
+      "action": {
+        "onClick": "membersGroup",
+        "onSecondClick": "membersGroup"
+      }
     }
   ]
 }

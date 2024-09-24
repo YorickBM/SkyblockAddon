@@ -2,8 +2,8 @@
   "title": [
     "{\"text\": \"%owner%'s Island\"}"
   ],
-  "rows": 3,
-  "key": "set_group",
+  "rows": 4,
+  "key": "members_group",
   "fillers": [
     {
       "item": {
@@ -22,17 +22,32 @@
     },
     {
       "item": {
-        "display_name": [],
-        "item": "minecraft:PAPER",
-        "lore": [],
+        "display_name": [
+          "{\"text\": \"%dataownername%\", \"color\":\"blue\"}"
+        ],
+        "item": "minecraft:PLAYER_HEAD",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to change the group this member is a part of.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Part of: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datagroup% \",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+          ]
+        ],
         "data": {
-          "registry": "GroupsRegistry"
+          "registry": "GroupMemberRegistry",
+          "gui": "kickMember"
         }
       },
       "pattern": "INSIDE",
       "action": {
-        "onClick": "groupSet",
-        "onSecondClick": "groupSet"
+        "onClick": "setGroup",
+        "onSecondClick": "setGroup"
       }
     }
   ],
@@ -46,7 +61,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 22,
+      "slot": 31,
       "action": {
         "onClick": "NONE",
         "onSecondClick": "NONE"
@@ -60,13 +75,13 @@
         "item": "minecraft:ARROW",
         "lore": [],
         "data": {
-          "gui": "members"
+          "gui": "permissions"
         }
       },
-      "slot": 26,
+      "slot": 35,
       "action": {
-        "onClick": "openMenu",
-        "onSecondClick": "openMenu"
+        "onClick": "viewPermissions",
+        "onSecondClick": "viewPermissions"
       }
     },
     {
@@ -78,7 +93,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 21,
+      "slot": 30,
       "action": {
         "onClick": "previousPage",
         "onSecondClick": "previousPage"
@@ -93,25 +108,10 @@
         "lore": [],
         "data": {}
       },
-      "slot": 23,
+      "slot": 32,
       "action": {
         "onClick": "nextPage",
         "onSecondClick": "nextPage"
-      }
-    },
-    {
-      "item": {
-        "display_name": [
-          "{\"text\": \"Kick member\",\"bold\": true,\"color\": \"red\"}"
-        ],
-        "item": "minecraft:BARRIER",
-        "lore": [],
-        "data": {}
-      },
-      "slot": 18,
-      "action": {
-        "onClick": "kickMember",
-        "onSecondClick": "kickMember"
       }
     }
   ]
