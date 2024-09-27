@@ -241,7 +241,13 @@ public class ServerGui extends AbstractContainerMenu {
                         registry = new GroupsRegistry(this.sourceContext);
                         break;
                     case "PermissionRegistry":
+                        if(!getNBT().contains("categoryId")) break;
+                        if(!getNBT().contains("groupId")) break;
                         registry = new PermissionRegistry(this.sourceContext, getNBT().getString("categoryId"), getNBT().getUUID("groupId"));
+                        break;
+                    case "GroupMemberRegistry":
+                        if(!getNBT().contains("groupId")) break;
+                        registry = new GroupMemberRegistry(this.sourceContext, getNBT().getUUID("groupId"));
                         break;
                 }
 

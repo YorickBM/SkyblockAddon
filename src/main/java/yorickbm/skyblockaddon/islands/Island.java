@@ -24,6 +24,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.islands.data.IslandData;
 import yorickbm.skyblockaddon.islands.groups.IslandGroup;
@@ -87,6 +88,10 @@ public class Island extends IslandData implements IsUnique, NBTSerializable {
                     () -> super.removeMember(entity, SkyblockAddon.MOD_UUID)
             );
         }
+
+        source.getServer().getLevel(Level.OVERWORLD).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
+            cap.clearCacheForPlayer(entity);
+        });
 
         //Teleport entity to world spawn
         BlockPos worldSpawn = Objects.requireNonNull(Objects.requireNonNull(source.getServer()).getLevel(Level.OVERWORLD)).getSharedSpawnPos();

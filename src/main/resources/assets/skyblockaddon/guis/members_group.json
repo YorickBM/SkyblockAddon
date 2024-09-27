@@ -36,12 +36,12 @@
           [
             "{\"text\":\"\u2666 Part of: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"%datagroup% \",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+            "{\"text\":\".\".\"color\":\"dark_gray\"}"
           ]
         ],
         "data": {
           "registry": "GroupMemberRegistry",
-          "gui": "kickMember"
+          "gui": "set_group"
         }
       },
       "pattern": "INSIDE",
@@ -112,6 +112,21 @@
       "action": {
         "onClick": "nextPage",
         "onSecondClick": "nextPage"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Next\",\"bold\": true,\"color\": \"green\"}"
+        ],
+        "item": "minecraft:GREEN_BANNER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 32,
+      "action": {
+        "onClick": "groupInvite",
+        "onSecondClick": "groupInvite"
       }
     }
   ]
