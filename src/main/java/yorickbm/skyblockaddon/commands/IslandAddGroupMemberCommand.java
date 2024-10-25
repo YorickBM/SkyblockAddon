@@ -52,7 +52,7 @@ public class IslandAddGroupMemberCommand extends OverWorldCommandStack {
             }
 
             island.getGroups().forEach(g -> {
-                builder.suggest(g.getItem().getDisplayName().getString().trim());
+                builder.suggest("\"" + g.getItem().getDisplayName().getString().trim() + "\"");
             });
 
         });
