@@ -12,7 +12,6 @@ import yorickbm.skyblockaddon.commands.interfaces.OverWorldCommandStack;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.gui.GUIManager;
 import yorickbm.skyblockaddon.islands.Island;
-import yorickbm.skyblockaddon.util.UsernameCache;
 
 public class IslandCommand extends OverWorldCommandStack {
     public IslandCommand(CommandDispatcher<CommandSourceStack> dispatcher) {

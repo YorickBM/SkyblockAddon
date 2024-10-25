@@ -23,6 +23,7 @@ import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.islands.data.IslandData;
+import yorickbm.skyblockaddon.legacy.LegacyFormatter;
 import yorickbm.skyblockaddon.util.BuildingBlock;
 import yorickbm.skyblockaddon.util.NBT.NBTEncoder;
 import yorickbm.skyblockaddon.util.NBT.NBTUtil;
@@ -123,7 +124,7 @@ public class SkyblockAddonWorldCapability {
      */
     public Island getIslandByEntityUUID(UUID uuid) {
         Optional<UUID> islandId = CACHE_islandByPlayerUUID.getIfPresent(uuid); //Check if cache contains island.
-        if(islandId == null) {
+        if(islandId == null || islandId.isEmpty()) {
             Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.isPartOf(uuid)).findFirst();
             island.ifPresent(value -> CACHE_islandByPlayerUUID.put(uuid, Optional.ofNullable(value.getId())));
             return island.orElse(null);
@@ -164,6 +165,7 @@ public class SkyblockAddonWorldCapability {
      */
     public void saveNBTData(CompoundTag nbt) {
         nbt.put("lastIsland", NBTUtil.Vec3iToNBT(lastLocation));
+        nbt.putInt("nbt-v", 5);
 
         Path worldPath = serverInstance.getWorldPath(LevelResource.ROOT).normalize();
         Path filePath = worldPath.resolve("islanddata");
@@ -179,6 +181,11 @@ public class SkyblockAddonWorldCapability {
 
         Path worldPath = serverInstance.getWorldPath(LevelResource.ROOT).normalize();
         Path filePath = worldPath.resolve("islanddata");
+
+        //legacy check
+        if(nbt.contains("nbt-v") && nbt.getInt("nbt-v") < 5) {
+            LOGGER.info("Converted {} island(s).", LegacyFormatter.format(nbt, filePath));
+        }
 
         Collection<Island> islands = NBTEncoder.loadFromFolder(filePath, Island.class);
         islands.forEach(island -> islandsByUUID.put(island.getId(), island)); //Store islands in map

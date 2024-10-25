@@ -4,7 +4,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
@@ -70,10 +69,17 @@ public class IslandData implements NBTSerializable {
     }
 
     public Collection<IslandGroup> getGroups() { return islandGroups.values(); }
-    public IslandGroup getGroup(UUID uuid) { return islandGroups.get(uuid); }
+    public boolean hasGroup(UUID uuid) {
+        return islandGroups.containsKey(uuid);
+    }
+    public IslandGroup getGroup(UUID uuid) {
+        return islandGroups.get(uuid);
+    }
     public void addGroup(IslandGroup group) {islandGroups.put(group.getId(), group);}
     public boolean removeGroup(UUID uuid) {
         if(islandGroups.size() <= 1 || uuid.equals(SkyblockAddon.MOD_UUID)) return false;
+        if(!islandGroups.containsKey(uuid)) return false;
+
         if(!islandGroups.get(uuid).getMembers().isEmpty()) { //Move them all to default group
             islandGroups.get(uuid).getMembers().forEach(p -> {
                 islandGroups.get(SkyblockAddon.MOD_UUID).addMember(p);
@@ -219,5 +225,9 @@ public class IslandData implements NBTSerializable {
 
     public Optional<IslandGroup> getGroupForEntityUUID(UUID uuid) {
         return islandGroups.values().stream().filter(g -> g.hasMember(uuid)).findFirst();
+    }
+
+    public Optional<UUID> getGroupByName(String groupName) {
+        return getGroups().stream().filter(g -> g.getItem().getDisplayName().getString().trim().equalsIgnoreCase(groupName)).map(IslandGroup::getId).findFirst();
     }
 }

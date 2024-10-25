@@ -40,6 +40,7 @@ public class IslandGroup implements IsUnique, NBTSerializable {
         return this.members;
     }
     public void addMember(UUID entity) {
+        if(this.members.contains(entity)) return;
         this.members.add(entity);
     }
     public void removeMember(UUID entity) {

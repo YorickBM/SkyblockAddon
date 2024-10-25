@@ -161,7 +161,16 @@ public class GuiAction implements JSONSerializable {
 
             case "kickMember":
                 cSource.kickMember(source.getEntity(), gui.getNBT().getUUID("playerId"));
+                ServerHelper.playSongToPlayer((ServerPlayer) source.getEntity(), SoundEvents.NOTE_BLOCK_CHIME, SkyblockAddon.UI_SUCCESS_VOL, 1f);
                 gui.close();
+
+                source.getEntity().sendMessage(new TextComponent(
+                        SkyBlockAddonLanguage.getLocalizedString("island.member.kicked")
+                                .formatted(
+                                        UsernameCache.getBlocking(gui.getNBT().getUUID("playerId"))
+                                )
+                ).withStyle(ChatFormatting.GREEN),source.getUuid());
+
                 return;
 
             case "setSpawnPoint":
@@ -224,6 +233,19 @@ public class GuiAction implements JSONSerializable {
                             .withStyle(ChatFormatting.GREEN)
                             .withStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, FunctionRegistry.getCommand(id))))
                     ,source.getUuid());
+
+                return;
+
+            case "groupInvite":
+                gui.close();
+                source.getEntity().sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.group.click.to.add"))
+                                .withStyle(ChatFormatting.GREEN)
+                                .withStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND,
+                                        "/island group "
+                                                +  cSource.getGroup(gui.getNBT().getUUID("groupId")).getItem().getDisplayName().getString().trim()
+                                                + " addMember "
+                                                + source.getEntity().getDisplayName().getString().trim())))
+                        ,source.getUuid());
 
                 return;
         }

@@ -39,6 +39,7 @@ public class ModEvents {
         new IslandTeleportCommand(event.getDispatcher());
         new IslandTravelCommand(event.getDispatcher());
         new IslandHubCommand(event.getDispatcher());
+        new IslandAddGroupMemberCommand(event.getDispatcher());
 
         //Functional commands
         new FunctionRegistryCommand(event.getDispatcher());

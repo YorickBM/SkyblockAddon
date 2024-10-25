@@ -77,6 +77,7 @@ public class GuiItemHolder implements JSONSerializable {
             ServerHelper.addLore(stack, finalLore);
         } catch (Exception ex) {
             ServerHelper.addLore(stack, new TextComponent("Invalid lore").withStyle(ChatFormatting.RED));
+            LOGGER.error(ex);
         }
         return stack;
     }

@@ -247,6 +247,7 @@ public class ServerGui extends AbstractContainerMenu {
                         break;
                     case "GroupMemberRegistry":
                         if(!getNBT().contains("groupId")) break;
+                        if(!this.sourceContext.hasGroup(getNBT().getUUID("groupId"))) break;
                         registry = new GroupMemberRegistry(this.sourceContext, getNBT().getUUID("groupId"));
                         break;
                 }

@@ -36,7 +36,7 @@
           [
             "{\"text\":\"\u2666 Part of: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"%datagroup% \",\"color\":\"white\"}",
-            "{\"text\":\".\".\"color\":\"dark_gray\"}"
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
           ]
         ],
         "data": {
@@ -117,13 +117,13 @@
     {
       "item": {
         "display_name": [
-          "{\"text\": \"Next\",\"bold\": true,\"color\": \"green\"}"
+          "{\"text\": \"Add member\",\"bold\": true,\"color\": \"green\"}"
         ],
-        "item": "minecraft:GREEN_BANNER",
+        "item": "minecraft:OAK_BOAT",
         "lore": [],
         "data": {}
       },
-      "slot": 32,
+      "slot": 27,
       "action": {
         "onClick": "groupInvite",
         "onSecondClick": "groupInvite"
