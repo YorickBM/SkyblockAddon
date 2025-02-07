@@ -165,7 +165,7 @@ public class SkyblockAddonWorldCapability {
      */
     public void saveNBTData(CompoundTag nbt) {
         nbt.put("lastIsland", NBTUtil.Vec3iToNBT(lastLocation));
-        nbt.putInt("nbt-v", 5);
+        nbt.putInt("nbt-v", 6);
 
         Path worldPath = serverInstance.getWorldPath(LevelResource.ROOT).normalize();
         Path filePath = worldPath.resolve("islanddata");
@@ -184,7 +184,10 @@ public class SkyblockAddonWorldCapability {
 
         //legacy check
         if(nbt.contains("nbt-v") && nbt.getInt("nbt-v") < 5) {
-            LOGGER.info("Converted {} island(s).", LegacyFormatter.format(nbt, filePath));
+            LOGGER.info("Converted {} island(s).", LegacyFormatter.formatLegacy(nbt, filePath));
+        }
+        if(nbt.contains("nbt-v") && nbt.getInt("nbt-v") == 5) {
+            LOGGER.info("Converted {} island(s).", LegacyFormatter.formatBeta(filePath));
         }
 
         Collection<Island> islands = NBTEncoder.loadFromFolder(filePath, Island.class);
