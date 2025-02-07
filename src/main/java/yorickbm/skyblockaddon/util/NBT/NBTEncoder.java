@@ -18,6 +18,42 @@ public class NBTEncoder {
     private static final Logger LOGGER = LogManager.getLogger();
 
     /**
+     * Load NBT files into a collection of CompoundTags
+     *
+     * @param folderPath - Folder to load NBT files from
+     */
+    public static Collection<CompoundTag> loadNBTFromFolder(Path folderPath) {
+        Collection<CompoundTag> objects = new ArrayList<>();
+
+        //Create folder if it doesn't exist
+        if (!folderPath.toFile().exists()) {
+            boolean rslt = folderPath.toFile().mkdirs();
+            if (!rslt) {
+                throw new RuntimeException("Failed to create container at '" + folderPath.toFile().getAbsolutePath() + "'.");
+            }
+        }
+
+        //List files into list
+        List<Path> nbtFiles = new ArrayList<>();
+        try {
+            Files.list(folderPath).forEach(nbtFiles::add);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (Path path : nbtFiles) {
+            try (FileInputStream fileInputStream = new FileInputStream(path.toFile())) {
+                CompoundTag NBT = NbtIo.readCompressed(fileInputStream);
+                objects.add(NBT);
+            } catch (Exception e) {
+                LOGGER.error("Failed to load '"+path.toFile().getName()+"'");
+            }
+        }
+
+        return objects;
+    }
+
+    /**
      * Load NBT files into a collection of clazz.
      *
      * @param folderPath - Folder to load NBT files from

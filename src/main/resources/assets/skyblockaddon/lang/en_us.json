@@ -52,6 +52,7 @@
 
   "menu.not.found": "Could not find the menu %s you are trying to open.",
   "gui.group.default.name": "Members",
+  "gui.group.nonmember.name": "Default",
   "toolbar.overlay.nothere": "You can not do this here.",
 
   "island.biome": "Your island biome has changed into %s.",
@@ -62,5 +63,6 @@
   "island.permission.disabled": "Disabled",
   "island.member.group.set": "%s has been added to the group '%s'.",
   "island.group.remove.failed": "The group can not be removed as its the default group.",
-  "island.member.kicked": "%s has been kicked from the group/island."
+  "island.member.kicked": "%s has been kicked from the group/island.",
+  "island.setspawn.outside": "You can not set your spawn outside of your islands boundaries."
 }
