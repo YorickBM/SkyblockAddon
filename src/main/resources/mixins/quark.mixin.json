@@ -1,5 +1,5 @@
 {
-  "required": true,
+  "required": false,
   "package": "yorickbm.skyblockaddon.mixins",
   "compatibilityLevel": "JAVA_11",
   "minVersion": "0.8",
