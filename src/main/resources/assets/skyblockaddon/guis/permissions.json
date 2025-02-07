@@ -173,7 +173,9 @@
         ],
         "item": "minecraft:BARRIER",
         "lore": [],
-        "data": {}
+        "data": {
+          "skyblockaddon": "custom_group"
+        }
       },
       "slot": 18,
       "action": {
@@ -189,7 +191,8 @@
         "item": "minecraft:OAK_BOAT",
         "lore": [],
         "data": {
-          "gui": "members_group"
+          "gui": "members_group",
+          "skyblockaddon": "custom_group"
         }
       },
       "slot": 22,

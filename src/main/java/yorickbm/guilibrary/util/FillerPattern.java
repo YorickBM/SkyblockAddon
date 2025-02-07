@@ -1,7 +1,8 @@
-package yorickbm.skyblockaddon.gui.util;
+package yorickbm.guilibrary.util;
 
 public enum FillerPattern {
     EMPTY,
     EDGES,
     INSIDE;
 }
+

@@ -7,7 +7,9 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
-import yorickbm.skyblockaddon.gui.GUIManager;
+import net.minecraftforge.fml.loading.FMLPaths;
+import yorickbm.guilibrary.GUILibraryRegistry;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.util.ResourceManager;
 
 public class ConfigReloadCommand {
@@ -24,7 +26,7 @@ public class ConfigReloadCommand {
 
     public int execute(CommandSourceStack command, ServerPlayer executor) {
         ResourceManager.commonSetup();
-        GUIManager.getInstance().loadAllGUIS(); //Load guis from file
+        GUILibraryRegistry.registerFolder(SkyblockAddon.MOD_ID, FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/guis/"));
 
         command.sendSuccess(new TextComponent("Configuration files have been reloaded!").withStyle(ChatFormatting.GREEN), true);
 

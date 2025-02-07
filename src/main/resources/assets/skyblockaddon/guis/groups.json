@@ -10,15 +10,10 @@
         "display_name": [
           "{\"text\": \"\"}"
         ],
-        "item": "minecraft:GRAY_STAINED_GLASS_PANE",
-        "lore": [],
-        "data": {}
+        "item": "minecraft:GRAY_STAINED_GLASS_PANE"
       },
       "pattern": "EDGES",
-      "action": {
-        "onClick": "NONE",
-        "onSecondClick": "NONE"
-      }
+      "action": {}
     },
     {
       "item": {
@@ -41,6 +36,23 @@
     {
       "item": {
         "display_name": [
+          "{\"text\": \"Back\",\"bold\": true,\"color\": \"red\"}"
+        ],
+        "item": "minecraft:ARROW",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 26,
+      "action": {
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:settings"
+        }
+      }
+    },
+    {
+      "item": {
+        "display_name": [
           "{\"text\": \"%datapagenum% / %datamaxpage%\",\"bold\": true,\"color\": \"blue\"}"
         ],
         "item": "minecraft:PAPER",
@@ -48,27 +60,7 @@
         "data": {}
       },
       "slot": 22,
-      "action": {
-        "onClick": "NONE",
-        "onSecondClick": "NONE"
-      }
-    },
-    {
-      "item": {
-        "display_name": [
-          "{\"text\": \"Back\",\"bold\": true,\"color\": \"red\"}"
-        ],
-        "item": "minecraft:ARROW",
-        "lore": [],
-        "data": {
-          "gui": "settings"
-        }
-      },
-      "slot": 26,
-      "action": {
-        "onClick": "openMenu",
-        "onSecondClick": "openMenu"
-      }
+      "action": {}
     },
     {
       "item": {
@@ -81,8 +73,7 @@
       },
       "slot": 21,
       "action": {
-        "onClick": "previousPage",
-        "onSecondClick": "previousPage"
+        "onClick": "yorickbm.guilibrary.events.ItemPreviousPageEvent"
       }
     },
     {
@@ -96,8 +87,7 @@
       },
       "slot": 23,
       "action": {
-        "onClick": "nextPage",
-        "onSecondClick": "nextPage"
+        "onClick": "yorickbm.guilibrary.events.ItemNextPageEvent"
       }
     },
     {
@@ -111,8 +101,7 @@
       },
       "slot": 18,
       "action": {
-        "onClick": "createGroup",
-        "onSecondClick": "createGroup"
+        "onClick": "yorickbm.skyblockaddon.islands.IslandEvents$CreateNewGroup"
       }
     }
   ]

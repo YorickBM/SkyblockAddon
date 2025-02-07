@@ -11,14 +11,9 @@
           "{\"text\": \"\"}"
         ],
         "item": "minecraft:GRAY_STAINED_GLASS_PANE",
-        "lore": [],
         "data": {}
       },
-      "pattern": "EMPTY",
-      "action": {
-        "onClick": "NONE",
-        "onSecondClick": "NONE"
-      }
+      "pattern": "EMPTY"
     }
   ],
   "items": [
@@ -34,14 +29,14 @@
             "{\"text\":\"\u2666 Current: \",\"color\":\"dark_gray\"}", "{\"text\":\"%biome%\",\"color\":\"white\"}"
           ]
         ],
-        "data": {
-          "gui": "biomes"
-        }
+        "data": {}
       },
       "slot": 10,
       "action": {
-        "onClick": "openMenu",
-        "onSecondClick": "openMenu"
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:biomes"
+        }
       }
     },
     {
@@ -51,14 +46,14 @@
         ],
         "item": "minecraft:IRON_BARS",
         "lore": [],
-        "data": {
-          "gui": "groups"
-        }
+        "data": {}
       },
       "slot": 12,
       "action": {
-        "onClick": "openMenu",
-        "onSecondClick": "openMenu"
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:groups"
+        }
       }
     },
     {
@@ -84,8 +79,7 @@
       },
       "slot": 14,
       "action": {
-        "onClick": "setSpawnPoint",
-        "onSecondClick": "setSpawnPoint"
+        "onClick": "yorickbm.skyblockaddon.islands.IslandEvents$SetSpawnPoint"
       }
     },
     {
@@ -107,8 +101,7 @@
       },
       "slot": 16,
       "action": {
-        "onClick": "toggleVisibility",
-        "onSecondClick": "toggleVisibility"
+        "onClick": "yorickbm.skyblockaddon.islands.IslandEvents$ChangeVisibility"
       }
     },
     {
@@ -118,14 +111,14 @@
         ],
         "item": "minecraft:ARROW",
         "lore": [],
-        "data": {
-          "gui": "overview"
-        }
+        "data": {}
       },
       "slot": 26,
       "action": {
-        "onClick": "openMenu",
-        "onSecondClick": "openMenu"
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:overview"
+        }
       }
     }
   ]

@@ -79,12 +79,14 @@ public class IslandData implements NBTSerializable {
         islandGroups.put(group.getId(), group);
     }
     public boolean removeGroup(UUID uuid) {
-        if(islandGroups.size() <= 1 || uuid.equals(SkyblockAddon.MOD_UUID)) return false;
+        if(islandGroups.size() <= 1 || uuid.equals(SkyblockAddon.MOD_UUID) || uuid.equals(SkyblockAddon.MOD_UUID2)) return false;
         if(!islandGroups.containsKey(uuid)) return false;
 
         if(!islandGroups.get(uuid).getMembers().isEmpty()) { //Move them all to default group
             islandGroups.get(uuid).getMembers().forEach(p -> {
-                getMembersGroup().addMember(p);
+                //Add island members from group to default island member group
+                if(this.members.contains(p)) this.getMembersGroup().addMember(p);
+                //Non-members will default back to default group as they are in no group
             });
         }
 

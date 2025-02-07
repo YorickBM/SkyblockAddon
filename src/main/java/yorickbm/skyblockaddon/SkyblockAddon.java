@@ -19,15 +19,11 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.spongepowered.asm.mixin.MixinEnvironment;
-import org.spongepowered.asm.mixin.Mixins;
+import yorickbm.guilibrary.GUILibraryRegistry;
+import yorickbm.guilibrary.events.DefaultEventHandler;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
-import yorickbm.skyblockaddon.events.ModEvents;
-import yorickbm.skyblockaddon.events.ParticleEvents;
-import yorickbm.skyblockaddon.events.PermissionEvents;
-import yorickbm.skyblockaddon.events.PlayerEvents;
-import yorickbm.skyblockaddon.gui.GUIManager;
+import yorickbm.skyblockaddon.events.*;
 import yorickbm.skyblockaddon.islands.data.IslandData;
 import yorickbm.skyblockaddon.permissions.PermissionManager;
 import yorickbm.skyblockaddon.util.ResourceManager;
@@ -70,6 +66,10 @@ public class SkyblockAddon {
         MinecraftForge.EVENT_BUS.register(new ModEvents());
         MinecraftForge.EVENT_BUS.register(new PlayerEvents());
         MinecraftForge.EVENT_BUS.register(new PermissionEvents());
+
+        MinecraftForge.EVENT_BUS.register(new DefaultEventHandler());
+        MinecraftForge.EVENT_BUS.register(new GuiEvents());
+
         if(SkyblockAddonConfig.getForKey("island.particles.border").equalsIgnoreCase("TRUE")) MinecraftForge.EVENT_BUS.register(new ParticleEvents());
     }
 
@@ -101,7 +101,7 @@ public class SkyblockAddon {
         UsernameCache.initCache(500);
 
         //Register guis
-        GUIManager.getInstance().loadAllGUIS(); //Load guis from file
+        GUILibraryRegistry.registerFolder(SkyblockAddon.MOD_ID, FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/guis/"));
 
         //Register permissions
         PermissionManager.getInstance().loadPermissions();

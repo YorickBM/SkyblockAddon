@@ -10,15 +10,12 @@
         "display_name": [
           "{\"text\": \"\"}"
         ],
-        "item": "minecraft:GRAY_STAINED_GLASS_PANE",
         "lore": [],
+        "item": "minecraft:GRAY_STAINED_GLASS_PANE",
         "data": {}
       },
       "pattern": "EDGES",
-      "action": {
-        "onClick": "NONE",
-        "onSecondClick": "NONE"
-      }
+      "action": {}
     },
     {
       "item": {
@@ -37,8 +34,7 @@
       },
       "pattern": "INSIDE",
       "action": {
-        "onClick": "teleportTarget",
-        "onSecondClick": "teleportTarget"
+        "onClick": "yorickbm.skyblockaddon.islands.IslandEvents$TravelToIsland"
       }
     }
   ],
@@ -53,10 +49,7 @@
         "data": {}
       },
       "slot": 40,
-      "action": {
-        "onClick": "NONE",
-        "onSecondClick": "NONE"
-      }
+      "action": {}
     },
     {
       "item": {
@@ -69,8 +62,7 @@
       },
       "slot": 39,
       "action": {
-        "onClick": "previousPage",
-        "onSecondClick": "previousPage"
+        "onClick": "yorickbm.guilibrary.events.ItemPreviousPageEvent"
       }
     },
     {
@@ -84,8 +76,7 @@
       },
       "slot": 41,
       "action": {
-        "onClick": "nextPage",
-        "onSecondClick": "nextPage"
+        "onClick": "yorickbm.guilibrary.events.ItemNextPageEvent"
       }
     }
   ]

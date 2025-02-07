@@ -7,10 +7,11 @@ import net.minecraft.commands.Commands;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
+import yorickbm.guilibrary.GUILibraryRegistry;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.commands.interfaces.OverWorldCommandStack;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
-import yorickbm.skyblockaddon.gui.GUIManager;
 import yorickbm.skyblockaddon.islands.Island;
 
 public class IslandCommand extends OverWorldCommandStack {
@@ -32,7 +33,9 @@ public class IslandCommand extends OverWorldCommandStack {
                 return;
             }
 
-            GUIManager.getInstance().openMenu("overview", executor, island, new CompoundTag());
+            CompoundTag tag = new CompoundTag();
+            tag.putUUID("island_id", island.getId());
+            GUILibraryRegistry.openGUIForPlayer(executor, SkyblockAddon.MOD_ID + ":overview", tag);
         });
 
         return Command.SINGLE_SUCCESS;

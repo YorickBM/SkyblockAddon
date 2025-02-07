@@ -8,15 +8,12 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.*;
 
-@Mod.EventBusSubscriber(modid = SkyblockAddon.MOD_ID)
 public class ParticleEvents {
     private final Map<UUID, Island> LastIslandOn = new HashMap<>();
 

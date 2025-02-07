@@ -3,7 +3,7 @@ package yorickbm.skyblockaddon.permissions.util;
 import com.google.gson.Gson;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
-import yorickbm.skyblockaddon.gui.json.GuiItemHolder;
+import yorickbm.guilibrary.JSON.GUIItemStackJson;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.permissions.json.PermissionDataHolder;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
@@ -15,7 +15,7 @@ public class Permission implements JSONSerializable {
 
     protected String id;
     protected String category;
-    protected GuiItemHolder item;
+    protected GUIItemStackJson item;
     protected String[] triggers;
     protected PermissionDataHolder data;
 
@@ -43,7 +43,7 @@ public class Permission implements JSONSerializable {
         tag.putString("groupname", island.getGroup(groupId).getItem().getDisplayName().getString());
         tag.putString("status", island.getPermissionState(this.id, groupId));
 
-        return this.item.getItemStack(island, tag);
+        return this.item.getItemStack();
     }
 
     public String getCategory() {

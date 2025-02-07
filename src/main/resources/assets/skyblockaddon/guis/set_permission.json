@@ -14,13 +14,7 @@
         "lore": [],
         "data": {}
       },
-      "pattern": "EDGES",
-      "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
-        "onClick": "NONE",
-        "onSecondClick": "NONE"
-      }
+      "pattern": "EDGES"
     },
     {
       "item": {
@@ -44,38 +38,31 @@
     {
       "item": {
         "display_name": [
+          "{\"text\": \"Back\",\"bold\": true,\"color\": \"red\"}"
+        ],
+        "item": "minecraft:ARROW",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 26,
+      "action": {
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:permissions"
+        }
+      }
+    },
+    {
+      "item": {
+        "display_name": [
           "{\"text\": \"%datapagenum% / %datamaxpage%\",\"bold\": true,\"color\": \"blue\"}"
         ],
         "item": "minecraft:PAPER",
         "lore": [],
         "data": {}
       },
-      "slot": 31,
-      "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
-        "onClick": "NONE",
-        "onSecondClick": "NONE"
-      }
-    },
-    {
-      "item": {
-        "display_name": [
-          "{\"text\": \"Back\",\"bold\": true,\"color\": \"red\"}"
-        ],
-        "item": "minecraft:ARROW",
-        "lore": [],
-        "data": {
-          "gui": "permissions"
-        }
-      },
-      "slot": 35,
-      "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
-        "onClick": "viewPermissions",
-        "onSecondClick": "viewPermissions"
-      }
+      "slot": 40,
+      "action": {}
     },
     {
       "item": {
@@ -86,12 +73,9 @@
         "lore": [],
         "data": {}
       },
-      "slot": 30,
+      "slot": 39,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
-        "onClick": "previousPage",
-        "onSecondClick": "previousPage"
+        "onClick": "yorickbm.guilibrary.events.ItemPreviousPageEvent"
       }
     },
     {
@@ -103,12 +87,9 @@
         "lore": [],
         "data": {}
       },
-      "slot": 32,
+      "slot": 41,
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
-        "onClick": "nextPage",
-        "onSecondClick": "nextPage"
+        "onClick": "yorickbm.guilibrary.events.ItemNextPageEvent"
       }
     }
   ]

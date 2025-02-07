@@ -1,32 +1,25 @@
-package yorickbm.skyblockaddon.gui.json;
+package yorickbm.guilibrary.JSON;
 
 import com.google.gson.Gson;
 import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import yorickbm.skyblockaddon.islands.Island;
-import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
+import yorickbm.guilibrary.GUIFiller;
+import yorickbm.guilibrary.GUIItem;
+import yorickbm.guilibrary.util.JSON.JSONSerializable;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
-public class GuiHolder implements JSONSerializable {
-    private List<String> title;
-    private int rows;
+public class GUIJson implements JSONSerializable {
+
     private String key;
-    private List<GuiFiller> fillers;
-    private List<GuiItem> items;
+    private List<String> title;
+    private int rows = 3;
 
-    /**
-     * Get Gui Items
-     */
-    public List<GuiItem> getItems() { return items; }
-
-    /**
-     * Get Gui Fillers
-     */
-    public List<GuiFiller> getFillers() { return fillers; }
+    private List<GUIItemJson> items;
+    private List<GUIFillerJson> fillers;
 
     /**
      * Get GUI configured key.
@@ -40,13 +33,12 @@ public class GuiHolder implements JSONSerializable {
      *
      * @return - TextComponent
      */
-    public TextComponent getTitle(Island context) throws NullPointerException {
+    public TextComponent getTitle() throws NullPointerException {
         TextComponent component = new TextComponent("");
         try {
             for(String string : this.title) {
                 Component deserialized = Component.Serializer.fromJson(string);
-                if(context != null) component.append(context.parseTextComponent(Objects.requireNonNull(deserialized), new CompoundTag()));
-                else component.append(Objects.requireNonNull(deserialized));
+                component.append(Objects.requireNonNull(deserialized));
             }
         } catch (Exception ex) {
             return (TextComponent) new TextComponent("Invalid JSON in title").withStyle(ChatFormatting.RED);
@@ -61,6 +53,20 @@ public class GuiHolder implements JSONSerializable {
         return rows;
     }
 
+    /**
+     * Get Gui Items
+     */
+    public List<GUIItem> getItems() {
+        return items.stream().map(GUIItemJson::getItem).collect(Collectors.toList());
+    }
+
+    /**
+     * Get Gui Fillers
+     */
+    public List<GUIFiller> getFillers() {
+        return fillers.stream().map(GUIFillerJson::getItem).collect(Collectors.toList());
+    }
+
     @Override
     public String toJSON() {
         Gson gson = new Gson();
@@ -70,11 +76,12 @@ public class GuiHolder implements JSONSerializable {
     @Override
     public void fromJSON(String json) {
         Gson gson = new Gson();
-        GuiHolder temp = gson.fromJson(json, GuiHolder.class);
-        this.title = temp.title;
-        this.rows = temp.rows;
+        GUIJson temp = gson.fromJson(json, GUIJson.class);
+
         this.key = temp.key;
-        this.fillers = temp.fillers;
-        this.items = temp.items;
+        this.title = temp.title;
+        if(temp.rows != 0) this.rows = temp.rows;
+        if(temp.items != null) this.items = temp.items;
+        if(temp.fillers != null) this.fillers = temp.fillers;
     }
 }

@@ -119,7 +119,6 @@ public class ResourceManager {
             generateFile("guis/permissions.json", "guis/permissions.json");
             generateFile("guis/set_permission.json", "guis/set_permission.json");
             generateFile("guis/members_group.json", "guis/members_group.json");
-            //TODO: Add other GUIS
         }
     }
 }

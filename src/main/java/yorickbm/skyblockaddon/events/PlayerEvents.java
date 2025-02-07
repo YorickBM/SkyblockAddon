@@ -9,12 +9,9 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.islands.Island;
 
-@Mod.EventBusSubscriber(modid = SkyblockAddon.MOD_ID)
 public class PlayerEvents {
 
     @SubscribeEvent(priority = EventPriority.LOW)

@@ -47,6 +47,8 @@
   "commands.group.not.found": "Sorry we could not find the group with Id '%s'.",
   "commands.group.added.member": "%s has been added to group %s.",
   "commands.group.click.to.add": "Click here to get the command to add someone to the group.",
+  "island.group.remove.failed": "The group '%s' could not be removed, try again later.",
+  "island.group.remove.success": "The group '%s' has been removed, all members are moved to their default group.",
 
   "commands.expired": "The action you are trying to perform is no longer available.",
 
@@ -62,7 +64,6 @@
   "island.permission.enabled": "Enabled",
   "island.permission.disabled": "Disabled",
   "island.member.group.set": "%s has been added to the group '%s'.",
-  "island.group.remove.failed": "The group can not be removed as its the default group.",
   "island.member.kicked": "%s has been kicked from the group/island.",
   "island.setspawn.outside": "You can not set your spawn outside of your islands boundaries."
 }

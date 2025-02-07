@@ -10,15 +10,9 @@
         "display_name": [
           "{\"text\": \"\"}"
         ],
-        "item": "minecraft:GRAY_STAINED_GLASS_PANE",
-        "lore": [],
-        "data": {}
+        "item": "minecraft:GRAY_STAINED_GLASS_PANE"
       },
-      "pattern": "EDGES",
-      "action": {
-        "onClick": "NONE",
-        "onSecondClick": "NONE"
-      }
+      "pattern": "EDGES"
     },
     {
       "item": {
@@ -40,34 +34,31 @@
     {
       "item": {
         "display_name": [
+          "{\"text\": \"Back\",\"bold\": true,\"color\": \"red\"}"
+        ],
+        "item": "minecraft:ARROW",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 35,
+      "action": {
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:members"
+        }
+      }
+    },
+    {
+      "item": {
+        "display_name": [
           "{\"text\": \"%datapagenum% / %datamaxpage%\",\"bold\": true,\"color\": \"blue\"}"
         ],
         "item": "minecraft:PAPER",
         "lore": [],
         "data": {}
       },
-      "slot": 22,
-      "action": {
-        "onClick": "NONE",
-        "onSecondClick": "NONE"
-      }
-    },
-    {
-      "item": {
-        "display_name": [
-          "{\"text\": \"Back\",\"bold\": true,\"color\": \"red\"}"
-        ],
-        "item": "minecraft:ARROW",
-        "lore": [],
-        "data": {
-          "gui": "members"
-        }
-      },
-      "slot": 26,
-      "action": {
-        "onClick": "openMenu",
-        "onSecondClick": "openMenu"
-      }
+      "slot": 31,
+      "action": {}
     },
     {
       "item": {
@@ -78,10 +69,9 @@
         "lore": [],
         "data": {}
       },
-      "slot": 21,
+      "slot": 30,
       "action": {
-        "onClick": "previousPage",
-        "onSecondClick": "previousPage"
+        "onClick": "yorickbm.guilibrary.events.ItemPreviousPageEvent"
       }
     },
     {
@@ -93,10 +83,9 @@
         "lore": [],
         "data": {}
       },
-      "slot": 23,
+      "slot": 32,
       "action": {
-        "onClick": "nextPage",
-        "onSecondClick": "nextPage"
+        "onClick": "yorickbm.guilibrary.events.ItemNextPageEvent"
       }
     },
     {
@@ -110,8 +99,7 @@
       },
       "slot": 18,
       "action": {
-        "onClick": "kickMember",
-        "onSecondClick": "kickMember"
+        "onClick": "yorickbm.skyblockaddon.islands.IslandEvents$KickMember"
       }
     }
   ]

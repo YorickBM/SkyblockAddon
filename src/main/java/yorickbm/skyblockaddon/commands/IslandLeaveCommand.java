@@ -39,6 +39,7 @@ public class IslandLeaveCommand extends OverWorldCommandStack {
                 return;
             }
 
+            //Undo leave function
             UUID functionKey = UUID.randomUUID();
             FunctionRegistry.registerFunction(functionKey, (e) -> {
                 if(super.execute(command, e) == 0) return true;
@@ -55,12 +56,7 @@ public class IslandLeaveCommand extends OverWorldCommandStack {
                 return true;
             }, 15);
 
-            if(!island.kickMember(executor, executor.getUUID())) {
-                command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.leave.failure")));
-                return;
-            }
-
-            cap.clearCacheForPlayer(executor.getUUID());
+            island.kickMember(executor, executor.getUUID());
 
             command.sendSuccess(
                 new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.leave"))

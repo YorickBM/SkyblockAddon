@@ -84,7 +84,7 @@ public class Island extends IslandData implements IsUnique, NBTSerializable {
      * @param source - Who is kicking the entity
      * @param entity - UUID of entity to remove
      */
-    public boolean kickMember(Entity source, UUID entity) {
+    public void kickMember(Entity source, UUID entity) {
         if(isOwner(entity)) {
             if(!getMembers().isEmpty()) super.setOwner(getMembers().get(0));
             else {
@@ -112,7 +112,6 @@ public class Island extends IslandData implements IsUnique, NBTSerializable {
         ) {
             player.teleportTo(worldSpawn.getX(), worldSpawn.getY(), worldSpawn.getZ()); //Teleport player
         }
-        return true;
     }
 
     /**
