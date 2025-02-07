@@ -122,8 +122,6 @@ public class PermissionManager {
      * @param trigger - Trigger type to use
      */
     public static boolean checkPlayerInteraction(AtomicReference<Island> standingOn, ServerPlayer player, ServerLevel world, BlockPos position, ItemStack handItem, String trigger) {
-        LOGGER.warn(trigger);
-
         //Update doors
         if (player.getLevel().getBlockState(position).getBlock() instanceof DoorBlock) {
             DoubleBlockHalf half = (player).getLevel().getBlockState(position).getValue(DoorBlock.HALF);

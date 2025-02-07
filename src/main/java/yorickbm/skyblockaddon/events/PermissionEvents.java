@@ -451,7 +451,6 @@ public class PermissionEvents {
 
     @SubscribeEvent
     public void onAttack(AttackEntityEvent event) {
-        LOGGER.warn("onAttack");
         AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
@@ -502,7 +501,6 @@ public class PermissionEvents {
 
     @SubscribeEvent
     public void onUse(LivingEntityUseItemEvent event) {
-        LOGGER.warn("onUse");
         AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
@@ -553,7 +551,6 @@ public class PermissionEvents {
 
     @SubscribeEvent
     public void onPlayerChangedDimension(EntityTravelToDimensionEvent event) {
-        LOGGER.warn("onPlayerChangedDimension");
         AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean() &&
                 PermissionManager.verifyNetherEntity(event.getEntity(), standingOn, event.getEntity().getOnPos()).asBoolean()) return;
@@ -617,9 +614,5 @@ public class PermissionEvents {
             player.setDeltaMovement(new Vec3(direction.x * 0.4, 0.28, direction.z * 0.4));
             player.connection.send(new ClientboundSetEntityMotionPacket(player)); //Send motion Packet
         }
-    }
-
-    public void pushEntityInOppositeDirection(ServerPlayer player) {
-
     }
 }
