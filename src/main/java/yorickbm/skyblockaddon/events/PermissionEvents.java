@@ -1,22 +1,26 @@
 package yorickbm.skyblockaddon.events;
 
+import com.mojang.math.Vector3d;
 import net.minecraft.ChatFormatting;
-import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.StoneButtonBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraftforge.common.util.FakePlayer;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
@@ -30,19 +34,13 @@ import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
-import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldCapability;
-import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.islands.groups.IslandGroup;
 import yorickbm.skyblockaddon.permissions.PermissionManager;
 import yorickbm.skyblockaddon.permissions.util.Permission;
-import yorickbm.skyblockaddon.util.ServerHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -54,7 +52,7 @@ public class PermissionEvents {
     @SubscribeEvent
     public void onTrample(BlockEvent.FarmlandTrampleEvent event) {
         AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(verifyEntity(event.getEntity(), standingOn)) return;
+        if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
         Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
@@ -76,7 +74,7 @@ public class PermissionEvents {
     @SubscribeEvent
     public void onEnderPearl(EntityTeleportEvent.EnderPearl event) {
         AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(verifyEntity(event.getEntity(), standingOn)) return;
+        if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
         Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
@@ -98,7 +96,7 @@ public class PermissionEvents {
     @SubscribeEvent
     public void onChorusFruit(EntityTeleportEvent.ChorusFruit event) {
         AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(verifyEntity(event.getEntity(), standingOn)) return;
+        if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
         Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
@@ -121,7 +119,7 @@ public class PermissionEvents {
     @SubscribeEvent
     public void onSleepInBed(PlayerSleepInBedEvent event) {
         AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(verifyEntity(event.getEntity(), standingOn)) return;
+        if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
         Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
@@ -143,7 +141,7 @@ public class PermissionEvents {
     @SubscribeEvent
     public void onXp(PlayerXpEvent.PickupXp event) {
         AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(verifyEntity(event.getEntity(), standingOn)) return;
+        if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
         Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
@@ -165,7 +163,7 @@ public class PermissionEvents {
     @SubscribeEvent
     public void onBonemeal(BonemealEvent event) {
         AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(verifyEntity(event.getEntity(), standingOn)) return;
+        if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
         Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
@@ -187,7 +185,7 @@ public class PermissionEvents {
     @SubscribeEvent
     public void onPickup(EntityItemPickupEvent event) {
         AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(verifyEntity(event.getEntity(), standingOn)) return;
+        if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
         Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
@@ -236,7 +234,7 @@ public class PermissionEvents {
     @SubscribeEvent
     public void onDrop(ItemTossEvent event) {
         AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(verifyEntity(event.getEntity(), standingOn)) return;
+        if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
         Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
@@ -285,11 +283,12 @@ public class PermissionEvents {
     @SubscribeEvent
     public void onBucket(FillBucketEvent event) {
         AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(verifyEntity(event.getEntity(), standingOn)) return;
+        if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
         Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
-            event.setCanceled(true);
+            if(event.isCancelable()) event.setCanceled(true);
+            else event.setResult(Event.Result.DENY);
             return; //Not part of any group so not allowed!!
         }
 
@@ -325,14 +324,15 @@ public class PermissionEvents {
 
         if(runFail) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
-            event.setCanceled(true);
+            if(event.isCancelable()) event.setCanceled(true);
+            else event.setResult(Event.Result.DENY);
         }
     }
 
     @SubscribeEvent
     public void onMount(EntityMountEvent event) {
         AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(verifyEntity(event.getEntity(), standingOn)) return;
+        if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
         Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
@@ -374,22 +374,31 @@ public class PermissionEvents {
 
         if(runFail) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
-            event.setCanceled(true);
+            if(event.isCancelable()) event.setCanceled(true);
+            else event.setResult(Event.Result.DENY);
         }
     }
 
     @SubscribeEvent
     public void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(!verifyEntity(event.getEntity(), standingOn)) {
-            checkPlayerInteraction(standingOn, event, "onRightClickBlock");
+        if(!PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) {
+            if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(), (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), "onRightClickBlock")) {
+                event.getPlayer().displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
+                if(event.isCancelable()) event.setCanceled(true);
+                else event.setResult(Event.Result.DENY);
+            }
         }
-        if(!verifyNetherEntity(event.getEntity(), standingOn, event.getPos())) {
+        if(!PermissionManager.verifyNetherEntity(event.getEntity(), standingOn, event.getPos()).asBoolean()) {
             ItemStack item = event.getItemStack();
             if(!item.isEmpty() && item.getItem() == Items.FLINT_AND_STEEL) {
                 BlockState state = event.getWorld().getBlockState(event.getPos());
                 if(!state.isAir() && state.getBlock().asItem() == Items.OBSIDIAN) {
-                    checkPlayerInteraction(standingOn, event, "onPortalIgnition");
+                    if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(), (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), "onPortalIgnition")) {
+                        event.getPlayer().displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
+                        if(event.isCancelable()) event.setCanceled(true);
+                        else event.setResult(Event.Result.DENY);
+                    }
                 }
             }
         }
@@ -397,36 +406,60 @@ public class PermissionEvents {
     @SubscribeEvent
     public void onRightClickEmpty(PlayerInteractEvent.RightClickEmpty event) {
         AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(verifyEntity(event.getEntity(), standingOn)) return;
+        if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
-        checkPlayerInteraction(standingOn, event, "onRightClickEmpty");
+        if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(), (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), "onRightClickEmpty")) {
+            event.getPlayer().displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
+            if(event.isCancelable()) event.setCanceled(true);
+            else event.setResult(Event.Result.DENY);
+        }
+    }
+    @SubscribeEvent
+    public void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
+        AtomicReference<Island> standingOn = new AtomicReference<>();
+        if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
+
+        if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(), (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), "onRightClickItem")) {
+            event.getPlayer().displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
+            if(event.isCancelable()) event.setCanceled(true);
+            else event.setResult(Event.Result.DENY);
+        }
     }
 
     @SubscribeEvent
     public void onLeftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
         AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(verifyEntity(event.getEntity(), standingOn)) return;
+        if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
-        checkPlayerInteraction(standingOn, event, "onLeftClickBlock");
+        if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(), (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), "onLeftClickBlock")) {
+            event.getPlayer().displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
+            if(event.isCancelable()) event.setCanceled(true);
+            else event.setResult(Event.Result.DENY);
+        }
     }
     @SubscribeEvent
     public void onLeftClickEmpty(PlayerInteractEvent.LeftClickEmpty event) {
         AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(verifyEntity(event.getEntity(), standingOn)) return;
+        if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
-        checkPlayerInteraction(standingOn, event, "onLeftClickEmpty");
+        if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(), (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), "onLeftClickEmpty")) {
+            event.getPlayer().displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
+            if(event.isCancelable()) event.setCanceled(true);
+            else event.setResult(Event.Result.DENY);
+        }
     }
 
     @SubscribeEvent
     public void onAttack(AttackEntityEvent event) {
         LOGGER.warn("onAttack");
         AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(verifyEntity(event.getEntity(), standingOn)) return;
+        if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
         Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
-            event.setCanceled(true);
+            if(event.isCancelable()) event.setCanceled(true);
+            else event.setResult(Event.Result.DENY);
             return; //Not part of any group so not allowed!!
         }
 
@@ -462,21 +495,22 @@ public class PermissionEvents {
 
         if(runFail) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
-            event.setCanceled(true);
+            if(event.isCancelable()) event.setCanceled(true);
+            else event.setResult(Event.Result.DENY);
         }
     }
 
     @SubscribeEvent
     public void onUse(LivingEntityUseItemEvent event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(verifyEntity(event.getEntity(), standingOn)) return;
-
         LOGGER.warn("onUse");
+        AtomicReference<Island> standingOn = new AtomicReference<>();
+        if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
         Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
-            event.setCanceled(true);
+            if(event.isCancelable()) event.setCanceled(true);
+            else event.setResult(Event.Result.DENY);
             return; //Not part of any group so not allowed!!
         }
 
@@ -512,21 +546,23 @@ public class PermissionEvents {
 
         if(runFail) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
-            event.setCanceled(true);
+            if(event.isCancelable()) event.setCanceled(true);
+            else event.setResult(Event.Result.DENY);
         }
     }
 
     @SubscribeEvent
     public void onPlayerChangedDimension(EntityTravelToDimensionEvent event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
-        if(verifyEntity(event.getEntity(), standingOn) && verifyNetherEntity(event.getEntity(), standingOn, event.getEntity().getOnPos())) return;
-
         LOGGER.warn("onPlayerChangedDimension");
+        AtomicReference<Island> standingOn = new AtomicReference<>();
+        if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean() &&
+                PermissionManager.verifyNetherEntity(event.getEntity(), standingOn, event.getEntity().getOnPos()).asBoolean()) return;
 
         Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
-            event.setCanceled(true);
+            if(event.isCancelable()) event.setCanceled(true);
+            else event.setResult(Event.Result.DENY);
             return; //Not part of any group so not allowed!!
         }
 
@@ -553,8 +589,6 @@ public class PermissionEvents {
                     boolean isNegation = dimension.startsWith("!");
                     Pattern dimensionToCheck = isNegation ? Pattern.compile(dimension.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(dimension, Pattern.CASE_INSENSITIVE);
 
-                    LOGGER.warn("{} - {}", dimension, toDim.getRegistryName().toString());
-
                     runFail = isNegation != dimensionToCheck.matcher(toDim.getRegistryName().toString()).matches();
 
                     if(!isNegation) onlyNegate = false;
@@ -567,151 +601,25 @@ public class PermissionEvents {
 
         if(runFail) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
-            event.setCanceled(true);
+            if(event.isCancelable()) event.setCanceled(true);
+            else event.setResult(Event.Result.DENY);
+
+            ServerPlayer player = (ServerPlayer) event.getEntity();
+
+            // Convert yaw to radians and calculate direction vector
+            double radianYaw = Math.toRadians(player.getYRot());
+            Vec3 direction = new Vec3(Math.sin(radianYaw), 0, -Math.cos(radianYaw));
+
+            // Invert the direction to get the opposite direction
+            Vec3 oppositeDirection = direction.scale(-1);  // Keep the direction with the same magnitude
+
+            // Send the new movement to player & client
+            player.setDeltaMovement(new Vec3(direction.x * 0.4, 0.28, direction.z * 0.4));
+            player.connection.send(new ClientboundSetEntityMotionPacket(player)); //Send motion Packet
         }
     }
 
-    /**
-     * Run requirement check for entity. This check determines if it may override on the event.
-     * Or if a permission check should be performed.
-     *
-     * @param entity - Triggering entity
-     * @param standingOn - AtomicReference to get Island entity is standing on.
-     * @return - True if entity may override permission check.
-     */
-    private boolean verifyEntity(Entity entity, AtomicReference<Island> standingOn) {
-        if(!(entity instanceof ServerPlayer player) || entity instanceof FakePlayer) return true; //Allowed types
-        if(player.getLevel().dimension() != Level.OVERWORLD) return true; //Is not in over-world
-        if(player.hasPermissions(Commands.LEVEL_ADMINS)) return true; //Player is admin;
+    public void pushEntityInOppositeDirection(ServerPlayer player) {
 
-        Optional<SkyblockAddonWorldCapability> cap = player.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).resolve();
-        if(cap.isEmpty()) return true; //Could not find Capability
-
-        Island island = cap.get().getIslandPlayerIsStandingOn(player);
-        if(island == null) return true; //Not within protection
-
-        standingOn.set(island); //Set atomic reference
-        return island.isOwner(player.getUUID()); //Owners may do anything
     }
-
-    /**
-     * Run requirement check for entity. This check determines if it may override on the event.
-     * Or if a permission check should be performed.
-     *
-     * @param entity - Triggering entity
-     * @param standingOn - AtomicReference to get Island entity is standing on.
-     * @return - True if entity may override permission check.
-     */
-    private boolean verifyNetherEntity(Entity entity, AtomicReference<Island> standingOn, BlockPos triggerPoint) {
-        if(!(entity instanceof ServerPlayer player) || entity instanceof FakePlayer) return true; //Allowed types
-        if(player.getLevel().dimension() != Level.NETHER) return true; //Is not in nether
-        if(player.hasPermissions(Commands.LEVEL_ADMINS)) return true; //Player is admin;
-
-        Optional<SkyblockAddonWorldCapability> cap = Objects.requireNonNull(Objects.requireNonNull(player.getServer()).getLevel(Level.OVERWORLD)).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).resolve();
-        if(cap.isEmpty()) return true; //Could not find Capability
-
-
-        Island island = cap.get().getIslandByPos(new BlockPos(triggerPoint.getX() * 8, triggerPoint.getY(), triggerPoint.getZ() * 8));
-        if(island == null) return true; //Not within protection
-
-        standingOn.set(island); //Set atomic reference
-        return island.isOwner(player.getUUID()); //Owners may do anything
-    }
-
-    /**
-     * Run player interaction handler to determine if event is to be canceld or not.
-     *
-     * @param standingOn - Island player is standing on
-     * @param event - Event that is triggered
-     * @param trigger - Trigger type to use
-     */
-    private void checkPlayerInteraction(AtomicReference<Island> standingOn, PlayerInteractEvent event, String trigger) {
-        LOGGER.warn(trigger);
-
-        //Update doors
-        if (((ServerPlayer) event.getEntity()).getLevel().getBlockState(event.getPos()).getBlock() instanceof DoorBlock) {
-            DoubleBlockHalf half = (event.getEntity()).getLevel().getBlockState(event.getPos()).getValue(DoorBlock.HALF);
-            if (half == DoubleBlockHalf.LOWER) {
-                BlockState other = (event.getEntity()).getLevel().getBlockState(event.getPos().above());
-                ServerHelper.SendPacket(((ServerPlayer) event.getEntity()), new ClientboundBlockUpdatePacket(event.getPos().above(), other));
-            } else {
-                BlockState other = (event.getEntity()).getLevel().getBlockState(event.getPos().below());
-                ServerHelper.SendPacket(((ServerPlayer) event.getEntity()), new ClientboundBlockUpdatePacket(event.getPos().below(), other));
-            }
-        }
-
-        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
-        if(group.isEmpty()) {
-            ((ServerPlayer)event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
-            event.setCanceled(true);
-            return; //Not part of any group so not allowed!!
-        }
-
-        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger(trigger);
-        if(perms.isEmpty()) return; //No permission to protect against it
-
-        boolean runFail = false;
-        for(Permission perm : perms) {
-            if(group.get().canDo(perm.getId())) continue;
-            if(runFail) break; //Break loop if we determine failure
-
-            // Get permission item data and check for empty
-            List<String> itemsData = perm.getData().getItemsData();
-            List<String> blocksData = perm.getData().getBlocksData();
-
-            // Determine default
-            if(itemsData.isEmpty() && blocksData.isEmpty() && !group.get().canDo(perm.getId())) {
-                runFail = true;
-                break;
-            }
-
-            boolean itemAllowed = true;
-            boolean blockAllowed = true;
-
-            ItemStack handItem = event.getItemStack();
-            if(!handItem.isEmpty() && !itemsData.isEmpty()) {
-                String item = Objects.requireNonNull(handItem.getItem().getRegistryName()).toString();
-                boolean onlyNegate = true;
-
-                for(String itemInData : itemsData) {
-                    boolean isNegation = itemInData.startsWith("!");
-                    Pattern itemToCheck = isNegation ? Pattern.compile(itemInData.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(itemInData, Pattern.CASE_INSENSITIVE);
-
-                    itemAllowed = isNegation == itemToCheck.matcher(item).matches();
-
-                    if(!isNegation) onlyNegate = false;
-                    if(!itemAllowed) break; //Failure reached
-                }
-
-                if(itemAllowed && onlyNegate) itemAllowed = false;
-            }
-
-            BlockState clickedState = event.getWorld().getBlockState(event.getPos());
-            if(!clickedState.isAir() && !blocksData.isEmpty()) {
-                Block clickedBlock = clickedState.getBlock();
-                String block = Objects.requireNonNull(clickedBlock.getRegistryName()).toString();
-                boolean onlyNegate = true;
-
-                for(String blockInData : blocksData) {
-                    boolean isNegation = blockInData.startsWith("!");
-                    Pattern blockToCheck = isNegation ? Pattern.compile(blockInData.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(blockInData, Pattern.CASE_INSENSITIVE);
-
-                    blockAllowed = isNegation == blockToCheck.matcher(block).matches();
-
-                    if(!isNegation) onlyNegate = false;
-                    if(!blockAllowed) break; //Failure reached
-                }
-
-                if(blockAllowed && onlyNegate) blockAllowed = false;
-            }
-
-            runFail = (!blockAllowed || !itemAllowed);
-        }
-
-        if(runFail) {
-            ((ServerPlayer)event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
-            event.setCanceled(true);
-        }
-    }
-
 }

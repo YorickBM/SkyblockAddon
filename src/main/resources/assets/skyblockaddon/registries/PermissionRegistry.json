@@ -115,11 +115,15 @@
       "category": "General",
       "triggers": [
         "onLeftClickBlock",
-        "onAttack"
+        "onAttack",
+        "onQuarkPickarangMixin"
       ],
       "data": {
         "skyblockaddon": [],
-        "items": [],
+        "items": [
+          "quark:flamerang",
+          "quark:pickarang"
+        ],
         "blocks": [
           "!storagedrawers:*",
           "!the_vault:animal_pen"
