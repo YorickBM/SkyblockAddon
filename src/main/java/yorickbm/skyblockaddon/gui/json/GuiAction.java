@@ -175,6 +175,14 @@ public class GuiAction implements JSONSerializable {
 
             case "setSpawnPoint":
                 if(source.getEntity() == null) return; //Source is not a valid entity
+
+                if(!cSource.getIslandBoundingBox().isInside(source.getEntity().getOnPos())) {
+                    source.getEntity().sendMessage(new TextComponent(
+                            SkyBlockAddonLanguage.getLocalizedString("island.setspawn.outside")
+                    ).withStyle(ChatFormatting.RED),source.getUuid());
+                    return;
+                }
+
                 cSource.setSpawnPoint(source.getEntity().blockPosition());
                 gui.draw(); //Update GUI items
                 return;
