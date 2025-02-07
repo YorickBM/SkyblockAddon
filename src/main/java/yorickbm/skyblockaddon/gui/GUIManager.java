@@ -56,7 +56,7 @@ public class GUIManager {
         if (!guis.containsKey(key)) return false; //GUI does not exist
         if (!(entity instanceof Player player)) return false; //Not valid entity
 
-        if(!player.hasPermissions(Commands.LEVEL_ADMINS)) {
+        if(!player.hasPermissions(Commands.LEVEL_ADMINS) && context != null) {
             List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onGui");
             Optional<IslandGroup> group = context.getGroupForEntity(player);
 
