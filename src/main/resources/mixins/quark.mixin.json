@@ -7,6 +7,8 @@
     "defaultRequire": 1
   },
   "server": [
+    "QuarkPickarangMixinConfig",
+    "QuarkScreenMixinConfig"
   ],
   "refmap": "skyblockaddon.refmap.json"
 }

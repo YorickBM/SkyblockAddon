@@ -75,14 +75,16 @@ public class IslandData implements NBTSerializable {
     public IslandGroup getGroup(UUID uuid) {
         return islandGroups.get(uuid);
     }
-    public void addGroup(IslandGroup group) {islandGroups.put(group.getId(), group);}
+    public void addGroup(IslandGroup group) {
+        islandGroups.put(group.getId(), group);
+    }
     public boolean removeGroup(UUID uuid) {
         if(islandGroups.size() <= 1 || uuid.equals(SkyblockAddon.MOD_UUID)) return false;
         if(!islandGroups.containsKey(uuid)) return false;
 
         if(!islandGroups.get(uuid).getMembers().isEmpty()) { //Move them all to default group
             islandGroups.get(uuid).getMembers().forEach(p -> {
-                islandGroups.get(SkyblockAddon.MOD_UUID).addMember(p);
+                getMembersGroup().addMember(p);
             });
         }
 
@@ -92,6 +94,9 @@ public class IslandData implements NBTSerializable {
     public boolean isInAnyGroup(UUID entity) {
         return this.islandGroups.values().stream().anyMatch(ig -> ig.hasMember(entity));
     }
+
+    public IslandGroup getDefaultGroup() { return this.getGroup(SkyblockAddon.MOD_UUID2); }
+    public IslandGroup getMembersGroup() { return this.getGroup(SkyblockAddon.MOD_UUID); }
 
     public UUID getId() {
         return id;
@@ -188,6 +193,7 @@ public class IslandData implements NBTSerializable {
     public void deserializeNBT(CompoundTag tag) {
         setId(tag.getUUID("Id"));
         if (tag.getString("owner").length() > 3) setOwner(UUID.fromString(tag.getString("owner")));
+
         setBiome(tag.getString("biome"));
         setVisibility(tag.getBoolean("travelability"));
         setSpawn(NBTUtil.NBTToVec3i(tag.getCompound("spawn")));
@@ -200,12 +206,18 @@ public class IslandData implements NBTSerializable {
             this.islandGroups.put(group.getId(), group);
         }
 
-        if(this.islandGroups.isEmpty()) {
+        if(this.islandGroups.isEmpty() || this.islandGroups.size() < 2) {
             ItemStack item = new ItemStack(Items.RED_MUSHROOM);
             item.setHoverName(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("gui.group.default.name")).withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.BLUE));
 
             IslandGroup defaultG = new IslandGroup(SkyblockAddon.MOD_UUID, item, true);
             this.islandGroups.put(defaultG.getId(), defaultG);
+
+            ItemStack item2 = new ItemStack(Items.BROWN_MUSHROOM);
+            item2.setHoverName(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("gui.group.nonmember.name")).withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.BLUE));
+
+            IslandGroup defaultG2 = new IslandGroup(SkyblockAddon.MOD_UUID2, item2, true);
+            this.islandGroups.put(defaultG2.getId(), defaultG2);
         }
 
         CompoundTag members = tag.getCompound("members");
@@ -220,11 +232,13 @@ public class IslandData implements NBTSerializable {
     }
 
     public Optional<IslandGroup> getGroupForEntity(Entity entity) {
-        return islandGroups.values().stream().filter(g -> g.hasMember(entity.getUUID())).findFirst();
+        return getGroupForEntityUUID(entity.getUUID());
     }
 
     public Optional<IslandGroup> getGroupForEntityUUID(UUID uuid) {
-        return islandGroups.values().stream().filter(g -> g.hasMember(uuid)).findFirst();
+        Optional<IslandGroup> result = islandGroups.values().stream().filter(g -> g.hasMember(uuid)).findFirst();
+        if(result.isEmpty()) result = Optional.of(getDefaultGroup());
+        return result;
     }
 
     public Optional<UUID> getGroupByName(String groupName) {

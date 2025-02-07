@@ -41,7 +41,8 @@ import java.util.UUID;
 public class Island extends IslandData implements IsUnique, NBTSerializable {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public Island() {}
+    public Island() {
+    }
     public Island(UUID uuid, Vec3i vec) {
         super.setId(UUID.randomUUID());
         super.setOwner(uuid);
@@ -49,10 +50,19 @@ public class Island extends IslandData implements IsUnique, NBTSerializable {
         super.setCenter(vec);
         super.setVisibility(false);
 
+        genBasicGroups();
+    }
+
+    public void genBasicGroups() {
         //Add default members group
         ItemStack item = new ItemStack(Items.RED_MUSHROOM);
         item.setHoverName(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("gui.group.default.name")).withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.BLUE));
+        ItemStack item2 = new ItemStack(Items.BROWN_MUSHROOM);
+        item2.setHoverName(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("gui.group.nonmember.name")).withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.BLUE));
+
+
         super.addGroup(new IslandGroup(SkyblockAddon.MOD_UUID, item, true));
+        super.addGroup(new IslandGroup(SkyblockAddon.MOD_UUID2, item2, false));
     }
 
     /**
