@@ -779,7 +779,7 @@
         "display_name": [
           "{\"text\": \"Spawn entities\", \"color\":\"blue\", \"bold\":\"true\"}"
         ],
-        "item": "minecraft:SPAWN_EGG",
+        "item": "minecraft:ZOMBIE_SPAWN_EGG",
         "lore": [
           [
             "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
@@ -913,6 +913,266 @@
         "skyblockaddon": [],
         "items": [],
         "blocks": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "redstone_delays",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Delays\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:repeater",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Redstone",
+      "triggers": [
+        "onRightClickBlock"
+      ],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [
+          "minecraft:repeater",
+          "minecraft:comparator",
+          "create:pulse_repeater",
+          "create:pulse_extender",
+          "create:powered_latch",
+          "create:powered_toggle_latch"
+        ],
+        "entities": []
+      }
+    },
+    {
+      "id": "redstone_detectors",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Detectors\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:daylight_detector",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Daylight Detector\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Note Block\",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+          ]
+        ]
+      },
+      "category": "Redstone",
+      "triggers": [
+        "onRightClickBlock"
+      ],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [
+          "minecraft:daylight_detector",
+          "minecraft:note_block",
+          "blockcarpentry:frame_daylight_detector",
+          "blockcarpentry:illusion_daylight_detector"
+        ],
+        "entities": []
+      }
+    },
+    {
+      "id": "redstone_buttons_and_levers",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Buttons & Levers\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:lever",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Redstone",
+      "triggers": [
+        "onRightClickBlock"
+      ],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [
+          "minecraft:lever",
+          "*:*_button",
+          "*:*_button_*",
+          "*:*_lever",
+          "*:*_lever_*",
+          ""
+        ],
+        "entities": []
+      }
+    },
+    {
+      "id": "redstone_pressure_plates",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Pressure Plates\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:stone_pressure_plate",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Redstone",
+      "triggers": [
+        "onRightClickBlock"
+      ],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [
+          "*:*_pressure_plate"
+        ],
+        "entities": []
+      }
+    },
+    {
+      "id": "redstone_hoppers",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Interact with Hoppers\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:hopper",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Redstone",
+      "triggers": [
+        "onRightClickBlock"
+      ],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [
+          "minecraft:hopper"
+        ],
+        "entities": []
+      }
+    },
+    {
+      "id": "redstone_containers",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Interact with Containers\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:dispenser",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Dispenser\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Dropper\",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+          ]
+        ]
+      },
+      "category": "Redstone",
+      "triggers": [
+        "onRightClickBlock"
+      ],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [
+          "minecraft:dispenser",
+          "minecraft:dropper"
+        ],
+        "entities": []
+      }
+    },
+    {
+      "id": "redstone_create_links",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Interact with Create Links\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "create:redstone_link",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Redstone",
+      "triggers": [
+        "onRightClickBlock"
+      ],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [
+          "create:linked_controller",
+          "create:redstone_link"
+        ],
         "entities": []
       }
     },
