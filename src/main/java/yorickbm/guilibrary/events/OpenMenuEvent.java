@@ -2,6 +2,7 @@ package yorickbm.guilibrary.events;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -16,12 +17,17 @@ import yorickbm.guilibrary.GUIType;
 import yorickbm.guilibrary.interfaces.MenuProviderInterface;
 import yorickbm.guilibrary.interfaces.ServerInterface;
 
+import java.util.List;
+
 @Cancelable
 public class OpenMenuEvent extends Event {
     private static final Logger LOGGER = LogManager.getLogger();
 
     protected MenuProviderInterface provider;
     protected ServerPlayer target;
+    protected CompoundTag data;
+
+    protected List<TextComponent> title;
 
     public OpenMenuEvent(String id, ServerPlayer target, CompoundTag data) {
         GUIType guiStructure = GUILibraryRegistry.getValue(id);
@@ -31,10 +37,13 @@ public class OpenMenuEvent extends Event {
             return;
         }
 
+        this.title = guiStructure.getTitle();
+        this.data = data;
+
         this.provider = new MenuProviderInterface() {
             @Override
             public @NotNull Component getDisplayName() {
-                return guiStructure.getTitle();
+                return title.stream().reduce(new TextComponent(""), (a, b) -> (TextComponent) a.append(b));
             }
 
             @Override
@@ -48,5 +57,10 @@ public class OpenMenuEvent extends Event {
 
     public MenuProviderInterface getProvider() { return this.provider; }
     public ServerPlayer getTarget() { return this.target; }
+
+    public List<TextComponent> getTitle() { return this.title; }
+    public void setTitle(List<TextComponent> title) { this.title = title;}
+
+    public CompoundTag getData() { return this.data; }
 
 }

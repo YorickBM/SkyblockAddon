@@ -11,9 +11,11 @@
           "{\"text\": \"\"}"
         ],
         "item": "minecraft:GRAY_STAINED_GLASS_PANE",
+        "lore": [],
         "data": {}
       },
-      "pattern": "EMPTY"
+      "pattern": "EMPTY",
+      "action": {}
     }
   ],
   "items": [

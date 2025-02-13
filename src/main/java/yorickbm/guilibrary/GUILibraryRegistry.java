@@ -44,6 +44,7 @@ public class GUILibraryRegistry {
                         .setRows(obj.getRows())
                         .setTitle(obj.getTitle())
                         .setItems(obj.getItems())
+                        .setFillers(obj.getFillers())
                         .build());
             });
         } catch (Exception ex) {

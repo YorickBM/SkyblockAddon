@@ -21,7 +21,7 @@ public class GUIItemJson implements JSONSerializable {
 
         GUIItem.Builder builder = new GUIItem.Builder()
                 .setSlot(this.slot)
-                .setItemStack(this.item.getItemStack())
+                .setItemStack(this.item.getItemStackHolder())
                 .setConditions(this.conditions);
 
         if(this.action.hasPrimary()) builder.setPrimaryClickClass(this.action.getPrimary());

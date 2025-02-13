@@ -6,6 +6,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 import yorickbm.guilibrary.GUIFiller;
+import yorickbm.guilibrary.GUIItemStackHolder;
 import yorickbm.guilibrary.interfaces.ServerInterface;
 import yorickbm.guilibrary.util.FillerPattern;
 
@@ -13,26 +14,21 @@ import yorickbm.guilibrary.util.FillerPattern;
 public class GuiDrawFillerEvent extends Event {
     protected ServerInterface instance;
 
-    private ItemStack item = ItemStack.EMPTY;
+    private GUIItemStackHolder item;
     private int slots = 0;
     private FillerPattern pattern;
     private GUIFiller filler;
 
     public GuiDrawFillerEvent(ServerInterface instance, GUIFiller filler, int slots) {
         this.instance = instance;
-        this.item = filler.getItem();
+        this.item = filler.getItemHolder();
         this.pattern = filler.getPattern();
         this.slots = slots;
         this.filler = filler;
     }
 
-    public ItemStack getItemStack() {
-        return this.item;
-    }
-
-    public void setItemStack(ItemStack item) {
-        this.item = item;
-    }
+    public GUIItemStackHolder getItemStackHolder() { return this.item; }
+    public void setItemStackHolder(GUIItemStackHolder item) { this.item = item; }
 
     public FillerPattern getPattern() {
         return this.pattern;
@@ -50,34 +46,21 @@ public class GuiDrawFillerEvent extends Event {
         return this.instance.getData();
     }
 
-    public void drawItems() {
-        switch(this.pattern) {
-            case EDGES -> {
-                for (int slot = 0; slot < this.slots; slot++) {
-                    if(slot >= 10 && slot <= this.slots - 10  && slot%9 != 0 && slot%9 != 8) continue;
-                    if(!instance.getSlot(slot).hasItem()) {
-                        instance.setItem(slot, 0, this.item);
-                        filler.setSlot(slot);
-                    }
-                }
-            }
-            case EMPTY -> {
-                for (int slot = 0; slot < this.slots; slot++) {
-                    if(!instance.getSlot(slot).hasItem()) {
-                        instance.setItem(slot, 0, this.item);
-                        filler.setSlot(slot);
-                    }
-                }
-            }
-            case INSIDE -> {
-                for (int slot = 0; slot < this.slots; slot++) {
-                    if((slot < 10 || slot > this.slots - 10)  || (slot%9 == 0 || slot%9 == 8)) continue;
-                    if(!instance.getSlot(slot).hasItem()) {
-                        instance.setItem(slot, 0, this.item);
-                        filler.setSlot(slot);
-                    }
-                }
-            }
-        }
+    public void drawItem(int slot, ItemStack item) {
+        this.instance.setItem(slot, 0, item);
+        this.filler.setSlot(slot);
+    }
+
+    public int getSlots() { return this.slots; }
+
+    public boolean slotHasItem(int slot) {
+        return this.instance.getSlot(slot).hasItem();
+    }
+
+    public void setMaxPage(int page) {
+        this.instance.setMaxPage(page);
+    }
+    public int getCurrentPage() {
+        return this.instance.getCurrentPage();
     }
 }

@@ -8,12 +8,9 @@
         "display_name": [
           "{\"text\": \"\"}"
         ],
-        "item": "minecraft:GRAY_STAINED_GLASS_PANE",
-        "lore": [],
-        "data": {}
+        "item": "minecraft:GRAY_STAINED_GLASS_PANE"
       },
-      "pattern": "EMPTY",
-      "action": {}
+      "pattern": "EMPTY"
     }
   ],
   "items": [
@@ -128,10 +125,7 @@
         "item": "minecraft:BARRIER",
         "lore": [
           [
-            "{\"text\":\"\u00bb Leave the island.\n\",\"color\":\"dark_gray\"}"
-          ],
-          [
-            "{\"text\":\"\u2666 Beware, if you are the last member, the island will be removed!\",\"italic\":true,\"color\":\"red\"}"
+            "{\"text\":\"\u00bb Close admin menu.\n\",\"color\":\"dark_gray\"}"
           ]
         ],
         "data": {}

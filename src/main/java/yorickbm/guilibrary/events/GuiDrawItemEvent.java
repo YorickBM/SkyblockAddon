@@ -1,11 +1,9 @@
 package yorickbm.guilibrary.events;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 import yorickbm.guilibrary.GUIItem;
+import yorickbm.guilibrary.GUIItemStackHolder;
 import yorickbm.guilibrary.interfaces.ServerInterface;
 
 @Cancelable
@@ -14,7 +12,7 @@ public class GuiDrawItemEvent extends Event {
     protected ServerInterface instance;
 
     private int slot = -1;
-    private ItemStack item = ItemStack.EMPTY;
+    private GUIItemStackHolder item;
     private GUIItem itemHolder;
 
     public GuiDrawItemEvent(ServerInterface instance, GUIItem item) {
@@ -22,21 +20,15 @@ public class GuiDrawItemEvent extends Event {
         this.itemHolder = item;
 
         this.slot = item.getSlot();
-        this.item = item.getItem();
+        this.item = item.getItemHolder();
     }
 
-    public ItemStack getItemStack() {
-        return this.item;
-    }
-
-    public void setItemStack(ItemStack item) {
-        this.item = item;
-    }
+    public GUIItemStackHolder getItemStackHolder() { return this.item; }
+    public void setItemStackHolder(GUIItemStackHolder item) { this.item = item; }
 
     public int getSlot() {
         return this.slot;
     }
-
     public void setSlot(int slot) {
         this.slot = slot;
     }
@@ -44,10 +36,8 @@ public class GuiDrawItemEvent extends Event {
     public ServerInterface getHolder() {
         return this.instance;
     }
-
     public void drawItem() {
-        this.instance.setItem(this.slot, 0, this.item);
+        this.instance.setItem(this.slot, 0, this.item.getItemStack());
     }
-
     public GUIItem getItemHolder() {  return this.itemHolder; }
 }

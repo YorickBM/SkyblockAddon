@@ -8,6 +8,7 @@ import yorickbm.guilibrary.GUIFiller;
 import yorickbm.guilibrary.GUIItem;
 import yorickbm.guilibrary.util.JSON.JSONSerializable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -33,17 +34,17 @@ public class GUIJson implements JSONSerializable {
      *
      * @return - TextComponent
      */
-    public TextComponent getTitle() throws NullPointerException {
-        TextComponent component = new TextComponent("");
+    public List<TextComponent> getTitle() throws NullPointerException {
+        List<TextComponent> components = new ArrayList<>();
         try {
             for(String string : this.title) {
                 Component deserialized = Component.Serializer.fromJson(string);
-                component.append(Objects.requireNonNull(deserialized));
+                components.add((TextComponent) Objects.requireNonNull(deserialized));
             }
         } catch (Exception ex) {
-            return (TextComponent) new TextComponent("Invalid JSON in title").withStyle(ChatFormatting.RED);
+            components.add((TextComponent) new TextComponent("Invalid JSON in title").withStyle(ChatFormatting.RED));
         }
-        return component;
+        return components;
     }
 
     /**

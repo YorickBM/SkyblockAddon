@@ -14,6 +14,10 @@ import yorickbm.guilibrary.GUIItem;
 import yorickbm.guilibrary.GUIType;
 import yorickbm.guilibrary.events.GuiDrawFillerEvent;
 import yorickbm.guilibrary.events.GuiDrawItemEvent;
+import yorickbm.guilibrary.util.FillerPattern;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ServerInterface extends AbstractContainerMenu {
 
@@ -22,12 +26,18 @@ public class ServerInterface extends AbstractContainerMenu {
     protected Player holder;
     protected GUIType type;
 
+    private List<GUIItem> items;
+
+    private int maxPage = 1;
+    private int currPage = 1;
+
     public ServerInterface(int syncId, Inventory playerInventory, Player holder, GUIType type, CompoundTag data) {
         super(fromRows(type.getRows()), syncId);
         this.container = new SimpleContainer(type.getRows() * 9);
         this.holder = holder;
 
         this.type = type;
+        this.items = type.getItems();
         this.data = data;
 
         int i = (type.getRows() - 4) * 18;
@@ -128,7 +138,7 @@ public class ServerInterface extends AbstractContainerMenu {
 
         Slot slot = this.slots.get(i);
         if(slot.hasItem()) {
-            this.type.getItems().stream().filter(item -> item.getSlot() == slot.getSlotIndex()).findFirst().ifPresent(gi -> {
+            this.items.stream().filter(item -> item.getSlot() == slot.getSlotIndex()).findFirst().ifPresent(gi -> {
                 switch (j) {
                     case 0 -> MinecraftForge.EVENT_BUS.post(gi.getPrimaryClick(this, (ServerPlayer) playerEntity, slot));
                     case 1 -> MinecraftForge.EVENT_BUS.post(gi.getSecondaryClick(this, (ServerPlayer) playerEntity, slot));
@@ -166,11 +176,48 @@ public class ServerInterface extends AbstractContainerMenu {
      * Initiates a draw of the inventory
      */
     public void update() {
+        this.container.clearContent(); //Clear Inventory
+
+        //Add fillers
+        for(GUIFiller item : type.getFillers().stream().filter(f -> f.getPattern() != FillerPattern.EMPTY).toList()) {
+            if(item.hasEvent()) MinecraftForge.EVENT_BUS.post(item.getEvent(this, type.getRows() * 9));
+            else MinecraftForge.EVENT_BUS.post(new GuiDrawFillerEvent(this, item, type.getRows() * 9));
+        }
+
+        //Add items
         for(GUIItem item : type.getItems()) {
             MinecraftForge.EVENT_BUS.post(new GuiDrawItemEvent(this, item));
         }
-        for(GUIFiller item : type.getFillers()) {
-            MinecraftForge.EVENT_BUS.post(new GuiDrawFillerEvent(this, item, type.getRows() * 9));
+
+        //Add fillers
+        for(GUIFiller item : type.getFillers().stream().filter(f -> f.getPattern() == FillerPattern.EMPTY).toList()) {
+            if(item.hasEvent()) MinecraftForge.EVENT_BUS.post(item.getEvent(this, type.getRows() * 9));
+            else MinecraftForge.EVENT_BUS.post(new GuiDrawFillerEvent(this, item, type.getRows() * 9));
         }
     }
+
+    /**
+     * Remove item from data set if its not rendered (prevents action triggers)
+     * @param itemHolder
+     */
+    public void removeItem(GUIItem itemHolder) {
+        this.items.remove(itemHolder);
+    }
+
+    public int getCurrentPage() {  return this.currPage; }
+
+    public int getMaxPage() { return this.maxPage; }
+    public void setMaxPage(int page) { this.maxPage = page; }
+
+    public boolean nextPage() {
+        if(this.currPage == this.maxPage) return false;
+        else this.currPage += 1;
+        return true;
+    }
+    public boolean prevPage() {
+        if(this.currPage == 1) return false;
+        else this.currPage -= 1;
+        return true;
+    }
+
 }

@@ -1,22 +1,18 @@
-package yorickbm.skyblockaddon.events;
+package yorickbm.skyblockaddon.events.Gui;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.commands.Commands;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.lwjgl.system.CallbackI;
-import yorickbm.guilibrary.events.GuiDrawItemEvent;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
-import yorickbm.skyblockaddon.islands.IslandEvents;
 import yorickbm.skyblockaddon.islands.Island;
+import yorickbm.skyblockaddon.islands.IslandEvents;
 import yorickbm.skyblockaddon.islands.groups.IslandGroup;
 import yorickbm.skyblockaddon.util.FunctionRegistry;
 import yorickbm.skyblockaddon.util.ServerHelper;
@@ -26,41 +22,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class GuiEvents {
-
-    @SubscribeEvent
-    public void itemRenderer(GuiDrawItemEvent event) {
-        if(event.isCanceled()) return; //Skip if canceled
-
-        //Ignore condition filter if no island_id is set
-        if(!event.getHolder().getData().contains("island_id")) { return; }
-
-        event.getHolder().getOwner().getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island island = cap.getIslandByUUID(event.getHolder().getData().getUUID("island_id"));
-
-            //Ignore condition if not found
-            if(island == null) { return; }
-
-            if(event.getItemHolder().hasCondition("is_admin")) {
-                //TODO: Add condition for admin permission
-                event.setCanceled(!island.isOwner(event.getHolder().getOwner().getUUID()) && !event.getHolder().getOwner().hasPermissions(Commands.LEVEL_ADMINS));
-            } else if(event.getItemHolder().hasCondition("!is_admin")) {
-                event.setCanceled(island.isOwner(event.getHolder().getOwner().getUUID()) || event.getHolder().getOwner().hasPermissions(Commands.LEVEL_ADMINS));
-            }
-
-            if(event.getItemHolder().hasCondition("is_part")) {
-                event.setCanceled(!island.isPartOf(event.getHolder().getOwner().getUUID()));
-            } else if(event.getItemHolder().hasCondition("!is_part")) {
-                event.setCanceled(island.isPartOf(event.getHolder().getOwner().getUUID()));
-            }
-
-        });
-    }
-
-    //TODO Add Dynamic Data Parser for Item Renderer
-
-    //TODO Add registries on filler items
-
+public class IslandGuiEvents {
     @SubscribeEvent
     public void onTeleportToIslandEvent(IslandEvents.TeleportToIsland event) {
         if(event.isCanceled()) return; //Skip if canceled
@@ -215,7 +177,7 @@ public class GuiEvents {
                 new TextComponent(
                         SkyBlockAddonLanguage.getLocalizedString("island.member.kicked")
                                 .formatted( UsernameCache.getBlocking(playerUUID) )
-                        ).withStyle(ChatFormatting.GREEN),
+                ).withStyle(ChatFormatting.GREEN),
                 event.getTarget().getUUID());
     }
 
@@ -237,12 +199,12 @@ public class GuiEvents {
 
         event.getTarget().sendMessage(
                 new TextComponent(
-                    SkyBlockAddonLanguage.getLocalizedString("island.member.group.set")
-                        .formatted(
-                                UsernameCache.getBlocking(playerUUID),
-                                event.getIsland().getGroup(groupUUID).getItem().getDisplayName().getString().trim()
-                        )
-                    ).withStyle(ChatFormatting.GREEN),
+                        SkyBlockAddonLanguage.getLocalizedString("island.member.group.set")
+                                .formatted(
+                                        UsernameCache.getBlocking(playerUUID),
+                                        event.getIsland().getGroup(groupUUID).getItem().getDisplayName().getString().trim()
+                                )
+                ).withStyle(ChatFormatting.GREEN),
                 event.getTarget().getUUID());
     }
 

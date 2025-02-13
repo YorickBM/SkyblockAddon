@@ -4,6 +4,7 @@ package yorickbm.guilibrary.util;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -47,7 +48,7 @@ public class Helper {
      * @param stack - Itemstack to add too
      * @param components - Text Components to add as lore
      */
-    public static void addLore(ItemStack stack, Component... components) {
+    public static void addLore(ItemStack stack, TextComponent... components) {
         ListTag lore = new ListTag();
         Arrays.stream(components).toList().forEach(text -> lore.add(StringTag.valueOf(Component.Serializer.toJson(text))));
         stack.getOrCreateTagElement("display").put("Lore", lore);

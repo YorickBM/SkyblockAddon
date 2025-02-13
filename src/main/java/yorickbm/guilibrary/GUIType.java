@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GUIType {
 
-    private final TextComponent title;
+    private final List<TextComponent> title;
     private final int rows;
     private final List<GUIItem> items;
     private final List<GUIFiller> fillers;
@@ -20,7 +20,7 @@ public class GUIType {
     }
 
     // Getters
-    public TextComponent getTitle() {
+    public List<TextComponent> getTitle() {
         return title;
     }
 
@@ -38,7 +38,7 @@ public class GUIType {
 
     // Builder class
     public static class Builder {
-        private TextComponent title;
+        private List<TextComponent> title;
         private int rows;
         private List<GUIItem> items;
         private List<GUIFiller> fillers;
@@ -52,7 +52,7 @@ public class GUIType {
         }
 
         // Setter methods for each field
-        public Builder setTitle(TextComponent title) {
+        public Builder setTitle(List<TextComponent> title) {
             this.title = title;
             return this;
         }

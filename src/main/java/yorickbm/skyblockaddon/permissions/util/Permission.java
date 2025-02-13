@@ -43,7 +43,7 @@ public class Permission implements JSONSerializable {
         tag.putString("groupname", island.getGroup(groupId).getItem().getDisplayName().getString());
         tag.putString("status", island.getPermissionState(this.id, groupId));
 
-        return this.item.getItemStack();
+        return this.item.getItemStackHolder().getItemStack();
     }
 
     public String getCategory() {

@@ -18,7 +18,7 @@
     {
       "item": {
         "display_name": [
-          "{\"text\": \"%dataname%\", \"color\":\"blue\"}"
+          "{\"text\": \"%data_name%\", \"color\":\"blue\"}"
         ],
         "item": "minecraft:PAPER",
         "lore": [
@@ -26,7 +26,7 @@
             "{\"text\":\"\u00bb Click to change the biome of your island.\",\"color\":\"dark_gray\"}"
           ],
           [
-            "{\"text\":\"\u2666 Current: \",\"color\":\"dark_gray\"}", "{\"text\":\"%biome%\",\"color\":\"white\"}"
+            "{\"text\":\"\u2666 Current: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_island_biome%\",\"color\":\"white\"}"
           ]
         ],
         "data": {
@@ -35,9 +35,9 @@
       },
       "pattern": "INSIDE",
       "action": {
-        "onClick": "updateBiome",
-        "onSecondClick": "updateBiome"
-      }
+        "onClick": "yorickbm.skyblockaddon.islands.IslandEvents$UpdateBiome"
+      },
+      "event": "yorickbm.skyblockaddon.registries.RegistryEvents$BiomeRegistry"
     }
   ],
   "items": [

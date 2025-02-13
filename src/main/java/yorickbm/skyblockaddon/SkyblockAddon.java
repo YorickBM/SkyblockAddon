@@ -23,7 +23,13 @@ import yorickbm.guilibrary.GUILibraryRegistry;
 import yorickbm.guilibrary.events.DefaultEventHandler;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
-import yorickbm.skyblockaddon.events.*;
+import yorickbm.skyblockaddon.events.Gui.GuiEvents;
+import yorickbm.skyblockaddon.events.Gui.IslandGuiEvents;
+import yorickbm.skyblockaddon.events.Gui.RegistryGuiEvents;
+import yorickbm.skyblockaddon.events.ModEvents;
+import yorickbm.skyblockaddon.events.ParticleEvents;
+import yorickbm.skyblockaddon.events.PermissionEvents;
+import yorickbm.skyblockaddon.events.PlayerEvents;
 import yorickbm.skyblockaddon.islands.data.IslandData;
 import yorickbm.skyblockaddon.permissions.PermissionManager;
 import yorickbm.skyblockaddon.util.ResourceManager;
@@ -69,6 +75,8 @@ public class SkyblockAddon {
 
         MinecraftForge.EVENT_BUS.register(new DefaultEventHandler());
         MinecraftForge.EVENT_BUS.register(new GuiEvents());
+        MinecraftForge.EVENT_BUS.register(new IslandGuiEvents());
+        MinecraftForge.EVENT_BUS.register(new RegistryGuiEvents());
 
         if(SkyblockAddonConfig.getForKey("island.particles.border").equalsIgnoreCase("TRUE")) MinecraftForge.EVENT_BUS.register(new ParticleEvents());
     }

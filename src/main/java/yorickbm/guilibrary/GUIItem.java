@@ -3,21 +3,24 @@ package yorickbm.guilibrary;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.Event;
 import yorickbm.guilibrary.interfaces.GuiClickItemEvent;
 import yorickbm.guilibrary.interfaces.ServerInterface;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class GUIItem {
 
-    private final ItemStack item;
+    private final GUIItemStackHolder item;
+
     protected int slot;
     private final Class<? extends GuiClickItemEvent> primaryClickClass, secondaryClickClass;
     private final CompoundTag data;
     private final List<String> conditions;
+
+    private final UUID id; //Unique ID to differentiate duplicate items
 
     // Constructor is private to force using the Builder
     private GUIItem(Builder builder) {
@@ -27,19 +30,23 @@ public class GUIItem {
         this.secondaryClickClass = builder.secondaryClickClass;
         this.data = builder.data;
         this.conditions = builder.conditions;
+
+        this.id = UUID.randomUUID();
     }
 
-    public GUIItem(ItemStack item, Class<? extends GuiClickItemEvent> primaryClickClass, Class<? extends GuiClickItemEvent> secondaryClickClass, CompoundTag data, List<String> conditions) {
+    public GUIItem(GUIItemStackHolder item, Class<? extends GuiClickItemEvent> primaryClickClass, Class<? extends GuiClickItemEvent> secondaryClickClass, CompoundTag data, List<String> conditions) {
         this.item = item;
         this.slot = -1;
         this.primaryClickClass = primaryClickClass;
         this.secondaryClickClass = secondaryClickClass;
         this.data = data;
         this.conditions = conditions;
+
+        this.id = UUID.randomUUID();
     }
 
     // Getters for the fields (optional, depending on use case)
-    public ItemStack getItem() {
+    public GUIItemStackHolder getItemHolder() {
         return item;
     }
 
@@ -75,7 +82,7 @@ public class GUIItem {
     }
 
     public static class Builder {
-        private ItemStack item;
+        private GUIItemStackHolder item;
         private int slot = -1;
         Class<? extends GuiClickItemEvent> primaryClickClass, secondaryClickClass;
         private CompoundTag data = new CompoundTag();
@@ -88,7 +95,7 @@ public class GUIItem {
         }
 
         // Set the ItemStack (mandatory)
-        public Builder setItemStack(ItemStack item) {
+        public Builder setItemStack(GUIItemStackHolder item) {
             this.item = item;
             return this;
         }
@@ -120,7 +127,7 @@ public class GUIItem {
             if (slot < 0) {
                 throw new IllegalArgumentException("A slot must be provided.");
             }
-            if (item == null || item.isEmpty()) {
+            if (item == null || item.getItemStack().isEmpty()) {
                 throw new IllegalArgumentException("An itemstack must be provided.");
             }
 
