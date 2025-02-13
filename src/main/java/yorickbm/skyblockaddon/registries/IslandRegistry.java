@@ -24,12 +24,12 @@ public class IslandRegistry extends SkyblockAddonRegistry {
         String username = UsernameCache.getBlocking(island.getOwner());
 
         tag.putString("SkullOwner", username);
-        tag.putString("ownername", username);
+        tag.putString("owner_name", username);
 
         tag.putString("biome", island.getBiome());
 
-        tag.putUUID("islandId", island.getId());
-        tag.putUUID("playerId", island.getOwner());
+        tag.putUUID("island_id", island.getId());
+        tag.putUUID("player_id", island.getOwner());
 
         index++;
         return true;

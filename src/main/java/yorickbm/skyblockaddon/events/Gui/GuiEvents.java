@@ -109,9 +109,6 @@ public class GuiEvents {
                 put("%z%", island.getSpawn().getZ()+"");
                 put("%biome%", island.getBiome());
                 put("%visibility%", island.isVisible() ? SkyBlockAddonLanguage.getLocalizedString("island.public") : SkyBlockAddonLanguage.getLocalizedString("island.private"));
-
-                put("%datapagenum%", event.getHolder().getCurrentPage()+"");
-                put("%datamaxpage%", event.getHolder().getMaxPage()+"");
             }};
 
             event.getItemStackHolder().setDisplayName(name.stream()

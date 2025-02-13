@@ -61,7 +61,7 @@
     {
       "item": {
         "display_name": [
-          "{\"text\": \"%datapagenum% / %datamaxpage%\",\"bold\": true,\"color\": \"blue\"}"
+          "{\"text\": \"%pagenum% / %maxpage%\",\"bold\": true,\"color\": \"blue\"}"
         ],
         "item": "minecraft:PAPER",
         "lore": [],

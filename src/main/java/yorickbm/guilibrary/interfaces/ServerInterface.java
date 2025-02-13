@@ -17,7 +17,6 @@ import yorickbm.guilibrary.events.GuiDrawItemEvent;
 import yorickbm.guilibrary.util.FillerPattern;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ServerInterface extends AbstractContainerMenu {
 

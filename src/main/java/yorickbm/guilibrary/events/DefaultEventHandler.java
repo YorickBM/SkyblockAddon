@@ -1,5 +1,6 @@
 package yorickbm.guilibrary.events;
 
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -8,6 +9,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.guilibrary.interfaces.GuiClickItemEvent;
 import yorickbm.guilibrary.util.Helper;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class DefaultEventHandler {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -19,6 +25,41 @@ public class DefaultEventHandler {
             event.setResult(Event.Result.DENY);
             return; //Skip if canceled
         }
+
+        //Default dynamic text
+        List<TextComponent> name = event.getItemStackHolder().getDisplayName();
+        List<List<TextComponent>> lore = event.getItemStackHolder().getLore();
+
+        Map<String, String> replacements = new HashMap<>() {{
+            put("%pagenum%", event.getHolder().getCurrentPage()+"");
+            put("%maxpage%", event.getHolder().getMaxPage()+"");
+        }};
+
+        event.getItemStackHolder().setDisplayName(name.stream()
+                .map(component -> {
+                    String modifiedText = replacements.entrySet().stream()
+                            .reduce(component.getString(), (text, entry) -> text.replace(entry.getKey(), entry.getValue()), (a, b) -> b);
+                    return new TextComponent(modifiedText).withStyle(component.getStyle());
+                })
+                .filter(c -> c instanceof TextComponent) // Ensure it's a TextComponent
+                .map(c -> (TextComponent) c) // Cast to TextComponent
+                .collect(Collectors.toList()));
+
+        event.getItemStackHolder().setLore(
+                lore.stream()
+                        .map(innerList -> innerList.stream() // Process each inner List<TextComponent>
+                                .map(component -> {
+                                    String modifiedText = replacements.entrySet().stream()
+                                            .reduce(component.getString(), (text, entry) -> text.replace(entry.getKey(), entry.getValue()), (a, b) -> b);
+                                    return new TextComponent(modifiedText).withStyle(component.getStyle());
+                                })
+                                .filter(c -> c instanceof TextComponent) // Ensure it's a TextComponent
+                                .map(c -> (TextComponent) c) // Cast to TextComponent
+                                .collect(Collectors.toList()) // Collect modified components back into List<TextComponent>
+                        )
+                        .collect(Collectors.toList()) // Maintain the original List<List<TextComponent>> structure
+        );
+        //End dynamic text
 
         event.drawItem(); //Add item into inventory
         event.setResult(Event.Result.ALLOW);

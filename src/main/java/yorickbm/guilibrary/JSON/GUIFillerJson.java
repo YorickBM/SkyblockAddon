@@ -5,7 +5,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.guilibrary.GUIFiller;
 import yorickbm.guilibrary.events.GuiDrawFillerEvent;
-import yorickbm.guilibrary.interfaces.GuiClickItemEvent;
 import yorickbm.guilibrary.util.FillerPattern;
 import yorickbm.guilibrary.util.JSON.JSONSerializable;
 

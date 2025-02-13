@@ -20,7 +20,7 @@
     {
       "item": {
         "display_name": [
-          "{\"text\": \"%dataownername%'s Island\", \"color\":\"blue\"}"
+          "{\"text\": \"%data_owner_name%'s Island\", \"color\":\"blue\"}"
         ],
         "item": "minecraft:PLAYER_HEAD",
         "lore": [
@@ -28,21 +28,20 @@
             "{\"text\":\"\u00bb Click to travel to this island.\",\"color\":\"dark_gray\"}"
           ]
         ],
-        "data": {
-          "registry": "IslandRegistry"
-        }
+        "data": {}
       },
       "pattern": "INSIDE",
       "action": {
         "onClick": "yorickbm.skyblockaddon.islands.IslandEvents$TravelToIsland"
-      }
+      },
+      "event": "yorickbm.skyblockaddon.registries.RegistryEvents$IslandRegistry"
     }
   ],
   "items": [
     {
       "item": {
         "display_name": [
-          "{\"text\": \"%datapagenum% / %datamaxpage%\",\"bold\": true,\"color\": \"blue\"}"
+          "{\"text\": \"%pagenum% / %maxpage%\",\"bold\": true,\"color\": \"blue\"}"
         ],
         "item": "minecraft:PAPER",
         "lore": [],

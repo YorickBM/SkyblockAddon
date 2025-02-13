@@ -72,6 +72,10 @@ public class GUIItemStackHolder {
         ItemStack stack = new ItemStack(this.item, this.amount);
         stack.getOrCreateTag().put(GUILibraryRegistry.MOD_ID, this.tag);
 
+        if(this.tag.contains("SkullOwner")) {
+            stack.getOrCreateTag().putString("SkullOwner", this.tag.getString("SkullOwner"));
+        }
+
         stack.setHoverName(this.display_name.stream().reduce(new TextComponent(""), (a, b) -> (TextComponent) a.append(b)));
 
         Helper.addLore(stack, this.lore.stream()

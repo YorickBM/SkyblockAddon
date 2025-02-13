@@ -20,16 +20,16 @@
         "display_name": [],
         "item": "minecraft:PAPER",
         "lore": [],
-        "data": {
-          "registry": "GroupsRegistry",
-          "gui": "permissions"
-        }
+        "data": {}
       },
       "pattern": "INSIDE",
       "action": {
         "onClick": "viewPermissions",
-        "onSecondClick": "viewPermissions"
-      }
+        "data": {
+          "gui": "skyblockaddon:permissions"
+        }
+      },
+      "event": "yorickbm.skyblockaddon.registries.RegistryEvents$GroupsRegistry"
     }
   ],
   "items": [
@@ -53,7 +53,7 @@
     {
       "item": {
         "display_name": [
-          "{\"text\": \"%datapagenum% / %datamaxpage%\",\"bold\": true,\"color\": \"blue\"}"
+          "{\"text\": \"%pagenum% / %maxpage%\",\"bold\": true,\"color\": \"blue\"}"
         ],
         "item": "minecraft:PAPER",
         "lore": [],
