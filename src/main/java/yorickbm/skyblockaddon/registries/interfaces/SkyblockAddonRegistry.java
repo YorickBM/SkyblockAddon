@@ -5,7 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 public abstract class SkyblockAddonRegistry {
     protected int index = 0;
 
-    public abstract boolean getNextData(CompoundTag tag);
+    public abstract void getNextData(CompoundTag tag);
     public abstract int getSize();
 
     public void setIndex(int number) {
@@ -21,4 +21,8 @@ public abstract class SkyblockAddonRegistry {
     }
 
     public int getIndex() { return this.index; }
+
+    public boolean hasNext() {
+        return this.getIndex() < this.getSize();
+    }
 }

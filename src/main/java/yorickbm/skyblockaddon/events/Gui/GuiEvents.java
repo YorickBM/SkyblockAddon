@@ -97,8 +97,6 @@ public class GuiEvents {
             //Ignore condition if not found
             if(island == null) { return; }
 
-            event.getItemStackHolder().reset(); //Reset item to originals
-
             List<TextComponent> name = event.getItemStackHolder().getDisplayName();
             List<List<TextComponent>> lore = event.getItemStackHolder().getLore();
 

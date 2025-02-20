@@ -41,12 +41,6 @@ public class GUIFiller extends GUIItem {
         return this.event != null;
     }
 
-    public void setSlot(int slot) {
-        super.slot = slot;
-    }
-
-
-
     public static class Builder {
         private GUIItemStackHolder item;
         private FillerPattern pattern = FillerPattern.INSIDE;

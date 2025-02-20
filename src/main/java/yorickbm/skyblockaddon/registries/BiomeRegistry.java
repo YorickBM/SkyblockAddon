@@ -55,8 +55,7 @@ public class BiomeRegistry extends SkyblockAddonRegistry implements CustomItems 
      * @return - If there is another entry
      */
     @Override
-    public boolean getNextData(CompoundTag tag) {
-        if(this.index >= this.getSize()) return false;
+    public void getNextData(CompoundTag tag) {
         Map.Entry<String, Item> entry = this.entries.get(this.index);
 
         tag.putString("biome", entry.getKey());
@@ -69,7 +68,6 @@ public class BiomeRegistry extends SkyblockAddonRegistry implements CustomItems 
             .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase())
             .collect(Collectors.joining(" ")));
         index++;
-        return true;
     }
 
     /**
@@ -78,6 +76,6 @@ public class BiomeRegistry extends SkyblockAddonRegistry implements CustomItems 
      */
     @Override
     public int getSize() {
-        return biomes.size();
+        return this.entries.size();
     }
 }

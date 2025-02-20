@@ -24,16 +24,13 @@ public class MemberRegistry extends SkyblockAddonRegistry {
      * Load NBT data into tag for current index
      *
      * @param tag - CompoundTag to fill
-     * @return - If there is another entry
      */
     @Override
-    public boolean getNextData(CompoundTag tag) {
-        if(this.index >= this.getSize()) return false;
-
+    public void getNextData(CompoundTag tag) {
         String username = UsernameCache.getBlocking(this.members.get(this.index));
 
         tag.putString("SkullOwner", username);
-        tag.putString("ownername", username);
+        tag.putString("owner_name", username);
 
         Optional<IslandGroup> group = island.getGroupForEntityUUID(this.members.get(this.index));
         group.ifPresentOrElse(
@@ -43,7 +40,6 @@ public class MemberRegistry extends SkyblockAddonRegistry {
         tag.putUUID("playerId", this.members.get(this.index));
 
         this.index++;
-        return true;
     }
 
     @Override

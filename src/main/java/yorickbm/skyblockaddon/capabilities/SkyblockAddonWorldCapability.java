@@ -28,7 +28,6 @@ import yorickbm.skyblockaddon.util.BuildingBlock;
 import yorickbm.skyblockaddon.util.NBT.NBTEncoder;
 import yorickbm.skyblockaddon.util.NBT.NBTUtil;
 import yorickbm.skyblockaddon.util.ResourceManager;
-import yorickbm.skyblockaddon.util.UsernameCache;
 import yorickbm.skyblockaddon.util.exceptions.NBTNotFoundException;
 
 import javax.annotation.Nonnull;
@@ -99,7 +98,7 @@ public class SkyblockAddonWorldCapability {
         try {
             Optional<UUID> island = CACHE_islandByPlayerUUID.get(entity.getUUID());
             if (island.isEmpty()) return; //Got no island
-            UsernameCache.getBlocking(getIslandByUUID(island.get()).getOwner()); //Load owners name into cache
+            getIslandByUUID(island.get()).getName(); //Load owners name into cache
             CACHE_islandByBoundingBox.put(getIslandByUUID(island.get()).getIslandBoundingBox(), island); //Store into bounding box cache
         } catch (ExecutionException e) {
             throw new RuntimeException(e);

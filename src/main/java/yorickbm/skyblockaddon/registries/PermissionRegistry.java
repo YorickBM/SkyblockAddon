@@ -25,12 +25,9 @@ public class PermissionRegistry extends SkyblockAddonRegistry implements CustomI
     }
 
     @Override
-    public boolean getNextData(CompoundTag tag) {
-        if(this.index >= this.getSize()) return false;
+    public void getNextData(CompoundTag tag) {
         tag.putInt("permission", index);
-
         index++;
-        return true;
     }
 
     @Override

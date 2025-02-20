@@ -18,7 +18,7 @@
     {
       "item": {
         "display_name": [
-          "{\"text\": \"%dataownername%\", \"color\":\"blue\"}"
+          "{\"text\": \"%data_owner_name%\", \"color\":\"blue\"}"
         ],
         "item": "minecraft:PLAYER_HEAD",
         "lore": [
@@ -30,20 +30,17 @@
           ],
           [
             "{\"text\":\"\u2666 Part of: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datagroup% \",\"color\":\"white\"}",
+            "{\"text\":\"%data_group% \",\"color\":\"white\"}",
             "{\"text\":\".\",\"color\":\"dark_gray\"}"
           ]
         ],
-        "data": {
-          "registry": "MemberRegistry",
-          "gui": "set_group"
-        }
+        "data": {}
       },
       "pattern": "INSIDE",
       "action": {
-        "onClick": "setGroup",
-        "onSecondClick": "setGroup"
-      }
+        "onClick": "yorickbm.skyblockaddon.islands.IslandEvents$SetPlayerGroup"
+      },
+      "event": "yorickbm.skyblockaddon.registries.RegistryEvents$MembersRegistry"
     }
   ],
   "items": [
@@ -67,7 +64,7 @@
     {
       "item": {
         "display_name": [
-          "{\"text\": \"%datapagenum% / %datamaxpage%\",\"bold\": true,\"color\": \"blue\"}"
+          "{\"text\": \"%pagenum% / %maxpage%\",\"bold\": true,\"color\": \"blue\"}"
         ],
         "item": "minecraft:PAPER",
         "lore": [],

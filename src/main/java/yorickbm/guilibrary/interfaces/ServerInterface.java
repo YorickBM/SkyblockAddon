@@ -8,24 +8,28 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.guilibrary.GUIFiller;
 import yorickbm.guilibrary.GUIItem;
+import yorickbm.guilibrary.GUIPlaceholder;
 import yorickbm.guilibrary.GUIType;
 import yorickbm.guilibrary.events.GuiDrawFillerEvent;
 import yorickbm.guilibrary.events.GuiDrawItemEvent;
 import yorickbm.guilibrary.util.FillerPattern;
 
-import java.util.List;
+import java.util.*;
 
 public class ServerInterface extends AbstractContainerMenu {
+    private static final Logger LOGGER = LogManager.getLogger();
 
     protected CompoundTag data;
     protected final SimpleContainer container;
     protected Player holder;
     protected GUIType type;
 
-    private List<GUIItem> items;
+    private Map<Integer, GUIPlaceholder> items;
 
     private int maxPage = 1;
     private int currPage = 1;
@@ -36,7 +40,7 @@ public class ServerInterface extends AbstractContainerMenu {
         this.holder = holder;
 
         this.type = type;
-        this.items = type.getItems();
+        this.items = new HashMap<>();
         this.data = data;
 
         int i = (type.getRows() - 4) * 18;
@@ -131,20 +135,15 @@ public class ServerInterface extends AbstractContainerMenu {
      * Event triggers upon clicking an items within the GUI
      */
     @Override
-    public void clicked(int i, int j, @NotNull ClickType actionType, @NotNull Player playerEntity) {
-        if (i < 0)
+    public void clicked(int slotIndex, int buttonId, @NotNull ClickType actionType, @NotNull Player playerEntity) {
+        if (slotIndex < 0)
             return;
 
-        Slot slot = this.slots.get(i);
+        Slot slot = this.slots.get(slotIndex);
         if(slot.hasItem()) {
-            this.items.stream().filter(item -> item.getSlot() == slot.getSlotIndex()).findFirst().ifPresent(gi -> {
-                switch (j) {
-                    case 0 -> MinecraftForge.EVENT_BUS.post(gi.getPrimaryClick(this, (ServerPlayer) playerEntity, slot));
-                    case 1 -> MinecraftForge.EVENT_BUS.post(gi.getSecondaryClick(this, (ServerPlayer) playerEntity, slot));
-                }
-            });
-            this.type.getFillers().stream().filter(item -> item.getSlot() == slot.getSlotIndex()).findFirst().ifPresent(gi -> {
-                switch (j) {
+            Optional<GUIPlaceholder> placeholder = Optional.ofNullable(this.items.get(slot.getSlotIndex()));
+            placeholder.ifPresent(gi -> {
+                switch (buttonId) {
                     case 0 -> MinecraftForge.EVENT_BUS.post(gi.getPrimaryClick(this, (ServerPlayer) playerEntity, slot));
                     case 1 -> MinecraftForge.EVENT_BUS.post(gi.getSecondaryClick(this, (ServerPlayer) playerEntity, slot));
                 }
@@ -197,10 +196,17 @@ public class ServerInterface extends AbstractContainerMenu {
 
     /**
      * Remove item from data set if its not rendered (prevents action triggers)
-     * @param itemHolder
      */
-    public void removeItem(GUIItem itemHolder) {
-        this.items.remove(itemHolder);
+    public void removeItem(int slot) {
+        this.items.remove(slot);
+    }
+
+    /**
+     * Add item into data set to add action trigger for item
+     * @param item
+     */
+    public void addItem(int slot, GUIPlaceholder item) {
+        this.items.put(slot, item);
     }
 
     public int getCurrentPage() {  return this.currPage; }
@@ -218,5 +224,4 @@ public class ServerInterface extends AbstractContainerMenu {
         else this.currPage -= 1;
         return true;
     }
-
 }

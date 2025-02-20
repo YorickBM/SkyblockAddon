@@ -10,22 +10,22 @@ import yorickbm.guilibrary.GUIItem;
 @Cancelable
 public class GuiClickItemEvent extends Event {
 
-    protected ServerInterface instance;
-    protected ServerPlayer target;
-    protected Slot slot;
-    protected GUIItem item;
+    protected final ServerInterface instance;
+    protected final ServerPlayer target;
+    protected final Slot slot;
+    protected final GUIItem guiItem;
 
-    public GuiClickItemEvent(ServerInterface instance, ServerPlayer player, Slot slot, GUIItem item) {
+    public GuiClickItemEvent(ServerInterface instance, ServerPlayer player, Slot slot, GUIItem guiItem) {
         this.instance = instance;
         this.target = player;
         this.slot = slot;
-        this.item = item;
+
+        this.guiItem = guiItem;
     }
 
     public ServerInterface getHolder() { return this.instance; }
     public ServerPlayer getTarget() { return this.target; }
 
     public ItemStack getClickedItem() { return this.slot.getItem(); }
-    public GUIItem getItemHolder() { return this.item; }
 
 }

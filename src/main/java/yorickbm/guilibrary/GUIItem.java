@@ -1,18 +1,13 @@
 package yorickbm.guilibrary;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.inventory.Slot;
-import net.minecraftforge.eventbus.api.Event;
 import yorickbm.guilibrary.interfaces.GuiClickItemEvent;
-import yorickbm.guilibrary.interfaces.ServerInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class GUIItem {
-
     private final GUIItemStackHolder item;
 
     protected int slot;
@@ -51,30 +46,17 @@ public class GUIItem {
     }
 
     public int getSlot() {
-        return slot;
+        return this.slot;
     }
 
     public boolean hasCondition(String condition) { return conditions.contains(condition); }
 
-    public Event getPrimaryClick(ServerInterface instance, ServerPlayer player, Slot slot) {
-        if(primaryClickClass == null) return new Event();
-        return createEventInstance(primaryClickClass, instance, player, slot);
+    public Class<? extends GuiClickItemEvent> getPrimaryClickClass() {
+        return this.primaryClickClass;
     }
 
-    public Event getSecondaryClick(ServerInterface instance, ServerPlayer player, Slot slot) {
-        if(secondaryClickClass == null) return new Event();
-        return createEventInstance(secondaryClickClass, instance, player, slot);
-    }
-
-    // Helper method to create a new event instance using reflection
-    private Event createEventInstance(Class<? extends GuiClickItemEvent> eventClass, ServerInterface instance, ServerPlayer player, Slot slot) {
-        try {
-            // Create a new instance of the event class, passing the parameters to its constructor
-            return eventClass.getConstructor(ServerInterface.class, ServerPlayer.class, Slot.class, GUIItem.class)
-                    .newInstance(instance, player, slot, this);  // Pass the arguments
-        } catch (Exception e) {
-            return new Event();  // Return null if event creation fails
-        }
+    public Class<? extends GuiClickItemEvent> getSecondaryClickClass() {
+        return this.secondaryClickClass;
     }
 
     public CompoundTag getActionData() {
@@ -124,9 +106,6 @@ public class GUIItem {
 
         // Build the GUIItem instance
         public GUIItem build() {
-            if (slot < 0) {
-                throw new IllegalArgumentException("A slot must be provided.");
-            }
             if (item == null || item.getItemStack().isEmpty()) {
                 throw new IllegalArgumentException("An itemstack must be provided.");
             }

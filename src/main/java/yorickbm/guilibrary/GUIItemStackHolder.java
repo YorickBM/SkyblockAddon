@@ -7,44 +7,42 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import yorickbm.guilibrary.util.Helper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GUIItemStackHolder {
+public class GUIItemStackHolder implements Cloneable {
 
-    private Item item, _item;
-    private int amount, _amount;
+    private Item item;
+    private int amount;
     private CompoundTag tag;
 
-    private List<TextComponent> display_name, _display_name;
-    private List<List<TextComponent>> lore, _lore;
+    private List<TextComponent> display_name;
+    private List<List<TextComponent>> lore;
 
-    public GUIItemStackHolder(Item item, int amount, CompoundTag tag, List<String> display_name, List<List<String>> lore) {
-        // Process display name
-        this.display_name = display_name.stream()
-                .map(Component.Serializer::fromJson)
-                .filter(c -> c instanceof TextComponent)
-                .map(c -> (TextComponent) c)
-                .collect(Collectors.toList());
-
-        // Process lore data
-        this.lore = lore.stream()
-                .map(l -> l.stream()
-                        .map(Component.Serializer::fromJson)
-                        .filter(c -> c instanceof TextComponent) // Ensure it's a TextComponent
-                        .map(c -> (TextComponent) c) // Cast to TextComponent
-                        .collect(Collectors.toList()))
-                .collect(Collectors.toList());
-
+    public GUIItemStackHolder(Item item, int amount, List<TextComponent> display_name, List<List<TextComponent>> lore, CompoundTag tag) {
+        this.display_name = display_name;
+        this.lore = lore;
         this.tag = tag;
         this.item = item;
         this.amount = amount;
+    }
+    public GUIItemStackHolder(Item item, int amount, CompoundTag tag, List<String> display_name, List<List<String>> lore) {
+        this(item, amount, convertToTextComponents(display_name), convertToTextComponentLists(lore), tag);
+    }
 
-        //Keep originals
-        this._lore = this.lore;
-        this._display_name = this.display_name;
-        this._item = this.item;
-        this._amount = this.amount;
+    private static List<TextComponent> convertToTextComponents(List<String> input) {
+        return (input != null) ? input.stream()
+                .map(Component.Serializer::fromJson)
+                .filter(c -> c instanceof TextComponent)
+                .map(c -> (TextComponent) c)
+                .collect(Collectors.toList()) : new ArrayList<>();
+    }
+
+    private static List<List<TextComponent>> convertToTextComponentLists(List<List<String>> input) {
+        return (input != null) ? input.stream()
+                .map(GUIItemStackHolder::convertToTextComponents)
+                .collect(Collectors.toList()) : new ArrayList<>();
     }
 
     public List<List<TextComponent>> getLore() { return this.lore; }
@@ -55,15 +53,6 @@ public class GUIItemStackHolder {
 
     public void setItem(Item item) { this.item = item; }
     public Item getItem() { return this.item; }
-
-    public GUIItemStackHolder reset() {
-        this.lore = this._lore;
-        this.display_name = this._display_name;
-        this.item = this._item;
-        this.amount = this._amount;
-
-        return this;
-    }
 
     public void setAmount(int amount) { this.amount = amount; }
     public int getAmount() { return this.amount; }
@@ -88,5 +77,32 @@ public class GUIItemStackHolder {
 
     public void addData(String key, String value) {
         this.tag.putString(key, value);
+    }
+
+    @Override
+    public GUIItemStackHolder clone() {
+        try {
+            // Create a deep copy of the CompoundTag
+            CompoundTag clonedTag = this.tag.copy();
+
+            // Deep copy the display name (including style)
+            List<TextComponent> clonedDisplayName = this.display_name.stream()
+                    .map(component -> (TextComponent) new TextComponent(component.getText()).setStyle(component.getStyle()))
+                    .toList();
+
+            // Deep copy the lore (including style)
+            List<List<TextComponent>> clonedLore = this.lore.stream()
+                    .map(innerList -> innerList.stream()
+                            .map(component -> (TextComponent) new TextComponent(component.getText()).setStyle(component.getStyle()))
+                            .collect(Collectors.toList()))
+                    .toList();
+
+            return new GUIItemStackHolder(this.item, this.amount,
+                    clonedDisplayName,
+                    clonedLore,
+                    clonedTag);
+        } catch (Exception e) {
+            throw new RuntimeException("Cloning failed", e);
+        }
     }
 }

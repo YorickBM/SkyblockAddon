@@ -27,6 +27,8 @@ public class RegistryEvents extends GuiDrawFillerEvent {
 
     public RegistryEvents(ServerInterface instance, GUIFiller filler, int slots) {
         super(instance, filler, slots);
+        if (getPattern() != FillerPattern.INSIDE) { this.setCanceled(true); } //Pattern is not compatible with registry type
+
     }
 
     private int getItemsPerPage() {
@@ -40,7 +42,6 @@ public class RegistryEvents extends GuiDrawFillerEvent {
     }
 
     public GUIItemStackHolder processHolder(GUIItemStackHolder holder, CompoundTag data) {
-
         //Add skullowner data into the item
         if(data.contains("SkullOwner")) {
             holder.addData("SkullOwner", data.getString("SkullOwner"));
@@ -84,8 +85,6 @@ public class RegistryEvents extends GuiDrawFillerEvent {
     public static class BiomeRegistry extends RegistryEvents {
         public BiomeRegistry(ServerInterface instance, GUIFiller filler, int slots) {
             super(instance, filler, slots);
-
-            if (getPattern() != FillerPattern.INSIDE) { this.setCanceled(true); } //Pattern is not compatible with registry
             super.registry = new yorickbm.skyblockaddon.registries.BiomeRegistry();
 
             int maxPage = (int)Math.ceil((double) getRegistry().getSize() / super.getItemsPerPage()); //Divide the item amounts we have by available slots per page
@@ -99,7 +98,6 @@ public class RegistryEvents extends GuiDrawFillerEvent {
                     super.getItemStackHolder().addData("island_biome", island.getBiome());
                 });
             }
-
         }
     }
 
@@ -108,8 +106,6 @@ public class RegistryEvents extends GuiDrawFillerEvent {
         public IslandRegistry(ServerInterface instance, GUIFiller filler, int slots) {
             super(instance, filler, slots);
 
-            if (getPattern() != FillerPattern.INSIDE) { this.setCanceled(true); } //Pattern is not compatible with registry
-
             instance.getOwner().getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
                 super.registry = new yorickbm.skyblockaddon.registries.IslandRegistry(cap);
 
@@ -117,7 +113,6 @@ public class RegistryEvents extends GuiDrawFillerEvent {
                 super.setMaxPage(maxPage);
                 getRegistry().setIndex(((super.getCurrentPage() - 1) * super.getItemsPerPage())-1);
             });
-
         }
     }
 
@@ -126,8 +121,6 @@ public class RegistryEvents extends GuiDrawFillerEvent {
     public static class GroupsRegistry extends RegistryEvents {
         public GroupsRegistry(ServerInterface instance, GUIFiller filler, int slots) {
             super(instance, filler, slots);
-
-            if (getPattern() != FillerPattern.INSIDE) this.setCanceled(true); //Pattern is not compatible with registry
             if(!instance.getData().contains("island_id"))  this.setCanceled(true); //No island ID found
 
             instance.getOwner().getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
@@ -135,6 +128,24 @@ public class RegistryEvents extends GuiDrawFillerEvent {
                 if(island == null) return;
 
                 super.registry = new yorickbm.skyblockaddon.registries.GroupsRegistry(island);
+                int maxPage = (int)Math.ceil((double) getRegistry().getSize() / super.getItemsPerPage()); //Divide the item amounts we have by available slots per page
+                super.setMaxPage(maxPage);
+                getRegistry().setIndex(((super.getCurrentPage() - 1) * super.getItemsPerPage())-1);
+            });
+        }
+    }
+
+    @Cancelable
+    public static class MembersRegistry extends RegistryEvents {
+        public MembersRegistry(ServerInterface instance, GUIFiller filler, int slots) {
+            super(instance, filler, slots);
+            if(!instance.getData().contains("island_id"))  this.setCanceled(true); //No island ID found
+
+            instance.getOwner().getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
+                Island island = cap.getIslandByUUID(instance.getData().getUUID("island_id"));
+                if(island == null) return;
+
+                super.registry = new yorickbm.skyblockaddon.registries.MemberRegistry(island);
                 int maxPage = (int)Math.ceil((double) getRegistry().getSize() / super.getItemsPerPage()); //Divide the item amounts we have by available slots per page
                 super.setMaxPage(maxPage);
                 getRegistry().setIndex(((super.getCurrentPage() - 1) * super.getItemsPerPage())-1);

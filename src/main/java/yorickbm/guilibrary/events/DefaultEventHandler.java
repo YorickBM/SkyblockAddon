@@ -16,12 +16,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class DefaultEventHandler {
-    private static final Logger LOGGER = LogManager.getLogger();
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void itemRenderer(GuiDrawItemEvent event) {
         if(event.isCanceled()) {
-            event.getHolder().removeItem(event.getItemHolder());
             event.setResult(Event.Result.DENY);
             return; //Skip if canceled
         }
@@ -73,14 +71,14 @@ public class DefaultEventHandler {
             case EDGES -> {
                 for (int slot = 0; slot < event.getSlots(); slot++) {
                     if(slot >= 10 && slot <= event.getSlots() - 10  && slot%9 != 0 && slot%9 != 8) continue;
-                    if(!event.slotHasItem(slot)) {
+                    if(event.slotIsEmpty(slot)) {
                         event.drawItem(slot, event.getItemStackHolder().getItemStack());
                     }
                 }
             }
             case EMPTY -> {
                 for (int slot = 0; slot < event.getSlots(); slot++) {
-                    if(!event.slotHasItem(slot)) {
+                    if(event.slotIsEmpty(slot)) {
                         event.drawItem(slot, event.getItemStackHolder().getItemStack());
                     }
                 }
@@ -88,7 +86,7 @@ public class DefaultEventHandler {
             case INSIDE -> {
                 for (int slot = 0; slot < event.getSlots(); slot++) {
                     if((slot < 10 || slot > event.getSlots() - 10)  || (slot%9 == 0 || slot%9 == 8)) continue;
-                    if(!event.slotHasItem(slot)) {
+                    if(event.slotIsEmpty(slot)) {
                         event.drawItem(slot, event.getItemStackHolder().getItemStack());
                     }
                 }

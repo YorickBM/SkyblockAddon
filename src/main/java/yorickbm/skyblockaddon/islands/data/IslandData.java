@@ -18,6 +18,7 @@ import yorickbm.skyblockaddon.islands.groups.IslandGroup;
 import yorickbm.skyblockaddon.util.BiomeUtil;
 import yorickbm.skyblockaddon.util.NBT.NBTSerializable;
 import yorickbm.skyblockaddon.util.NBT.NBTUtil;
+import yorickbm.skyblockaddon.util.UsernameCache;
 import yorickbm.skyblockaddon.util.geometry.Square;
 
 import java.util.*;
@@ -245,5 +246,16 @@ public class IslandData implements NBTSerializable {
 
     public Optional<UUID> getGroupByName(String groupName) {
         return getGroups().stream().filter(g -> g.getItem().getDisplayName().getString().trim().equalsIgnoreCase(groupName)).map(IslandGroup::getId).findFirst();
+    }
+
+    private String name = "";
+    public String getName() {
+        if(this.name.isEmpty()) {
+            UsernameCache.get(getOwner()).thenAccept(r -> this.name = r);
+        }
+        return this.name.isEmpty() ? "..." : this.name;
+    }
+    public void updateName() {
+        UsernameCache.get(getOwner()).thenAccept(r -> this.name = r);
     }
 }

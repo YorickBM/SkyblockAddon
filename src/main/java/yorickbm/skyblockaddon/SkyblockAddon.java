@@ -37,6 +37,7 @@ import yorickbm.skyblockaddon.util.ThreadManager;
 import yorickbm.skyblockaddon.util.UsernameCache;
 import yorickbm.skyblockaddon.util.exceptions.TerralithFoundException;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -113,6 +114,9 @@ public class SkyblockAddon {
 
         //Register permissions
         PermissionManager.getInstance().loadPermissions();
+
+        //Init Version Checker
+        VersionChecker.startVersionCheck();
     }
 
     /**
@@ -122,7 +126,11 @@ public class SkyblockAddon {
     public void onServerStarting(ServerStartingEvent event) {
 
         //Loading public island owner names into username cache.
-        event.getServer().getLevel(Level.OVERWORLD).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> cap.getIslands().stream().filter(IslandData::isVisible).map(IslandData::getOwner).forEach(UsernameCache::get));
+        Objects.requireNonNull(event.getServer().getLevel(Level.OVERWORLD)).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap ->
+                cap.getIslands().stream().filter(IslandData::isVisible).forEach(i -> {
+                    i.updateName();
+                })
+        );
 
         // Check mod version
         Optional<? extends ModContainer> modContainer = ModList.get().getModContainerById(MOD_ID);
