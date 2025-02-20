@@ -6,6 +6,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.guilibrary.GUIItemStackHolder;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.registries.RegistryEvents;
 
 public class RegistryGuiEvents {
@@ -62,7 +63,10 @@ public class RegistryGuiEvents {
             event.getRegistry().getNextData(data);
 
            GUIItemStackHolder holder = event.processHolder(event.getItemStackHolder().clone(), data);
-            event.drawItem(slot, holder.getItemStack());
+           ItemStack stack = holder.getItemStack();
+           stack.getOrCreateTag().put(SkyblockAddon.MOD_ID, data);
+
+            event.drawItem(slot, stack);
         }
     }
 }
