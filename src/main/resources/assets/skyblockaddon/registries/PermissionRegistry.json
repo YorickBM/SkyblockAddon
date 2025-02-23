@@ -9,14 +9,14 @@
         "item": "minecraft:BUCKET",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -40,14 +40,14 @@
         "item": "minecraft:BRICKS",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -101,14 +101,14 @@
         "item": "minecraft:IRON_PICKAXE",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -159,14 +159,14 @@
         "item": "minecraft:FARMLAND",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -190,14 +190,14 @@
         "item": "minecraft:ANVIL",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -223,14 +223,14 @@
         "item": "minecraft:OBSIDIAN",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -257,14 +257,14 @@
         "item": "waystones:WAYSTONE",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -290,14 +290,14 @@
         "item": "minecraft:OAK_BOAT",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ],
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
@@ -330,14 +330,14 @@
         "item": "minecraft:ender_pearl",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ],
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
@@ -369,14 +369,14 @@
         "item": "minecraft:CHEST",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -403,14 +403,14 @@
         "item": "colossalchests:interface_wood",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -436,14 +436,14 @@
         "item": "minecraft:SHULKER_BOX",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -469,14 +469,14 @@
         "item": "sophisticatedbackpacks:backpack",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -502,14 +502,14 @@
         "item": "ae2:controller",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -533,14 +533,14 @@
         "item": "refinedstorage:creative_controller",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -564,14 +564,14 @@
         "item": "minecraft:oak_door",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -598,14 +598,14 @@
         "item": "minecraft:experience_bottle",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -629,14 +629,14 @@
         "item": "minecraft:CANDLE",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -661,14 +661,14 @@
         "item": "easy_villagers:TRADER",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -698,14 +698,14 @@
         "item": "storagedrawers:oak_full_drawers_1",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -732,14 +732,14 @@
         "item": "minecraft:IRON_SWORD",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -782,14 +782,14 @@
         "item": "minecraft:ZOMBIE_SPAWN_EGG",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -815,14 +815,14 @@
         "item": "minecraft:RED_BED",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -846,14 +846,14 @@
         "item": "the_vault:ANIMAL_PEN",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ],
           [
             "{\"text\":\"\u2666 Allows: \",\"color\":\"dark_gray\"}",
@@ -889,14 +889,14 @@
         "item": "minecraft:BONE_MEAL",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ],
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
@@ -925,14 +925,14 @@
         "item": "minecraft:repeater",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -963,14 +963,14 @@
         "item": "minecraft:daylight_detector",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ],
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
@@ -1006,14 +1006,14 @@
         "item": "minecraft:lever",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -1044,14 +1044,14 @@
         "item": "minecraft:stone_pressure_plate",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -1077,14 +1077,14 @@
         "item": "minecraft:hopper",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -1110,14 +1110,14 @@
         "item": "minecraft:dispenser",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ],
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
@@ -1151,14 +1151,14 @@
         "item": "create:redstone_link",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -1185,14 +1185,14 @@
         "item": "the_vault:spirit_extractor",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -1218,14 +1218,14 @@
         "item": "the_vault:wardrobe",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
@@ -1251,14 +1251,14 @@
         "item": "the_vault:vault_altar",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ],
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
@@ -1298,14 +1298,14 @@
         "item": "the_vault:chestplate",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ],
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
@@ -1351,14 +1351,14 @@
         "item": "the_vault:crystal_seal_empty",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %datagroupname%.\",\"color\":\"dark_gray\"}"
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\" \",\"color\":\"dark_gray\"}"
           ],
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datastatus% \",\"color\":\"white\"}"
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
           ]
         ]
       },
