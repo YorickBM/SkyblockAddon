@@ -26,7 +26,10 @@ public class RegistryGuiEvents {
             GUIItemStackHolder holder = event.processHolder(event.getItemStackHolder().clone(), data);
             holder.setItem(((yorickbm.skyblockaddon.registries.BiomeRegistry) event.getRegistry()).getItemFor(data));
 
-            event.drawItem(slot, holder.getItemStack());
+            ItemStack stack = holder.getItemStack();
+            stack.getOrCreateTag().put(SkyblockAddon.MOD_ID, data);
+
+            event.drawItem(slot, stack);
         }
         event.setCanceled(true);
     }
@@ -43,6 +46,25 @@ public class RegistryGuiEvents {
             event.getRegistry().getNextData(data);
 
             ItemStack stack = ((yorickbm.skyblockaddon.registries.GroupsRegistry)event.getRegistry()).getItemFor(data);
+            if(stack == null) stack = event.processHolder(event.getItemStackHolder().clone(), data).getItemStack();
+
+            event.drawItem(slot, stack);
+        }
+        event.setCanceled(true);
+    }
+
+    @SubscribeEvent
+    public void onPermissionRegistryFiller(RegistryEvents.PermissionsRegistry event) {
+        if(event.isCanceled()) return; //Event is canceled
+
+        for (int slot = 0; slot < event.getSlots(); slot++) {
+            if((slot < 10 || slot > event.getSlots() - 10)  || (slot%9 == 0 || slot%9 == 8)) continue;
+            CompoundTag data = new CompoundTag();
+
+            if(!event.getRegistry().hasNext()) break;
+            event.getRegistry().getNextData(data);
+
+            ItemStack stack = ((yorickbm.skyblockaddon.registries.PermissionRegistry)event.getRegistry()).getItemFor(data);
             if(stack == null) stack = event.processHolder(event.getItemStackHolder().clone(), data).getItemStack();
 
             event.drawItem(slot, stack);

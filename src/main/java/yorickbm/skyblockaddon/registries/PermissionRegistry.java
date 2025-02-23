@@ -39,8 +39,8 @@ public class PermissionRegistry extends SkyblockAddonRegistry implements CustomI
     public ItemStack getItemFor(CompoundTag tag) {
         Permission permission = this.permissions.get(tag.getInt("permission"));
         ItemStack stack = permission.getItemStack(this.island, this.groupId);
-        stack.getOrCreateTagElement(SkyblockAddon.MOD_ID).putString("permissionId", permission.getId());
-        stack.getOrCreateTagElement(SkyblockAddon.MOD_ID).putUUID("groupId", this.groupId);
+        stack.getOrCreateTagElement(SkyblockAddon.MOD_ID).putString("permission_id", permission.getId());
+        stack.getOrCreateTagElement(SkyblockAddon.MOD_ID).putUUID("group_id", this.groupId);
         return stack;
     }
 }

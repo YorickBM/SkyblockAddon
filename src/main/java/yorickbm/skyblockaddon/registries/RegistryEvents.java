@@ -10,6 +10,7 @@ import yorickbm.guilibrary.GUIItemStackHolder;
 import yorickbm.guilibrary.events.GuiDrawFillerEvent;
 import yorickbm.guilibrary.interfaces.ServerInterface;
 import yorickbm.guilibrary.util.FillerPattern;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.registries.interfaces.SkyblockAddonRegistry;
@@ -128,6 +129,28 @@ public class RegistryEvents extends GuiDrawFillerEvent {
                 if(island == null) return;
 
                 super.registry = new yorickbm.skyblockaddon.registries.GroupsRegistry(island);
+                int maxPage = (int)Math.ceil((double) getRegistry().getSize() / super.getItemsPerPage()); //Divide the item amounts we have by available slots per page
+                super.setMaxPage(maxPage);
+                getRegistry().setIndex(((super.getCurrentPage() - 1) * super.getItemsPerPage())-1);
+            });
+        }
+    }
+
+        @Cancelable
+    public static class PermissionsRegistry extends RegistryEvents {
+        public PermissionsRegistry(ServerInterface instance, GUIFiller filler, int slots) {
+            super(instance, filler, slots);
+            if(!instance.getData().contains("island_id"))  this.setCanceled(true); //No island ID found
+
+            instance.getData().getAllKeys().forEach(LOGGER::info);
+            CompoundTag modData = instance.getData().getCompound(SkyblockAddon.MOD_ID);
+            instance.getData().getCompound(SkyblockAddon.MOD_ID).getAllKeys().forEach(LOGGER::info);
+
+            instance.getOwner().getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
+                Island island = cap.getIslandByUUID(instance.getData().getUUID("island_id"));
+                if(island == null) return;
+
+                super.registry = new yorickbm.skyblockaddon.registries.PermissionRegistry(island, modData.getString("category_id"), modData.getUUID("group_id"));
                 int maxPage = (int)Math.ceil((double) getRegistry().getSize() / super.getItemsPerPage()); //Divide the item amounts we have by available slots per page
                 super.setMaxPage(maxPage);
                 getRegistry().setIndex(((super.getCurrentPage() - 1) * super.getItemsPerPage())-1);

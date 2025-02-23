@@ -16,14 +16,10 @@ public class IslandEvents extends GuiClickItemEvent {
 
     public IslandEvents(ServerInterface instance, ServerPlayer player, Slot slot, GUIItem item) {
         super(instance, player, slot, item);
-
         CompoundTag guiData = instance.getData();
 
-        //If GUI does not contain an IslandId this action fails
-        if(!guiData.contains("island_id")) {
-            setCanceled(true);
-            return;
-        }
+        //If GUI does not contain an IslandId we do not add an island Object
+        if(!guiData.contains("island_id")) return;
 
         player.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
             Island island = cap.getIslandByUUID(guiData.getUUID("island_id"));

@@ -2,6 +2,7 @@ package yorickbm.skyblockaddon.registries;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.islands.groups.IslandGroup;
 import yorickbm.skyblockaddon.registries.interfaces.CustomItemStack;
@@ -22,7 +23,7 @@ public class GroupsRegistry extends SkyblockAddonRegistry implements CustomItemS
 
     @Override
     public void getNextData(CompoundTag tag) {
-        tag.putUUID("groupId", this.groups.get(this.index).getId());
+        tag.putUUID("group_id", this.groups.get(this.index).getId());
         this.index++;
     }
 
@@ -33,10 +34,12 @@ public class GroupsRegistry extends SkyblockAddonRegistry implements CustomItemS
 
     @Override
     public ItemStack getItemFor(CompoundTag tag) {
-        if(!tag.contains("groupId")) return null;
-        IslandGroup group = island.getGroup(tag.getUUID("groupId"));
+        if(!tag.contains("group_id")) return null;
+        IslandGroup group = island.getGroup(tag.getUUID("group_id"));
         if(group == null) return null;
 
-        return group.getItem();
+        ItemStack stack = group.getItem();
+        stack.getOrCreateTag().put(SkyblockAddon.MOD_ID, tag);
+        return stack;
     }
 }
