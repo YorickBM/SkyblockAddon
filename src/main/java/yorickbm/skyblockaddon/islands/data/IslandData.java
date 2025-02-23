@@ -9,8 +9,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
@@ -24,8 +22,6 @@ import yorickbm.skyblockaddon.util.geometry.Square;
 import java.util.*;
 
 public class IslandData implements NBTSerializable {
-    private static final Logger LOGGER = LogManager.getLogger();
-
     private UUID id = UUID.randomUUID(); //UUID Of island
     private UUID owner = SkyblockAddon.MOD_UUID; //UUID Of owner
     private Vec3i spawn; //Spawn coordinates of island

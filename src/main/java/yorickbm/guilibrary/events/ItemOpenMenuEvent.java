@@ -9,8 +9,6 @@ import yorickbm.guilibrary.GUIItem;
 import yorickbm.guilibrary.interfaces.GuiClickItemEvent;
 import yorickbm.guilibrary.interfaces.ServerInterface;
 
-import java.util.Objects;
-
 @Cancelable
 public class ItemOpenMenuEvent extends GuiClickItemEvent {
     public ItemOpenMenuEvent(ServerInterface instance, ServerPlayer player, Slot slot, GUIItem item) {

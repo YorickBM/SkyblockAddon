@@ -8,8 +8,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.guilibrary.GUIFiller;
 import yorickbm.guilibrary.GUIItem;
@@ -19,11 +17,11 @@ import yorickbm.guilibrary.events.GuiDrawFillerEvent;
 import yorickbm.guilibrary.events.GuiDrawItemEvent;
 import yorickbm.guilibrary.util.FillerPattern;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class ServerInterface extends AbstractContainerMenu {
-    private static final Logger LOGGER = LogManager.getLogger();
-
     protected CompoundTag data;
     protected final SimpleContainer container;
     protected Player holder;

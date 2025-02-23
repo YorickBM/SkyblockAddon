@@ -1,12 +1,8 @@
 package yorickbm.skyblockaddon.permissions.util;
 
 import com.google.gson.Gson;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.ItemStack;
-import yorickbm.guilibrary.GUIItem;
 import yorickbm.guilibrary.GUIItemStackHolder;
 import yorickbm.guilibrary.JSON.GUIItemStackJson;
-import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.permissions.json.PermissionDataHolder;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;

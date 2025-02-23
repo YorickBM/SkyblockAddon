@@ -24,9 +24,9 @@ public class GroupMemberRegistry extends SkyblockAddonRegistry {
         String username = UsernameCache.getBlocking(this.members.get(this.index));
 
         tag.putString("SkullOwner", username);
-        tag.putString("ownername", username);
-        tag.putString("group", group.getItem().getDisplayName().getString().trim());
-        tag.putUUID("playerId", this.members.get(this.index));
+        tag.putString("owner_name", username);
+        tag.putString("group_name", group.getItem().getDisplayName().getString().trim());
+        tag.putUUID("player_id", this.members.get(this.index));
 
         this.index++;
     }

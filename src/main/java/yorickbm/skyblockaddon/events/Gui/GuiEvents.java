@@ -2,8 +2,6 @@ package yorickbm.skyblockaddon.events.Gui;
 
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.entity.vehicle.Minecart;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import yorickbm.guilibrary.GUILibraryRegistry;
 import yorickbm.guilibrary.events.GuiDrawItemEvent;
@@ -18,7 +16,6 @@ import yorickbm.skyblockaddon.util.UsernameCache;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class GuiEvents {

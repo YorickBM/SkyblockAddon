@@ -30,7 +30,7 @@
           ],
           [
             "{\"text\":\"\u2666 Part of: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%data_group% \",\"color\":\"white\"}",
+            "{\"text\":\"%data_group_name% \",\"color\":\"white\"}",
             "{\"text\":\".\",\"color\":\"dark_gray\"}"
           ]
         ],
@@ -38,7 +38,10 @@
       },
       "pattern": "INSIDE",
       "action": {
-        "onClick": "yorickbm.skyblockaddon.islands.IslandEvents$SetPlayerGroup"
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:set_group"
+        }
       },
       "event": "yorickbm.skyblockaddon.registries.RegistryEvents$MembersRegistry"
     }

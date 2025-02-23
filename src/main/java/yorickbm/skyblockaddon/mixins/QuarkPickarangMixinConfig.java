@@ -9,8 +9,6 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -28,7 +26,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Mixin(value = {PickarangItem.class}, remap = false)
 public abstract class QuarkPickarangMixinConfig {
-    private static final Logger LOGGER = LogManager.getLogger();
 
     @Inject(method = {"m_7203_"}, at = {@At("HEAD")}, cancellable = true)
     private void use(Level worldIn, Player playerIn, @NotNull InteractionHand handIn, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir) {

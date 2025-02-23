@@ -34,10 +34,10 @@ public class MemberRegistry extends SkyblockAddonRegistry {
 
         Optional<IslandGroup> group = island.getGroupForEntityUUID(this.members.get(this.index));
         group.ifPresentOrElse(
-                islandGroup -> tag.putString("group", islandGroup.getItem().getDisplayName().getString().trim()),
-                () -> tag.putString("group", "N/A"));
+                islandGroup -> tag.putString("group_name", islandGroup.getItem().getDisplayName().getString().trim()),
+                () -> tag.putString("group_name", "N/A"));
 
-        tag.putUUID("playerId", this.members.get(this.index));
+        tag.putUUID("player_id", this.members.get(this.index));
 
         this.index++;
     }

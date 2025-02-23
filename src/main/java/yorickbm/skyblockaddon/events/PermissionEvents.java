@@ -21,8 +21,6 @@ import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.islands.groups.IslandGroup;
@@ -38,7 +36,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class PermissionEvents {
-    private static final Logger LOGGER = LogManager.getLogger();
 
     @SubscribeEvent
     public void onTrample(BlockEvent.FarmlandTrampleEvent event) {

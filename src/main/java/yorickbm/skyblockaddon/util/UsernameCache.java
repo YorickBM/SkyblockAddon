@@ -9,8 +9,6 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gson.stream.JsonReader;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.world.entity.player.Player;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -28,7 +26,6 @@ import java.util.concurrent.ForkJoinPool;
  * Source: https://github.com/diesieben07/SevenCommons/blob/1.7/src/main/java/de/take_weiland/mods/commons/internal/UsernameCache.java
  */
 public final class UsernameCache {
-    private static final Logger LOGGER = LogManager.getLogger();
     private static LoadingCache<UUID, String> cache;
 
     public static String getBlocking(UUID uuid) {

@@ -1,23 +1,19 @@
 package yorickbm.skyblockaddon.events.Gui;
 
-import net.minecraft.commands.Commands;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import yorickbm.guilibrary.GUIItemStackHolder;
 import yorickbm.skyblockaddon.SkyblockAddon;
-import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
-import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.registries.RegistryEvents;
 
 public class RegistryGuiEvents {
-    private static final Logger LOGGER = LogManager.getLogger();
 
     @SubscribeEvent
     public void onBiomeRegistryFiller(RegistryEvents.BiomeRegistry event) {
         if(event.isCanceled()) return; //Event is canceled
+        event.setCanceled(true);
 
         for (int slot = 0; slot < event.getSlots(); slot++) {
             if((slot < 10 || slot > event.getSlots() - 10)  || (slot%9 == 0 || slot%9 == 8)) continue;
@@ -34,12 +30,12 @@ public class RegistryGuiEvents {
 
             event.drawItem(slot, stack);
         }
-        event.setCanceled(true);
     }
 
     @SubscribeEvent
     public void onGroupRegistryFiller(RegistryEvents.GroupsRegistry event) {
         if(event.isCanceled()) return; //Event is canceled
+        event.setCanceled(true);
 
         for (int slot = 0; slot < event.getSlots(); slot++) {
             if((slot < 10 || slot > event.getSlots() - 10)  || (slot%9 == 0 || slot%9 == 8)) continue;
@@ -53,14 +49,12 @@ public class RegistryGuiEvents {
 
             event.drawItem(slot, stack);
         }
-        event.setCanceled(true);
     }
 
     @SubscribeEvent
     public void onPermissionRegistryFiller(RegistryEvents.PermissionsRegistry event) {
         if(event.isCanceled()) return; //Event is canceled
-
-
+        event.setCanceled(true);
 
         for (int slot = 0; slot < event.getSlots(); slot++) {
             if((slot < 10 || slot > event.getSlots() - 10)  || (slot%9 == 0 || slot%9 == 8)) continue;
@@ -74,11 +68,10 @@ public class RegistryGuiEvents {
 
             event.drawItem(slot, event.processHolder(stack, data).getItemStack());
         }
-        event.setCanceled(true);
     }
 
-    @SubscribeEvent()
-    public void onIslandRegistryFiller(RegistryEvents.IslandRegistry event) {
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public void onDefaultRegistryFiller(RegistryEvents event) {
         if(event.isCanceled()) return; //Event is canceled
         event.setCanceled(true);
 
@@ -89,9 +82,9 @@ public class RegistryGuiEvents {
             CompoundTag data = new CompoundTag();
             event.getRegistry().getNextData(data);
 
-           GUIItemStackHolder holder = event.processHolder(event.getItemStackHolder().clone(), data);
-           ItemStack stack = holder.getItemStack();
-           stack.getOrCreateTag().put(SkyblockAddon.MOD_ID, data);
+            GUIItemStackHolder holder = event.processHolder(event.getItemStackHolder().clone(), data);
+            ItemStack stack = holder.getItemStack();
+            stack.getOrCreateTag().put(SkyblockAddon.MOD_ID, data);
 
             event.drawItem(slot, stack);
         }

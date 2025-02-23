@@ -20,8 +20,6 @@ import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.mutable.MutableInt;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
@@ -39,7 +37,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class Island extends IslandData implements IsUnique, NBTSerializable {
-    private static final Logger LOGGER = LogManager.getLogger();
 
     public Island() {
     }

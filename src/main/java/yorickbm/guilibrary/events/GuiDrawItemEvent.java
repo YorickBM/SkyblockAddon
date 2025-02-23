@@ -2,8 +2,6 @@ package yorickbm.guilibrary.events;
 
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import yorickbm.guilibrary.GUIItem;
 import yorickbm.guilibrary.GUIItemStackHolder;
 import yorickbm.guilibrary.GUIPlaceholder;

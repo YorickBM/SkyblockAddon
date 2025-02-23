@@ -1,8 +1,6 @@
 package yorickbm.skyblockaddon.registries;
 
 import net.minecraft.nbt.CompoundTag;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldCapability;
 import yorickbm.skyblockaddon.islands.Island;
@@ -15,7 +13,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class IslandRegistry extends SkyblockAddonRegistry {
-    private static final Logger LOGGER = LogManager.getLogger();
     protected final List<Island> islands;
 
     public IslandRegistry(SkyblockAddonWorldCapability cap) {

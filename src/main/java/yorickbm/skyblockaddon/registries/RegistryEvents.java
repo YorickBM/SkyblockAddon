@@ -3,8 +3,6 @@ package yorickbm.skyblockaddon.registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.eventbus.api.Cancelable;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import yorickbm.guilibrary.GUIFiller;
 import yorickbm.guilibrary.GUIItemStackHolder;
 import yorickbm.guilibrary.GUILibraryRegistry;
@@ -22,8 +20,6 @@ import java.util.stream.Collectors;
 
 @Cancelable
 public class RegistryEvents extends GuiDrawFillerEvent {
-    private static final Logger LOGGER = LogManager.getLogger();
-
     protected SkyblockAddonRegistry registry;
     Map<String, String> replacements = new HashMap<>();
 
@@ -156,6 +152,24 @@ public class RegistryEvents extends GuiDrawFillerEvent {
                 if(island == null) return;
 
                 super.registry = new yorickbm.skyblockaddon.registries.PermissionRegistry(island, jsonData.getString("category_id"), modData.getUUID("group_id"));
+                int maxPage = (int)Math.ceil((double) getRegistry().getSize() / super.getItemsPerPage()); //Divide the item amounts we have by available slots per page
+                super.setMaxPage(maxPage);
+                getRegistry().setIndex(((super.getCurrentPage() - 1) * super.getItemsPerPage())-1);
+            });
+        }
+    }
+
+    @Cancelable
+    public static class GroupMembersRegistry extends RegistryEvents {
+        public GroupMembersRegistry(ServerInterface instance, GUIFiller filler, int slots) {
+            super(instance, filler, slots);
+            if(!instance.getData().contains("island_id"))  this.setCanceled(true); //No island ID found
+
+            instance.getOwner().getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
+                Island island = cap.getIslandByUUID(instance.getData().getUUID("island_id"));
+                if(island == null) return;
+
+                super.registry = new yorickbm.skyblockaddon.registries.GroupMemberRegistry(island, instance.getData().getCompound(SkyblockAddon.MOD_ID).getUUID("group_id"));
                 int maxPage = (int)Math.ceil((double) getRegistry().getSize() / super.getItemsPerPage()); //Divide the item amounts we have by available slots per page
                 super.setMaxPage(maxPage);
                 getRegistry().setIndex(((super.getCurrentPage() - 1) * super.getItemsPerPage())-1);

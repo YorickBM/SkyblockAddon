@@ -37,7 +37,6 @@ import java.util.stream.Collectors;
 
 public class PermissionManager {
     private static final Logger LOGGER = LogManager.getLogger();
-
     private List<Permission> permissions;
 
     private static final PermissionManager instance = new PermissionManager();

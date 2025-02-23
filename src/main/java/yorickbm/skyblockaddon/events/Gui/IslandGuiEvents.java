@@ -9,8 +9,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import yorickbm.guilibrary.GUILibraryRegistry;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
@@ -27,7 +25,6 @@ import java.util.UUID;
 import java.util.function.Function;
 
 public class IslandGuiEvents {
-    private static final Logger LOGGER = LogManager.getLogger();
 
     @SubscribeEvent
     public void onTeleportToIslandEvent(IslandEvents.TeleportToIsland event) {
@@ -102,8 +99,9 @@ public class IslandGuiEvents {
 
     @SubscribeEvent
     public void onInviteNewMemberEvent(IslandEvents.InviteNewMember event) {
-        CompoundTag modData = event.getClickedItem().getOrCreateTagElement(SkyblockAddon.MOD_ID);
-        if(!modData.contains("group_id")) {
+        CompoundTag guiData = event.getHolder().getData().getCompound(SkyblockAddon.MOD_ID);
+
+        if(!guiData.contains("group_id")) {
             event.setResult(Event.Result.DENY);
             return;
         }
@@ -112,9 +110,9 @@ public class IslandGuiEvents {
         event.getTarget().sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.group.click.to.add"))
                         .withStyle(ChatFormatting.GREEN)
                         .withStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND,
-                                "/island group "
-                                        +  event.getIsland().getGroup(modData.getUUID("group_id")).getItem().getDisplayName().getString().trim()
-                                        + " addMember "
+                                "/island group \""
+                                        +  event.getIsland().getGroup(guiData.getUUID("group_id")).getItem().getDisplayName().getString().trim()
+                                        + "\" addMember "
                                         + event.getTarget().getDisplayName().getString().trim())))
                 ,event.getTarget().getUUID());
     }
@@ -174,13 +172,14 @@ public class IslandGuiEvents {
 
     @SubscribeEvent
     public void onKickMemberEvent(IslandEvents.KickMember event) {
-        CompoundTag modData = event.getClickedItem().getOrCreateTagElement(SkyblockAddon.MOD_ID);
-        if(!modData.contains("player_id")) {
+        CompoundTag guiData = event.getHolder().getData().getCompound(SkyblockAddon.MOD_ID);
+
+        if(!guiData.contains("player_id")) {
             event.setResult(Event.Result.DENY);
             return;
         }
 
-        UUID playerUUID = modData.getUUID("player_id");
+        UUID playerUUID = guiData.getUUID("player_id");
         event.getIsland().kickMember(event.getTarget(), playerUUID);
         event.getHolder().close();
 
@@ -195,10 +194,10 @@ public class IslandGuiEvents {
     @SubscribeEvent
     public void onSetPlayerGroupEvent(IslandEvents.SetPlayerGroup event) {
         CompoundTag modData = event.getClickedItem().getOrCreateTagElement(SkyblockAddon.MOD_ID);
-        CompoundTag guiData = event.getHolder().getData();
+        CompoundTag guiData = event.getHolder().getData().getCompound(SkyblockAddon.MOD_ID);
 
         if(!guiData.contains("player_id") || !modData.contains("group_id")) {
-            event.setCanceled(true);
+            event.setResult(Event.Result.DENY);
             return;
         }
 
@@ -250,15 +249,10 @@ public class IslandGuiEvents {
 
     @SubscribeEvent
     public void onSetGroupPermissionEvent(IslandEvents.SetGroupPermission event) {
-        CompoundTag modData = event.getClickedItem().getOrCreateTagElement(SkyblockAddon.MOD_ID);
         CompoundTag jsonData = event.getClickedItem().getOrCreateTagElement(GUILibraryRegistry.MOD_ID);
         CompoundTag guiData = event.getHolder().getData().getCompound(SkyblockAddon.MOD_ID);
 
         if(!guiData.contains("group_id") || !jsonData.contains("permission_id")) {
-            modData.getAllKeys().forEach(LOGGER::info);
-            jsonData.getAllKeys().forEach(LOGGER::info);
-            guiData.getAllKeys().forEach(LOGGER::info);
-
             event.setResult(Event.Result.DENY);
             return;
         }

@@ -5,8 +5,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.registries.interfaces.CustomItems;
 import yorickbm.skyblockaddon.registries.interfaces.SkyblockAddonRegistry;
@@ -17,8 +15,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class BiomeRegistry extends SkyblockAddonRegistry implements CustomItems {
-    private static final Logger LOGGER = LogManager.getLogger();
-
     private Map<String, Item> biomes;
     private List<Map.Entry<String, Item>> entries;
 

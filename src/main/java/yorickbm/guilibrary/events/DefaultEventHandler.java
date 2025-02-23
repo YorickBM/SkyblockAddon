@@ -6,23 +6,15 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import yorickbm.guilibrary.interfaces.GuiClickItemEvent;
 import yorickbm.guilibrary.util.Helper;
-import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
-import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
-import yorickbm.skyblockaddon.islands.Island;
-import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class DefaultEventHandler {
-    private static final Logger LOGGER = LogManager.getLogger();
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void itemRenderer(GuiDrawItemEvent event) {

@@ -19,15 +19,13 @@
         "display_name": [],
         "item": "minecraft:PAPER",
         "lore": [],
-        "data": {
-          "registry": "GroupsRegistry"
-        }
+        "data": {}
       },
       "pattern": "INSIDE",
       "action": {
-        "onClick": "groupSet",
-        "onSecondClick": "groupSet"
-      }
+        "onClick": "yorickbm.skyblockaddon.islands.IslandEvents$SetPlayerGroup"
+      },
+      "event": "yorickbm.skyblockaddon.registries.RegistryEvents$GroupsRegistry"
     }
   ],
   "items": [
@@ -40,7 +38,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 35,
+      "slot": 26,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
         "data": {
@@ -51,13 +49,13 @@
     {
       "item": {
         "display_name": [
-          "{\"text\": \"%datapagenum% / %datamaxpage%\",\"bold\": true,\"color\": \"blue\"}"
+          "{\"text\": \"%pagenum% / %maxpage%\",\"bold\": true,\"color\": \"blue\"}"
         ],
         "item": "minecraft:PAPER",
         "lore": [],
         "data": {}
       },
-      "slot": 31,
+      "slot": 22,
       "action": {}
     },
     {
@@ -69,7 +67,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 30,
+      "slot": 21,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemPreviousPageEvent"
       }
@@ -83,7 +81,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 32,
+      "slot": 23,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemNextPageEvent"
       }

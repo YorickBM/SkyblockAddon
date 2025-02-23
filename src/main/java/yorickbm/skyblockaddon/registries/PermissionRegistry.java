@@ -1,13 +1,11 @@
 package yorickbm.skyblockaddon.registries;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.ItemStack;
 import yorickbm.guilibrary.GUIItemStackHolder;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.permissions.PermissionManager;
 import yorickbm.skyblockaddon.permissions.util.Permission;
 import yorickbm.skyblockaddon.registries.interfaces.CustomItemHolder;
-import yorickbm.skyblockaddon.registries.interfaces.CustomItemStack;
 import yorickbm.skyblockaddon.registries.interfaces.SkyblockAddonRegistry;
 
 import java.util.List;
