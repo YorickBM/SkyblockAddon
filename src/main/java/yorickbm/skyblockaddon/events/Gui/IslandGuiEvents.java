@@ -11,6 +11,7 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import yorickbm.guilibrary.GUILibraryRegistry;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
@@ -250,18 +251,24 @@ public class IslandGuiEvents {
     @SubscribeEvent
     public void onSetGroupPermissionEvent(IslandEvents.SetGroupPermission event) {
         CompoundTag modData = event.getClickedItem().getOrCreateTagElement(SkyblockAddon.MOD_ID);
-        CompoundTag guiData = event.getHolder().getData();
+        CompoundTag jsonData = event.getClickedItem().getOrCreateTagElement(GUILibraryRegistry.MOD_ID);
+        CompoundTag guiData = event.getHolder().getData().getCompound(SkyblockAddon.MOD_ID);
 
-        if(!guiData.contains("group_id") || !modData.contains("permission_id")) {
+        if(!guiData.contains("group_id") || !jsonData.contains("permission_id")) {
+            modData.getAllKeys().forEach(LOGGER::info);
+            jsonData.getAllKeys().forEach(LOGGER::info);
+            guiData.getAllKeys().forEach(LOGGER::info);
+
             event.setResult(Event.Result.DENY);
             return;
         }
 
         UUID groupUUID = guiData.getUUID("group_id");
-        String permissionId = modData.getString("permission_id");
+        String permissionId = jsonData.getString("permission_id");
 
         event.getIsland().getGroup(groupUUID).inversePermission(permissionId);
         event.getHolder().update();
+        event.setResult(Event.Result.ALLOW);
     }
 
 }

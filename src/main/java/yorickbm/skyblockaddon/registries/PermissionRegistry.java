@@ -2,17 +2,18 @@ package yorickbm.skyblockaddon.registries;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
-import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.guilibrary.GUIItemStackHolder;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.permissions.PermissionManager;
 import yorickbm.skyblockaddon.permissions.util.Permission;
+import yorickbm.skyblockaddon.registries.interfaces.CustomItemHolder;
 import yorickbm.skyblockaddon.registries.interfaces.CustomItemStack;
 import yorickbm.skyblockaddon.registries.interfaces.SkyblockAddonRegistry;
 
 import java.util.List;
 import java.util.UUID;
 
-public class PermissionRegistry extends SkyblockAddonRegistry implements CustomItemStack {
+public class PermissionRegistry extends SkyblockAddonRegistry implements CustomItemHolder {
 
     List<Permission> permissions;
     Island island;
@@ -36,11 +37,8 @@ public class PermissionRegistry extends SkyblockAddonRegistry implements CustomI
     }
 
     @Override
-    public ItemStack getItemFor(CompoundTag tag) {
+    public GUIItemStackHolder getItemFor(CompoundTag tag) {
         Permission permission = this.permissions.get(tag.getInt("permission"));
-        ItemStack stack = permission.getItemStack(this.island, this.groupId);
-        stack.getOrCreateTagElement(SkyblockAddon.MOD_ID).putString("permission_id", permission.getId());
-        stack.getOrCreateTagElement(SkyblockAddon.MOD_ID).putUUID("group_id", this.groupId);
-        return stack;
+        return permission.getItemStackHolder(this.island, this.groupId);
     }
 }

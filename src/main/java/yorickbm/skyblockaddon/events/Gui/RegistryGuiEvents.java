@@ -1,5 +1,6 @@
 package yorickbm.skyblockaddon.events.Gui;
 
+import net.minecraft.commands.Commands;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -7,6 +8,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.guilibrary.GUIItemStackHolder;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
+import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.registries.RegistryEvents;
 
 public class RegistryGuiEvents {
@@ -57,6 +60,8 @@ public class RegistryGuiEvents {
     public void onPermissionRegistryFiller(RegistryEvents.PermissionsRegistry event) {
         if(event.isCanceled()) return; //Event is canceled
 
+
+
         for (int slot = 0; slot < event.getSlots(); slot++) {
             if((slot < 10 || slot > event.getSlots() - 10)  || (slot%9 == 0 || slot%9 == 8)) continue;
             CompoundTag data = new CompoundTag();
@@ -64,10 +69,10 @@ public class RegistryGuiEvents {
             if(!event.getRegistry().hasNext()) break;
             event.getRegistry().getNextData(data);
 
-            ItemStack stack = ((yorickbm.skyblockaddon.registries.PermissionRegistry)event.getRegistry()).getItemFor(data);
-            if(stack == null) stack = event.processHolder(event.getItemStackHolder().clone(), data).getItemStack();
+            GUIItemStackHolder stack = ((yorickbm.skyblockaddon.registries.PermissionRegistry)event.getRegistry()).getItemFor(data);
+            if(stack == null) stack = event.getItemStackHolder().clone();
 
-            event.drawItem(slot, stack);
+            event.drawItem(slot, event.processHolder(stack, data).getItemStack());
         }
         event.setCanceled(true);
     }

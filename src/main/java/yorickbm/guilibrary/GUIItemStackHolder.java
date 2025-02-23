@@ -78,6 +78,9 @@ public class GUIItemStackHolder implements Cloneable {
     public void addData(String key, String value) {
         this.tag.putString(key, value);
     }
+    public CompoundTag getData() {
+        return this.tag;
+    }
 
     @Override
     public GUIItemStackHolder clone() {

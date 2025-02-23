@@ -3,7 +3,10 @@ package yorickbm.skyblockaddon.permissions.util;
 import com.google.gson.Gson;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import yorickbm.guilibrary.GUIItem;
+import yorickbm.guilibrary.GUIItemStackHolder;
 import yorickbm.guilibrary.JSON.GUIItemStackJson;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.permissions.json.PermissionDataHolder;
 import yorickbm.skyblockaddon.util.JSON.JSONSerializable;
@@ -36,14 +39,13 @@ public class Permission implements JSONSerializable {
         this.data = temp.data;
     }
 
-    public ItemStack getItemStack(Island island, UUID groupId) {
-        CompoundTag tag = new CompoundTag();
-        tag.putString("permissionId", this.id);
-        tag.putString("category", this.category);
-        tag.putString("groupname", island.getGroup(groupId).getItem().getDisplayName().getString());
-        tag.putString("status", island.getPermissionState(this.id, groupId));
-
-        return this.item.getItemStackHolder().getItemStack();
+    public GUIItemStackHolder getItemStackHolder(Island island, UUID groupId) {
+        GUIItemStackHolder stack = this.item.getItemStackHolder();
+        stack.addData("permission_id", this.id);
+        stack.addData("category", this.category);
+        stack.addData("group_name", island.getGroup(groupId).getItem().getDisplayName().getString());
+        stack.addData("status", island.getPermissionState(this.id, groupId));
+        return stack;
     }
 
     public String getCategory() {
