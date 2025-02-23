@@ -196,16 +196,10 @@ public class DefaultEventHandler {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onItemClick(GuiClickItemEvent event)
     {
-        LOGGER.info("Determine sound to be played - {}", event.getResult().toString());
-
         if(!event.getResult().equals(Event.Result.DENY)) {
-            LOGGER.info("Play success sound");
-
             Helper.playSongToPlayer(event.getTarget(), SoundEvents.NOTE_BLOCK_CHIME, Helper.UI_SUCCESS_VOL, 1f); //Send success sound notification of click
         }
         else {
-            LOGGER.info("Play failure sound");
-
             Helper.playSongToPlayer(event.getTarget(), SoundEvents.NOTE_BLOCK_BASS, Helper.UI_SUCCESS_VOL, 1f); //Send failure sound notification of click
         }
 
