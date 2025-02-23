@@ -28,19 +28,19 @@ import java.util.concurrent.atomic.AtomicReference;
 public abstract class QuarkPickarangMixinConfig {
 
     @Inject(method = {"m_7203_"}, at = {@At("HEAD")}, cancellable = true)
-    private void use(Level worldIn, Player playerIn, @NotNull InteractionHand handIn, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir) {
+    private void use(final Level worldIn, final Player playerIn, @NotNull final InteractionHand handIn, final CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir) {
 
-        AtomicReference<Island> standingOn = new AtomicReference<>();
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(playerIn, standingOn).asBoolean()) return;
 
-        ItemStack handItem = playerIn.getItemInHand(handIn);
+        final ItemStack handItem = playerIn.getItemInHand(handIn);
         if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) playerIn, (ServerLevel) worldIn, playerIn.getOnPos(), handItem, "onQuarkPickarangMixin")) {
             playerIn.displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             playerIn.containerMenu.broadcastChanges(); //Force sync
             cir.setReturnValue(InteractionResultHolder.success(handItem)); //Force success
 
             //Re-add item since it sometimes disappears.
-            ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+            final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
             scheduler.schedule(() -> {
                 playerIn.containerMenu.broadcastChanges(); //Force sync
                 playerIn.getInventory().placeItemBackInInventory(handItem);

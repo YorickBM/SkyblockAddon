@@ -10,7 +10,7 @@ import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.commands.interfaces.OverWorldCommandStack;
 
 public class IslandTravelCommand extends OverWorldCommandStack {
-    public IslandTravelCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public IslandTravelCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
                 .then(Commands.literal("travel")
                         .requires(source -> source.getEntity() instanceof ServerPlayer)
@@ -20,7 +20,7 @@ public class IslandTravelCommand extends OverWorldCommandStack {
     }
 
     @Override
-    public int execute(CommandSourceStack command, ServerPlayer executor) {
+    public int execute(final CommandSourceStack command, final ServerPlayer executor) {
         if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
         GUILibraryRegistry.openGUIForPlayer(executor, SkyblockAddon.MOD_ID + ":travel");

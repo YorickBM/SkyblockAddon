@@ -20,10 +20,10 @@ public class BiomeRegistry extends SkyblockAddonRegistry implements CustomItems 
 
     public BiomeRegistry() {
         try {
-            BiomeRegistryJson data = JSONEncoder.loadFromFile(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/registries/BiomeRegistry.json"), BiomeRegistryJson.class);
+            final BiomeRegistryJson data = JSONEncoder.loadFromFile(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/registries/BiomeRegistry.json"), BiomeRegistryJson.class);
             this.biomes = data.toMap();
             this.entries = new ArrayList<>(this.biomes.entrySet());
-        } catch (Exception e) {
+        } catch (final Exception e) {
             //On failure load Minecraft Biome Registry with DEAD_BUSH as item.
             this.biomes = new HashMap<>();
             ForgeRegistries.BIOMES.getValues().stream().filter(p -> Objects.requireNonNull(p.getRegistryName()).toString().startsWith("minecraft:")).forEach(s -> {
@@ -40,7 +40,7 @@ public class BiomeRegistry extends SkyblockAddonRegistry implements CustomItems 
      * @return - Minecraft Registry Item
      */
     @Override
-    public Item getItemFor(CompoundTag tag) {
+    public Item getItemFor(final CompoundTag tag) {
         return this.biomes.get(tag.getString("biome"));
     }
 
@@ -51,8 +51,8 @@ public class BiomeRegistry extends SkyblockAddonRegistry implements CustomItems 
      * @return - If there is another entry
      */
     @Override
-    public void getNextData(CompoundTag tag) {
-        Map.Entry<String, Item> entry = this.entries.get(this.index);
+    public void getNextData(final CompoundTag tag) {
+        final Map.Entry<String, Item> entry = this.entries.get(this.index);
 
         tag.putString("biome", entry.getKey());
         tag.putString("name", Arrays.stream(

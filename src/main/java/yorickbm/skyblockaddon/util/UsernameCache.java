@@ -28,25 +28,25 @@ import java.util.concurrent.ForkJoinPool;
 public final class UsernameCache {
     private static LoadingCache<UUID, String> cache;
 
-    public static String getBlocking(UUID uuid) {
+    public static String getBlocking(final UUID uuid) {
         return get(uuid).exceptionally(ex -> {
             //LOGGER.warn("Failure while contacting Mojang API (" + uuid.toString() + ").");
             return "-"; // Default value if there's an error
         }).getNow("...");
     }
 
-    public static CompletableFuture<String> get(UUID uuid) {
-        String name = cache.getIfPresent(uuid);
+    public static CompletableFuture<String> get(final UUID uuid) {
+        final String name = cache.getIfPresent(uuid);
         if (name != null) {
             return CompletableFuture.completedFuture(name);
         } else {
-            CompletableFuture<String> future = new CompletableFuture<>();
+            final CompletableFuture<String> future = new CompletableFuture<>();
             ForkJoinPool.commonPool().execute(() -> {
                 try {
                     future.complete(cache.get(uuid));
-                } catch (ExecutionException | UncheckedExecutionException x) {
+                } catch (final ExecutionException | UncheckedExecutionException x) {
                     future.completeExceptionally(x.getCause());
-                } catch (Throwable t) {
+                } catch (final Throwable t) {
                     future.completeExceptionally(t);
                 }
             });
@@ -54,18 +54,18 @@ public final class UsernameCache {
         }
     }
 
-    public static void invalidate(UUID uuid) {
+    public static void invalidate(final UUID uuid) {
         cache.invalidate(uuid);
     }
 
-    public static void initCache(int cacheSize) {
+    public static void initCache(final int cacheSize) {
         cache = CacheBuilder.newBuilder()
                 .maximumSize(cacheSize)
                 .build(new Loader());
     }
 
-    public static void onPlayerLogin(Player player) {
-        GameProfile profile = player.getGameProfile();
+    public static void onPlayerLogin(final Player player) {
+        final GameProfile profile = player.getGameProfile();
         cache.put(profile.getId(), profile.getName());
     }
 
@@ -78,15 +78,15 @@ public final class UsernameCache {
         private static final CharMatcher DASH_MATCHER = CharMatcher.is('-');
 
         @Override
-        public @NotNull String load(@Nonnull UUID uuid) throws IOException {
-            String uuidString = DASH_MATCHER.removeFrom(uuid.toString());
-            try (BufferedReader reader = Resources.asCharSource(new URL(String.format(USERNAME_API_URL, uuidString)), StandardCharsets.UTF_8).openBufferedStream()) {
-                JsonReader json = new JsonReader(reader);
+        public @NotNull String load(@Nonnull final UUID uuid) throws IOException {
+            final String uuidString = DASH_MATCHER.removeFrom(uuid.toString());
+            try (final BufferedReader reader = Resources.asCharSource(new URL(String.format(USERNAME_API_URL, uuidString)), StandardCharsets.UTF_8).openBufferedStream()) {
+                final JsonReader json = new JsonReader(reader);
                 String name = "";
 
                 json.beginObject();
                 while (json.hasNext()) {
-                    String key = json.nextName();
+                    final String key = json.nextName();
                     if (key.equals("name")) {
                         name = json.nextString();
                     } else {

@@ -9,12 +9,12 @@ public class BuildingBlock {
     private final BlockState state;
     private final BlockPos pos;
 
-    public BuildingBlock(BlockPos blockPos, BlockState blockState) {
+    public BuildingBlock(final BlockPos blockPos, final BlockState blockState) {
         state = blockState;
         pos = blockPos;
     }
 
-    public void place(ServerLevel serverLevel, Vec3i spawnLocation) {
+    public void place(final ServerLevel serverLevel, final Vec3i spawnLocation) {
         serverLevel.setBlockAndUpdate(pos.offset(spawnLocation), state);
         //serverLevel.levelEvent(LevelEvent.PARTICLES_DESTROY_BLOCK, pos.offset(spawnLocation), Block.getId(state));
         //serverLevel.levelEvent(state.getSoundType().getPlaceSound().hashCode(), pos.offset(spawnLocation), Block.getId(state));

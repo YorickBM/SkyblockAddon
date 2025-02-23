@@ -60,7 +60,7 @@ public class SkyblockAddon {
     public static final int ISLAND_SIZE = 400;
 
     public SkyblockAddon() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::processIMC);
         bus.addListener(this::onCommonSetup);
 
@@ -86,7 +86,7 @@ public class SkyblockAddon {
      * Inter Mod Communications.
      * Checks against Terralith
      */
-    private void processIMC(final InterModProcessEvent event) {
+    private void processIMC(InterModProcessEvent event) {
         // some example code to receive and process InterModComms from other mods
         LOGGER.info("Got IMC {}", event.getIMCStream().
                 map(m -> m.messageSupplier().get()).
@@ -102,7 +102,7 @@ public class SkyblockAddon {
     /**
      * Run Common config setup.
      */
-    public void onCommonSetup(FMLCommonSetupEvent event) {
+    public void onCommonSetup(final FMLCommonSetupEvent event) {
         //Register Resources
         ResourceManager.commonSetup();
 
@@ -123,7 +123,7 @@ public class SkyblockAddon {
      * Runs upon server starting event.
      */
     @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
+    public void onServerStarting(final ServerStartingEvent event) {
 
         //Loading public island owner names into username cache.
         Objects.requireNonNull(event.getServer().getLevel(Level.OVERWORLD)).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap ->
@@ -133,9 +133,9 @@ public class SkyblockAddon {
         );
 
         // Check mod version
-        Optional<? extends ModContainer> modContainer = ModList.get().getModContainerById(MOD_ID);
+        final Optional<? extends ModContainer> modContainer = ModList.get().getModContainerById(MOD_ID);
         if (modContainer.isPresent()) {
-            VersionChecker.CheckResult result = VersionChecker.getResult(modContainer.get().getModInfo());
+            final VersionChecker.CheckResult result = VersionChecker.getResult(modContainer.get().getModInfo());
             LOGGER.info("Vaulthunters Skyblock addon v{} ({}) has loaded!", VERSION, result.status().name());
         }
     }
@@ -144,10 +144,10 @@ public class SkyblockAddon {
      * Runs upon Shutdown Event of server.
      */
     @SubscribeEvent
-    public void onServerShutDown(ServerStoppedEvent event) {
+    public void onServerShutDown(final ServerStoppedEvent event) {
         try {
             ThreadManager.terminateAllThreads();
-        } catch (NoClassDefFoundError ex) {
+        } catch (final NoClassDefFoundError ex) {
             //Seems to be thrown
         }
     }

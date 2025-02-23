@@ -17,7 +17,7 @@ public class FunctionRegistry {
 
 
     // Method to register a function with a unique hash
-    public static void registerFunction(UUID hash, Function<ServerPlayer, Boolean> function, int duration) {
+    public static void registerFunction(final UUID hash, final Function<ServerPlayer, Boolean> function, final int duration) {
         functionMap.put(hash, function);
 
         // Schedule the removal of the hash after the specified duration
@@ -27,8 +27,8 @@ public class FunctionRegistry {
     }
 
     // Method to execute a function based on the hash
-    public static void executeFunction(UUID hash, ServerPlayer executor) {
-        Function<ServerPlayer, Boolean> function = functionMap.get(hash);
+    public static void executeFunction(final UUID hash, final ServerPlayer executor) {
+        final Function<ServerPlayer, Boolean> function = functionMap.get(hash);
         if (function != null) {
             if(function.apply(executor)) functionMap.remove(hash);
         } else {
@@ -36,7 +36,7 @@ public class FunctionRegistry {
         }
     }
 
-    public static String getCommand(UUID uuid) {
+    public static String getCommand(final UUID uuid) {
         return "/island registry %s".formatted(uuid.toString());
     }
 }

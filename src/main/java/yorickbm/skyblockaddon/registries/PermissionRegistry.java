@@ -17,14 +17,14 @@ public class PermissionRegistry extends SkyblockAddonRegistry implements CustomI
     Island island;
     UUID groupId;
 
-    public PermissionRegistry(Island island, String category, UUID groupId) {
+    public PermissionRegistry(final Island island, final String category, final UUID groupId) {
         permissions = PermissionManager.getInstance().getPermissionsFor(category);
         this.island = island;
         this.groupId = groupId;
     }
 
     @Override
-    public void getNextData(CompoundTag tag) {
+    public void getNextData(final CompoundTag tag) {
         tag.putInt("permission", index);
         index++;
     }
@@ -35,8 +35,8 @@ public class PermissionRegistry extends SkyblockAddonRegistry implements CustomI
     }
 
     @Override
-    public GUIItemStackHolder getItemFor(CompoundTag tag) {
-        Permission permission = this.permissions.get(tag.getInt("permission"));
+    public GUIItemStackHolder getItemFor(final CompoundTag tag) {
+        final Permission permission = this.permissions.get(tag.getInt("permission"));
         return permission.getItemStackHolder(this.island, this.groupId);
     }
 }

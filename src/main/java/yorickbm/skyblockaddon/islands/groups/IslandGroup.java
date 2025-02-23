@@ -27,7 +27,7 @@ public class IslandGroup implements IsUnique, NBTSerializable {
             this.permissions.put(p.getId(), false);
         });
     }
-    public IslandGroup(UUID uuid, ItemStack item, boolean allowAll) {
+    public IslandGroup(final UUID uuid, final ItemStack item, final boolean allowAll) {
         this.uuid = uuid;
         this.item = item;
 
@@ -39,14 +39,14 @@ public class IslandGroup implements IsUnique, NBTSerializable {
     public List<UUID> getMembers() {
         return this.members;
     }
-    public void addMember(UUID entity) {
+    public void addMember(final UUID entity) {
         if(this.members.contains(entity)) return;
         this.members.add(entity);
     }
-    public void removeMember(UUID entity) {
+    public void removeMember(final UUID entity) {
         this.members.remove(entity);
     }
-    public boolean hasMember(UUID entity) {
+    public boolean hasMember(final UUID entity) {
         return this.members.contains(entity);
     }
 
@@ -61,10 +61,10 @@ public class IslandGroup implements IsUnique, NBTSerializable {
 
     @Override
     public CompoundTag serializeNBT() {
-        CompoundTag tag = new CompoundTag();
+        final CompoundTag tag = new CompoundTag();
         tag.putUUID("uuid", this.uuid);
 
-        CompoundTag members = new CompoundTag();
+        final CompoundTag members = new CompoundTag();
         for(int i = 0; i < this.members.size(); i++) {
             members.putUUID(i+"", this.members.get(i));
         }
@@ -72,8 +72,8 @@ public class IslandGroup implements IsUnique, NBTSerializable {
 
         tag.put("item", NBTUtil.ItemStackToNBT(this.item));
 
-        CompoundTag permissions = new CompoundTag();
-        for(var permission : this.permissions.entrySet()) {
+        final CompoundTag permissions = new CompoundTag();
+        for(final var permission : this.permissions.entrySet()) {
             permissions.putBoolean(permission.getKey(), permission.getValue());
         }
         tag.put("permissions", permissions);
@@ -82,30 +82,30 @@ public class IslandGroup implements IsUnique, NBTSerializable {
     }
 
     @Override
-    public void deserializeNBT(CompoundTag tag) {
+    public void deserializeNBT(final CompoundTag tag) {
         this.uuid = tag.getUUID("uuid");
 
-        CompoundTag members = tag.getCompound("members");
-        for(String key : members.getAllKeys()) {
+        final CompoundTag members = tag.getCompound("members");
+        for(final String key : members.getAllKeys()) {
             this.members.add(members.getUUID(key));
         }
 
         this.item = NBTUtil.NBTToItemStack(tag.getCompound("item"));
 
-        CompoundTag permissions = tag.getCompound("permissions");
-        for(String key : permissions.getAllKeys()) {
+        final CompoundTag permissions = tag.getCompound("permissions");
+        for(final String key : permissions.getAllKeys()) {
             this.permissions.put(key, permissions.getBoolean(key));
         }
     }
 
-    public boolean canDo(String id) {
+    public boolean canDo(final String id) {
         if(!this.permissions.containsKey(id)) return false;
         return this.permissions.get(id);
     }
-    public void setPermission(String id, boolean value) {
+    public void setPermission(final String id, final boolean value) {
         this.permissions.put(id, value);
     }
-    public void inversePermission(String id) {
+    public void inversePermission(final String id) {
         this.setPermission(id, !this.canDo(id));
     }
 }

@@ -20,20 +20,20 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Predicate;
 
 public class BiomeUtil {
-    public static int quantize(int p_261998_) {
+    public static int quantize(final int p_261998_) {
         return QuartPos.toBlock(QuartPos.fromBlock(p_261998_));
     }
 
-    public static BlockPos quantize(BlockPos p_262148_) {
+    public static BlockPos quantize(final BlockPos p_262148_) {
         return new BlockPos(quantize(p_262148_.getX()), quantize(p_262148_.getY()), quantize(p_262148_.getZ()));
     }
 
-    public static BiomeResolver makeResolver(MutableInt p_262615_, ChunkAccess p_262698_, BoundingBox p_262622_, Holder<Biome> p_262705_, Predicate<Holder<Biome>> p_262695_) {
+    public static BiomeResolver makeResolver(final MutableInt p_262615_, final ChunkAccess p_262698_, final BoundingBox p_262622_, final Holder<Biome> p_262705_, final Predicate<Holder<Biome>> p_262695_) {
         return (p_262550_, p_262551_, p_262552_, p_262553_) -> {
-            int i = QuartPos.toBlock(p_262550_);
-            int j = QuartPos.toBlock(p_262551_);
-            int k = QuartPos.toBlock(p_262552_);
-            Holder<Biome> holder = p_262698_.getNoiseBiome(p_262550_, p_262551_, p_262552_);
+            final int i = QuartPos.toBlock(p_262550_);
+            final int j = QuartPos.toBlock(p_262551_);
+            final int k = QuartPos.toBlock(p_262552_);
+            final Holder<Biome> holder = p_262698_.getNoiseBiome(p_262550_, p_262551_, p_262552_);
             if (p_262622_.isInside(new Vec3i(i, j, k)) && p_262695_.test(holder)) {
                 p_262615_.increment();
                 return p_262705_;
@@ -48,11 +48,11 @@ public class BiomeUtil {
      * @param levelChunk Chunk to update
      * @param serverlevel Server level chunk is part off
      */
-    public static void updateChunk(@NotNull LevelChunk levelChunk, ServerLevel serverlevel) {
-        ChunkPos chunkPos = levelChunk.getPos();
-        MutableObject<ClientboundLevelChunkWithLightPacket> mutableObject = new MutableObject<>();
+    public static void updateChunk(@NotNull final LevelChunk levelChunk, final ServerLevel serverlevel) {
+        final ChunkPos chunkPos = levelChunk.getPos();
+        final MutableObject<ClientboundLevelChunkWithLightPacket> mutableObject = new MutableObject<>();
 
-        for(ServerPlayer serverPlayer : serverlevel.getChunkSource().chunkMap.getPlayers(chunkPos, false)) {
+        for(final ServerPlayer serverPlayer : serverlevel.getChunkSource().chunkMap.getPlayers(chunkPos, false)) {
             if(mutableObject.getValue() == null) {
                 mutableObject.setValue(new ClientboundLevelChunkWithLightPacket(levelChunk, serverlevel.getLightEngine(), null, null, true));
             }

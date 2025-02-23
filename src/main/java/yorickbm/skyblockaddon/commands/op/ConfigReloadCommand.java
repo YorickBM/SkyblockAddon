@@ -13,7 +13,7 @@ import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.util.ResourceManager;
 
 public class ConfigReloadCommand {
-    public ConfigReloadCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public ConfigReloadCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
             .then(Commands.literal("admin")
                 .requires(source -> source.getEntity() instanceof ServerPlayer && source.hasPermission(3))
@@ -24,7 +24,7 @@ public class ConfigReloadCommand {
         );
     }
 
-    public int execute(CommandSourceStack command, ServerPlayer executor) {
+    public int execute(final CommandSourceStack command, final ServerPlayer executor) {
         ResourceManager.commonSetup();
         GUILibraryRegistry.registerFolder(SkyblockAddon.MOD_ID, FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/guis/"));
 

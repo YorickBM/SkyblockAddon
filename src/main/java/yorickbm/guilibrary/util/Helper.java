@@ -32,11 +32,11 @@ public class Helper {
      *
      * @return - Minecraft Registry Item
      */
-    public static Item getItem(String item, Item basic) {
+    public static Item getItem(final String item, final Item basic) {
         try {
-            Item mcItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(item));
+            final Item mcItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(item));
             return mcItem != null ? mcItem : basic;
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             LOGGER.error("Failure to find item '{}';", item);
             LOGGER.error(ex);
             return basic;
@@ -48,8 +48,8 @@ public class Helper {
      * @param stack - Itemstack to add too
      * @param components - Text Components to add as lore
      */
-    public static void addLore(ItemStack stack, TextComponent... components) {
-        ListTag lore = new ListTag();
+    public static void addLore(final ItemStack stack, final TextComponent... components) {
+        final ListTag lore = new ListTag();
         Arrays.stream(components).toList().forEach(text -> lore.add(StringTag.valueOf(Component.Serializer.toJson(text))));
         stack.getOrCreateTagElement("display").put("Lore", lore);
     }
@@ -61,7 +61,7 @@ public class Helper {
      * @param vol - Sound volume
      * @param pitch - Sound pitch
      */
-    public static void playSongToPlayer(ServerPlayer player, SoundEvent event, float vol, float pitch) {
+    public static void playSongToPlayer(final ServerPlayer player, final SoundEvent event, final float vol, final float pitch) {
         ServerHelper.SendPacket(player, new ClientboundSoundPacket(event, SoundSource.PLAYERS, player.position().x, player.position().y, player.position().z, vol, pitch));
     }
 }

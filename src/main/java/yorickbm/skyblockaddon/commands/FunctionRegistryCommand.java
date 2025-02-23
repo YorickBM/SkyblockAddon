@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class FunctionRegistryCommand {
 
-    public FunctionRegistryCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public FunctionRegistryCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
             .then(Commands.literal("registry")
                 .then(Commands.argument("uuid", UuidArgument.uuid())
@@ -26,10 +26,10 @@ public class FunctionRegistryCommand {
         );
     }
 
-    public int execute(CommandSourceStack command, ServerPlayer executor, UUID uuid) {
+    public int execute(final CommandSourceStack command, final ServerPlayer executor, final UUID uuid) {
         try {
             FunctionRegistry.executeFunction(uuid, executor);
-        } catch (FunctionNotFoundException e) {
+        } catch (final FunctionNotFoundException e) {
             command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.expired")));
         }
 

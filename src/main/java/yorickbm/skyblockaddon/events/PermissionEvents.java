@@ -38,11 +38,11 @@ import java.util.stream.Collectors;
 public class PermissionEvents {
 
     @SubscribeEvent
-    public void onTrample(BlockEvent.FarmlandTrampleEvent event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
+    public void onTrample(final BlockEvent.FarmlandTrampleEvent event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
-        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        final Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             if(event.isCancelable()) event.setCanceled(true);
@@ -50,7 +50,7 @@ public class PermissionEvents {
             return; //Not part of any group so not allowed!!
         }
 
-        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onTrample");
+        final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onTrample");
         if(perms.isEmpty()) return; //No permission to protect against it
 
         if(!group.get().canDo(perms.get(0).getId())) { //Group may not run this
@@ -60,11 +60,11 @@ public class PermissionEvents {
         }
     }
     @SubscribeEvent
-    public void onEnderPearl(EntityTeleportEvent.EnderPearl event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
+    public void onEnderPearl(final EntityTeleportEvent.EnderPearl event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
-        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        final Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             if(event.isCancelable()) event.setCanceled(true);
@@ -72,7 +72,7 @@ public class PermissionEvents {
             return; //Not part of any group so not allowed!!
         }
 
-        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onEnderPearl");
+        final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onEnderPearl");
         if(perms.isEmpty()) return; //No permission to protect against it
 
         if(!group.get().canDo(perms.get(0).getId())) { //Group may not run this
@@ -82,11 +82,11 @@ public class PermissionEvents {
         }
     }
     @SubscribeEvent
-    public void onChorusFruit(EntityTeleportEvent.ChorusFruit event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
+    public void onChorusFruit(final EntityTeleportEvent.ChorusFruit event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
-        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        final Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             if(event.isCancelable()) event.setCanceled(true);
@@ -94,7 +94,7 @@ public class PermissionEvents {
             return; //Not part of any group so not allowed!!
         }
 
-        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onChorusFruit");
+        final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onChorusFruit");
         if(perms.isEmpty()) return; //No permission to protect against it
 
         if(!group.get().canDo(perms.get(0).getId())) { //Group may not run this
@@ -105,11 +105,11 @@ public class PermissionEvents {
     }
 
     @SubscribeEvent
-    public void onSleepInBed(PlayerSleepInBedEvent event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
+    public void onSleepInBed(final PlayerSleepInBedEvent event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
-        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        final Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             if(event.isCancelable()) event.setCanceled(true);
@@ -117,7 +117,7 @@ public class PermissionEvents {
             return; //Not part of any group so not allowed!!
         }
 
-        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onSleepInBed");
+        final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onSleepInBed");
         if(perms.isEmpty()) return; //No permission to protect against it
 
         if(!group.get().canDo(perms.get(0).getId())) { //Group may not run this
@@ -127,11 +127,11 @@ public class PermissionEvents {
         }
     }
     @SubscribeEvent
-    public void onXp(PlayerXpEvent.PickupXp event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
+    public void onXp(final PlayerXpEvent.PickupXp event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
-        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        final Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             if(event.isCancelable()) event.setCanceled(true);
@@ -139,7 +139,7 @@ public class PermissionEvents {
             return; //Not part of any group so not allowed!!
         }
 
-        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onXp");
+        final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onXp");
         if(perms.isEmpty()) return; //No permission to protect against it
 
         if(!group.get().canDo(perms.get(0).getId())) { //Group may not run this
@@ -149,11 +149,11 @@ public class PermissionEvents {
         }
     }
     @SubscribeEvent
-    public void onBonemeal(BonemealEvent event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
+    public void onBonemeal(final BonemealEvent event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
-        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        final Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             if(event.isCancelable()) event.setCanceled(true);
@@ -161,7 +161,7 @@ public class PermissionEvents {
             return; //Not part of any group so not allowed!!
         }
 
-        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onBonemeal");
+        final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onBonemeal");
         if(perms.isEmpty()) return; //No permission to protect against it
 
         if(!group.get().canDo(perms.get(0).getId())) { //Group may not run this
@@ -171,11 +171,11 @@ public class PermissionEvents {
         }
     }
     @SubscribeEvent
-    public void onPickup(EntityItemPickupEvent event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
+    public void onPickup(final EntityItemPickupEvent event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
-        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        final Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             if(event.isCancelable()) event.setCanceled(true);
@@ -183,25 +183,25 @@ public class PermissionEvents {
             return; //Not part of any group so not allowed!!
         }
 
-        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onPickup");
+        final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onPickup");
         if(perms.isEmpty()) return; //No permission to protect against it
 
         boolean runFail = false;
-        for(Permission perm : perms) {
+        for(final Permission perm : perms) {
             if(group.get().canDo(perm.getId())) continue;
             if(runFail) break; //Break loop if we determine failure
 
             // Get permission item data and check for empty
-            List<String> data = perm.getData().getItemsData();
+            final List<String> data = perm.getData().getItemsData();
 
             if(data.isEmpty()) runFail = true;
             else {
-                String pickedupItem = Objects.requireNonNull(event.getItem().getItem().getItem().getRegistryName()).toString();
+                final String pickedupItem = Objects.requireNonNull(event.getItem().getItem().getItem().getRegistryName()).toString();
                 boolean onlyNegate = true;
 
-                for(String item : data) {
-                    boolean isNegation = item.startsWith("!");
-                    Pattern itemToCheck = isNegation ? Pattern.compile(item.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(item, Pattern.CASE_INSENSITIVE);
+                for(final String item : data) {
+                    final boolean isNegation = item.startsWith("!");
+                    final Pattern itemToCheck = isNegation ? Pattern.compile(item.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(item, Pattern.CASE_INSENSITIVE);
 
                     runFail = isNegation != itemToCheck.matcher(pickedupItem).matches();
 
@@ -220,11 +220,11 @@ public class PermissionEvents {
         }
     }
     @SubscribeEvent
-    public void onDrop(ItemTossEvent event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
+    public void onDrop(final ItemTossEvent event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
-        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        final Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             if(event.isCancelable()) event.setCanceled(true);
@@ -232,25 +232,25 @@ public class PermissionEvents {
             return; //Not part of any group so not allowed!!
         }
 
-        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onDrop");
+        final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onDrop");
         if(perms.isEmpty()) return; //No permission to protect against it
 
         boolean runFail = false;
-        for(Permission perm : perms) {
+        for(final Permission perm : perms) {
             if(group.get().canDo(perm.getId())) continue;
             if(runFail) break; //Break loop if we determine failure
 
             // Get permission item data and check for empty
-            List<String> data = perm.getData().getItemsData();
+            final List<String> data = perm.getData().getItemsData();
 
             if(data.isEmpty()) runFail = true;
             else {
-                String droppedItem = Objects.requireNonNull(event.getEntityItem().getItem().getItem().getRegistryName()).toString();
+                final String droppedItem = Objects.requireNonNull(event.getEntityItem().getItem().getItem().getRegistryName()).toString();
                 boolean onlyNegate = true;
 
-                for(String item : data) {
-                    boolean isNegation = item.startsWith("!");
-                    Pattern itemToCheck = isNegation ? Pattern.compile(item.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(item, Pattern.CASE_INSENSITIVE);
+                for(final String item : data) {
+                    final boolean isNegation = item.startsWith("!");
+                    final Pattern itemToCheck = isNegation ? Pattern.compile(item.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(item, Pattern.CASE_INSENSITIVE);
 
                     runFail = isNegation != itemToCheck.matcher(droppedItem).matches();
 
@@ -269,36 +269,36 @@ public class PermissionEvents {
         }
     }
     @SubscribeEvent
-    public void onBucket(FillBucketEvent event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
+    public void onBucket(final FillBucketEvent event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
-        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        final Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
             if(event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
             return; //Not part of any group so not allowed!!
         }
 
-        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onBucket");
+        final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onBucket");
         if(perms.isEmpty()) return; //No permission to protect against it
 
         boolean runFail = false;
-        for(Permission perm : perms) {
+        for(final Permission perm : perms) {
             if(group.get().canDo(perm.getId())) continue;
             if(runFail) break; //Break loop if we determine failure
 
             // Get permission item data and check for empty
-            List<String> data = perm.getData().getItemsData();
+            final List<String> data = perm.getData().getItemsData();
 
             if(data.isEmpty()) runFail = true;
             else {
-                String filledBucket = Objects.requireNonNull(event.getFilledBucket().getItem().getRegistryName()).toString();
+                final String filledBucket = Objects.requireNonNull(event.getFilledBucket().getItem().getRegistryName()).toString();
                 boolean onlyNegate = true;
 
-                for(String fluid : data) {
-                    boolean isNegation = fluid.startsWith("!");
-                    Pattern fluidToCheck = isNegation ? Pattern.compile(fluid.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(fluid, Pattern.CASE_INSENSITIVE);
+                for(final String fluid : data) {
+                    final boolean isNegation = fluid.startsWith("!");
+                    final Pattern fluidToCheck = isNegation ? Pattern.compile(fluid.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(fluid, Pattern.CASE_INSENSITIVE);
 
                     runFail = isNegation != fluidToCheck.matcher(filledBucket).matches();
 
@@ -318,11 +318,11 @@ public class PermissionEvents {
     }
 
     @SubscribeEvent
-    public void onMount(EntityMountEvent event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
+    public void onMount(final EntityMountEvent event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
-        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        final Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             if(event.isCancelable()) event.setCanceled(true);
@@ -330,25 +330,25 @@ public class PermissionEvents {
             return; //Not part of any group so not allowed!!
         }
 
-        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onMount");
+        final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onMount");
         if(perms.isEmpty()) return; //No permission to protect against it
 
         boolean runFail = false;
-        for(Permission perm : perms) {
+        for(final Permission perm : perms) {
             if(group.get().canDo(perm.getId())) continue;
             if(runFail) break; //Break loop if we determine failure
 
             // Get permission item data and check for empty
-            List<String> data = perm.getData().getEntitiesData();
+            final List<String> data = perm.getData().getEntitiesData();
 
             if(data.isEmpty()) runFail = true;
             else {
-                String mountedEntity = Objects.requireNonNull(EntityType.getKey(event.getEntityBeingMounted().getType())).toString();
+                final String mountedEntity = Objects.requireNonNull(EntityType.getKey(event.getEntityBeingMounted().getType())).toString();
                 boolean onlyNegate = true;
 
-                for(String entity : data) {
-                    boolean isNegation = entity.startsWith("!");
-                    Pattern entityToCheck = isNegation ? Pattern.compile(entity.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(entity, Pattern.CASE_INSENSITIVE);
+                for(final String entity : data) {
+                    final boolean isNegation = entity.startsWith("!");
+                    final Pattern entityToCheck = isNegation ? Pattern.compile(entity.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(entity, Pattern.CASE_INSENSITIVE);
 
                     runFail = isNegation != entityToCheck.matcher(mountedEntity).matches();
 
@@ -368,8 +368,8 @@ public class PermissionEvents {
     }
 
     @SubscribeEvent
-    public void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
+    public void onRightClickBlock(final PlayerInteractEvent.RightClickBlock event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(!PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) {
             if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(), (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), "onRightClickBlock")) {
                 event.getPlayer().displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
@@ -378,9 +378,9 @@ public class PermissionEvents {
             }
         }
         if(!PermissionManager.verifyNetherEntity(event.getEntity(), standingOn, event.getPos()).asBoolean()) {
-            ItemStack item = event.getItemStack();
+            final ItemStack item = event.getItemStack();
             if(!item.isEmpty() && item.getItem() == Items.FLINT_AND_STEEL) {
-                BlockState state = event.getWorld().getBlockState(event.getPos());
+                final BlockState state = event.getWorld().getBlockState(event.getPos());
                 if(!state.isAir() && state.getBlock().asItem() == Items.OBSIDIAN) {
                     if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(), (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), "onPortalIgnition")) {
                         event.getPlayer().displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
@@ -392,8 +392,8 @@ public class PermissionEvents {
         }
     }
     @SubscribeEvent
-    public void onRightClickEmpty(PlayerInteractEvent.RightClickEmpty event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
+    public void onRightClickEmpty(final PlayerInteractEvent.RightClickEmpty event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
         if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(), (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), "onRightClickEmpty")) {
@@ -403,8 +403,8 @@ public class PermissionEvents {
         }
     }
     @SubscribeEvent
-    public void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
+    public void onRightClickItem(final PlayerInteractEvent.RightClickItem event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
         if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(), (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), "onRightClickItem")) {
@@ -415,8 +415,8 @@ public class PermissionEvents {
     }
 
     @SubscribeEvent
-    public void onLeftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
+    public void onLeftClickBlock(final PlayerInteractEvent.LeftClickBlock event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
         if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(), (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), "onLeftClickBlock")) {
@@ -426,8 +426,8 @@ public class PermissionEvents {
         }
     }
     @SubscribeEvent
-    public void onLeftClickEmpty(PlayerInteractEvent.LeftClickEmpty event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
+    public void onLeftClickEmpty(final PlayerInteractEvent.LeftClickEmpty event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
         if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(), (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), "onLeftClickEmpty")) {
@@ -438,11 +438,11 @@ public class PermissionEvents {
     }
 
     @SubscribeEvent
-    public void onAttack(AttackEntityEvent event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
+    public void onAttack(final AttackEntityEvent event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
-        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        final Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             if(event.isCancelable()) event.setCanceled(true);
@@ -450,25 +450,25 @@ public class PermissionEvents {
             return; //Not part of any group so not allowed!!
         }
 
-        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onAttack");
+        final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onAttack");
         if(perms.isEmpty()) return; //No permission to protect against it
 
         boolean runFail = false;
-        for(Permission perm : perms) {
+        for(final Permission perm : perms) {
             if(group.get().canDo(perm.getId())) continue;
             if(runFail) break; //Break loop if we determine failure
 
             // Get permission item data and check for empty
-            List<String> data = perm.getData().getEntitiesData();
+            final List<String> data = perm.getData().getEntitiesData();
 
             if(data.isEmpty()) runFail = true;
             else {
-                String attackedEntity = Objects.requireNonNull(EntityType.getKey(event.getTarget().getType())).toString();
+                final String attackedEntity = Objects.requireNonNull(EntityType.getKey(event.getTarget().getType())).toString();
                 boolean onlyNegate = true;
 
-                for(String entity : data) {
-                    boolean isNegation = entity.startsWith("!");
-                    Pattern entityToCheck = isNegation ? Pattern.compile(entity.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(entity, Pattern.CASE_INSENSITIVE);
+                for(final String entity : data) {
+                    final boolean isNegation = entity.startsWith("!");
+                    final Pattern entityToCheck = isNegation ? Pattern.compile(entity.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(entity, Pattern.CASE_INSENSITIVE);
 
                     runFail = isNegation != entityToCheck.matcher(attackedEntity).matches();
 
@@ -488,11 +488,11 @@ public class PermissionEvents {
     }
 
     @SubscribeEvent
-    public void onUse(LivingEntityUseItemEvent event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
+    public void onUse(final LivingEntityUseItemEvent event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
-        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        final Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             if(event.isCancelable()) event.setCanceled(true);
@@ -500,25 +500,25 @@ public class PermissionEvents {
             return; //Not part of any group so not allowed!!
         }
 
-        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onUse");
+        final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onUse");
         if(perms.isEmpty()) return; //No permission to protect against it
 
         boolean runFail = false;
-        for(Permission perm : perms) {
+        for(final Permission perm : perms) {
             if(group.get().canDo(perm.getId())) continue;
             if(runFail) break; //Break loop if we determine failure
 
             // Get permission item data and check for empty
-            List<String> data = perm.getData().getItemsData();
+            final List<String> data = perm.getData().getItemsData();
 
             if(data.isEmpty()) runFail = true;
             else {
-                String usedItem = Objects.requireNonNull(event.getItem().getItem().getRegistryName()).toString();
+                final String usedItem = Objects.requireNonNull(event.getItem().getItem().getRegistryName()).toString();
                 boolean onlyNegate = true;
 
-                for(String item : data) {
-                    boolean isNegation = item.startsWith("!");
-                    Pattern itemToCheck = isNegation ? Pattern.compile(item.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(item, Pattern.CASE_INSENSITIVE);
+                for(final String item : data) {
+                    final boolean isNegation = item.startsWith("!");
+                    final Pattern itemToCheck = isNegation ? Pattern.compile(item.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(item, Pattern.CASE_INSENSITIVE);
 
                     runFail = isNegation != itemToCheck.matcher(usedItem).matches();
 
@@ -538,12 +538,12 @@ public class PermissionEvents {
     }
 
     @SubscribeEvent
-    public void onPlayerChangedDimension(EntityTravelToDimensionEvent event) {
-        AtomicReference<Island> standingOn = new AtomicReference<>();
+    public void onPlayerChangedDimension(final EntityTravelToDimensionEvent event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean() &&
                 PermissionManager.verifyNetherEntity(event.getEntity(), standingOn, event.getEntity().getOnPos()).asBoolean()) return;
 
-        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
+        final Optional<IslandGroup> group = standingOn.get().getGroupForEntity(event.getEntity());
         if(group.isEmpty()) {
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             if(event.isCancelable()) event.setCanceled(true);
@@ -551,28 +551,28 @@ public class PermissionEvents {
             return; //Not part of any group so not allowed!!
         }
 
-        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onPlayerChangedDimension");
+        final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onPlayerChangedDimension");
         if(perms.isEmpty()) return; //No permission to protect against it
 
-        ResourceKey<Level> toDim = event.getDimension();
+        final ResourceKey<Level> toDim = event.getDimension();
 
         boolean runFail = false;
-        for(Permission perm : perms) {
+        for(final Permission perm : perms) {
             if (group.get().canDo(perm.getId())) continue;
             if (runFail) break; //Break loop if we determine failure
             boolean onlyNegate = true;
 
             // Get permission data
-            List<String> data = perm.getData().getSkyblockaddonData().stream()
+            final List<String> data = perm.getData().getSkyblockaddonData().stream()
                     .filter(s -> s.startsWith("dimension:"))
                     .map( s -> s.replace("dimension:", ""))
                     .collect(Collectors.toCollection(ArrayList::new));
 
             if(data.isEmpty()) runFail = true;
             else {
-                for(String dimension : data) {
-                    boolean isNegation = dimension.startsWith("!");
-                    Pattern dimensionToCheck = isNegation ? Pattern.compile(dimension.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(dimension, Pattern.CASE_INSENSITIVE);
+                for(final String dimension : data) {
+                    final boolean isNegation = dimension.startsWith("!");
+                    final Pattern dimensionToCheck = isNegation ? Pattern.compile(dimension.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(dimension, Pattern.CASE_INSENSITIVE);
 
                     runFail = isNegation != dimensionToCheck.matcher(toDim.getRegistryName().toString()).matches();
 
@@ -589,14 +589,12 @@ public class PermissionEvents {
             if(event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
 
-            ServerPlayer player = (ServerPlayer) event.getEntity();
+            final ServerPlayer player = (ServerPlayer) event.getEntity();
 
             // Convert yaw to radians and calculate direction vector
-            double radianYaw = Math.toRadians(player.getYRot());
-            Vec3 direction = new Vec3(Math.sin(radianYaw), 0, -Math.cos(radianYaw));
+            final double radianYaw = Math.toRadians(player.getYRot());
+            final Vec3 direction = new Vec3(Math.sin(radianYaw), 0, -Math.cos(radianYaw));
 
-            // Invert the direction to get the opposite direction
-            Vec3 oppositeDirection = direction.scale(-1);  // Keep the direction with the same magnitude
 
             // Send the new movement to player & client
             player.setDeltaMovement(new Vec3(direction.x * 0.4, 0.28, direction.z * 0.4));

@@ -10,20 +10,20 @@ import java.util.Objects;
 
 public class NBTUtil {
 
-    public static CompoundTag Vec3iToNBT(Vec3i location) {
-        CompoundTag tag = new CompoundTag();
+    public static CompoundTag Vec3iToNBT(final Vec3i location) {
+        final CompoundTag tag = new CompoundTag();
         tag.putInt("x", location.getX());
         tag.putInt("y", location.getY());
         tag.putInt("z", location.getZ());
         return tag;
     }
 
-    public static Vec3i NBTToVec3i(CompoundTag tag) {
+    public static Vec3i NBTToVec3i(final CompoundTag tag) {
         return new Vec3i(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
     }
 
-    public static CompoundTag ItemStackToNBT(ItemStack item) {
-        CompoundTag tag = new CompoundTag();
+    public static CompoundTag ItemStackToNBT(final ItemStack item) {
+        final CompoundTag tag = new CompoundTag();
 
         tag.putString("registryName", Objects.requireNonNull(item.getItem().getRegistryName()).toString());
         tag.put("NBT", item.getOrCreateTag());
@@ -31,8 +31,8 @@ public class NBTUtil {
         return tag;
     }
 
-    public static ItemStack NBTToItemStack(CompoundTag tag) {
-        ItemStack item = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(tag.getString("registryName"))));
+    public static ItemStack NBTToItemStack(final CompoundTag tag) {
+        final ItemStack item = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(tag.getString("registryName"))));
         item.setTag(tag.getCompound("NBT"));
         return item;
     }

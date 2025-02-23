@@ -17,7 +17,7 @@ public class SkyblockAddonWorldProvider implements ICapabilityProvider, INBTSeri
     public static final Capability<SkyblockAddonWorldCapability> SKYBLOCKADDON_WORLD_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
     });
 
-    private MinecraftServer serverInstance;
+    private final MinecraftServer serverInstance;
 
     /**
      * Basic singleton instance management
@@ -28,7 +28,7 @@ public class SkyblockAddonWorldProvider implements ICapabilityProvider, INBTSeri
         return instance;
     }
 
-    public SkyblockAddonWorldProvider(MinecraftServer server) {
+    public SkyblockAddonWorldProvider(final MinecraftServer server) {
         instance = this;
         serverInstance = server;
     }
@@ -44,20 +44,20 @@ public class SkyblockAddonWorldProvider implements ICapabilityProvider, INBTSeri
 
     @NotNull
     @Override
-    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
+    public <T> LazyOptional<T> getCapability(@NotNull final Capability<T> cap, @Nullable final Direction side) {
         if (cap != SKYBLOCKADDON_WORLD_CAPABILITY) return LazyOptional.empty();
         return optional.cast();
     }
 
     @Override
     public CompoundTag serializeNBT() {
-        CompoundTag nbt = new CompoundTag();
+        final CompoundTag nbt = new CompoundTag();
         createCapability().saveNBTData(nbt);
         return nbt;
     }
 
     @Override
-    public void deserializeNBT(CompoundTag nbt) {
+    public void deserializeNBT(final CompoundTag nbt) {
         createCapability().loadNBTData(nbt);
     }
 }

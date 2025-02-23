@@ -19,7 +19,7 @@ public class GUIItemJson implements JSONSerializable {
      */
     public GUIItem getItem() {
 
-        GUIItem.Builder builder = new GUIItem.Builder()
+        final GUIItem.Builder builder = new GUIItem.Builder()
                 .setSlot(this.slot)
                 .setItemStack(this.item.getItemStackHolder())
                 .setConditions(this.conditions);
@@ -35,14 +35,14 @@ public class GUIItemJson implements JSONSerializable {
 
     @Override
     public String toJSON() {
-        Gson gson = new Gson();
+        final Gson gson = new Gson();
         return gson.toJson(this);
     }
 
     @Override
-    public void fromJSON(String json) {
-        Gson gson = new Gson();
-        GUIItemJson temp = gson.fromJson(json, GUIItemJson.class);
+    public void fromJSON(final String json) {
+        final Gson gson = new Gson();
+        final GUIItemJson temp = gson.fromJson(json, GUIItemJson.class);
 
         this.slot = temp.slot;
         this.item = temp.item;

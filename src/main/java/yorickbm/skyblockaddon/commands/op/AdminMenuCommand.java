@@ -18,7 +18,7 @@ import yorickbm.skyblockaddon.islands.Island;
 import java.util.UUID;
 
 public class AdminMenuCommand extends OverWorldCommandStack {
-    public AdminMenuCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public AdminMenuCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
                 .then(Commands.literal("admin")
                         .requires(source -> source.getEntity() instanceof ServerPlayer && source.hasPermission(Commands.LEVEL_ADMINS))
@@ -32,7 +32,7 @@ public class AdminMenuCommand extends OverWorldCommandStack {
         );
     }
 
-    public int execute(CommandSourceStack command, ServerPlayer executor, UUID islandId) {
+    public int execute(final CommandSourceStack command, final ServerPlayer executor, final UUID islandId) {
         if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
         command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
@@ -49,7 +49,7 @@ public class AdminMenuCommand extends OverWorldCommandStack {
                 return;
             }
 
-            CompoundTag tag = new CompoundTag();
+            final CompoundTag tag = new CompoundTag();
             tag.putUUID("island_id", island.getId());
             GUILibraryRegistry.openGUIForPlayer(executor, SkyblockAddon.MOD_ID + ":overview", tag);
         });

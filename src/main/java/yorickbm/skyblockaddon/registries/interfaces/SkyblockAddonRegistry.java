@@ -8,7 +8,7 @@ public abstract class SkyblockAddonRegistry {
     public abstract void getNextData(CompoundTag tag);
     public abstract int getSize();
 
-    public void setIndex(int number) {
+    public void setIndex(final int number) {
         if(number < 0) {
             this.index = 0;
         }

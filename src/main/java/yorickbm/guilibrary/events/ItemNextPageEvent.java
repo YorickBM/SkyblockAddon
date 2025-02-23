@@ -9,7 +9,7 @@ import yorickbm.guilibrary.interfaces.ServerInterface;
 
 @Cancelable
 public class ItemNextPageEvent extends GuiClickItemEvent {
-    public ItemNextPageEvent(ServerInterface instance, ServerPlayer player, Slot slot, GUIItem item) {
+    public ItemNextPageEvent(final ServerInterface instance, final ServerPlayer player, final Slot slot, final GUIItem item) {
         super(instance, player, slot, item);
     }
 }

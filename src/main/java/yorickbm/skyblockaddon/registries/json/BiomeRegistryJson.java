@@ -18,14 +18,14 @@ public class BiomeRegistryJson implements JSONSerializable {
     }
 
     @Override
-    public void fromJSON(String json) {
-        Gson gson = new Gson();
-        BiomeRegistryJson temp = gson.fromJson(json, BiomeRegistryJson.class);
+    public void fromJSON(final String json) {
+        final Gson gson = new Gson();
+        final BiomeRegistryJson temp = gson.fromJson(json, BiomeRegistryJson.class);
         this.biomes = temp.biomes;
     }
 
     public Map<String, Item> toMap() {
-        Map<String, Item> data = new LinkedHashMap<>();
+        final Map<String, Item> data = new LinkedHashMap<>();
 
         this.biomes.forEach((s,v) -> {
             data.put(s.toLowerCase(), ServerHelper.getItem(v.toLowerCase(), Items.DEAD_BUSH));

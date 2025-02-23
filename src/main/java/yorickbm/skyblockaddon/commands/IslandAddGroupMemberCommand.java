@@ -23,7 +23,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class IslandAddGroupMemberCommand extends OverWorldCommandStack {
-    public IslandAddGroupMemberCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public IslandAddGroupMemberCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
             .requires(source -> source.getEntity() instanceof ServerPlayer)
                 .then(Commands.literal("group")
@@ -41,12 +41,12 @@ public class IslandAddGroupMemberCommand extends OverWorldCommandStack {
         );
     }
 
-    private CompletableFuture<Suggestions> groupOptions(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
-        ServerPlayer player = (ServerPlayer) context.getSource().getEntity();
+    private CompletableFuture<Suggestions> groupOptions(final CommandContext<CommandSourceStack> context, final SuggestionsBuilder builder) {
+        final ServerPlayer player = (ServerPlayer) context.getSource().getEntity();
         if(player == null) return builder.buildFuture();
 
         context.getSource().getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island island = cap.getIslandByEntityUUID(player.getUUID());
+            final Island island = cap.getIslandByEntityUUID(player.getUUID());
             if (island == null) {
                 return;
             }
@@ -60,23 +60,23 @@ public class IslandAddGroupMemberCommand extends OverWorldCommandStack {
         return builder.buildFuture();
     }
 
-    public int execute(CommandSourceStack command, ServerPlayer executor, ServerPlayer target, String groupName) {
+    public int execute(final CommandSourceStack command, final ServerPlayer executor, final ServerPlayer target, final String groupName) {
         if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
         command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island island = cap.getIslandByEntityUUID(executor.getUUID());
+            final Island island = cap.getIslandByEntityUUID(executor.getUUID());
             if (island == null) {
                 command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.has.no.island")));
                 return;
             }
 
-            Optional<UUID> groupId = island.getGroupByName(groupName);
+            final Optional<UUID> groupId = island.getGroupByName(groupName);
             if(groupId.isEmpty() || !island.hasGroup(groupId.get())) {
                 command.sendFailure(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("commands.group.not.found"), groupId)));
                 return;
             }
 
-            IslandGroup group = island.getGroup(groupId.get());
+            final IslandGroup group = island.getGroup(groupId.get());
             group.addMember(target.getUUID());
 
             command.sendSuccess(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("commands.group.added.member"), target.getDisplayName().getString().trim(), group.getItem().getDisplayName().getString().trim())).withStyle(ChatFormatting.GREEN), false);

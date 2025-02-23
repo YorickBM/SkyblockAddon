@@ -20,7 +20,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class AdminAddMemberCommand {
-    public AdminAddMemberCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public AdminAddMemberCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
             .then(Commands.literal("admin")
                 .requires(source -> source.getEntity() instanceof ServerPlayer && source.hasPermission(Commands.LEVEL_ADMINS))
@@ -42,15 +42,15 @@ public class AdminAddMemberCommand {
         );
     }
 
-    public int execute(CommandSourceStack command, ServerPlayer executor, UUID islandId, ServerPlayer target) {
+    public int execute(final CommandSourceStack command, final ServerPlayer executor, final UUID islandId, final ServerPlayer target) {
         execute(command, executor, islandId, target.getUUID()); //Convert target into UUID
         return Command.SINGLE_SUCCESS;
     }
 
-    public int execute(CommandSourceStack command, ServerPlayer executor, UUID islandId, UUID target) {
+    public int execute(final CommandSourceStack command, final ServerPlayer executor, final UUID islandId, final UUID target) {
 
         Objects.requireNonNull(command.getServer().getLevel(Level.OVERWORLD)).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island island = cap.getIslandByUUID(islandId);
+            final Island island = cap.getIslandByUUID(islandId);
             if (island == null) {
                 command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.admin.island.not.found.uuid").formatted(islandId)));
                 return;

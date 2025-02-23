@@ -20,7 +20,7 @@ import yorickbm.skyblockaddon.util.UsernameCache;
 import java.util.UUID;
 
 public class IslandInviteCommand extends OverWorldCommandStack {
-    public IslandInviteCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public IslandInviteCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
             .then(Commands.literal("invite")
                 .then(Commands.argument("player", EntityArgument.player())
@@ -31,7 +31,7 @@ public class IslandInviteCommand extends OverWorldCommandStack {
         );
     }
 
-    public int execute(CommandSourceStack command, ServerPlayer executor, ServerPlayer target) {
+    public int execute(final CommandSourceStack command, final ServerPlayer executor, final ServerPlayer target) {
         if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
         if(target.getUUID().equals(executor.getUUID())) {
@@ -40,17 +40,17 @@ public class IslandInviteCommand extends OverWorldCommandStack {
         }
 
         command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island sourceIsland = cap.getIslandByEntityUUID(executor.getUUID());
+            final Island sourceIsland = cap.getIslandByEntityUUID(executor.getUUID());
             if (sourceIsland == null) {
                 command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.has.no.island")));
                 return;
             }
 
-            UUID functionKey = UUID.randomUUID();
+            final UUID functionKey = UUID.randomUUID();
             FunctionRegistry.registerFunction(functionKey, (e) -> {
                 if(super.execute(command, e) == 0) return true;
 
-                Island targetIsland = cap.getIslandByEntityUUID(target.getUUID());
+                final Island targetIsland = cap.getIslandByEntityUUID(target.getUUID());
                 if(targetIsland != null) {
                     targetIsland.kickMember(target, target.getUUID()); //Kick himself off the island.
                 }

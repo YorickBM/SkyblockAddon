@@ -15,14 +15,14 @@ import yorickbm.skyblockaddon.islands.Island;
 public class PlayerEvents {
 
     @SubscribeEvent(priority = EventPriority.LOW)
-    public void onVoidFall(LivingDamageEvent event) {
+    public void onVoidFall(final LivingDamageEvent event) {
         if(event.getSource().equals(DamageSource.OUT_OF_WORLD)) {
-            Entity entity = event.getEntity();
+            final Entity entity = event.getEntity();
             if(entity instanceof ServerPlayer || entity instanceof DollMiniMeEntity || entity instanceof SpiritEntity) {
                 if(entity.getLevel().dimension() != Level.OVERWORLD) return; //Ignore non overworld events
 
                 entity.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-                    Island island = cap.getIslandPlayerIsStandingOn(entity);
+                    final Island island = cap.getIslandPlayerIsStandingOn(entity);
                     if(island == null) return;
 
                     event.setCanceled(true); //Cancel damage

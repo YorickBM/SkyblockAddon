@@ -14,18 +14,18 @@ public class SkyBlockAddonLanguage {
     private static final Gson GSON = new Gson();
     private static final Map<String, String> LANGUAGE_MAP = new HashMap<>();
 
-    public static void loadLocalization(Path path) {
+    public static void loadLocalization(final Path path) {
         LANGUAGE_MAP.clear(); //Make sure its empty
 
-        try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-            Map<String, String> map = GSON.fromJson(reader, HashMap.class);
+        try (final BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+            final Map<String, String> map = GSON.fromJson(reader, HashMap.class);
             LANGUAGE_MAP.putAll(map);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static String getLocalizedString(String key) {
+    public static String getLocalizedString(final String key) {
         return LANGUAGE_MAP.getOrDefault(key, key);
     }
 }

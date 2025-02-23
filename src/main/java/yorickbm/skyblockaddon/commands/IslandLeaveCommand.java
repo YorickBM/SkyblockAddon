@@ -19,7 +19,7 @@ import java.util.UUID;
 
 public class IslandLeaveCommand extends OverWorldCommandStack {
 
-    public IslandLeaveCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public IslandLeaveCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
             .then(Commands.literal("leave")
                 .requires(source -> source.getEntity() instanceof ServerPlayer)
@@ -29,18 +29,18 @@ public class IslandLeaveCommand extends OverWorldCommandStack {
     }
 
     @Override
-    public int execute(CommandSourceStack command, ServerPlayer executor) {
+    public int execute(final CommandSourceStack command, final ServerPlayer executor) {
         if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
         command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island island = cap.getIslandByEntityUUID(executor.getUUID());
+            final Island island = cap.getIslandByEntityUUID(executor.getUUID());
             if (island == null) {
                 command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.has.no.island")));
                 return;
             }
 
             //Undo leave function
-            UUID functionKey = UUID.randomUUID();
+            final UUID functionKey = UUID.randomUUID();
             FunctionRegistry.registerFunction(functionKey, (e) -> {
                 if(super.execute(command, e) == 0) return true;
 

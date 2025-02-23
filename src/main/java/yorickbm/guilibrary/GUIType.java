@@ -12,7 +12,7 @@ public class GUIType {
     private final List<GUIFiller> fillers;
 
     // Private constructor to enforce Builder usage
-    private GUIType(Builder builder) {
+    private GUIType(final Builder builder) {
         this.title = builder.title;
         this.rows = builder.rows;
         this.items = builder.items;
@@ -52,22 +52,22 @@ public class GUIType {
         }
 
         // Setter methods for each field
-        public Builder setTitle(List<TextComponent> title) {
+        public Builder setTitle(final List<TextComponent> title) {
             this.title = title;
             return this;
         }
 
-        public Builder setRows(int rows) {
+        public Builder setRows(final int rows) {
             this.rows = rows;
             return this;
         }
 
-        public Builder setItems(List<GUIItem> items) {
+        public Builder setItems(final List<GUIItem> items) {
             this.items = items;
             return this;
         }
 
-        public Builder setFillers(List<GUIFiller> fillers) {
+        public Builder setFillers(final List<GUIFiller> fillers) {
             this.fillers = fillers;
             return this;
         }

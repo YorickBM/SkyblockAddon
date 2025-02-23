@@ -14,7 +14,7 @@ import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.islands.Island;
 
 public class IslandCreateCommand extends OverWorldCommandStack {
-    public IslandCreateCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public IslandCreateCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
             .then(Commands.literal("create")
                 .requires(source -> source.getEntity() instanceof ServerPlayer)
@@ -24,24 +24,24 @@ public class IslandCreateCommand extends OverWorldCommandStack {
     }
 
     @Override
-    public int execute(CommandSourceStack command, ServerPlayer executor) {
+    public int execute(final CommandSourceStack command, final ServerPlayer executor) {
         if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
         command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island island = cap.getIslandByEntityUUID(executor.getUUID());
+            final Island island = cap.getIslandByEntityUUID(executor.getUUID());
             if(island != null) {
                 command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.create.already")));
                 return;
             }
 
-            Thread asyncIslandGen = new Thread(() -> {
-                Vec3i vec = cap.genIsland(command.getLevel());
+            final Thread asyncIslandGen = new Thread(() -> {
+                final Vec3i vec = cap.genIsland(command.getLevel());
                 if(vec == null) {
                     command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.create.failure")));
                     return;
                 }
 
-                Island newIsland = new Island(executor.getUUID(), vec);
+                final Island newIsland = new Island(executor.getUUID(), vec);
                 cap.registerIsland(newIsland, executor.getUUID());
 
                 executor.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.create.success")).withStyle(ChatFormatting.GREEN), executor.getUUID());

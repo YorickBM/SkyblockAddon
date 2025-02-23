@@ -27,7 +27,7 @@ import java.util.function.Function;
 public class IslandGuiEvents {
 
     @SubscribeEvent
-    public void onTeleportToIslandEvent(IslandEvents.TeleportToIsland event) {
+    public void onTeleportToIslandEvent(final IslandEvents.TeleportToIsland event) {
         if(event.isCanceled()) return; //Skip if canceled
 
         //Teleport target to island
@@ -41,13 +41,13 @@ public class IslandGuiEvents {
     }
 
     @SubscribeEvent
-    public void onLeaveIslandEvent(IslandEvents.LeaveIsland event) {
+    public void onLeaveIslandEvent(final IslandEvents.LeaveIsland event) {
         //Run leave command
         Objects.requireNonNull(event.getTarget().getServer()).getCommands().performCommand(event.getTarget().createCommandSourceStack(), "/island leave");
     }
 
     @SubscribeEvent
-    public void onSetSpawnPointEvent(IslandEvents.SetSpawnPoint event) {
+    public void onSetSpawnPointEvent(final IslandEvents.SetSpawnPoint event) {
         if(event.isCanceled()) return; //Skip if canceled
 
         if(!event.getIsland().getIslandBoundingBox().isInside(event.getTarget().getOnPos())) {
@@ -64,14 +64,14 @@ public class IslandGuiEvents {
     }
 
     @SubscribeEvent
-    public void onChangeIslandVisiblityEvent(IslandEvents.ChangeVisibility event) {
+    public void onChangeIslandVisiblityEvent(final IslandEvents.ChangeVisibility event) {
         event.getIsland().toggleVisibility();
         event.getHolder().update();
     }
 
     @SubscribeEvent
-    public void onTravelToIslandEvent(IslandEvents.TravelToIsland event) {
-        CompoundTag modData = event.getClickedItem().getOrCreateTagElement(SkyblockAddon.MOD_ID);
+    public void onTravelToIslandEvent(final IslandEvents.TravelToIsland event) {
+        final CompoundTag modData = event.getClickedItem().getOrCreateTagElement(SkyblockAddon.MOD_ID);
 
         if(!modData.contains("island_id")) {
             event.setResult(Event.Result.DENY);
@@ -79,7 +79,7 @@ public class IslandGuiEvents {
         }
 
         event.getTarget().getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island island = cap.getIslandByUUID(modData.getUUID("island_id"));
+            final Island island = cap.getIslandByUUID(modData.getUUID("island_id"));
 
             //Island is not found
             if(island == null) {
@@ -98,8 +98,8 @@ public class IslandGuiEvents {
     }
 
     @SubscribeEvent
-    public void onInviteNewMemberEvent(IslandEvents.InviteNewMember event) {
-        CompoundTag guiData = event.getHolder().getData().getCompound(SkyblockAddon.MOD_ID);
+    public void onInviteNewMemberEvent(final IslandEvents.InviteNewMember event) {
+        final CompoundTag guiData = event.getHolder().getData().getCompound(SkyblockAddon.MOD_ID);
 
         if(!guiData.contains("group_id")) {
             event.setResult(Event.Result.DENY);
@@ -118,12 +118,12 @@ public class IslandGuiEvents {
     }
 
     @SubscribeEvent
-    public void onCreateNewGroupEvent(IslandEvents.CreateNewGroup event) {
+    public void onCreateNewGroupEvent(final IslandEvents.CreateNewGroup event) {
         event.getHolder().close();
 
         //Create clickable command
-        UUID id = UUID.randomUUID();
-        Function<ServerPlayer, Boolean> function = executor -> {
+        final UUID id = UUID.randomUUID();
+        final Function<ServerPlayer, Boolean> function = executor -> {
             if(executor.getMainHandItem().isEmpty()) {
                 executor.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.group.failure").formatted(executor.getMainHandItem().getDisplayName().getString(), Objects.requireNonNull(executor.getMainHandItem().getItem().getRegistryName()).toString().split(":")[1]))
                                 .withStyle(ChatFormatting.RED)
@@ -150,8 +150,8 @@ public class IslandGuiEvents {
     }
 
     @SubscribeEvent
-    public void onUpdateBiomeEvent(IslandEvents.UpdateBiome event) {
-        CompoundTag modData = event.getClickedItem().getOrCreateTagElement(SkyblockAddon.MOD_ID);
+    public void onUpdateBiomeEvent(final IslandEvents.UpdateBiome event) {
+        final CompoundTag modData = event.getClickedItem().getOrCreateTagElement(SkyblockAddon.MOD_ID);
 
 
         if(!modData.contains("biome")) {
@@ -159,7 +159,7 @@ public class IslandGuiEvents {
             return;
         }
 
-        String biome = modData.getString("biome");
+        final String biome = modData.getString("biome");
         event.getIsland().updateBiome(biome, event.getTarget().getLevel());
         event.getHolder().close();
 
@@ -171,15 +171,15 @@ public class IslandGuiEvents {
     }
 
     @SubscribeEvent
-    public void onKickMemberEvent(IslandEvents.KickMember event) {
-        CompoundTag guiData = event.getHolder().getData().getCompound(SkyblockAddon.MOD_ID);
+    public void onKickMemberEvent(final IslandEvents.KickMember event) {
+        final CompoundTag guiData = event.getHolder().getData().getCompound(SkyblockAddon.MOD_ID);
 
         if(!guiData.contains("player_id")) {
             event.setResult(Event.Result.DENY);
             return;
         }
 
-        UUID playerUUID = guiData.getUUID("player_id");
+        final UUID playerUUID = guiData.getUUID("player_id");
         event.getIsland().kickMember(event.getTarget(), playerUUID);
         event.getHolder().close();
 
@@ -192,17 +192,17 @@ public class IslandGuiEvents {
     }
 
     @SubscribeEvent
-    public void onSetPlayerGroupEvent(IslandEvents.SetPlayerGroup event) {
-        CompoundTag modData = event.getClickedItem().getOrCreateTagElement(SkyblockAddon.MOD_ID);
-        CompoundTag guiData = event.getHolder().getData().getCompound(SkyblockAddon.MOD_ID);
+    public void onSetPlayerGroupEvent(final IslandEvents.SetPlayerGroup event) {
+        final CompoundTag modData = event.getClickedItem().getOrCreateTagElement(SkyblockAddon.MOD_ID);
+        final CompoundTag guiData = event.getHolder().getData().getCompound(SkyblockAddon.MOD_ID);
 
         if(!guiData.contains("player_id") || !modData.contains("group_id")) {
             event.setResult(Event.Result.DENY);
             return;
         }
 
-        UUID groupUUID = modData.getUUID("group_id");
-        UUID playerUUID = guiData.getUUID("player_id");
+        final UUID groupUUID = modData.getUUID("group_id");
+        final UUID playerUUID = guiData.getUUID("player_id");
 
         event.getIsland().addMember(playerUUID, groupUUID);
         event.getHolder().close();
@@ -219,15 +219,15 @@ public class IslandGuiEvents {
     }
 
     @SubscribeEvent
-    public void onRemoveGroup(IslandEvents.RemoveGroup event) {
-        CompoundTag guiData = event.getHolder().getData().getCompound(SkyblockAddon.MOD_ID);
+    public void onRemoveGroup(final IslandEvents.RemoveGroup event) {
+        final CompoundTag guiData = event.getHolder().getData().getCompound(SkyblockAddon.MOD_ID);
         if(!guiData.contains("group_id")) {
             event.setResult(Event.Result.DENY);
             return;
         }
 
-        UUID groupUUID = guiData.getUUID("group_id");
-        IslandGroup group = event.getIsland().getGroup(groupUUID);
+        final UUID groupUUID = guiData.getUUID("group_id");
+        final IslandGroup group = event.getIsland().getGroup(groupUUID);
         event.getHolder().close();
 
         if(event.getIsland().removeGroup(groupUUID)) {
@@ -248,17 +248,17 @@ public class IslandGuiEvents {
     }
 
     @SubscribeEvent
-    public void onSetGroupPermissionEvent(IslandEvents.SetGroupPermission event) {
-        CompoundTag jsonData = event.getClickedItem().getOrCreateTagElement(GUILibraryRegistry.MOD_ID);
-        CompoundTag guiData = event.getHolder().getData().getCompound(SkyblockAddon.MOD_ID);
+    public void onSetGroupPermissionEvent(final IslandEvents.SetGroupPermission event) {
+        final CompoundTag jsonData = event.getClickedItem().getOrCreateTagElement(GUILibraryRegistry.MOD_ID);
+        final CompoundTag guiData = event.getHolder().getData().getCompound(SkyblockAddon.MOD_ID);
 
         if(!guiData.contains("group_id") || !jsonData.contains("permission_id")) {
             event.setResult(Event.Result.DENY);
             return;
         }
 
-        UUID groupUUID = guiData.getUUID("group_id");
-        String permissionId = jsonData.getString("permission_id");
+        final UUID groupUUID = guiData.getUUID("group_id");
+        final String permissionId = jsonData.getString("permission_id");
 
         event.getIsland().getGroup(groupUUID).inversePermission(permissionId);
         event.getHolder().update();

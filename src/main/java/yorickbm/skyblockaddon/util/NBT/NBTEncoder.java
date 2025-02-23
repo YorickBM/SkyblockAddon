@@ -22,30 +22,30 @@ public class NBTEncoder {
      *
      * @param folderPath - Folder to load NBT files from
      */
-    public static Collection<CompoundTag> loadNBTFromFolder(Path folderPath) {
-        Collection<CompoundTag> objects = new ArrayList<>();
+    public static Collection<CompoundTag> loadNBTFromFolder(final Path folderPath) {
+        final Collection<CompoundTag> objects = new ArrayList<>();
 
         //Create folder if it doesn't exist
         if (!folderPath.toFile().exists()) {
-            boolean rslt = folderPath.toFile().mkdirs();
+            final boolean rslt = folderPath.toFile().mkdirs();
             if (!rslt) {
                 throw new RuntimeException("Failed to create container at '" + folderPath.toFile().getAbsolutePath() + "'.");
             }
         }
 
         //List files into list
-        List<Path> nbtFiles = new ArrayList<>();
+        final List<Path> nbtFiles = new ArrayList<>();
         try {
             Files.list(folderPath).forEach(nbtFiles::add);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
 
-        for (Path path : nbtFiles) {
-            try (FileInputStream fileInputStream = new FileInputStream(path.toFile())) {
-                CompoundTag NBT = NbtIo.readCompressed(fileInputStream);
+        for (final Path path : nbtFiles) {
+            try (final FileInputStream fileInputStream = new FileInputStream(path.toFile())) {
+                final CompoundTag NBT = NbtIo.readCompressed(fileInputStream);
                 objects.add(NBT);
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 LOGGER.error("Failed to load '"+path.toFile().getName()+"'");
             }
         }
@@ -59,32 +59,32 @@ public class NBTEncoder {
      * @param folderPath - Folder to load NBT files from
      * @param clazz      - Class instance in which to load the NBT files
      */
-    public static <T extends IsUnique & NBTSerializable> Collection<T> loadFromFolder(Path folderPath, Class<T> clazz) throws RuntimeException {
-        Collection<T> objects = new ArrayList<>();
+    public static <T extends IsUnique & NBTSerializable> Collection<T> loadFromFolder(final Path folderPath, final Class<T> clazz) throws RuntimeException {
+        final Collection<T> objects = new ArrayList<>();
 
         //Create folder if it doesn't exist
         if (!folderPath.toFile().exists()) {
-            boolean rslt = folderPath.toFile().mkdirs();
+            final boolean rslt = folderPath.toFile().mkdirs();
             if (!rslt) {
                 throw new RuntimeException("Failed to create container at '" + folderPath.toFile().getAbsolutePath() + "'.");
             }
         }
 
         //List files into list
-        List<Path> nbtFiles = new ArrayList<>();
+        final List<Path> nbtFiles = new ArrayList<>();
         try {
             Files.list(folderPath).forEach(nbtFiles::add);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
 
-        for (Path path : nbtFiles) {
-            try (FileInputStream fileInputStream = new FileInputStream(path.toFile())) {
-                CompoundTag NBT = NbtIo.readCompressed(fileInputStream);
-                T instance = clazz.getDeclaredConstructor().newInstance();
+        for (final Path path : nbtFiles) {
+            try (final FileInputStream fileInputStream = new FileInputStream(path.toFile())) {
+                final CompoundTag NBT = NbtIo.readCompressed(fileInputStream);
+                final T instance = clazz.getDeclaredConstructor().newInstance();
                 instance.deserializeNBT(NBT);
                 objects.add(instance);
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 LOGGER.error("Failed to load '"+path.toFile().getName()+"'");
             }
         }
@@ -96,14 +96,14 @@ public class NBTEncoder {
      *
      * @param collection - Collection of clazz
      */
-    public static <T extends IsUnique & NBTSerializable> void saveToFile(Collection<T> collection, Path filePath) throws RuntimeException {
-        for (T data : collection) {
+    public static <T extends IsUnique & NBTSerializable> void saveToFile(final Collection<T> collection, final Path filePath) throws RuntimeException {
+        for (final T data : collection) {
             try {
-                Path path = filePath.resolve(data.getId().toString() + ".nbt");
+                final Path path = filePath.resolve(data.getId().toString() + ".nbt");
 
                 //Create folder if it doesn't exist
                 if (!filePath.toFile().exists()) {
-                    boolean rslt = filePath.toFile().mkdirs();
+                    final boolean rslt = filePath.toFile().mkdirs();
                     if (!rslt) {
                         throw new RuntimeException("Failed to create container at '" + filePath.toFile().getAbsolutePath() + "'.");
                     }
@@ -115,10 +115,10 @@ public class NBTEncoder {
                 }
 
                 //Write NBT to file
-                FileOutputStream fileOutputStream = new FileOutputStream(path.toFile());
+                final FileOutputStream fileOutputStream = new FileOutputStream(path.toFile());
                 NbtIo.writeCompressed(data.serializeNBT(), fileOutputStream);
                 fileOutputStream.close();
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 throw new RuntimeException(e);
             }
         }

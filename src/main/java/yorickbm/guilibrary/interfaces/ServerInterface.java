@@ -27,12 +27,12 @@ public class ServerInterface extends AbstractContainerMenu {
     protected Player holder;
     protected GUIType type;
 
-    private Map<Integer, GUIPlaceholder> items;
+    private final Map<Integer, GUIPlaceholder> items;
 
     private int maxPage = 1;
     private int currPage = 1;
 
-    public ServerInterface(int syncId, Inventory playerInventory, Player holder, GUIType type, CompoundTag data) {
+    public ServerInterface(final int syncId, final Inventory playerInventory, final Player holder, final GUIType type, final CompoundTag data) {
         super(fromRows(type.getRows()), syncId);
         this.container = new SimpleContainer(type.getRows() * 9);
         this.holder = holder;
@@ -41,7 +41,7 @@ public class ServerInterface extends AbstractContainerMenu {
         this.items = new HashMap<>();
         this.data = data;
 
-        int i = (type.getRows() - 4) * 18;
+        final int i = (type.getRows() - 4) * 18;
         int n, m;
 
         //Register our inventory slots
@@ -49,12 +49,12 @@ public class ServerInterface extends AbstractContainerMenu {
             for (m = 0; m < 9; ++m) {
                 this.addSlot(new Slot(this.container, m + n * 9, 8 + m * 18, 18 + n * 18) {
                     @Override
-                    public boolean mayPlace(@NotNull ItemStack stack) {
+                    public boolean mayPlace(@NotNull final ItemStack stack) {
                         return false;
                     }
 
                     @Override
-                    public boolean mayPickup(@NotNull Player playerEntity) {
+                    public boolean mayPickup(@NotNull final Player playerEntity) {
                         return false;
                     }
                 });
@@ -66,12 +66,12 @@ public class ServerInterface extends AbstractContainerMenu {
             for (m = 0; m < 9; ++m) {
                 addSlot(new Slot(playerInventory, m + n * 9 + 9, 8 + m * 18, 103 + n * 18 + i) {
                     @Override
-                    public boolean mayPlace(@NotNull ItemStack stack) {
+                    public boolean mayPlace(@NotNull final ItemStack stack) {
                         return false;
                     }
 
                     @Override
-                    public boolean mayPickup(@NotNull Player playerEntity) {
+                    public boolean mayPickup(@NotNull final Player playerEntity) {
                         return false;
                     }
                 });
@@ -82,12 +82,12 @@ public class ServerInterface extends AbstractContainerMenu {
         for (n = 0; n < 9; ++n) {
             this.addSlot(new Slot(playerInventory, n, 8 + n * 18, 161 + i) {
                 @Override
-                public boolean mayPlace(@NotNull ItemStack stack) {
+                public boolean mayPlace(@NotNull final ItemStack stack) {
                     return false;
                 }
 
                 @Override
-                public boolean mayPickup(@NotNull Player playerEntity) {
+                public boolean mayPickup(@NotNull final Player playerEntity) {
                     return false;
                 }
             });
@@ -97,7 +97,7 @@ public class ServerInterface extends AbstractContainerMenu {
     }
 
     @Override
-    public boolean stillValid(@NotNull Player player) {
+    public boolean stillValid(@NotNull final Player player) {
         return true;
     }
 
@@ -133,13 +133,13 @@ public class ServerInterface extends AbstractContainerMenu {
      * Event triggers upon clicking an items within the GUI
      */
     @Override
-    public void clicked(int slotIndex, int buttonId, @NotNull ClickType actionType, @NotNull Player playerEntity) {
+    public void clicked(final int slotIndex, final int buttonId, @NotNull final ClickType actionType, @NotNull final Player playerEntity) {
         if (slotIndex < 0)
             return;
 
-        Slot slot = this.slots.get(slotIndex);
+        final Slot slot = this.slots.get(slotIndex);
         if(slot.hasItem()) {
-            Optional<GUIPlaceholder> placeholder = Optional.ofNullable(this.items.get(slot.getSlotIndex()));
+            final Optional<GUIPlaceholder> placeholder = Optional.ofNullable(this.items.get(slot.getSlotIndex()));
             placeholder.ifPresent(gi -> {
                 switch (buttonId) {
                     case 0 -> MinecraftForge.EVENT_BUS.post(gi.getPrimaryClick(this, (ServerPlayer) playerEntity, slot));
@@ -157,7 +157,7 @@ public class ServerInterface extends AbstractContainerMenu {
      * @param rows - Rows wished in menu
      * @return MenuType for rows
      */
-    private static MenuType<ChestMenu> fromRows(int rows) {
+    private static MenuType<ChestMenu> fromRows(final int rows) {
         return switch (rows) {
             case 2 -> MenuType.GENERIC_9x2;
             case 3 -> MenuType.GENERIC_9x3;
@@ -175,18 +175,18 @@ public class ServerInterface extends AbstractContainerMenu {
         this.container.clearContent(); //Clear Inventory
 
         //Add fillers
-        for(GUIFiller item : type.getFillers().stream().filter(f -> f.getPattern() != FillerPattern.EMPTY).toList()) {
+        for(final GUIFiller item : type.getFillers().stream().filter(f -> f.getPattern() != FillerPattern.EMPTY).toList()) {
             if(item.hasEvent()) MinecraftForge.EVENT_BUS.post(item.getEvent(this, type.getRows() * 9));
             else MinecraftForge.EVENT_BUS.post(new GuiDrawFillerEvent(this, item, type.getRows() * 9));
         }
 
         //Add items
-        for(GUIItem item : type.getItems()) {
+        for(final GUIItem item : type.getItems()) {
             MinecraftForge.EVENT_BUS.post(new GuiDrawItemEvent(this, item));
         }
 
         //Add fillers
-        for(GUIFiller item : type.getFillers().stream().filter(f -> f.getPattern() == FillerPattern.EMPTY).toList()) {
+        for(final GUIFiller item : type.getFillers().stream().filter(f -> f.getPattern() == FillerPattern.EMPTY).toList()) {
             if(item.hasEvent()) MinecraftForge.EVENT_BUS.post(item.getEvent(this, type.getRows() * 9));
             else MinecraftForge.EVENT_BUS.post(new GuiDrawFillerEvent(this, item, type.getRows() * 9));
         }
@@ -195,7 +195,7 @@ public class ServerInterface extends AbstractContainerMenu {
     /**
      * Remove item from data set if its not rendered (prevents action triggers)
      */
-    public void removeItem(int slot) {
+    public void removeItem(final int slot) {
         this.items.remove(slot);
     }
 
@@ -203,14 +203,14 @@ public class ServerInterface extends AbstractContainerMenu {
      * Add item into data set to add action trigger for item
      * @param item
      */
-    public void addItem(int slot, GUIPlaceholder item) {
+    public void addItem(final int slot, final GUIPlaceholder item) {
         this.items.put(slot, item);
     }
 
     public int getCurrentPage() {  return this.currPage; }
 
     public int getMaxPage() { return this.maxPage; }
-    public void setMaxPage(int page) { this.maxPage = page; }
+    public void setMaxPage(final int page) { this.maxPage = page; }
 
     public boolean nextPage() {
         if(this.currPage == this.maxPage) return false;

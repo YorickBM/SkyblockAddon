@@ -17,23 +17,23 @@ import java.util.stream.Collectors;
 public class DefaultEventHandler {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void itemRenderer(GuiDrawItemEvent event) {
+    public void itemRenderer(final GuiDrawItemEvent event) {
         if(event.isCanceled()) {
             event.setResult(Event.Result.DENY);
             return; //Skip if canceled
         }
 
         //Default dynamic text
-        List<TextComponent> name = event.getItemStackHolder().getDisplayName();
-        List<List<TextComponent>> lore = event.getItemStackHolder().getLore();
+        final List<TextComponent> name = event.getItemStackHolder().getDisplayName();
+        final List<List<TextComponent>> lore = event.getItemStackHolder().getLore();
 
-        Map<String, String> replacements = new HashMap<>() {{
+        final Map<String, String> replacements = new HashMap<>() {{
             put("%pagenum%", event.getHolder().getCurrentPage()+"");
             put("%maxpage%", event.getHolder().getMaxPage()+"");
         }};
 
         //Server variables
-        MinecraftServer server = event.getHolder().getOwner().getServer();
+        final MinecraftServer server = event.getHolder().getOwner().getServer();
         if(server != null) {
             replacements.put("%server_name%", server.getMotd().trim());
             replacements.put("%server_ip%", server.getLocalIp().trim());
@@ -46,9 +46,11 @@ public class DefaultEventHandler {
             replacements.put("%server_mod_name%", server.getServerModName().trim());
 
             // Server Uptime Calculation (Compact)
-            long seconds = server.getTickCount() / 20;
-            long hours = seconds / 3600, minutes = (seconds % 3600) / 60, sec = seconds % 60;
-            String serverUptime = (hours > 0) ? String.format("%02dh %02dm %02ds", hours, minutes, sec) :
+            final long seconds = server.getTickCount() / 20;
+            final long hours = seconds / 3600;
+            long minutes = (seconds % 3600) / 60;
+            final long sec = seconds % 60;
+            final String serverUptime = (hours > 0) ? String.format("%02dh %02dm %02ds", hours, minutes, sec) :
                     (minutes > 0) ? String.format("%02dm %02ds", minutes, sec) :
                             String.format("%02ds", sec);
 
@@ -57,7 +59,7 @@ public class DefaultEventHandler {
 
         event.getItemStackHolder().setDisplayName(name.stream()
                 .map(component -> {
-                    String modifiedText = replacements.entrySet().stream()
+                    final String modifiedText = replacements.entrySet().stream()
                             .reduce(component.getString(), (text, entry) -> text.replace(entry.getKey(), entry.getValue()), (a, b) -> b);
                     return new TextComponent(modifiedText).withStyle(component.getStyle());
                 })
@@ -69,7 +71,7 @@ public class DefaultEventHandler {
                 lore.stream()
                         .map(innerList -> innerList.stream() // Process each inner List<TextComponent>
                                 .map(component -> {
-                                    String modifiedText = replacements.entrySet().stream()
+                                    final String modifiedText = replacements.entrySet().stream()
                                             .reduce(component.getString(), (text, entry) -> text.replace(entry.getKey(), entry.getValue()), (a, b) -> b);
                                     return new TextComponent(modifiedText).withStyle(component.getStyle());
                                 })
@@ -85,12 +87,12 @@ public class DefaultEventHandler {
         event.setResult(Event.Result.ALLOW);
     }
     @SubscribeEvent
-    public void dynamicTitle(OpenMenuEvent event) {
+    public void dynamicTitle(final OpenMenuEvent event) {
         if(event.isCanceled()) return; //Skip if canceled
 
-        List<TextComponent> title = event.getTitle();
-        Map<String, String> replacements = new HashMap<>();
-        MinecraftServer server = event.getTarget().getServer();
+        final List<TextComponent> title = event.getTitle();
+        final Map<String, String> replacements = new HashMap<>();
+        final MinecraftServer server = event.getTarget().getServer();
 
         if(server != null) {
             replacements.put("%server_name%", server.getMotd().trim());
@@ -104,9 +106,11 @@ public class DefaultEventHandler {
             replacements.put("%server_mod_name%", server.getServerModName().trim());
 
             // Server Uptime Calculation (Compact)
-            long seconds = server.getTickCount() / 20;
-            long hours = seconds / 3600, minutes = (seconds % 3600) / 60, sec = seconds % 60;
-            String serverUptime = (hours > 0) ? String.format("%02dh %02dm %02ds", hours, minutes, sec) :
+            final long seconds = server.getTickCount() / 20;
+            final long hours = seconds / 3600;
+            long minutes = (seconds % 3600) / 60;
+            final long sec = seconds % 60;
+            final String serverUptime = (hours > 0) ? String.format("%02dh %02dm %02ds", hours, minutes, sec) :
                     (minutes > 0) ? String.format("%02dm %02ds", minutes, sec) :
                             String.format("%02ds", sec);
 
@@ -115,7 +119,7 @@ public class DefaultEventHandler {
 
         event.setTitle(title.stream()
                 .map(component -> {
-                    String modifiedText = replacements.entrySet().stream()
+                    final String modifiedText = replacements.entrySet().stream()
                             .reduce(component.getString(), (text, entry) -> text.replace(entry.getKey(), entry.getValue()), (a, b) -> b);
                     return new TextComponent(modifiedText).withStyle(component.getStyle());
                 })
@@ -126,7 +130,7 @@ public class DefaultEventHandler {
 
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void fillerRenderer(GuiDrawFillerEvent event) {
+    public void fillerRenderer(final GuiDrawFillerEvent event) {
         if(event.isCanceled()) return; //Skip if canceled
 
         switch(event.getPattern()) {
@@ -159,34 +163,34 @@ public class DefaultEventHandler {
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void openGui(OpenMenuEvent event) {
+    public void openGui(final OpenMenuEvent event) {
         if(event.isCanceled()) return; //Skip if canceled
         event.setResult(event.getTarget().openMenu(event.getProvider()).isPresent() ? Event.Result.ALLOW : Event.Result.DENY);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void closeGui(ItemCloseMenuEvent event) {
+    public void closeGui(final ItemCloseMenuEvent event) {
         if(event.isCanceled()) return; //Skip if canceled
 
         event.getHolder().close();
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onNextPage(ItemNextPageEvent event)
+    public void onNextPage(final ItemNextPageEvent event)
     {
         if(event.getHolder().nextPage()) event.getHolder().update();
         else event.setResult(Event.Result.DENY);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onPrevPage(ItemPreviousPageEvent event)
+    public void onPrevPage(final ItemPreviousPageEvent event)
     {
         if(event.getHolder().prevPage()) event.getHolder().update();
         else event.setResult(Event.Result.DENY);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onItemClick(GuiClickItemEvent event)
+    public void onItemClick(final GuiClickItemEvent event)
     {
         if(!event.getResult().equals(Event.Result.DENY)) {
             Helper.playSongToPlayer(event.getTarget(), SoundEvents.NOTE_BLOCK_CHIME, Helper.UI_SUCCESS_VOL, 1f); //Send success sound notification of click

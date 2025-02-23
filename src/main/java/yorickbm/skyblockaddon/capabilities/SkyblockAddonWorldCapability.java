@@ -48,7 +48,7 @@ public class SkyblockAddonWorldCapability {
 
     MinecraftServer serverInstance;
 
-    public SkyblockAddonWorldCapability(MinecraftServer server) {
+    public SkyblockAddonWorldCapability(final MinecraftServer server) {
         serverInstance = server;
 
         islandsByUUID = new HashMap<>();
@@ -57,7 +57,7 @@ public class SkyblockAddonWorldCapability {
         initializeCaches(server);
     }
 
-    public void clearCacheForPlayer(UUID uuid) {
+    public void clearCacheForPlayer(final UUID uuid) {
         CACHE_islandByPlayerUUID.invalidate(uuid);
         CACHE_islandByPlayerUUID.put(uuid, Optional.empty());
     }
@@ -65,14 +65,14 @@ public class SkyblockAddonWorldCapability {
     /**
      * Creates reverse lookup caches for optimized performance.
      */
-    public void initializeCaches(MinecraftServer server) {
+    public void initializeCaches(final MinecraftServer server) {
         CACHE_islandByPlayerUUID = CacheBuilder.newBuilder()
                 .expireAfterAccess(6, TimeUnit.HOURS)
                 .maximumSize((long) Math.floor(server.getMaxPlayers() * 2.5))
                 .build(new CacheLoader<>() {
                     @Override
-                    public @NotNull Optional<UUID> load(@Nonnull UUID key) {
-                        Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.isPartOf(key)).findFirst();
+                    public @NotNull Optional<UUID> load(@Nonnull final UUID key) {
+                        final Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.isPartOf(key)).findFirst();
                         return island.map(IslandData::getId);
                     }
                 });
@@ -81,8 +81,8 @@ public class SkyblockAddonWorldCapability {
                 .expireAfterAccess(24, TimeUnit.HOURS)
                 .build(new CacheLoader<>() {
                     @Override
-                    public @NotNull Optional<UUID> load(@Nonnull BoundingBox key) {
-                        Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.getIslandBoundingBox().isInside(key.getCenter())).findFirst();
+                    public @NotNull Optional<UUID> load(@Nonnull final BoundingBox key) {
+                        final Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.getIslandBoundingBox().isInside(key.getCenter())).findFirst();
                         return island.map(IslandData::getId);
                     }
                 });
@@ -94,13 +94,13 @@ public class SkyblockAddonWorldCapability {
      *
      * @param entity - Player whose data is loaded into reverse lookup cache
      */
-    public void loadIslandIntoReverseCache(Entity entity) {
+    public void loadIslandIntoReverseCache(final Entity entity) {
         try {
-            Optional<UUID> island = CACHE_islandByPlayerUUID.get(entity.getUUID());
+            final Optional<UUID> island = CACHE_islandByPlayerUUID.get(entity.getUUID());
             if (island.isEmpty()) return; //Got no island
             getIslandByUUID(island.get()).getName(); //Load owners name into cache
             CACHE_islandByBoundingBox.put(getIslandByUUID(island.get()).getIslandBoundingBox(), island); //Store into bounding box cache
-        } catch (ExecutionException e) {
+        } catch (final ExecutionException e) {
             throw new RuntimeException(e);
         }
     }
@@ -111,7 +111,7 @@ public class SkyblockAddonWorldCapability {
      * @param id - UUID to lookup
      * @return - Island associated with islandId
      */
-    public Island getIslandByUUID(UUID id) {
+    public Island getIslandByUUID(final UUID id) {
         return islandsByUUID.get(id);
     }
 
@@ -121,10 +121,10 @@ public class SkyblockAddonWorldCapability {
      * @param uuid - UUID to check
      * @return - Island of entity
      */
-    public Island getIslandByEntityUUID(UUID uuid) {
-        Optional<UUID> islandId = CACHE_islandByPlayerUUID.getIfPresent(uuid); //Check if cache contains island.
+    public Island getIslandByEntityUUID(final UUID uuid) {
+        final Optional<UUID> islandId = CACHE_islandByPlayerUUID.getIfPresent(uuid); //Check if cache contains island.
         if(islandId == null || islandId.isEmpty()) {
-            Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.isPartOf(uuid)).findFirst();
+            final Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.isPartOf(uuid)).findFirst();
             island.ifPresent(value -> CACHE_islandByPlayerUUID.put(uuid, Optional.ofNullable(value.getId())));
             return island.orElse(null);
         }
@@ -138,7 +138,7 @@ public class SkyblockAddonWorldCapability {
      * @param entity - Entity whom to check
      * @return - Island entity is on
      */
-    public Island getIslandPlayerIsStandingOn(Entity entity) {
+    public Island getIslandPlayerIsStandingOn(final Entity entity) {
         return getIslandByPos(entity.getOnPos());
     }
 
@@ -147,14 +147,14 @@ public class SkyblockAddonWorldCapability {
      * @param pos - Block position
      * @return - Island block position falls in
      */
-    public Island getIslandByPos(BlockPos pos) {
-        Optional<UUID> islandId = CACHE_islandByBoundingBox.asMap().entrySet().stream()
+    public Island getIslandByPos(final BlockPos pos) {
+        final Optional<UUID> islandId = CACHE_islandByBoundingBox.asMap().entrySet().stream()
                 .filter(entry -> entry.getKey().isInside(pos))
                 .map(Map.Entry::getValue)
                 .findFirst().orElse(Optional.empty());
         if (islandId.isPresent()) return getIslandByUUID(islandId.get());
 
-        Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.getIslandBoundingBox().isInside(pos)).findFirst();
+        final Optional<Island> island = islandsByUUID.values().stream().filter(isl -> isl.getIslandBoundingBox().isInside(pos)).findFirst();
         island.ifPresent(value -> CACHE_islandByBoundingBox.put(value.getIslandBoundingBox(), Optional.of(value.getId()))); //Store island into cache
         return island.orElse(null);
     }
@@ -162,12 +162,12 @@ public class SkyblockAddonWorldCapability {
     /**
      * Save data into NBT.
      */
-    public void saveNBTData(CompoundTag nbt) {
+    public void saveNBTData(final CompoundTag nbt) {
         nbt.put("lastIsland", NBTUtil.Vec3iToNBT(lastLocation));
         nbt.putInt("nbt-v", 6);
 
-        Path worldPath = serverInstance.getWorldPath(LevelResource.ROOT).normalize();
-        Path filePath = worldPath.resolve("islanddata");
+        final Path worldPath = serverInstance.getWorldPath(LevelResource.ROOT).normalize();
+        final Path filePath = worldPath.resolve("islanddata");
 
         NBTEncoder.saveToFile(getIslands(), filePath);
     }
@@ -175,11 +175,11 @@ public class SkyblockAddonWorldCapability {
     /**
      * Load data from NBT.
      */
-    public void loadNBTData(CompoundTag nbt) {
+    public void loadNBTData(final CompoundTag nbt) {
         lastLocation = NBTUtil.NBTToVec3i(nbt.getCompound("lastIsland"));
 
-        Path worldPath = serverInstance.getWorldPath(LevelResource.ROOT).normalize();
-        Path filePath = worldPath.resolve("islanddata");
+        final Path worldPath = serverInstance.getWorldPath(LevelResource.ROOT).normalize();
+        final Path filePath = worldPath.resolve("islanddata");
 
         //legacy check
         if(nbt.contains("nbt-v") && nbt.getInt("nbt-v") < 5) {
@@ -189,7 +189,7 @@ public class SkyblockAddonWorldCapability {
             LOGGER.info("Converted {} island(s).", LegacyFormatter.formatBeta(filePath));
         }
 
-        Collection<Island> islands = NBTEncoder.loadFromFolder(filePath, Island.class);
+        final Collection<Island> islands = NBTEncoder.loadFromFolder(filePath, Island.class);
         islands.forEach(island -> islandsByUUID.put(island.getId(), island)); //Store islands in map
         LOGGER.info("Loaded {} island(s).", islands.size());
     }
@@ -210,20 +210,20 @@ public class SkyblockAddonWorldCapability {
      * @param worldServer World you wish island to be generated within
      * @return Spawn location of island
      */
-    public Vec3i genIsland(ServerLevel worldServer) {
-        CompoundTag nbt = ResourceManager.getIslandNBT(worldServer.getServer());
+    public Vec3i genIsland(final ServerLevel worldServer) {
+        final CompoundTag nbt = ResourceManager.getIslandNBT(worldServer.getServer());
 
-        ListTag paletteNbt = nbt.getList("palette", 10);
-        ListTag blocksNbt = nbt.getList("blocks", 10);
+        final ListTag paletteNbt = nbt.getList("palette", 10);
+        final ListTag blocksNbt = nbt.getList("blocks", 10);
 
-        ArrayList<BuildingBlock> blocks = new ArrayList<>();
-        ArrayList<BlockState> palette = new ArrayList<>();
+        final ArrayList<BuildingBlock> blocks = new ArrayList<>();
+        final ArrayList<BlockState> palette = new ArrayList<>();
         int bigestX = 0, bigestZ = 0;
 
         for (int i = 0; i < paletteNbt.size(); i++) palette.add(NbtUtils.readBlockState(paletteNbt.getCompound(i)));
         for (int i = 0; i < blocksNbt.size(); i++) {
-            CompoundTag blockNbt = blocksNbt.getCompound(i);
-            ListTag blockPosNbt = blockNbt.getList("pos", 3);
+            final CompoundTag blockNbt = blocksNbt.getCompound(i);
+            final ListTag blockPosNbt = blockNbt.getList("pos", 3);
 
             if (blockPosNbt.getInt(0) > bigestX) bigestX = blockPosNbt.getInt(0);
             if (blockPosNbt.getInt(2) > bigestZ) bigestZ = blockPosNbt.getInt(2);
@@ -244,12 +244,12 @@ public class SkyblockAddonWorldCapability {
 
         lastLocation = nextGridLocation(lastLocation);
 
-        final int finalBigestX = bigestX, finalBigestZ = bigestZ;
-        final int height = Integer.parseInt(SkyblockAddonConfig.getForKey("island.spawn.height"));
+        int finalBigestX = bigestX, finalBigestZ = bigestZ;
+        int height = Integer.parseInt(SkyblockAddonConfig.getForKey("island.spawn.height"));
         blocks.stream().filter(block -> !block.getState().isAir()).forEach(block -> block.place(worldServer, lastLocation.offset(-(finalBigestX / 2), height, -(finalBigestZ / 2))));
 
-        ChunkAccess chunk = worldServer.getChunk(new BlockPos(lastLocation.getX(), height, lastLocation.getZ()));
-        int topHeight = chunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, lastLocation.getX(), lastLocation.getZ()) + 2;
+        final ChunkAccess chunk = worldServer.getChunk(new BlockPos(lastLocation.getX(), height, lastLocation.getZ()));
+        final int topHeight = chunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, lastLocation.getX(), lastLocation.getZ()) + 2;
 
         return new Vec3i(lastLocation.getX(), topHeight, lastLocation.getZ());
     }
@@ -260,9 +260,9 @@ public class SkyblockAddonWorldCapability {
      * @param location Last island location
      * @return Location for next island
      */
-    private Vec3i nextGridLocation(final Vec3i location) {
-        final int x = location.getX();
-        final int z = location.getZ();
+    private Vec3i nextGridLocation(Vec3i location) {
+        int x = location.getX();
+        int z = location.getZ();
         final int d = SkyblockAddon.ISLAND_SIZE * 2 + SkyblockAddon.ISLAND_BUFFER;
 
         if (x < z) {
@@ -283,7 +283,7 @@ public class SkyblockAddonWorldCapability {
      * Register a new island through object
      * @param island - Island to register
      */
-    public void registerIsland(Island island, UUID entity) {
+    public void registerIsland(final Island island, final UUID entity) {
         islandsByUUID.put(island.getId(), island);
 
         //Register island into cache

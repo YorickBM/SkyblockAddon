@@ -29,8 +29,8 @@ public class OpenMenuEvent extends Event {
 
     protected List<TextComponent> title;
 
-    public OpenMenuEvent(String id, ServerPlayer target, CompoundTag data) {
-        GUIType guiStructure = GUILibraryRegistry.getValue(id);
+    public OpenMenuEvent(final String id, final ServerPlayer target, final CompoundTag data) {
+        final GUIType guiStructure = GUILibraryRegistry.getValue(id);
         if(guiStructure == null) {
             setCanceled(true);
             LOGGER.error(String.format("Failed to open menu '%s'.", id));
@@ -47,7 +47,7 @@ public class OpenMenuEvent extends Event {
             }
 
             @Override
-            public @NotNull AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory, @NotNull Player player) {
+            public @NotNull AbstractContainerMenu createMenu(final int i, @NotNull final Inventory inventory, @NotNull final Player player) {
                 this.container = new ServerInterface(i, inventory, player, guiStructure, data);
                 return this.container;
             }
@@ -59,7 +59,7 @@ public class OpenMenuEvent extends Event {
     public ServerPlayer getTarget() { return this.target; }
 
     public List<TextComponent> getTitle() { return this.title; }
-    public void setTitle(List<TextComponent> title) { this.title = title;}
+    public void setTitle(final List<TextComponent> title) { this.title = title;}
 
     public CompoundTag getData() { return this.data; }
 

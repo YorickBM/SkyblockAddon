@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 
 public abstract class OverWorldCommandStack implements CommandStack {
-    public int execute(CommandSourceStack command, ServerPlayer executor) {
+    public int execute(final CommandSourceStack command, final ServerPlayer executor) {
         if (executor.level.dimension() != Level.OVERWORLD) {
             executor.sendMessage(
                     new TextComponent(

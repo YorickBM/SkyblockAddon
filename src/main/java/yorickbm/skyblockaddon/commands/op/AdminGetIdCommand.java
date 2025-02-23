@@ -20,7 +20,7 @@ import yorickbm.skyblockaddon.util.UsernameCache;
 import java.util.UUID;
 
 public class AdminGetIdCommand extends OverWorldCommandStack {
-    public AdminGetIdCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public AdminGetIdCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
             .then(Commands.literal("admin")
                 .requires(source -> source.getEntity() instanceof ServerPlayer && source.hasPermission(Commands.LEVEL_ADMINS))
@@ -37,13 +37,13 @@ public class AdminGetIdCommand extends OverWorldCommandStack {
         );
     }
 
-    public int execute(CommandSourceStack command, ServerPlayer executor, ServerPlayer target) {
+    public int execute(final CommandSourceStack command, final ServerPlayer executor, final ServerPlayer target) {
 
         if(target == null) { //Require over-world if admin is not running a player check
             if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
             command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-                Island island = cap.getIslandPlayerIsStandingOn(executor);
+                final Island island = cap.getIslandPlayerIsStandingOn(executor);
                 if (island == null) {
                     command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.admin.no.island")));
                     return;
@@ -64,10 +64,10 @@ public class AdminGetIdCommand extends OverWorldCommandStack {
         return Command.SINGLE_SUCCESS;
     }
 
-    public int execute(CommandSourceStack command, ServerPlayer executor, UUID target) {
+    public int execute(final CommandSourceStack command, final ServerPlayer executor, final UUID target) {
 
         command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island island = cap.getIslandByEntityUUID(target);
+            final Island island = cap.getIslandByEntityUUID(target);
             if (island == null) {
                 command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.admin.island.not.found.player").formatted(UsernameCache.getBlocking(target))));
                 return;

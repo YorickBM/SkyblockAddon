@@ -8,15 +8,15 @@ public class ThreadManager {
     private static final Map<UUID, Thread> activeThreads = new HashMap<>();
 
     @SuppressWarnings("BusyWait")
-    public static UUID startLoopingThread(RunnableWithParams task, int delay) {
-        UUID threadId = getNextThreadId();
-        Thread thread = new Thread(() -> {
+    public static UUID startLoopingThread(final RunnableWithParams task, final int delay) {
+        final UUID threadId = getNextThreadId();
+        final Thread thread = new Thread(() -> {
             try {
                 while (!Thread.interrupted()) {
                     task.run(threadId); // Execute logic
                     Thread.sleep(delay);  // Sleep for delay
                 }
-            } catch (InterruptedException e) {
+            } catch (final InterruptedException e) {
                 // Handle interruption if needed
             }
         });
@@ -26,17 +26,17 @@ public class ThreadManager {
         return threadId;
     }
 
-    public static UUID startThread(RunnableWithParams task) {
-        UUID threadId = getNextThreadId();
-        Thread thread = new Thread(() -> task.run(threadId));
+    public static UUID startThread(final RunnableWithParams task) {
+        final UUID threadId = getNextThreadId();
+        final Thread thread = new Thread(() -> task.run(threadId));
         thread.setPriority(Thread.MIN_PRIORITY);
         thread.start();
         activeThreads.put(threadId, thread);
         return threadId;
     }
 
-    public static void terminateThread(UUID threadId) {
-        Thread thread = activeThreads.get(threadId);
+    public static void terminateThread(final UUID threadId) {
+        final Thread thread = activeThreads.get(threadId);
         if (thread != null) {
             thread.interrupt();
             activeThreads.remove(threadId);
@@ -44,10 +44,10 @@ public class ThreadManager {
     }
 
     public static void terminateAllThreads() {
-        for (UUID thread : activeThreads.keySet()) {
+        for (final UUID thread : activeThreads.keySet()) {
             try {
                 terminateThread(thread);
-            } catch (Exception ex) {
+            } catch (final Exception ex) {
                 //Too late to do anything about it.
             }
         }

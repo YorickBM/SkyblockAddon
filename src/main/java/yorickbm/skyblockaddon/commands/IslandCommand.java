@@ -15,7 +15,7 @@ import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.islands.Island;
 
 public class IslandCommand extends OverWorldCommandStack {
-    public IslandCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public IslandCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
                 .requires(source -> source.getEntity() instanceof ServerPlayer)
                 .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity()))
@@ -23,17 +23,17 @@ public class IslandCommand extends OverWorldCommandStack {
     }
 
     @Override
-    public int execute(CommandSourceStack command, ServerPlayer executor) {
+    public int execute(final CommandSourceStack command, final ServerPlayer executor) {
         if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
         command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island island = cap.getIslandByEntityUUID(executor.getUUID());
+            final Island island = cap.getIslandByEntityUUID(executor.getUUID());
             if (island == null) {
                 command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.has.no.island")));
                 return;
             }
 
-            CompoundTag tag = new CompoundTag();
+            final CompoundTag tag = new CompoundTag();
             tag.putUUID("island_id", island.getId());
             GUILibraryRegistry.openGUIForPlayer(executor, SkyblockAddon.MOD_ID + ":overview", tag);
         });

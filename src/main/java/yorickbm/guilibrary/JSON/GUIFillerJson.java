@@ -25,7 +25,7 @@ public class GUIFillerJson implements JSONSerializable {
      */
     public GUIFiller getItem() {
 
-        GUIFiller.Builder builder = new GUIFiller.Builder()
+        final GUIFiller.Builder builder = new GUIFiller.Builder()
                 .setPattern(this.pattern)
                 .setItemStack(this.item.getItemStackHolder())
                 .setConditions(this.conditions)
@@ -44,7 +44,7 @@ public class GUIFillerJson implements JSONSerializable {
 
         try {
             // Dynamically load the class by its fully qualified name
-            Class<?> clazz = Class.forName(this.event);
+            final Class<?> clazz = Class.forName(this.event);
             if (GuiDrawFillerEvent.class.isAssignableFrom(clazz)) {
                 return (Class<? extends GuiDrawFillerEvent>) clazz;
             }
@@ -52,7 +52,7 @@ public class GUIFillerJson implements JSONSerializable {
                 LOGGER.error(String.format("Class '%s' does not implement GuiDrawFillerEvent, event removed.", this.event));
                 this.event = ""; //Invalidate trigger
             }
-        } catch(Exception ex) {
+        } catch(final Exception ex) {
             LOGGER.error(String.format("Class '%s' is not found, event removed.", this.event));
             this.event = ""; //Invalidate trigger
         }
@@ -61,14 +61,14 @@ public class GUIFillerJson implements JSONSerializable {
 
     @Override
     public String toJSON() {
-        Gson gson = new Gson();
+        final Gson gson = new Gson();
         return gson.toJson(this);
     }
 
     @Override
-    public void fromJSON(String json) {
-        Gson gson = new Gson();
-        GUIFillerJson temp = gson.fromJson(json, GUIFillerJson.class);
+    public void fromJSON(final String json) {
+        final Gson gson = new Gson();
+        final GUIFillerJson temp = gson.fromJson(json, GUIFillerJson.class);
 
         this.pattern = temp.pattern;
         this.item = temp.item;

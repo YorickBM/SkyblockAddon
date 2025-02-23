@@ -34,9 +34,9 @@ public record Square(Vec3i corner1, Vec3i corner2) {
      * @param location - The location to check.
      * @return The edge on which the location lies.
      */
-    public Edge determineEdge(Vec3i location) {
-        int x = location.getX();
-        int z = location.getZ();
+    public Edge determineEdge(final Vec3i location) {
+        final int x = location.getX();
+        final int z = location.getZ();
 
         if (z == corner1.getZ() && x >= corner1.getX() && x <= corner2.getX()) {
             return Edge.A;
@@ -57,7 +57,7 @@ public record Square(Vec3i corner1, Vec3i corner2) {
      * @param edge - The edge for which to get corners.
      * @return An array of corners for the specified edge.
      */
-    public Vec3i[] getEdgeCorners(Edge edge) {
+    public Vec3i[] getEdgeCorners(final Edge edge) {
         return switch (edge) {
             case A -> new Vec3i[]{new Vec3i(corner2.getX(), corner1.getY(), corner1.getZ()), corner1};
             case B -> new Vec3i[]{new Vec3i(corner2.getX(), corner1.getY(), corner1.getZ()), corner2};
@@ -73,8 +73,8 @@ public record Square(Vec3i corner1, Vec3i corner2) {
      * @param corner - The corner for which to get edges.
      * @return A set of edges associated with the specified corner.
      */
-    public Set<Edge> getEdgesForCorner(Vec3i corner) {
-        Set<Edge> edges = new HashSet<>();
+    public Set<Edge> getEdgesForCorner(final Vec3i corner) {
+        final Set<Edge> edges = new HashSet<>();
 
         edges.add(determineEdge(new Vec3i(corner.getX() + 1, corner.getY(), corner.getZ())));
         edges.add(determineEdge(new Vec3i(corner.getX() - 1, corner.getY(), corner.getZ())));
@@ -93,13 +93,13 @@ public record Square(Vec3i corner1, Vec3i corner2) {
      * @param amount   - The number of points to calculate.
      * @return A list of calculated points.
      */
-    public List<Vec3i> calculatePoints(Vec3i location, int amount) {
-        Edge edge = determineEdge(location);
-        Axis axis = (edge == Edge.A || edge == Edge.C) ? Axis.X : Axis.Z;
-        Vec3i[] edgeCorners = getEdgeCorners(edge);
-        int halfAmount = amount / 2;
+    public List<Vec3i> calculatePoints(final Vec3i location, final int amount) {
+        final Edge edge = determineEdge(location);
+        final Axis axis = (edge == Edge.A || edge == Edge.C) ? Axis.X : Axis.Z;
+        final Vec3i[] edgeCorners = getEdgeCorners(edge);
+        final int halfAmount = amount / 2;
 
-        List<Vec3i> points = new ArrayList<>();
+        final List<Vec3i> points = new ArrayList<>();
 
         //Positive iterator
         getPoints(points, edge, axis, edgeCorners[0], location, halfAmount, false);
@@ -121,13 +121,13 @@ public record Square(Vec3i corner1, Vec3i corner2) {
      * @param amount     - The remaining number of points to calculate.
      * @param isNegative - Whether to iterate in the negative direction.
      */
-    private void getPoints(List<Vec3i> points, Edge edge, Axis axis, Vec3i corner, Vec3i location, int amount, boolean isNegative) {
+    private void getPoints(final List<Vec3i> points, final Edge edge, final Axis axis, final Vec3i corner, final Vec3i location, final int amount, final boolean isNegative) {
 
-        int x = location.getX();
-        int z = location.getZ();
+        final int x = location.getX();
+        final int z = location.getZ();
 
         for (int i = 1; i <= amount; i++) {
-            Vec3i point = new Vec3i(
+            final Vec3i point = new Vec3i(
                     x + ((isNegative ? -1 : 1) * (axis == Axis.X ? i : 0)),
                     location.getY(),
                     z + ((isNegative ? -1 : 1) * (axis == Axis.Z ? i : 0))
@@ -135,15 +135,15 @@ public record Square(Vec3i corner1, Vec3i corner2) {
 
             if ((isNegative ? point.getX() < corner.getX() || point.getZ() < corner.getZ() : point.getX() > corner.getX() || point.getZ() > corner.getZ())) {
 
-                Set<Edge> attachedTo = getEdgesForCorner(corner);
-                Edge newEdge = attachedTo.stream().filter(e -> e != edge).findFirst().orElse(Edge.NONE);
+                final Set<Edge> attachedTo = getEdgesForCorner(corner);
+                final Edge newEdge = attachedTo.stream().filter(e -> e != edge).findFirst().orElse(Edge.NONE);
 
-                Vec3i[] newCorners = getEdgeCorners(newEdge);
-                Vec3i newCorner = Arrays.stream(newCorners).filter(e -> !e.equals(corner)).findFirst().orElse(Vec3i.ZERO);
+                final Vec3i[] newCorners = getEdgeCorners(newEdge);
+                final Vec3i newCorner = Arrays.stream(newCorners).filter(e -> !e.equals(corner)).findFirst().orElse(Vec3i.ZERO);
                 if (newCorner == Vec3i.ZERO) break; // We could not get the new corner!! Prevent error
 
-                Axis newAxis = (axis == Axis.X) ? Axis.Z : Axis.X;
-                boolean newIsNegative = (newAxis == Axis.X) ? newCorner.getX() < corner.getX() : newCorner.getZ() < corner.getZ();
+                final Axis newAxis = (axis == Axis.X) ? Axis.Z : Axis.X;
+                final boolean newIsNegative = (newAxis == Axis.X) ? newCorner.getX() < corner.getX() : newCorner.getZ() < corner.getZ();
 
                 getPoints(
                         points,

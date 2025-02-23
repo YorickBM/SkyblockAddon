@@ -35,13 +35,13 @@ public class GUIJson implements JSONSerializable {
      * @return - TextComponent
      */
     public List<TextComponent> getTitle() throws NullPointerException {
-        List<TextComponent> components = new ArrayList<>();
+        final List<TextComponent> components = new ArrayList<>();
         try {
-            for(String string : this.title) {
-                Component deserialized = Component.Serializer.fromJson(string);
+            for(final String string : this.title) {
+                final Component deserialized = Component.Serializer.fromJson(string);
                 components.add((TextComponent) Objects.requireNonNull(deserialized));
             }
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             components.add((TextComponent) new TextComponent("Invalid JSON in title").withStyle(ChatFormatting.RED));
         }
         return components;
@@ -70,14 +70,14 @@ public class GUIJson implements JSONSerializable {
 
     @Override
     public String toJSON() {
-        Gson gson = new Gson();
+        final Gson gson = new Gson();
         return gson.toJson(this);
     }
 
     @Override
-    public void fromJSON(String json) {
-        Gson gson = new Gson();
-        GUIJson temp = gson.fromJson(json, GUIJson.class);
+    public void fromJSON(final String json) {
+        final Gson gson = new Gson();
+        final GUIJson temp = gson.fromJson(json, GUIJson.class);
 
         this.key = temp.key;
         this.title = temp.title;

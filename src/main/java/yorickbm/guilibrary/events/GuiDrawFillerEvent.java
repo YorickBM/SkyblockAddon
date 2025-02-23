@@ -18,7 +18,7 @@ public class GuiDrawFillerEvent extends Event {
     private FillerPattern pattern;
     private final GUIFiller filler;
 
-    public GuiDrawFillerEvent(ServerInterface instance, GUIFiller filler, int slots) {
+    public GuiDrawFillerEvent(final ServerInterface instance, final GUIFiller filler, final int slots) {
         this.instance = instance;
         this.item = filler.getItemHolder().clone();
         this.pattern = filler.getPattern();
@@ -31,12 +31,12 @@ public class GuiDrawFillerEvent extends Event {
     public FillerPattern getPattern() {
         return this.pattern;
     }
-    public void setPattern(FillerPattern pattern) {
+    public void setPattern(final FillerPattern pattern) {
         this.pattern = pattern;
     }
 
-    public void drawItem(int slot, ItemStack item) {
-        GUIPlaceholder guiItem = new GUIPlaceholder(this.filler);
+    public void drawItem(final int slot, final ItemStack item) {
+        final GUIPlaceholder guiItem = new GUIPlaceholder(this.filler);
         if(guiItem.isClickable()) this.instance.addItem(slot, guiItem);
 
         this.instance.setItem(slot, 0, item);
@@ -44,11 +44,11 @@ public class GuiDrawFillerEvent extends Event {
 
     public int getSlots() { return this.slots; }
 
-    public boolean slotIsEmpty(int slot) {
+    public boolean slotIsEmpty(final int slot) {
         return !this.instance.getSlot(slot).hasItem();
     }
 
-    public void setMaxPage(int page) {
+    public void setMaxPage(final int page) {
         this.instance.setMaxPage(page);
     }
     public int getCurrentPage() {

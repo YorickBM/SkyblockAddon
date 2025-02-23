@@ -30,7 +30,7 @@ public class GUIItemStackJson implements JSONSerializable {
      * Set itemstack data
      */
     public CompoundTag getCompoundTag() {
-        CompoundTag tag = new CompoundTag();
+        final CompoundTag tag = new CompoundTag();
 
         if(!data.isEmpty()) {
             this.data.forEach(tag::putString);
@@ -45,10 +45,10 @@ public class GUIItemStackJson implements JSONSerializable {
      * @return - TextComponent
      */
     public TextComponent getDisplayName() throws NullPointerException {
-        TextComponent component = new TextComponent("");
+        final TextComponent component = new TextComponent("");
 
-        for(String string : this.display_name) {
-            Component deserialized = Component.Serializer.fromJson(string);
+        for(final String string : this.display_name) {
+            final Component deserialized = Component.Serializer.fromJson(string);
             component.append(Objects.requireNonNull(deserialized));
         }
 
@@ -57,14 +57,14 @@ public class GUIItemStackJson implements JSONSerializable {
 
     @Override
     public String toJSON() {
-        Gson gson = new Gson();
+        final Gson gson = new Gson();
         return gson.toJson(this);
     }
 
     @Override
-    public void fromJSON(String json) {
-        Gson gson = new Gson();
-        GUIItemStackJson temp = gson.fromJson(json, GUIItemStackJson.class);
+    public void fromJSON(final String json) {
+        final Gson gson = new Gson();
+        final GUIItemStackJson temp = gson.fromJson(json, GUIItemStackJson.class);
         this.display_name = temp.display_name;
         if(temp.item != null) this.item = temp.item;
         if(temp.amount < 1) this.amount = temp.amount;

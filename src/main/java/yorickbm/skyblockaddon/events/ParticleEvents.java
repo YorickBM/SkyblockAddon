@@ -18,8 +18,8 @@ public class ParticleEvents {
     private final Map<UUID, Island> LastIslandOn = new HashMap<>();
 
     @SubscribeEvent
-    public void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
-        if(!(event.getEntity() instanceof  ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Ignore everything except server player
+    public void onEntityUpdate(final LivingEvent.LivingUpdateEvent event) {
+        if(!(event.getEntity() instanceof  final ServerPlayer player) || event.getEntity() instanceof FakePlayer) return; //Ignore everything except server player
         if(player.getLevel().dimension() != Level.OVERWORLD) return; //Ignore none overworld events
 
         player.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
@@ -31,27 +31,27 @@ public class ParticleEvents {
             }
             if(island == null) return;
 
-            BoundingBox box = island.getIslandBoundingBox();
-            Vec3i P3 = player.getOnPos().offset(0, 1, 0);
-            Vec3i P1 = new Vec3i(box.maxX(), P3.getY(), box.maxZ());
-            Vec3i P2 = new Vec3i(box.minX(), P3.getY(), box.minZ());
+            final BoundingBox box = island.getIslandBoundingBox();
+            final Vec3i P3 = player.getOnPos().offset(0, 1, 0);
+            final Vec3i P1 = new Vec3i(box.maxX(), P3.getY(), box.maxZ());
+            final Vec3i P2 = new Vec3i(box.minX(), P3.getY(), box.minZ());
 
-            for(Vec3i point : getLoationsOnEdge(P1, P2, P3)) {
+            for(final Vec3i point : getLoationsOnEdge(P1, P2, P3)) {
                 ServerHelper.showParticleToPlayer(player, point, ParticleTypes.CLOUD, 3);
             }
         });
     }
 
-    private List<Vec3i> getLoationsOnEdge(Vec3i P1, Vec3i P2, Vec3i P3) {
-        Vec3i AB = new Vec3i(P3.getX(), P3.getY(), P1.getZ());
-        Vec3i AD = new Vec3i(P1.getX(), P3.getY(), P3.getZ());
+    private List<Vec3i> getLoationsOnEdge(final Vec3i P1, final Vec3i P2, final Vec3i P3) {
+        final Vec3i AB = new Vec3i(P3.getX(), P3.getY(), P1.getZ());
+        final Vec3i AD = new Vec3i(P1.getX(), P3.getY(), P3.getZ());
 
-        Vec3i CB = new Vec3i(P2.getX(), P3.getY(), P3.getZ());
-        Vec3i CD = new Vec3i(P3.getX(), P3.getY(), P2.getZ());
+        final Vec3i CB = new Vec3i(P2.getX(), P3.getY(), P3.getZ());
+        final Vec3i CD = new Vec3i(P3.getX(), P3.getY(), P2.getZ());
 
-        Vec3i closestPoint = minDistance(P3, AB, AD, CB, CD);
-        boolean isOnX = closestPoint == AB || closestPoint == CD;
-        boolean negativePassed = closestPoint == AB || closestPoint == AD;
+        final Vec3i closestPoint = minDistance(P3, AB, AD, CB, CD);
+        final boolean isOnX = closestPoint == AB || closestPoint == CD;
+        final boolean negativePassed = closestPoint == AB || closestPoint == AD;
 
         if(distanceBetween(closestPoint, P3) > 70) return new ArrayList<>();
 
@@ -72,23 +72,23 @@ public class ParticleEvents {
             cornerA = new Vec3i(P2.getX(), P3.getY(), P1.getZ());
         }
 
-        List<Vec3i> particlePoints = new ArrayList<>();
+        final List<Vec3i> particlePoints = new ArrayList<>();
         getPoints(particlePoints, closestPoint, isOnX, false, cornerA, negativePassed);
         getPoints(particlePoints, closestPoint, isOnX, true, cornerB, negativePassed);
 
         return particlePoints;
     }
 
-    private void getPoints(List<Vec3i> points, Vec3i closestPoint, boolean isOnX, boolean isNegative, Vec3i corner, boolean negativePassed) {
+    private void getPoints(final List<Vec3i> points, final Vec3i closestPoint, boolean isOnX, final boolean isNegative, final Vec3i corner, final boolean negativePassed) {
         boolean passedCorner = false;
         int passedOn = 0;
 
         for(int i = 0; i < 24; i++) {
-            Vec3i offset;
-            Vec3i nextPoint;
+            final Vec3i offset;
+            final Vec3i nextPoint;
 
             if(!passedCorner) {
-                int amountOffset = i * (isNegative ? -1 : 1);
+                final int amountOffset = i * (isNegative ? -1 : 1);
                 offset = isOnX ? new Vec3i(amountOffset, 0, 0) : new Vec3i(0, 0, amountOffset);
                 nextPoint = closestPoint.offset(offset);
 
@@ -98,7 +98,7 @@ public class ParticleEvents {
                     isOnX = !isOnX; //Flip it since we go around a corner
                 }
             } else {
-                int amountOffset = (i-passedOn) * (negativePassed ? -1 : 1);
+                final int amountOffset = (i-passedOn) * (negativePassed ? -1 : 1);
                 offset = isOnX ? new Vec3i(amountOffset, 0, 0) : new Vec3i(0, 0, amountOffset);
                 nextPoint = corner.offset(offset);
             }
@@ -107,14 +107,14 @@ public class ParticleEvents {
         }
     }
 
-    private double distanceBetween(Vec3i p1, Vec3i p2) {
-        double deltaX = p2.getX() - p1.getX();
-        double deltaZ = p2.getZ() - p1.getZ();
+    private double distanceBetween(final Vec3i p1, final Vec3i p2) {
+        final double deltaX = p2.getX() - p1.getX();
+        final double deltaZ = p2.getZ() - p1.getZ();
 
         return Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
     }
 
-    private Vec3i minDistance(Vec3i P3, Vec3i... points) {
+    private Vec3i minDistance(final Vec3i P3, final Vec3i... points) {
         if(points == null || points.length == 0) {
             return P3;
         }
@@ -122,8 +122,8 @@ public class ParticleEvents {
         double minDistance = Double.MAX_VALUE;
         Vec3i minPoint = P3;
 
-        for(Vec3i point : points) {
-            double distance = distanceBetween(P3, point);
+        for(final Vec3i point : points) {
+            final double distance = distanceBetween(P3, point);
             if(distance < minDistance) {
                 minDistance = distance;
                 minPoint = point;

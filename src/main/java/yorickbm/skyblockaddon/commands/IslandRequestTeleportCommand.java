@@ -19,7 +19,7 @@ import yorickbm.skyblockaddon.util.FunctionRegistry;
 import java.util.UUID;
 
 public class IslandRequestTeleportCommand extends OverWorldCommandStack {
-    public IslandRequestTeleportCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public IslandRequestTeleportCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
             .then(Commands.literal("request_tp")
                 .requires(source -> source.getEntity() instanceof ServerPlayer)
@@ -30,7 +30,7 @@ public class IslandRequestTeleportCommand extends OverWorldCommandStack {
         );
     }
 
-    public int execute(CommandSourceStack command, ServerPlayer executor, ServerPlayer target) {
+    public int execute(final CommandSourceStack command, final ServerPlayer executor, final ServerPlayer target) {
         if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
         if(executor.getUUID().equals(target.getUUID())) {
@@ -39,14 +39,14 @@ public class IslandRequestTeleportCommand extends OverWorldCommandStack {
         }
 
         command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island island = cap.getIslandByEntityUUID(executor.getUUID());
+            final Island island = cap.getIslandByEntityUUID(executor.getUUID());
             if (island == null) {
                 command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.has.no.island")));
                 return;
             }
 
             //Register teleport function into registry
-            UUID functionKey = UUID.randomUUID();
+            final UUID functionKey = UUID.randomUUID();
             FunctionRegistry.registerFunction(functionKey, (e) -> {
                 if(super.execute(command, e) == 0) return true;
 

@@ -51,7 +51,7 @@ public class PermissionManager {
         try {
             permissions = JSONEncoder.loadFromFile(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/registries/PermissionRegistry.json"), PermissionHolder.class).permissions;
             LOGGER.info("Loaded {} island permission(s).", permissions.size());
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             LOGGER.error("Failed to load permission configuration.");
         }
     }
@@ -59,11 +59,11 @@ public class PermissionManager {
     public List<Permission> getPermissions() {
         return this.permissions;
     }
-    public List<Permission> getPermissionsFor(String category) {
+    public List<Permission> getPermissionsFor(final String category) {
         return this.permissions.stream().filter(pm -> pm.getCategory().equalsIgnoreCase(category)).collect(Collectors.toList());
     }
 
-    public List<Permission> getPermissionsForTrigger(String trigger) {
+    public List<Permission> getPermissionsForTrigger(final String trigger) {
         return this.permissions.stream().filter(pm -> pm.hasTrigger(trigger)).collect(Collectors.toList());
     }
 
@@ -75,15 +75,15 @@ public class PermissionManager {
      * @param standingOn - AtomicReference to get Island entity is standing on.
      * @return - True if entity may override permission check.
      */
-    public static EntityVerification verifyEntity(Entity entity, AtomicReference<Island> standingOn) {
-        if(!(entity instanceof ServerPlayer player) || entity instanceof FakePlayer) return EntityVerification.NOT_A_PLAYER; //Allowed types
+    public static EntityVerification verifyEntity(final Entity entity, final AtomicReference<Island> standingOn) {
+        if(!(entity instanceof final ServerPlayer player) || entity instanceof FakePlayer) return EntityVerification.NOT_A_PLAYER; //Allowed types
         if(player.getLevel().dimension() != Level.OVERWORLD) return EntityVerification.NOT_IN_OVERWORLD; //Is not in over-world
         if(player.hasPermissions(Commands.LEVEL_ADMINS)) return EntityVerification.IS_ADMIN; //Player is admin;
 
-        Optional<SkyblockAddonWorldCapability> cap = player.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).resolve();
+        final Optional<SkyblockAddonWorldCapability> cap = player.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).resolve();
         if(cap.isEmpty()) return EntityVerification.CAP_NOT_FOUND; //Could not find Capability
 
-        Island island = cap.get().getIslandPlayerIsStandingOn(player);
+        final Island island = cap.get().getIslandPlayerIsStandingOn(player);
         if(island == null) return EntityVerification.NOT_ON_ISLAND; //Not within protection
 
         standingOn.set(island); //Set atomic reference
@@ -98,16 +98,16 @@ public class PermissionManager {
      * @param standingOn - AtomicReference to get Island entity is standing on.
      * @return - True if entity may override permission check.
      */
-    public static EntityVerification verifyNetherEntity(Entity entity, AtomicReference<Island> standingOn, BlockPos triggerPoint) {
-        if(!(entity instanceof ServerPlayer player) || entity instanceof FakePlayer) return EntityVerification.NOT_A_PLAYER; //Allowed types
+    public static EntityVerification verifyNetherEntity(final Entity entity, final AtomicReference<Island> standingOn, final BlockPos triggerPoint) {
+        if(!(entity instanceof final ServerPlayer player) || entity instanceof FakePlayer) return EntityVerification.NOT_A_PLAYER; //Allowed types
         if(player.getLevel().dimension() != Level.NETHER) return EntityVerification.NOT_IN_NETHER; //Is not in nether
         if(player.hasPermissions(Commands.LEVEL_ADMINS)) return EntityVerification.IS_ADMIN; //Player is admin;
 
-        Optional<SkyblockAddonWorldCapability> cap = Objects.requireNonNull(Objects.requireNonNull(player.getServer()).getLevel(Level.OVERWORLD)).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).resolve();
+        final Optional<SkyblockAddonWorldCapability> cap = Objects.requireNonNull(Objects.requireNonNull(player.getServer()).getLevel(Level.OVERWORLD)).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).resolve();
         if(cap.isEmpty()) return EntityVerification.CAP_NOT_FOUND; //Could not find Capability
 
 
-        Island island = cap.get().getIslandByPos(new BlockPos(triggerPoint.getX() * 8, triggerPoint.getY(), triggerPoint.getZ() * 8));
+        final Island island = cap.get().getIslandByPos(new BlockPos(triggerPoint.getX() * 8, triggerPoint.getY(), triggerPoint.getZ() * 8));
         if(island == null) return EntityVerification.NOT_ON_ISLAND; //Not within protection
 
         standingOn.set(island); //Set atomic reference
@@ -120,35 +120,35 @@ public class PermissionManager {
      * @param standingOn - Island player is standing on
      * @param trigger - Trigger type to use
      */
-    public static boolean checkPlayerInteraction(AtomicReference<Island> standingOn, ServerPlayer player, ServerLevel world, BlockPos position, ItemStack handItem, String trigger) {
+    public static boolean checkPlayerInteraction(final AtomicReference<Island> standingOn, final ServerPlayer player, final ServerLevel world, final BlockPos position, final ItemStack handItem, final String trigger) {
         //Update doors
         if (player.getLevel().getBlockState(position).getBlock() instanceof DoorBlock) {
-            DoubleBlockHalf half = (player).getLevel().getBlockState(position).getValue(DoorBlock.HALF);
+            final DoubleBlockHalf half = (player).getLevel().getBlockState(position).getValue(DoorBlock.HALF);
             if (half == DoubleBlockHalf.LOWER) {
-                BlockState other = (player).getLevel().getBlockState(position.above());
+                final BlockState other = (player).getLevel().getBlockState(position.above());
                 ServerHelper.SendPacket(player, new ClientboundBlockUpdatePacket(position.above(), other));
             } else {
-                BlockState other = (player).getLevel().getBlockState(position.below());
+                final BlockState other = (player).getLevel().getBlockState(position.below());
                 ServerHelper.SendPacket(player, new ClientboundBlockUpdatePacket(position.below(), other));
             }
         }
 
-        Optional<IslandGroup> group = standingOn.get().getGroupForEntity(player);
+        final Optional<IslandGroup> group = standingOn.get().getGroupForEntity(player);
         if(group.isEmpty()) {
             return true;
         }
 
-        List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger(trigger);
+        final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger(trigger);
         if(perms.isEmpty()) return false; //No permission to protect against it
 
         boolean runFail = false;
-        for(Permission perm : perms) {
+        for(final Permission perm : perms) {
             if(group.get().canDo(perm.getId())) continue;
             if(runFail) break; //Break loop if we determine failure
 
             // Get permission item data and check for empty
-            List<String> itemsData = perm.getData().getItemsData();
-            List<String> blocksData = perm.getData().getBlocksData();
+            final List<String> itemsData = perm.getData().getItemsData();
+            final List<String> blocksData = perm.getData().getBlocksData();
 
             // Determine default
             if(itemsData.isEmpty() && blocksData.isEmpty() && !group.get().canDo(perm.getId())) {
@@ -160,12 +160,12 @@ public class PermissionManager {
             boolean blockAllowed = true;
 
             if(!handItem.isEmpty() && !itemsData.isEmpty()) {
-                String item = Objects.requireNonNull(handItem.getItem().getRegistryName()).toString();
+                final String item = Objects.requireNonNull(handItem.getItem().getRegistryName()).toString();
                 boolean onlyNegate = true;
 
-                for(String itemInData : itemsData) {
-                    boolean isNegation = itemInData.startsWith("!");
-                    Pattern itemToCheck = isNegation ? Pattern.compile(itemInData.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(itemInData, Pattern.CASE_INSENSITIVE);
+                for(final String itemInData : itemsData) {
+                    final boolean isNegation = itemInData.startsWith("!");
+                    final Pattern itemToCheck = isNegation ? Pattern.compile(itemInData.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(itemInData, Pattern.CASE_INSENSITIVE);
 
                     itemAllowed = isNegation == itemToCheck.matcher(item).matches();
 
@@ -176,15 +176,15 @@ public class PermissionManager {
                 if(itemAllowed && onlyNegate) itemAllowed = false;
             }
 
-            BlockState clickedState = world.getBlockState(position);
+            final BlockState clickedState = world.getBlockState(position);
             if(!clickedState.isAir() && !blocksData.isEmpty()) {
-                Block clickedBlock = clickedState.getBlock();
-                String block = Objects.requireNonNull(clickedBlock.getRegistryName()).toString();
+                final Block clickedBlock = clickedState.getBlock();
+                final String block = Objects.requireNonNull(clickedBlock.getRegistryName()).toString();
                 boolean onlyNegate = true;
 
-                for(String blockInData : blocksData) {
-                    boolean isNegation = blockInData.startsWith("!");
-                    Pattern blockToCheck = isNegation ? Pattern.compile(blockInData.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(blockInData, Pattern.CASE_INSENSITIVE);
+                for(final String blockInData : blocksData) {
+                    final boolean isNegation = blockInData.startsWith("!");
+                    final Pattern blockToCheck = isNegation ? Pattern.compile(blockInData.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(blockInData, Pattern.CASE_INSENSITIVE);
 
                     blockAllowed = isNegation == blockToCheck.matcher(block).matches();
 

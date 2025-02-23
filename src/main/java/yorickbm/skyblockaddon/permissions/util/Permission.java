@@ -20,14 +20,14 @@ public class Permission implements JSONSerializable {
 
     @Override
     public String toJSON() {
-        Gson gson = new Gson();
+        final Gson gson = new Gson();
         return gson.toJson(this);
     }
 
     @Override
-    public void fromJSON(String json) {
-        Gson gson = new Gson();
-        Permission temp = gson.fromJson(json, Permission.class);
+    public void fromJSON(final String json) {
+        final Gson gson = new Gson();
+        final Permission temp = gson.fromJson(json, Permission.class);
 
         this.category = temp.category;
         this.item = temp.item;
@@ -35,8 +35,8 @@ public class Permission implements JSONSerializable {
         this.data = temp.data;
     }
 
-    public GUIItemStackHolder getItemStackHolder(Island island, UUID groupId) {
-        GUIItemStackHolder stack = this.item.getItemStackHolder();
+    public GUIItemStackHolder getItemStackHolder(final Island island, final UUID groupId) {
+        final GUIItemStackHolder stack = this.item.getItemStackHolder();
         stack.addData("permission_id", this.id);
         stack.addData("category", this.category);
         stack.addData("group_name", island.getGroup(groupId).getItem().getDisplayName().getString());
@@ -52,7 +52,7 @@ public class Permission implements JSONSerializable {
         return id;
     }
 
-    public boolean hasTrigger(String trigger) {
+    public boolean hasTrigger(final String trigger) {
         return Arrays.stream(triggers).toList().contains(trigger);
     }
 

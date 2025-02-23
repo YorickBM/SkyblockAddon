@@ -15,7 +15,7 @@ public class GuiClickItemEvent extends Event {
     protected final Slot slot;
     protected final GUIItem guiItem;
 
-    public GuiClickItemEvent(ServerInterface instance, ServerPlayer player, Slot slot, GUIItem guiItem) {
+    public GuiClickItemEvent(final ServerInterface instance, final ServerPlayer player, final Slot slot, final GUIItem guiItem) {
         this.instance = instance;
         this.target = player;
         this.slot = slot;

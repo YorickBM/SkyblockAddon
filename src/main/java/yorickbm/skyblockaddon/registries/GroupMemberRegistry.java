@@ -14,14 +14,14 @@ public class GroupMemberRegistry extends SkyblockAddonRegistry {
     private final List<UUID> members;
     private final IslandGroup group;
 
-    public GroupMemberRegistry(Island island, UUID groupId) {
+    public GroupMemberRegistry(final Island island, final UUID groupId) {
         this.group = island.getGroup(groupId);
         this.members = this.group.getMembers();
     }
 
     @Override
-    public void getNextData(CompoundTag tag) {
-        String username = UsernameCache.getBlocking(this.members.get(this.index));
+    public void getNextData(final CompoundTag tag) {
+        final String username = UsernameCache.getBlocking(this.members.get(this.index));
 
         tag.putString("SkullOwner", username);
         tag.putString("owner_name", username);

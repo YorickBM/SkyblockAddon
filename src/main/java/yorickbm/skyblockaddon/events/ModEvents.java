@@ -27,7 +27,7 @@ public class ModEvents {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @SubscribeEvent
-    public void onCommandRegister(RegisterCommandsEvent event) {
+    public void onCommandRegister(final RegisterCommandsEvent event) {
         //Basic commands
         new IslandCommand(event.getDispatcher());
         new IslandCreateCommand(event.getDispatcher());
@@ -54,34 +54,34 @@ public class ModEvents {
     }
 
     @SubscribeEvent
-    public void onWorldSave(WorldEvent.Save event) {
+    public void onWorldSave(final WorldEvent.Save event) {
         if (event.getWorld().isClientSide()) return;
         event.getWorld().getServer().getLevel(Level.OVERWORLD).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Path worldPath = event.getWorld().getServer().getWorldPath(LevelResource.ROOT).normalize();
-            Path filePath = worldPath.resolve("islanddata");
+            final Path worldPath = event.getWorld().getServer().getWorldPath(LevelResource.ROOT).normalize();
+            final Path filePath = worldPath.resolve("islanddata");
 
             NBTEncoder.saveToFile(cap.getIslands(), filePath); //Save islands to drive on world save
         });
     }
 
     @SubscribeEvent
-    public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
+    public void onRegisterCapabilities(final RegisterCapabilitiesEvent event) {
         event.register(SkyblockAddonWorldCapability.class);
     }
 
     @SubscribeEvent
-    public void onAttachCapabilitiesWorld(AttachCapabilitiesEvent<Level> event) {
+    public void onAttachCapabilitiesWorld(final AttachCapabilitiesEvent<Level> event) {
         if (event.getObject().dimension() != Level.OVERWORLD) return;
         if (event.getObject().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).isPresent())
             return;
 
-        if (event.getObject() instanceof ServerLevel level) {
+        if (event.getObject() instanceof final ServerLevel level) {
             event.addCapability(new ResourceLocation(SkyblockAddon.MOD_ID, "properties"), new SkyblockAddonWorldProvider(event.getObject().getServer()));
         }
     }
 
     @SubscribeEvent
-    public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
+    public void onPlayerJoin(final PlayerEvent.PlayerLoggedInEvent event) {
         UsernameCache.onPlayerLogin(event.getPlayer()); //Register user into UsernameCache
         event.getPlayer().getLevel().getServer().getLevel(Level.OVERWORLD).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
             //Load user island into cache

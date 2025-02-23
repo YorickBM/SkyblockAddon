@@ -17,7 +17,7 @@ import yorickbm.skyblockaddon.util.UsernameCache;
 import java.util.UUID;
 
 public class AdminTeleportCommand extends OverWorldCommandStack {
-    public AdminTeleportCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public AdminTeleportCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
             .then(Commands.literal("admin")
                 .requires(source -> source.getEntity() instanceof ServerPlayer && source.hasPermission(Commands.LEVEL_ADMINS))
@@ -30,11 +30,11 @@ public class AdminTeleportCommand extends OverWorldCommandStack {
         );
     }
 
-    public int execute(CommandSourceStack command, ServerPlayer executor, UUID uuid) {
+    public int execute(final CommandSourceStack command, final ServerPlayer executor, final UUID uuid) {
         if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
         command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island island = cap.getIslandByUUID(uuid);
+            final Island island = cap.getIslandByUUID(uuid);
             if (island == null) {
                 command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.admin.island.not.found.uuid").formatted(uuid.toString())));
                 return;

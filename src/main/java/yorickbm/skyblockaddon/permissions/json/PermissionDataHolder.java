@@ -15,14 +15,14 @@ public class PermissionDataHolder implements JSONSerializable {
 
     @Override
     public String toJSON() {
-        Gson gson = new Gson();
+        final Gson gson = new Gson();
         return gson.toJson(this);
     }
 
     @Override
-    public void fromJSON(String json) {
-        Gson gson = new Gson();
-        PermissionDataHolder temp = gson.fromJson(json, PermissionDataHolder.class);
+    public void fromJSON(final String json) {
+        final Gson gson = new Gson();
+        final PermissionDataHolder temp = gson.fromJson(json, PermissionDataHolder.class);
 
         this.skyblockaddon = temp.skyblockaddon;
         this.items = temp.items;

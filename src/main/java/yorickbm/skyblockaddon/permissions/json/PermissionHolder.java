@@ -17,14 +17,14 @@ public class PermissionHolder implements JSONSerializable {
 
     @Override
     public String toJSON() {
-        Gson gson = new Gson();
+        final Gson gson = new Gson();
         return gson.toJson(this);
     }
 
     @Override
-    public void fromJSON(String json) {
-        Gson gson = new Gson();
-        PermissionHolder temp = gson.fromJson(json, PermissionHolder.class);
+    public void fromJSON(final String json) {
+        final Gson gson = new Gson();
+        final PermissionHolder temp = gson.fromJson(json, PermissionHolder.class);
 
         this.permissions = temp.permissions;
     }

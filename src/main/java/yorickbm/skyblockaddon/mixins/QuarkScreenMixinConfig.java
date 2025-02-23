@@ -11,7 +11,7 @@ import yorickbm.guilibrary.interfaces.ServerInterface;
 @Mixin(value = {InventoryTransferHandler.class}, remap = false)
 public class QuarkScreenMixinConfig {
     @Inject(method = {"transfer"}, at = {@At("HEAD")}, cancellable = true)
-    private static void transfer(Player player, boolean isRestock, boolean smart, CallbackInfo ci) {
+    private static void transfer(final Player player, final boolean isRestock, final boolean smart, final CallbackInfo ci) {
 
         if (player.containerMenu instanceof ServerInterface)
             ci.cancel();

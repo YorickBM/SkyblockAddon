@@ -22,14 +22,14 @@ public class ResourceManager {
     private static final Logger LOGGER = LogManager.getLogger();
     private static CompoundTag IslandNBTData = null;
 
-    private static void generateFile(String file, String asset) {
+    private static void generateFile(final String file, final String asset) {
         try {
-            File languageFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/" + file);
+            final File languageFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/" + file);
 
             //Determine if file doesnt exists
             if (!languageFile.exists()) {
                 if (languageFile.createNewFile()) {
-                    try (InputStream in = SkyblockAddon.class.getResourceAsStream("/assets/" + SkyblockAddon.MOD_ID + "/" + asset)) {
+                    try (final InputStream in = SkyblockAddon.class.getResourceAsStream("/assets/" + SkyblockAddon.MOD_ID + "/" + asset)) {
                         if (in == null) {
                             LOGGER.error("Resource not found '/assets/{}/{}'!", SkyblockAddon.MOD_ID, asset);
                             return;
@@ -40,25 +40,25 @@ public class ResourceManager {
                     }
                 }
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public static void generateIslandNBTFile() {
-        try (InputStream in = SkyblockAddon.class.getResourceAsStream("/assets/" + SkyblockAddon.MOD_ID + "/structures/island.nbt")) {
+        try (final InputStream in = SkyblockAddon.class.getResourceAsStream("/assets/" + SkyblockAddon.MOD_ID + "/structures/island.nbt")) {
             if (in == null) {
                 LOGGER.error("Resource not found '/assets/{}/structures/island.nbt'!", SkyblockAddon.MOD_ID);
                 return;
             }
-            CompoundTag nbt = NbtIo.readCompressed(in);
-            File islandFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/island.nbt");
+            final CompoundTag nbt = NbtIo.readCompressed(in);
+            final File islandFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/island.nbt");
             if (!islandFile.exists()) {
                 if (islandFile.createNewFile()) { // Make sure we could create the new file
                     NbtIo.writeCompressed(nbt, islandFile);
                 }
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -69,17 +69,17 @@ public class ResourceManager {
      * @param server
      * @return NBT data
      */
-    public static CompoundTag getIslandNBT(MinecraftServer server) {
+    public static CompoundTag getIslandNBT(final MinecraftServer server) {
         if (IslandNBTData == null) {
             try {
-                File islandFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/island.nbt");
+                final File islandFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID) + "/island.nbt");
                 IslandNBTData = NbtIo.readCompressed(islandFile);
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 LOGGER.error("Could not load external island.nbt file, using mod's internal island.nbt file.");
                 try {
-                    Resource rs = server.getResourceManager().getResource(new ResourceLocation(SkyblockAddon.MOD_ID, "structures/island.nbt"));
+                    final Resource rs = server.getResourceManager().getResource(new ResourceLocation(SkyblockAddon.MOD_ID, "structures/island.nbt"));
                     IslandNBTData = NbtIo.readCompressed(rs.getInputStream());
-                } catch (IOException ex) {
+                } catch (final IOException ex) {
                     LOGGER.error("Could not load mod's internal island.nbt file!!!");
                 }
             }

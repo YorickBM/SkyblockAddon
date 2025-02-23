@@ -16,26 +16,27 @@ import yorickbm.skyblockaddon.util.UsernameCache;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class GuiEvents {
 
     @SubscribeEvent
-    public void itemRenderer(GuiDrawItemEvent event) {
+    public void itemRenderer(final GuiDrawItemEvent event) {
         if(event.isCanceled()) return; //Skip if canceled
 
         //Ignore condition filter if no island_id is set
         if(!event.getHolder().getData().contains("island_id")) { return; }
 
         event.getHolder().getOwner().getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island island = cap.getIslandByUUID(event.getHolder().getData().getUUID("island_id"));
+            final Island island = cap.getIslandByUUID(event.getHolder().getData().getUUID("island_id"));
 
             //Ignore condition if not found
             if(island == null) { return; }
 
             if(event.getItemHolder().hasCondition("is_admin")) {
-                //TODO: Add condition for admin permission
-                event.setCanceled(!island.isOwner(event.getHolder().getOwner().getUUID()) && !event.getHolder().getOwner().hasPermissions(Commands.LEVEL_ADMINS));
+                final Optional<IslandGroup> group = island.getGroupForEntityUUID(event.getHolder().getOwner().getUUID());
+                event.setCanceled((group.isPresent() && !group.get().canDo("admin_menu")) && !island.isOwner(event.getHolder().getOwner().getUUID()) && !event.getHolder().getOwner().hasPermissions(Commands.LEVEL_ADMINS));
             } else if(event.getItemHolder().hasCondition("!is_admin")) {
                 event.setCanceled(island.isOwner(event.getHolder().getOwner().getUUID()) || event.getHolder().getOwner().hasPermissions(Commands.LEVEL_ADMINS));
             }
@@ -50,24 +51,24 @@ public class GuiEvents {
     }
 
     @SubscribeEvent
-    public void dynamicTitle(OpenMenuEvent event) {
+    public void dynamicTitle(final OpenMenuEvent event) {
         if(event.isCanceled()) return; //Skip if canceled
 
         //Ignore condition filter if no island_id is set
         if(!event.getData().contains("island_id")) { return; }
 
         event.getTarget().getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island island = cap.getIslandByUUID(event.getData().getUUID("island_id"));
+            final Island island = cap.getIslandByUUID(event.getData().getUUID("island_id"));
 
             //Ignore condition if not found
             if (island == null) {
                 return;
             }
 
-            List<TextComponent> title = event.getTitle();
+            final List<TextComponent> title = event.getTitle();
 
             //Add island variables
-            Map<String, String> replacements = new HashMap<>() {{
+            final Map<String, String> replacements = new HashMap<>() {{
                 put("%owner%", UsernameCache.getBlocking(island.getOwner()));
                 put("%x%", island.getSpawn().getX()+"");
                 put("%y%", island.getSpawn().getY()+"");
@@ -79,13 +80,13 @@ public class GuiEvents {
 
             //Add group variables
             if(event.getData().contains(SkyblockAddon.MOD_ID) && event.getData().getCompound(SkyblockAddon.MOD_ID).contains("group_id")) {
-                IslandGroup group = island.getGroup(event.getData().getCompound(SkyblockAddon.MOD_ID).getUUID("group_id"));
+                final IslandGroup group = island.getGroup(event.getData().getCompound(SkyblockAddon.MOD_ID).getUUID("group_id"));
                 replacements.put("%group_name%", group.getItem().getDisplayName().getString().trim());
                 replacements.put("%group_id%", group.getId().toString());
                 replacements.put("%group_member_count%", group.getMembers().size()+"");
 
                 if(event.getData().getCompound(GUILibraryRegistry.MOD_ID).contains("category_id")) {
-                    String category = event.getData().getCompound(GUILibraryRegistry.MOD_ID).getString("category_id").replace("_", " ");
+                    final String category = event.getData().getCompound(GUILibraryRegistry.MOD_ID).getString("category_id").replace("_", " ");
                     replacements.put("%group_category%", Character.toUpperCase(category.charAt(0)) + category.substring(1));
                 }
 
@@ -94,7 +95,7 @@ public class GuiEvents {
             //Parse title through variables
             event.setTitle(title.stream()
                     .map(component -> {
-                        String modifiedText = replacements.entrySet().stream()
+                        final String modifiedText = replacements.entrySet().stream()
                                 .reduce(component.getString(), (text, entry) -> text.replace(entry.getKey(), entry.getValue()), (a, b) -> b);
                         return new TextComponent(modifiedText).withStyle(component.getStyle());
                     })
@@ -105,22 +106,22 @@ public class GuiEvents {
     }
 
     @SubscribeEvent
-    public void dynamicText(GuiDrawItemEvent event) {
+    public void dynamicText(final GuiDrawItemEvent event) {
         if(event.isCanceled()) return; //Skip if canceled
 
         //Ignore condition filter if no island_id is set
         if(!event.getHolder().getData().contains("island_id")) { return; }
 
         event.getHolder().getOwner().getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island island = cap.getIslandByUUID(event.getHolder().getData().getUUID("island_id"));
+            final Island island = cap.getIslandByUUID(event.getHolder().getData().getUUID("island_id"));
 
             //Ignore condition if not found
             if(island == null) { return; }
 
-            List<TextComponent> name = event.getItemStackHolder().getDisplayName();
-            List<List<TextComponent>> lore = event.getItemStackHolder().getLore();
+            final List<TextComponent> name = event.getItemStackHolder().getDisplayName();
+            final List<List<TextComponent>> lore = event.getItemStackHolder().getLore();
 
-            Map<String, String> replacements = new HashMap<>() {{
+            final Map<String, String> replacements = new HashMap<>() {{
                 put("%owner%", UsernameCache.getBlocking(island.getOwner()));
                 put("%x%", island.getSpawn().getX()+"");
                 put("%y%", island.getSpawn().getY()+"");
@@ -131,7 +132,7 @@ public class GuiEvents {
 
             event.getItemStackHolder().setDisplayName(name.stream()
                     .map(component -> {
-                        String modifiedText = replacements.entrySet().stream()
+                        final String modifiedText = replacements.entrySet().stream()
                                 .reduce(component.getString(), (text, entry) -> text.replace(entry.getKey(), entry.getValue()), (a, b) -> b);
                         return new TextComponent(modifiedText).withStyle(component.getStyle());
                     })
@@ -143,7 +144,7 @@ public class GuiEvents {
                     lore.stream()
                             .map(innerList -> innerList.stream() // Process each inner List<TextComponent>
                                     .map(component -> {
-                                        String modifiedText = replacements.entrySet().stream()
+                                        final String modifiedText = replacements.entrySet().stream()
                                                 .reduce(component.getString(), (text, entry) -> text.replace(entry.getKey(), entry.getValue()), (a, b) -> b);
                                         return new TextComponent(modifiedText).withStyle(component.getStyle());
                                     })

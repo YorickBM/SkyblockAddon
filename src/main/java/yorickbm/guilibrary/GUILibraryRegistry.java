@@ -20,25 +20,25 @@ public class GUILibraryRegistry {
     private static final Logger LOGGER = LogManager.getLogger();
 
     // Private method to register a GUIType with a string key
-    public static void register(String ModId, Path filePath) {
+    public static void register(final String ModId, final Path filePath) {
         try {
-            GUIJson decoded = JSONEncoder.loadFromFile(filePath, GUIJson.class);
+            final GUIJson decoded = JSONEncoder.loadFromFile(filePath, GUIJson.class);
             REGISTRY.put(ModId + ":" + decoded.getKey(), new GUIType.Builder()
                     .setRows(decoded.getRows())
                     .setTitle(decoded.getTitle())
                     .setItems(decoded.getItems())
                     .setFillers(decoded.getFillers())
                     .build());
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             LOGGER.error(String.format("Failed to load GUI '%s' into registry.", filePath.toString()));
         }
     }
 
     // Private method to register a GUIType with a string key
-    public static void registerFolder(String ModId, Path filePath) {
+    public static void registerFolder(final String ModId, final Path filePath) {
         REGISTRY.clear();
         try {
-            Collection<GUIJson> decoded = JSONEncoder.loadFromFolder(filePath, GUIJson.class);
+            final Collection<GUIJson> decoded = JSONEncoder.loadFromFolder(filePath, GUIJson.class);
             decoded.forEach(obj -> {
                 REGISTRY.put(ModId + ":" + obj.getKey(), new GUIType.Builder()
                         .setRows(obj.getRows())
@@ -47,20 +47,20 @@ public class GUILibraryRegistry {
                         .setFillers(obj.getFillers())
                         .build());
             });
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             LOGGER.error(String.format("Failed to load GUI '%s' into registry.", filePath.toString()));
         }
     }
 
     // Method to get a GUI from the registry by its ID
-    public static GUIType getValue(String key) {
+    public static GUIType getValue(final String key) {
         return REGISTRY.get(key);
     }
 
-    public static void openGUIForPlayer(ServerPlayer player, String id) {
+    public static void openGUIForPlayer(final ServerPlayer player, final String id) {
         openGUIForPlayer(player, id, new CompoundTag());
     }
-    public static void openGUIForPlayer(ServerPlayer player, String id, CompoundTag data) {
+    public static void openGUIForPlayer(final ServerPlayer player, final String id, final CompoundTag data) {
         MinecraftForge.EVENT_BUS.post(new OpenMenuEvent(id, player, data));
     }
 

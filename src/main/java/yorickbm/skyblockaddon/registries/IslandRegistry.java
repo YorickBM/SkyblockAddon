@@ -15,7 +15,7 @@ import java.util.Objects;
 public class IslandRegistry extends SkyblockAddonRegistry {
     protected final List<Island> islands;
 
-    public IslandRegistry(SkyblockAddonWorldCapability cap) {
+    public IslandRegistry(final SkyblockAddonWorldCapability cap) {
         this.islands = cap.getIslands().stream()
                 .filter(IslandData::isVisible) //Only public islands
                 .filter(i -> !Objects.equals(i.getOwner(), SkyblockAddon.MOD_UUID)) //No islands with no owner
@@ -24,9 +24,9 @@ public class IslandRegistry extends SkyblockAddonRegistry {
     }
 
     @Override
-    public void getNextData(CompoundTag tag) {
-        Island island = islands.get(this.index);
-        String username = UsernameCache.getBlocking(island.getOwner());
+    public void getNextData(final CompoundTag tag) {
+        final Island island = islands.get(this.index);
+        final String username = UsernameCache.getBlocking(island.getOwner());
 
         tag.putString("SkullOwner", username);
         tag.putString("owner_name", username);

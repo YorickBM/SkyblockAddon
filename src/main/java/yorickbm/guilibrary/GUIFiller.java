@@ -16,7 +16,7 @@ public class GUIFiller extends GUIItem {
     private final Class<? extends GuiDrawFillerEvent> event;
 
     // Constructor is private to force using the Builder
-    private GUIFiller(Builder builder) {
+    private GUIFiller(final Builder builder) {
         super(builder.item, builder.primaryClickClass, builder.secondaryClickClass, builder.data, builder.conditions);
 
         this.pattern = builder.pattern;
@@ -28,12 +28,12 @@ public class GUIFiller extends GUIItem {
         return this.pattern;
     }
 
-    public Event getEvent(ServerInterface instance, int slots) {
+    public Event getEvent(final ServerInterface instance, final int slots) {
         try {
             // Create a new instance of the event class, passing the parameters to its constructor
             return this.event.getConstructor(ServerInterface.class, GUIFiller.class, int.class)
                     .newInstance(instance, this, slots);  // Pass the arguments
-        } catch (Exception e) {
+        } catch (final Exception e) {
             return new Event();  // Return null if event creation fails
         }
     }
@@ -50,35 +50,35 @@ public class GUIFiller extends GUIItem {
         private Class<? extends GuiDrawFillerEvent> event = null;
 
         // Set the slot (mandatory)
-        public Builder setPattern(FillerPattern pattern) {
+        public Builder setPattern(final FillerPattern pattern) {
             this.pattern = pattern;
             return this;
         }
 
         // Set the ItemStack (mandatory)
-        public Builder setItemStack(GUIItemStackHolder item) {
+        public Builder setItemStack(final GUIItemStackHolder item) {
             this.item = item;
             return this;
         }
 
         // Set the primary click event class (mandatory)
-        public Builder setPrimaryClickClass(Class<? extends GuiClickItemEvent> primaryClickClass) {
+        public Builder setPrimaryClickClass(final Class<? extends GuiClickItemEvent> primaryClickClass) {
             this.primaryClickClass = primaryClickClass;
             return this;
         }
 
         // Set the secondary click event class (optional)
-        public Builder setSecondaryClickClass(Class<? extends GuiClickItemEvent> secondaryClickClass) {
+        public Builder setSecondaryClickClass(final Class<? extends GuiClickItemEvent> secondaryClickClass) {
             this.secondaryClickClass = secondaryClickClass;
             return this;
         }
 
-        public Builder setActionData(CompoundTag data) {
+        public Builder setActionData(final CompoundTag data) {
             this.data = data;
             return this;
         }
 
-        public Builder setConditions(List<String> conditions) {
+        public Builder setConditions(final List<String> conditions) {
             this.conditions = conditions;
             return this;
         }
@@ -92,7 +92,7 @@ public class GUIFiller extends GUIItem {
             return new GUIFiller(this);
         }
 
-        public Builder setEvent(Class<? extends GuiDrawFillerEvent> event) {
+        public Builder setEvent(final Class<? extends GuiDrawFillerEvent> event) {
             this.event = event;
             return this;
         }

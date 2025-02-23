@@ -15,7 +15,7 @@ public class MemberRegistry extends SkyblockAddonRegistry {
     private final List<UUID> members;
     private final Island island;
 
-    public MemberRegistry(Island island) {
+    public MemberRegistry(final Island island) {
         this.members = island.getMembers();
         this.island = island;
     }
@@ -26,13 +26,13 @@ public class MemberRegistry extends SkyblockAddonRegistry {
      * @param tag - CompoundTag to fill
      */
     @Override
-    public void getNextData(CompoundTag tag) {
-        String username = UsernameCache.getBlocking(this.members.get(this.index));
+    public void getNextData(final CompoundTag tag) {
+        final String username = UsernameCache.getBlocking(this.members.get(this.index));
 
         tag.putString("SkullOwner", username);
         tag.putString("owner_name", username);
 
-        Optional<IslandGroup> group = island.getGroupForEntityUUID(this.members.get(this.index));
+        final Optional<IslandGroup> group = island.getGroupForEntityUUID(this.members.get(this.index));
         group.ifPresentOrElse(
                 islandGroup -> tag.putString("group_name", islandGroup.getItem().getDisplayName().getString().trim()),
                 () -> tag.putString("group_name", "N/A"));

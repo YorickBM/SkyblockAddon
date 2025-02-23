@@ -8,7 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import yorickbm.skyblockaddon.commands.interfaces.OverWorldCommandStack;
 
 public class IslandHubCommand extends OverWorldCommandStack {
-    public IslandHubCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public IslandHubCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("hub")
                 .requires(source -> source.getEntity() instanceof ServerPlayer)
                 .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity()))
@@ -16,7 +16,7 @@ public class IslandHubCommand extends OverWorldCommandStack {
     }
 
     @Override
-    public int execute(CommandSourceStack command, ServerPlayer executor) {
+    public int execute(final CommandSourceStack command, final ServerPlayer executor) {
         if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
         executor.teleportTo(command.getLevel().getSharedSpawnPos().getX(), command.getLevel().getSharedSpawnPos().getY(), command.getLevel().getSharedSpawnPos().getZ());

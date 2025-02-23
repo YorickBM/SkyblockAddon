@@ -13,7 +13,7 @@ public enum EntityVerification {
 
     private final boolean value;
 
-    EntityVerification(boolean value) {
+    EntityVerification(final boolean value) {
         this.value = value;
     }
 

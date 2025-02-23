@@ -22,7 +22,7 @@ import yorickbm.skyblockaddon.util.UsernameCache;
 import java.util.UUID;
 
 public class IslandTeleportCommand extends OverWorldCommandStack {
-    public IslandTeleportCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public IslandTeleportCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
                 .then(Commands.literal("tp")
                         .requires(source -> source.getEntity() instanceof ServerPlayer)
@@ -38,11 +38,11 @@ public class IslandTeleportCommand extends OverWorldCommandStack {
         );
     }
 
-    private int executeAdmin(CommandSourceStack command, ServerPlayer executor, UUID uuid) {
+    private int executeAdmin(final CommandSourceStack command, final ServerPlayer executor, final UUID uuid) {
         if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
         command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island island = cap.getIslandByEntityUUID(uuid);
+            final Island island = cap.getIslandByEntityUUID(uuid);
             if (island == null) {
                 command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.admin.island.not.found.player").formatted(UsernameCache.getBlocking(uuid))));
                 return;
@@ -55,11 +55,11 @@ public class IslandTeleportCommand extends OverWorldCommandStack {
         return Command.SINGLE_SUCCESS;
     }
 
-    private int executePersonal(CommandSourceStack command, ServerPlayer executor) {
+    private int executePersonal(final CommandSourceStack command, final ServerPlayer executor) {
         if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
         command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island island = cap.getIslandByEntityUUID(executor.getUUID());
+            final Island island = cap.getIslandByEntityUUID(executor.getUUID());
             if (island == null) {
                 command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.has.no.island")));
                 return;
@@ -71,7 +71,7 @@ public class IslandTeleportCommand extends OverWorldCommandStack {
         return Command.SINGLE_SUCCESS;
     }
 
-    private int executeRequest(CommandSourceStack command, ServerPlayer executor, ServerPlayer requested) {
+    private int executeRequest(final CommandSourceStack command, final ServerPlayer executor, final ServerPlayer requested) {
         if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
         //Requesting to teleport to his own island
@@ -80,7 +80,7 @@ public class IslandTeleportCommand extends OverWorldCommandStack {
         }
 
         command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island island = cap.getIslandByEntityUUID(requested.getUUID());
+            final Island island = cap.getIslandByEntityUUID(requested.getUUID());
             if (island == null) {
                 command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.has.no.island")));
                 return;
@@ -99,7 +99,7 @@ public class IslandTeleportCommand extends OverWorldCommandStack {
             }
 
             //Register teleport function into registry
-            UUID functionKey = UUID.randomUUID();
+            final UUID functionKey = UUID.randomUUID();
             FunctionRegistry.registerFunction(functionKey, (e) -> {
                 if (executor.level.dimension() != Level.OVERWORLD) {
                     e.sendMessage(

@@ -18,7 +18,7 @@ public class GUIItem {
     private final UUID id; //Unique ID to differentiate duplicate items
 
     // Constructor is private to force using the Builder
-    private GUIItem(Builder builder) {
+    private GUIItem(final Builder builder) {
         this.item = builder.item;
         this.slot = builder.slot;
         this.primaryClickClass = builder.primaryClickClass;
@@ -29,7 +29,7 @@ public class GUIItem {
         this.id = UUID.randomUUID();
     }
 
-    public GUIItem(GUIItemStackHolder item, Class<? extends GuiClickItemEvent> primaryClickClass, Class<? extends GuiClickItemEvent> secondaryClickClass, CompoundTag data, List<String> conditions) {
+    public GUIItem(final GUIItemStackHolder item, final Class<? extends GuiClickItemEvent> primaryClickClass, final Class<? extends GuiClickItemEvent> secondaryClickClass, final CompoundTag data, final List<String> conditions) {
         this.item = item;
         this.slot = -1;
         this.primaryClickClass = primaryClickClass;
@@ -49,7 +49,7 @@ public class GUIItem {
         return this.slot;
     }
 
-    public boolean hasCondition(String condition) { return conditions.contains(condition); }
+    public boolean hasCondition(final String condition) { return conditions.contains(condition); }
 
     public Class<? extends GuiClickItemEvent> getPrimaryClickClass() {
         return this.primaryClickClass;
@@ -71,35 +71,35 @@ public class GUIItem {
         private List<String> conditions = new ArrayList<>();
 
         // Set the slot (mandatory)
-        public Builder setSlot(int slot) {
+        public Builder setSlot(final int slot) {
             this.slot = slot;
             return this;
         }
 
         // Set the ItemStack (mandatory)
-        public Builder setItemStack(GUIItemStackHolder item) {
+        public Builder setItemStack(final GUIItemStackHolder item) {
             this.item = item;
             return this;
         }
 
         // Set the primary click event class (mandatory)
-        public Builder setPrimaryClickClass(Class<? extends GuiClickItemEvent> primaryClickClass) {
+        public Builder setPrimaryClickClass(final Class<? extends GuiClickItemEvent> primaryClickClass) {
             this.primaryClickClass = primaryClickClass;
             return this;
         }
 
         // Set the secondary click event class (optional)
-        public Builder setSecondaryClickClass(Class<? extends GuiClickItemEvent> secondaryClickClass) {
+        public Builder setSecondaryClickClass(final Class<? extends GuiClickItemEvent> secondaryClickClass) {
             this.secondaryClickClass = secondaryClickClass;
             return this;
         }
 
-        public Builder setActionData(CompoundTag data) {
+        public Builder setActionData(final CompoundTag data) {
             this.data = data;
             return this;
         }
 
-        public Builder setConditions(List<String> conditions) {
+        public Builder setConditions(final List<String> conditions) {
             this.conditions = conditions;
             return this;
         }

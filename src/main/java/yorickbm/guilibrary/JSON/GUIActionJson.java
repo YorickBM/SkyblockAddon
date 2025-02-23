@@ -28,7 +28,7 @@ public class GUIActionJson implements JSONSerializable {
     public Class<? extends GuiClickItemEvent> getPrimary() {
         try {
             // Dynamically load the class by its fully qualified name
-            Class<?> clazz = Class.forName(this.onClick);
+            final Class<?> clazz = Class.forName(this.onClick);
             if (GuiClickItemEvent.class.isAssignableFrom(clazz)) {
                 return (Class<? extends GuiClickItemEvent>) clazz;
             }
@@ -36,7 +36,7 @@ public class GUIActionJson implements JSONSerializable {
                 LOGGER.error(String.format("Class '%s' does not implement GuiClickItemEvent, primary click removed.", this.onClick));
                 this.onClick = ""; //Invalidate trigger
             }
-        } catch(Exception ex) {
+        } catch(final Exception ex) {
             LOGGER.error(String.format("Class '%s' is not found, primary click removed.", this.onClick));
             this.onClick = ""; //Invalidate trigger
         }
@@ -48,7 +48,7 @@ public class GUIActionJson implements JSONSerializable {
     public Class<? extends GuiClickItemEvent> getSecondary() {
         try {
             // Dynamically load the class by its fully qualified name
-            Class<?> clazz = Class.forName(this.onSecondClick);
+            final Class<?> clazz = Class.forName(this.onSecondClick);
             if (GuiClickItemEvent.class.isAssignableFrom(clazz)) {
                 return (Class<? extends GuiClickItemEvent>) clazz;
             }
@@ -56,7 +56,7 @@ public class GUIActionJson implements JSONSerializable {
                 LOGGER.error(String.format("Class '%s' does not implement GuiClickItemEvent, primary click removed.", this.onSecondClick));
                 this.onSecondClick = ""; //Invalidate trigger
             }
-        } catch(Exception ex) {
+        } catch(final Exception ex) {
             LOGGER.error(String.format("Class '%s' is not found, primary click removed.", this.onSecondClick));
             this.onSecondClick = ""; //Invalidate trigger
         }
@@ -65,7 +65,7 @@ public class GUIActionJson implements JSONSerializable {
     }
 
     public CompoundTag getData() {
-        CompoundTag tag = new CompoundTag();
+        final CompoundTag tag = new CompoundTag();
 
         if(!data.isEmpty()) {
             this.data.forEach(tag::putString);
@@ -76,14 +76,14 @@ public class GUIActionJson implements JSONSerializable {
 
     @Override
     public String toJSON() {
-        Gson gson = new Gson();
+        final Gson gson = new Gson();
         return gson.toJson(this);
     }
 
     @Override
-    public void fromJSON(String json) {
-        Gson gson = new Gson();
-        GUIActionJson temp = gson.fromJson(json, GUIActionJson.class);
+    public void fromJSON(final String json) {
+        final Gson gson = new Gson();
+        final GUIActionJson temp = gson.fromJson(json, GUIActionJson.class);
 
         if(temp.onClick != null) this.onClick = temp.onClick;
         if(temp.onSecondClick != null) this.onSecondClick = temp.onSecondClick;
