@@ -2,17 +2,22 @@ package yorickbm.skyblockaddon.events.Gui;
 
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.entity.vehicle.Minecart;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import yorickbm.guilibrary.events.GuiDrawItemEvent;
 import yorickbm.guilibrary.events.OpenMenuEvent;
+import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.islands.Island;
+import yorickbm.skyblockaddon.islands.groups.IslandGroup;
 import yorickbm.skyblockaddon.util.UsernameCache;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class GuiEvents {
@@ -63,6 +68,7 @@ public class GuiEvents {
 
             List<TextComponent> title = event.getTitle();
 
+            //Add island variables
             Map<String, String> replacements = new HashMap<>() {{
                 put("%owner%", UsernameCache.getBlocking(island.getOwner()));
                 put("%x%", island.getSpawn().getX()+"");
@@ -70,8 +76,18 @@ public class GuiEvents {
                 put("%z%", island.getSpawn().getZ()+"");
                 put("%biome%", island.getBiome());
                 put("%visibility%", island.isVisible() ? SkyBlockAddonLanguage.getLocalizedString("island.public") : SkyBlockAddonLanguage.getLocalizedString("island.private"));
+
             }};
 
+            //Add group variables
+            if(event.getData().contains(SkyblockAddon.MOD_ID) && event.getData().getCompound(SkyblockAddon.MOD_ID).contains("group_id")) {
+                IslandGroup group = island.getGroup(event.getData().getCompound(SkyblockAddon.MOD_ID).getUUID("group_id"));
+                replacements.put("%group_name%", group.getItem().getDisplayName().getString().trim());
+                replacements.put("%group_id%", group.getId().toString());
+                replacements.put("%group_member_count%", group.getMembers().size()+"");
+            }
+
+            //Parse title through variables
             event.setTitle(title.stream()
                     .map(component -> {
                         String modifiedText = replacements.entrySet().stream()
