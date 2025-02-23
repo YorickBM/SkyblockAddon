@@ -144,7 +144,7 @@ public class ServerInterface extends AbstractContainerMenu {
             Optional<GUIPlaceholder> placeholder = Optional.ofNullable(this.items.get(slot.getSlotIndex()));
             placeholder.ifPresent(gi -> {
                 switch (buttonId) {
-                    case 0 -> MinecraftForge.EVENT_BUS.post(gi.getPrimaryClick(this, (ServerPlayer) playerEntity, slot));
+                    case 0 -> LOGGER.info(MinecraftForge.EVENT_BUS.post(gi.getPrimaryClick(this, (ServerPlayer) playerEntity, slot)));
                     case 1 -> MinecraftForge.EVENT_BUS.post(gi.getSecondaryClick(this, (ServerPlayer) playerEntity, slot));
                 }
             });
