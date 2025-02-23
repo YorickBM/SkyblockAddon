@@ -9,6 +9,8 @@ import yorickbm.guilibrary.GUIItem;
 import yorickbm.guilibrary.interfaces.GuiClickItemEvent;
 import yorickbm.guilibrary.interfaces.ServerInterface;
 
+import java.util.Objects;
+
 @Cancelable
 public class ItemOpenMenuEvent extends GuiClickItemEvent {
     public ItemOpenMenuEvent(ServerInterface instance, ServerPlayer player, Slot slot, GUIItem item) {
@@ -20,13 +22,14 @@ public class ItemOpenMenuEvent extends GuiClickItemEvent {
             return;
         }
 
+        //Merge item data into GUI data
+        CompoundTag guiData = instance.getData();
+        guiData.merge(slot.getItem().getOrCreateTag());
+
         MinecraftForge.EVENT_BUS.post(new OpenMenuEvent(
                 modData.getString("gui"), //Open the GUI based on the ModData GUI value
                 player, //Clicking player is the target
-                instance.getData()) //Carry over the previous GUIs data
+                guiData) //Carry over the previous GUIs data
         );
     }
-
-
-
 }
