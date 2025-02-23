@@ -7,7 +7,10 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
@@ -23,6 +26,8 @@ import java.util.UUID;
 import java.util.function.Function;
 
 public class IslandGuiEvents {
+    private static final Logger LOGGER = LogManager.getLogger();
+
     @SubscribeEvent
     public void onTeleportToIslandEvent(IslandEvents.TeleportToIsland event) {
         if(event.isCanceled()) return; //Skip if canceled
@@ -52,7 +57,7 @@ public class IslandGuiEvents {
                     SkyBlockAddonLanguage.getLocalizedString("island.setspawn.outside")
             ).withStyle(ChatFormatting.RED),event.getTarget().getUUID());
 
-            event.setCanceled(true);
+            event.setResult(Event.Result.DENY);
             return;
         }
 
@@ -69,19 +74,22 @@ public class IslandGuiEvents {
     @SubscribeEvent
     public void onTravelToIslandEvent(IslandEvents.TravelToIsland event) {
         CompoundTag modData = event.getClickedItem().getOrCreateTagElement(SkyblockAddon.MOD_ID);
+
         if(!modData.contains("island_id")) {
-            event.setCanceled(true);
+            event.setResult(Event.Result.DENY);
             return;
         }
 
         event.getTarget().getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            Island island = cap.getIslandByUUID(event.getHolder().getData().getUUID("island_id"));
+            Island island = cap.getIslandByUUID(modData.getUUID("island_id"));
 
             //Island is not found
             if(island == null) {
-                event.setCanceled(true);
+                event.setResult(Event.Result.DENY);
                 return;
             }
+
+            event.getHolder().close();
 
             island.teleportTo(event.getTarget());
             event.getTarget().sendMessage(new TextComponent(
@@ -95,7 +103,7 @@ public class IslandGuiEvents {
     public void onInviteNewMemberEvent(IslandEvents.InviteNewMember event) {
         CompoundTag modData = event.getClickedItem().getOrCreateTagElement(SkyblockAddon.MOD_ID);
         if(!modData.contains("group_id")) {
-            event.setCanceled(true);
+            event.setResult(Event.Result.DENY);
             return;
         }
 
@@ -145,8 +153,10 @@ public class IslandGuiEvents {
     @SubscribeEvent
     public void onUpdateBiomeEvent(IslandEvents.UpdateBiome event) {
         CompoundTag modData = event.getClickedItem().getOrCreateTagElement(SkyblockAddon.MOD_ID);
+
+
         if(!modData.contains("biome")) {
-            event.setCanceled(true);
+            event.setResult(Event.Result.DENY);
             return;
         }
 
@@ -165,7 +175,7 @@ public class IslandGuiEvents {
     public void onKickMemberEvent(IslandEvents.KickMember event) {
         CompoundTag modData = event.getClickedItem().getOrCreateTagElement(SkyblockAddon.MOD_ID);
         if(!modData.contains("player_id")) {
-            event.setCanceled(true);
+            event.setResult(Event.Result.DENY);
             return;
         }
 
@@ -210,9 +220,9 @@ public class IslandGuiEvents {
 
     @SubscribeEvent
     public void onRemoveGroup(IslandEvents.RemoveGroup event) {
-        CompoundTag guiData = event.getHolder().getData();
+        CompoundTag guiData = event.getHolder().getData().getCompound(SkyblockAddon.MOD_ID);
         if(!guiData.contains("group_id")) {
-            event.setCanceled(true);
+            event.setResult(Event.Result.DENY);
             return;
         }
 
@@ -225,7 +235,7 @@ public class IslandGuiEvents {
                             group.getItem().getDisplayName().getString().trim()))
                             .withStyle(ChatFormatting.RED)
                     ,event.getTarget().getUUID());
-
+            event.setResult(Event.Result.ALLOW);
             return;
         }
 
@@ -233,7 +243,7 @@ public class IslandGuiEvents {
                         group.getItem().getDisplayName().getString().trim()))
                         .withStyle(ChatFormatting.RED)
                 ,event.getTarget().getUUID());
-        event.setCanceled(true);
+        event.setResult(Event.Result.DENY);
 
     }
 
@@ -243,7 +253,7 @@ public class IslandGuiEvents {
         CompoundTag guiData = event.getHolder().getData();
 
         if(!guiData.contains("group_id") || !modData.contains("permission_id")) {
-            event.setCanceled(true);
+            event.setResult(Event.Result.DENY);
             return;
         }
 
