@@ -1,6 +1,6 @@
 {
   "title": [
-    "{\"text\": \"SkyWorld Travel Map\"}"
+    "{\"text\": \"%server_name% - Travel Map\"}"
   ],
   "rows": 5,
   "key": "travel",

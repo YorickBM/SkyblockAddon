@@ -24,7 +24,7 @@
       },
       "pattern": "INSIDE",
       "action": {
-        "onClick": "viewPermissions",
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
         "data": {
           "gui": "skyblockaddon:permissions"
         }

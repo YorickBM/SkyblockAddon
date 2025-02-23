@@ -1,6 +1,6 @@
 {
   "title": [
-    "{\"text\": \"%owner%'s Island\"}"
+    "{\"text\": \"%group_name% - Members\"}"
   ],
   "rows": 4,
   "key": "members_group",
@@ -17,7 +17,7 @@
     {
       "item": {
         "display_name": [
-          "{\"text\": \"%dataownername%\", \"color\":\"blue\"}"
+          "{\"text\": \"%data_owner_name%\", \"color\":\"blue\"}"
         ],
         "item": "minecraft:PLAYER_HEAD",
         "lore": [
@@ -29,7 +29,7 @@
           ],
           [
             "{\"text\":\"\u2666 Part of: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%datagroup% \",\"color\":\"white\"}",
+            "{\"text\":\"%data_group% \",\"color\":\"white\"}",
             "{\"text\":\".\",\"color\":\"dark_gray\"}"
           ]
         ],
@@ -55,7 +55,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 26,
+      "slot": 35,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
         "data": {
@@ -66,13 +66,13 @@
     {
       "item": {
         "display_name": [
-          "{\"text\": \"%datapagenum% / %datamaxpage%\",\"bold\": true,\"color\": \"blue\"}"
+          "{\"text\": \"%pagenum% / %maxpage%\",\"bold\": true,\"color\": \"blue\"}"
         ],
         "item": "minecraft:PAPER",
         "lore": [],
         "data": {}
       },
-      "slot": 40,
+      "slot": 31,
       "action": {}
     },
     {
@@ -84,7 +84,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 39,
+      "slot": 30,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemPreviousPageEvent"
       }
@@ -98,7 +98,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 41,
+      "slot": 32,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemNextPageEvent"
       }

@@ -1,6 +1,6 @@
 {
   "title": [
-    "{\"text\": \"%owner%'s Island\"}"
+    "{\"text\": \"%group_name% - Permissions\"}"
   ],
   "rows": 3,
   "key": "permissions",
@@ -34,14 +34,15 @@
           ]
         ],
         "data": {
-          "gui": "set_permission",
-          "categoryId": "general"
+          "category_id": "general"
         }
       },
       "slot": 10,
       "action": {
-        "onClick": "openPermissionCategory",
-        "onSecondClick": "openPermissionCategory"
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:set_permission"
+        }
       }
     },{
       "item": {
@@ -55,14 +56,15 @@
           ]
         ],
         "data": {
-          "gui": "set_permission",
-          "categoryId": "transport"
+          "category_id": "transport"
         }
       },
       "slot": 11,
       "action": {
-        "onClick": "openPermissionCategory",
-        "onSecondClick": "openPermissionCategory"
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:set_permission"
+        }
       }
     },{
       "item": {
@@ -76,14 +78,15 @@
           ]
         ],
         "data": {
-          "gui": "set_permission",
-          "categoryId": "redstone"
+          "category_id": "redstone"
         }
       },
       "slot": 12,
       "action": {
-        "onClick": "openPermissionCategory",
-        "onSecondClick": "openPermissionCategory"
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:set_permission"
+        }
       }
     },{
       "item": {
@@ -97,14 +100,15 @@
           ]
         ],
         "data": {
-          "gui": "set_permission",
-          "categoryId": "storage"
+          "category_id": "storage"
         }
       },
       "slot": 14,
       "action": {
-        "onClick": "openPermissionCategory",
-        "onSecondClick": "openPermissionCategory"
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:set_permission"
+        }
       }
     },{
       "item": {
@@ -118,14 +122,15 @@
           ]
         ],
         "data": {
-          "gui": "set_permission",
-          "categoryId": "interactables"
+          "category_id": "interactables"
         }
       },
       "slot": 15,
       "action": {
-        "onClick": "openPermissionCategory",
-        "onSecondClick": "openPermissionCategory"
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:set_permission"
+        }
       }
     },{
       "item": {
@@ -139,14 +144,15 @@
           ]
         ],
         "data": {
-          "gui": "set_permission",
-          "categoryId": "vaulthunters"
+          "category_id": "vaulthunters"
         }
       },
       "slot": 16,
       "action": {
-        "onClick": "openPermissionCategory",
-        "onSecondClick": "openPermissionCategory"
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:set_permission"
+        }
       }
     },
     {
@@ -156,14 +162,14 @@
         ],
         "item": "minecraft:ARROW",
         "lore": [],
-        "data": {
-          "gui": "groups"
-        }
+        "data": {}
       },
       "slot": 26,
       "action": {
-        "onClick": "openMenu",
-        "onSecondClick": "openMenu"
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:groups"
+        }
       }
     },
     {
@@ -173,14 +179,11 @@
         ],
         "item": "minecraft:BARRIER",
         "lore": [],
-        "data": {
-          "skyblockaddon": "custom_group"
-        }
+        "data": {}
       },
       "slot": 18,
       "action": {
-        "onClick": "removeGroup",
-        "onSecondClick": "removeGroup"
+        "onClick": "yorickbm.guilibrary.events.IslandEvents$RemoveGroup"
       }
     },
     {
@@ -190,15 +193,14 @@
         ],
         "item": "minecraft:OAK_BOAT",
         "lore": [],
-        "data": {
-          "gui": "members_group",
-          "skyblockaddon": "custom_group"
-        }
+        "data": {}
       },
       "slot": 22,
       "action": {
-        "onClick": "membersGroup",
-        "onSecondClick": "membersGroup"
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:members_group"
+        }
       }
     }
   ]

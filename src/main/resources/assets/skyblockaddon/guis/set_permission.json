@@ -1,6 +1,6 @@
 {
   "title": [
-    "{\"text\": \"%owner%'s Island\"}"
+    "{\"text\": \"%group_name% - %group_category%\"}"
   ],
   "rows": 4,
   "key": "set_permission",
@@ -21,17 +21,13 @@
         "display_name": [],
         "item": "minecraft:PAPER",
         "lore": [],
-        "data": {
-          "registry": "PermissionRegistry"
-        }
+        "data": {}
       },
       "pattern": "INSIDE",
       "action": {
-        "targetType": "HOLDER",
-        "sourceType": "HOLDER",
-        "onClick": "permissionSet",
-        "onSecondClick": "permissionSet"
-      }
+        "onClick": "yorickbm.skyblockaddon.islands.IslandEvents$SetGroupPermission"
+      },
+      "event": "yorickbm.skyblockaddon.registries.RegistryEvents$PermissionsRegistry"
     }
   ],
   "items": [
@@ -44,7 +40,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 26,
+      "slot": 35,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
         "data": {
@@ -55,13 +51,13 @@
     {
       "item": {
         "display_name": [
-          "{\"text\": \"%datapagenum% / %datamaxpage%\",\"bold\": true,\"color\": \"blue\"}"
+          "{\"text\": \"%pagenum% / %maxpage%\",\"bold\": true,\"color\": \"blue\"}"
         ],
         "item": "minecraft:PAPER",
         "lore": [],
         "data": {}
       },
-      "slot": 40,
+      "slot": 31,
       "action": {}
     },
     {
@@ -73,7 +69,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 39,
+      "slot": 30,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemPreviousPageEvent"
       }
@@ -87,7 +83,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 41,
+      "slot": 32,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemNextPageEvent"
       }
