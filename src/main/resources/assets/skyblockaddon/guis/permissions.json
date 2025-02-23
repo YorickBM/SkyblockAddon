@@ -183,7 +183,7 @@
       },
       "slot": 18,
       "action": {
-        "onClick": "yorickbm.guilibrary.events.IslandEvents$RemoveGroup"
+        "onClick": "yorickbm.skyblockaddon.islands.IslandEvents$RemoveGroup"
       }
     },
     {
