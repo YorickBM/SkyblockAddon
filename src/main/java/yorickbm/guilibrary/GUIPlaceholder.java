@@ -23,7 +23,6 @@ public class GUIPlaceholder {
 
     public Event getPrimaryClick(ServerInterface instance, ServerPlayer player, Slot slot) {
         if(primaryClickClass == null) return new Event();
-        LOGGER.info("Trigger Event: {}", primaryClickClass.getSimpleName());
         return createEventInstance(primaryClickClass, instance, player, slot);
     }
 
