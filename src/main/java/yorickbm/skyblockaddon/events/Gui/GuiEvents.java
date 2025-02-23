@@ -5,6 +5,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.vehicle.Minecart;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import yorickbm.guilibrary.GUILibraryRegistry;
 import yorickbm.guilibrary.events.GuiDrawItemEvent;
 import yorickbm.guilibrary.events.OpenMenuEvent;
 import yorickbm.skyblockaddon.SkyblockAddon;
@@ -85,6 +86,12 @@ public class GuiEvents {
                 replacements.put("%group_name%", group.getItem().getDisplayName().getString().trim());
                 replacements.put("%group_id%", group.getId().toString());
                 replacements.put("%group_member_count%", group.getMembers().size()+"");
+
+                if(event.getData().getCompound(GUILibraryRegistry.MOD_ID).contains("category_id")) {
+                    String category = event.getData().getCompound(GUILibraryRegistry.MOD_ID).getString("category_id").replace("_", " ");
+                    replacements.put("%group_category%", Character.toUpperCase(category.charAt(0)) + category.substring(1));
+                }
+
             }
 
             //Parse title through variables
