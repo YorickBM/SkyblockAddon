@@ -3,8 +3,11 @@
 ## Section 1 – Definitions
 
 a. **Adapted Material** – Only `.json` files within the project may be modified. Any other modification is **strictly prohibited**.
+
 b. **NonCommercial** – The licensed material **may not** be used for commercial purposes.
+
 c. **Official GitHub Forks** – Redistribution of the Licensed Material is only permitted through **official forks on GitHub**. Any distribution outside of GitHub is a violation of this license.
+
 d. **You** – The individual or entity using this Licensed Material.
 
 ## Section 2 – License Grant
