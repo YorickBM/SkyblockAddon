@@ -1,0 +1,121 @@
+{
+  "title": [
+    "{\"text\": \"%group_name% - Members\"}"
+  ],
+  "rows": 4,
+  "key": "members_group",
+  "fillers": [
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"\"}"
+        ],
+        "item": "minecraft:GRAY_STAINED_GLASS_PANE"
+      },
+      "pattern": "EDGES"
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"%data_owner_name%\", \"color\":\"blue\"}"
+        ],
+        "item": "minecraft:PLAYER_HEAD",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to change the group this member is a part of.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Part of: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_group_name% \",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+          ]
+        ],
+        "data": {}
+      },
+      "pattern": "INSIDE",
+      "action": {
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:set_group"
+        }
+      },
+      "event": "yorickbm.skyblockaddon.registries.RegistryEvents$GroupMembersRegistry"
+    }
+  ],
+  "items": [
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Back\",\"bold\": true,\"color\": \"red\"}"
+        ],
+        "item": "minecraft:ARROW",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 35,
+      "action": {
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:permissions"
+        }
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"%pagenum% / %maxpage%\",\"bold\": true,\"color\": \"blue\"}"
+        ],
+        "item": "minecraft:PAPER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 31,
+      "action": {}
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Previous\",\"bold\": true,\"color\": \"red\"}"
+        ],
+        "item": "minecraft:RED_BANNER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 30,
+      "action": {
+        "onClick": "yorickbm.guilibrary.events.ItemPreviousPageEvent"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Next\",\"bold\": true,\"color\": \"green\"}"
+        ],
+        "item": "minecraft:GREEN_BANNER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 32,
+      "action": {
+        "onClick": "yorickbm.guilibrary.events.ItemNextPageEvent"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Add member\",\"bold\": true,\"color\": \"green\"}"
+        ],
+        "item": "minecraft:OAK_BOAT",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 27,
+      "action": {
+        "onClick": "yorickbm.skyblockaddon.islands.IslandEvents$InviteNewMember"
+      }
+    }
+  ]
+}

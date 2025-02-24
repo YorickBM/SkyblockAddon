@@ -21,15 +21,16 @@ public class SkyblockAddonConfig {
         SPEC = BUILDER.build();
     }
 
-    private static void register(String key, String value, String comment) {
+    private static void register(final String key, final String value, final String comment) {
         values.put(
                 key,
                 BUILDER.comment(comment)
                         .define(key, value)
         );
     }
-    public static String getForKey(String key) {
-        if(!values.containsKey(key))
+
+    public static String getForKey(final String key) {
+        if (!values.containsKey(key))
             return key; //Return lookup value if not found
         return values.get(key).get(); //Return value from config
     }

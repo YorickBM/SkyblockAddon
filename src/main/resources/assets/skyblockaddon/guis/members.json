@@ -1,0 +1,108 @@
+{
+  "title": [
+    "{\"text\": \"%owner%'s Island\"}"
+  ],
+  "rows": 5,
+  "key": "members",
+  "fillers": [
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"\"}"
+        ],
+        "item": "minecraft:GRAY_STAINED_GLASS_PANE"
+      },
+      "pattern": "EDGES",
+      "action": {}
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"%data_owner_name%\", \"color\":\"blue\"}"
+        ],
+        "item": "minecraft:PLAYER_HEAD",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to change the group this member is a part of.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Part of: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_group_name% \",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+          ]
+        ],
+        "data": {}
+      },
+      "pattern": "INSIDE",
+      "action": {
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:set_group"
+        }
+      },
+      "event": "yorickbm.skyblockaddon.registries.RegistryEvents$MembersRegistry"
+    }
+  ],
+  "items": [
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Back\",\"bold\": true,\"color\": \"red\"}"
+        ],
+        "item": "minecraft:ARROW",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 44,
+      "action": {
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:overview"
+        }
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"%pagenum% / %maxpage%\",\"bold\": true,\"color\": \"blue\"}"
+        ],
+        "item": "minecraft:PAPER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 40,
+      "action": {}
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Previous\",\"bold\": true,\"color\": \"red\"}"
+        ],
+        "item": "minecraft:RED_BANNER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 39,
+      "action": {
+        "onClick": "yorickbm.guilibrary.events.ItemPreviousPageEvent"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Next\",\"bold\": true,\"color\": \"green\"}"
+        ],
+        "item": "minecraft:GREEN_BANNER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 41,
+      "action": {
+        "onClick": "yorickbm.guilibrary.events.ItemNextPageEvent"
+      }
+    }
+  ]
+}

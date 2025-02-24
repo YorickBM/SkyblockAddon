@@ -1,0 +1,104 @@
+{
+  "title": [
+    "{\"text\": \"%owner%'s Island\"}"
+  ],
+  "rows": 3,
+  "key": "set_group",
+  "fillers": [
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"\"}"
+        ],
+        "item": "minecraft:GRAY_STAINED_GLASS_PANE"
+      },
+      "pattern": "EDGES"
+    },
+    {
+      "item": {
+        "display_name": [],
+        "item": "minecraft:PAPER",
+        "lore": [],
+        "data": {}
+      },
+      "pattern": "INSIDE",
+      "action": {
+        "onClick": "yorickbm.skyblockaddon.islands.IslandEvents$SetPlayerGroup"
+      },
+      "event": "yorickbm.skyblockaddon.registries.RegistryEvents$GroupsRegistry"
+    }
+  ],
+  "items": [
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Back\",\"bold\": true,\"color\": \"red\"}"
+        ],
+        "item": "minecraft:ARROW",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 26,
+      "action": {
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:members"
+        }
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"%pagenum% / %maxpage%\",\"bold\": true,\"color\": \"blue\"}"
+        ],
+        "item": "minecraft:PAPER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 22,
+      "action": {}
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Previous\",\"bold\": true,\"color\": \"red\"}"
+        ],
+        "item": "minecraft:RED_BANNER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 21,
+      "action": {
+        "onClick": "yorickbm.guilibrary.events.ItemPreviousPageEvent"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Next\",\"bold\": true,\"color\": \"green\"}"
+        ],
+        "item": "minecraft:GREEN_BANNER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 23,
+      "action": {
+        "onClick": "yorickbm.guilibrary.events.ItemNextPageEvent"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Kick member\",\"bold\": true,\"color\": \"red\"}"
+        ],
+        "item": "minecraft:BARRIER",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 18,
+      "action": {
+        "onClick": "yorickbm.skyblockaddon.islands.IslandEvents$KickMember"
+      }
+    }
+  ]
+}

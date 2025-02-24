@@ -1,0 +1,127 @@
+{
+  "title": [
+    "{\"text\": \"%owner%'s Island\"}"
+  ],
+  "rows": 3,
+  "key": "settings",
+  "fillers": [
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"\"}"
+        ],
+        "item": "minecraft:GRAY_STAINED_GLASS_PANE",
+        "lore": [],
+        "data": {}
+      },
+      "pattern": "EMPTY",
+      "action": {}
+    }
+  ],
+  "items": [
+    {
+      "item": {
+        "display_name": ["{\"text\": \"Biome\",\"bold\": true,\"color\": \"blue\"}"],
+        "item": "minecraft:OAK_SAPLING",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Change the biome of your island.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Current: \",\"color\":\"dark_gray\"}", "{\"text\":\"%biome%\",\"color\":\"white\"}"
+          ]
+        ],
+        "data": {}
+      },
+      "slot": 10,
+      "action": {
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:biomes"
+        }
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Permissions\",\"bold\": true,\"color\": \"blue\"}"
+        ],
+        "item": "minecraft:IRON_BARS",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 12,
+      "action": {
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:groups"
+        }
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Spawn Point\",\"bold\": true,\"color\": \"blue\"}"
+        ],
+        "item": "minecraft:RED_BED",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Set the spawn point of your island.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Current: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%x%\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%y%\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%z%\",\"color\":\"white\"}"
+          ]
+        ],
+        "data": {}
+      },
+      "slot": 14,
+      "action": {
+        "onClick": "yorickbm.skyblockaddon.islands.IslandEvents$SetSpawnPoint"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Visibility\",\"bold\": true,\"color\": \"blue\"}"
+        ],
+        "item": "minecraft:OAK_BOAT",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Change visibility of your island.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Current: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%visibility%\",\"color\":\"white\"}"
+          ]
+        ],
+        "data": {}
+      },
+      "slot": 16,
+      "action": {
+        "onClick": "yorickbm.skyblockaddon.islands.IslandEvents$ChangeVisibility"
+      }
+    },
+    {
+      "item": {
+        "display_name": [
+          "{\"text\": \"Back\",\"bold\": true,\"color\": \"red\"}"
+        ],
+        "item": "minecraft:ARROW",
+        "lore": [],
+        "data": {}
+      },
+      "slot": 26,
+      "action": {
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:overview"
+        }
+      }
+    }
+  ]
+}

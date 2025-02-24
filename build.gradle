@@ -16,7 +16,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
 group = 'yorickbm'
-version = '6.2'
+version = '7.0'
 
 java {
     archivesBaseName = 'skyblockaddon'
