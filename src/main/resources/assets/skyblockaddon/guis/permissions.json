@@ -15,10 +15,7 @@
         "data": {}
       },
       "pattern": "EMPTY",
-      "action": {
-        "onClick": "NONE",
-        "onSecondClick": "NONE"
-      }
+      "action": {}
     }
   ],
   "items": [

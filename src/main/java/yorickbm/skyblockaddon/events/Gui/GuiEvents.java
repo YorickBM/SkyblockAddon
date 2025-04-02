@@ -34,11 +34,20 @@ public class GuiEvents {
             //Ignore condition if not found
             if(island == null) { return; }
 
-            if(event.getItemHolder().hasCondition("is_admin")) {
+            final boolean isAdmin = event.getItemHolder().hasCondition("is_admin");
+            final boolean isNotAdmin = event.getItemHolder().hasCondition("!is_admin");
+
+            if (isAdmin || isNotAdmin) {
                 final Optional<IslandGroup> group = island.getGroupForEntityUUID(event.getHolder().getOwner().getUUID());
-                event.setCanceled((group.isPresent() && !group.get().canDo("admin_menu")) && !island.isOwner(event.getHolder().getOwner().getUUID()) && !event.getHolder().getOwner().hasPermissions(Commands.LEVEL_ADMINS));
-            } else if(event.getItemHolder().hasCondition("!is_admin")) {
-                event.setCanceled(island.isOwner(event.getHolder().getOwner().getUUID()) || event.getHolder().getOwner().hasPermissions(Commands.LEVEL_ADMINS));
+                final boolean canAccessAdminMenu = group.map(g -> g.canDo("admin_menu")).orElse(true);
+                final boolean isOwner = island.isOwner(event.getHolder().getOwner().getUUID());
+                final boolean hasAdminPermissions = event.getHolder().getOwner().hasPermissions(Commands.LEVEL_ADMINS);
+
+                final boolean shouldCancel = isAdmin
+                        ? !canAccessAdminMenu && !isOwner && !hasAdminPermissions // Same logic as before
+                        : canAccessAdminMenu || isOwner || hasAdminPermissions;   // Negated logic
+
+                event.setCanceled(shouldCancel);
             }
 
             if(event.getItemHolder().hasCondition("is_part")) {

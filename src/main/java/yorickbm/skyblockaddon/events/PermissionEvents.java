@@ -21,6 +21,8 @@ import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.islands.groups.IslandGroup;
@@ -32,10 +34,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class PermissionEvents {
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @SubscribeEvent
     public void onTrample(final BlockEvent.FarmlandTrampleEvent event) {
@@ -51,9 +53,12 @@ public class PermissionEvents {
         }
 
         final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onTrample");
-        if(perms.isEmpty()) return; //No permission to protect against it
+        if(perms.isEmpty()) {
+            return; //No permission to protect against it
+        }
 
-        if(!group.get().canDo(perms.get(0).getId())) { //Group may not run this
+        final boolean runFail = !group.get().canDo(perms.get(0).getId());
+        if (runFail) { //Group may not run this
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             if(event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
@@ -71,11 +76,13 @@ public class PermissionEvents {
             else event.setResult(Event.Result.DENY);
             return; //Not part of any group so not allowed!!
         }
-
         final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onEnderPearl");
-        if(perms.isEmpty()) return; //No permission to protect against it
+        if(perms.isEmpty()) {
+            return; //No permission to protect against it
+        }
 
-        if(!group.get().canDo(perms.get(0).getId())) { //Group may not run this
+        final boolean runFail = !group.get().canDo(perms.get(0).getId());
+        if (runFail) { //Group may not run this
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             if(event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
@@ -93,11 +100,13 @@ public class PermissionEvents {
             else event.setResult(Event.Result.DENY);
             return; //Not part of any group so not allowed!!
         }
-
         final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onChorusFruit");
-        if(perms.isEmpty()) return; //No permission to protect against it
+        if(perms.isEmpty()) {
+            return; //No permission to protect against it
+        }
 
-        if(!group.get().canDo(perms.get(0).getId())) { //Group may not run this
+        final boolean runFail = !group.get().canDo(perms.get(0).getId());
+        if (runFail) { //Group may not run this
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             if(event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
@@ -118,9 +127,12 @@ public class PermissionEvents {
         }
 
         final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onSleepInBed");
-        if(perms.isEmpty()) return; //No permission to protect against it
+        if(perms.isEmpty()) {
+            return; //No permission to protect against it
+        }
 
-        if(!group.get().canDo(perms.get(0).getId())) { //Group may not run this
+        final boolean runFail = !group.get().canDo(perms.get(0).getId());
+        if (runFail) { //Group may not run this
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             if(event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
@@ -140,9 +152,12 @@ public class PermissionEvents {
         }
 
         final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onXp");
-        if(perms.isEmpty()) return; //No permission to protect against it
+        if(perms.isEmpty()) {
+            return; //No permission to protect against it
+        }
 
-        if(!group.get().canDo(perms.get(0).getId())) { //Group may not run this
+        final boolean runFail = !group.get().canDo(perms.get(0).getId());
+        if (runFail) { //Group may not run this
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             if(event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
@@ -162,9 +177,12 @@ public class PermissionEvents {
         }
 
         final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onBonemeal");
-        if(perms.isEmpty()) return; //No permission to protect against it
+        if(perms.isEmpty()) {
+            return; //No permission to protect against it
+        }
 
-        if(!group.get().canDo(perms.get(0).getId())) { //Group may not run this
+        final boolean runFail = !group.get().canDo(perms.get(0).getId());
+        if (runFail) { //Group may not run this
             ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             if(event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
@@ -184,7 +202,9 @@ public class PermissionEvents {
         }
 
         final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onPickup");
-        if(perms.isEmpty()) return; //No permission to protect against it
+        if(perms.isEmpty()) {
+            return; //No permission to protect against it
+        }
 
         boolean runFail = false;
         for(final Permission perm : perms) {
@@ -194,22 +214,15 @@ public class PermissionEvents {
             // Get permission item data and check for empty
             final List<String> data = perm.getData().getItemsData();
 
-            if(data.isEmpty()) runFail = true;
+            if(data.isEmpty()) {
+                runFail = true;
+            }
             else {
                 final String pickedupItem = Objects.requireNonNull(event.getItem().getItem().getItem().getRegistryName()).toString();
-                boolean onlyNegate = true;
-
-                for(final String item : data) {
-                    final boolean isNegation = item.startsWith("!");
-                    final Pattern itemToCheck = isNegation ? Pattern.compile(item.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(item, Pattern.CASE_INSENSITIVE);
-
-                    runFail = isNegation != itemToCheck.matcher(pickedupItem).matches();
-
-                    if(!isNegation) onlyNegate = false;
-                    if(runFail) break; //Failure reached
+                switch(PermissionManager.checkMatch(data, pickedupItem)) {
+                    case SKIP, ALLOW-> { continue; }
+                    case BLOCK ->  runFail = true;
                 }
-
-                if(!runFail && onlyNegate) runFail = true;
             }
         }
 
@@ -233,7 +246,9 @@ public class PermissionEvents {
         }
 
         final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onDrop");
-        if(perms.isEmpty()) return; //No permission to protect against it
+        if(perms.isEmpty()) {
+            return; //No permission to protect against it
+        }
 
         boolean runFail = false;
         for(final Permission perm : perms) {
@@ -243,22 +258,15 @@ public class PermissionEvents {
             // Get permission item data and check for empty
             final List<String> data = perm.getData().getItemsData();
 
-            if(data.isEmpty()) runFail = true;
+            if(data.isEmpty()) {
+                runFail = true;
+            }
             else {
                 final String droppedItem = Objects.requireNonNull(event.getEntityItem().getItem().getItem().getRegistryName()).toString();
-                boolean onlyNegate = true;
-
-                for(final String item : data) {
-                    final boolean isNegation = item.startsWith("!");
-                    final Pattern itemToCheck = isNegation ? Pattern.compile(item.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(item, Pattern.CASE_INSENSITIVE);
-
-                    runFail = isNegation != itemToCheck.matcher(droppedItem).matches();
-
-                    if(!isNegation) onlyNegate = false;
-                    if(runFail) break; //Failure reached
+                switch(PermissionManager.checkMatch(data, droppedItem)) {
+                    case SKIP, ALLOW-> { continue; }
+                    case BLOCK ->  runFail = true;
                 }
-
-                if(!runFail && onlyNegate) runFail = true;
             }
         }
 
@@ -281,7 +289,9 @@ public class PermissionEvents {
         }
 
         final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onBucket");
-        if(perms.isEmpty()) return; //No permission to protect against it
+        if(perms.isEmpty()) {
+            return; //No permission to protect against it
+        }
 
         boolean runFail = false;
         for(final Permission perm : perms) {
@@ -291,22 +301,15 @@ public class PermissionEvents {
             // Get permission item data and check for empty
             final List<String> data = perm.getData().getItemsData();
 
-            if(data.isEmpty()) runFail = true;
+            if(data.isEmpty()) {
+                runFail = true;
+            }
             else {
                 final String filledBucket = Objects.requireNonNull(event.getFilledBucket().getItem().getRegistryName()).toString();
-                boolean onlyNegate = true;
-
-                for(final String fluid : data) {
-                    final boolean isNegation = fluid.startsWith("!");
-                    final Pattern fluidToCheck = isNegation ? Pattern.compile(fluid.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(fluid, Pattern.CASE_INSENSITIVE);
-
-                    runFail = isNegation != fluidToCheck.matcher(filledBucket).matches();
-
-                    if(!isNegation) onlyNegate = false;
-                    if(runFail) break; //Failure reached
+                switch(PermissionManager.checkMatch(data, filledBucket)) {
+                    case SKIP, ALLOW-> { continue; }
+                    case BLOCK ->  runFail = true;
                 }
-
-                if(!runFail && onlyNegate) runFail = true;
             }
         }
 
@@ -331,7 +334,9 @@ public class PermissionEvents {
         }
 
         final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onMount");
-        if(perms.isEmpty()) return; //No permission to protect against it
+        if(perms.isEmpty()) {
+            return; //No permission to protect against it
+        }
 
         boolean runFail = false;
         for(final Permission perm : perms) {
@@ -341,22 +346,15 @@ public class PermissionEvents {
             // Get permission item data and check for empty
             final List<String> data = perm.getData().getEntitiesData();
 
-            if(data.isEmpty()) runFail = true;
+            if(data.isEmpty()) {
+                runFail = true;
+            }
             else {
                 final String mountedEntity = Objects.requireNonNull(EntityType.getKey(event.getEntityBeingMounted().getType())).toString();
-                boolean onlyNegate = true;
-
-                for(final String entity : data) {
-                    final boolean isNegation = entity.startsWith("!");
-                    final Pattern entityToCheck = isNegation ? Pattern.compile(entity.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(entity, Pattern.CASE_INSENSITIVE);
-
-                    runFail = isNegation != entityToCheck.matcher(mountedEntity).matches();
-
-                    if(!isNegation) onlyNegate = false;
-                    if(runFail) break; //Failure reached
+                switch(PermissionManager.checkMatch(data, mountedEntity)) {
+                    case SKIP, ALLOW-> { continue; }
+                    case BLOCK ->  runFail = true;
                 }
-
-                if(!runFail && onlyNegate) runFail = true;
             }
         }
 
@@ -451,7 +449,9 @@ public class PermissionEvents {
         }
 
         final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onAttack");
-        if(perms.isEmpty()) return; //No permission to protect against it
+        if(perms.isEmpty()) {
+            return; //No permission to protect against it
+        }
 
         boolean runFail = false;
         for(final Permission perm : perms) {
@@ -461,22 +461,15 @@ public class PermissionEvents {
             // Get permission item data and check for empty
             final List<String> data = perm.getData().getEntitiesData();
 
-            if(data.isEmpty()) runFail = true;
+            if(data.isEmpty()) {
+                runFail = true;
+            }
             else {
                 final String attackedEntity = Objects.requireNonNull(EntityType.getKey(event.getTarget().getType())).toString();
-                boolean onlyNegate = true;
-
-                for(final String entity : data) {
-                    final boolean isNegation = entity.startsWith("!");
-                    final Pattern entityToCheck = isNegation ? Pattern.compile(entity.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(entity, Pattern.CASE_INSENSITIVE);
-
-                    runFail = isNegation != entityToCheck.matcher(attackedEntity).matches();
-
-                    if(!isNegation) onlyNegate = false;
-                    if(runFail) break; //Failure reached
+                switch(PermissionManager.checkMatch(data, attackedEntity)) {
+                    case SKIP, ALLOW-> { continue; }
+                    case BLOCK ->  runFail = true;
                 }
-
-                if(!runFail && onlyNegate) runFail = true;
             }
         }
 
@@ -501,7 +494,9 @@ public class PermissionEvents {
         }
 
         final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onUse");
-        if(perms.isEmpty()) return; //No permission to protect against it
+        if(perms.isEmpty()) {
+            return; //No permission to protect against it
+        }
 
         boolean runFail = false;
         for(final Permission perm : perms) {
@@ -511,22 +506,15 @@ public class PermissionEvents {
             // Get permission item data and check for empty
             final List<String> data = perm.getData().getItemsData();
 
-            if(data.isEmpty()) runFail = true;
+            if(data.isEmpty()) {
+                runFail = true;
+            }
             else {
                 final String usedItem = Objects.requireNonNull(event.getItem().getItem().getRegistryName()).toString();
-                boolean onlyNegate = true;
-
-                for(final String item : data) {
-                    final boolean isNegation = item.startsWith("!");
-                    final Pattern itemToCheck = isNegation ? Pattern.compile(item.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(item, Pattern.CASE_INSENSITIVE);
-
-                    runFail = isNegation != itemToCheck.matcher(usedItem).matches();
-
-                    if(!isNegation) onlyNegate = false;
-                    if(runFail) break; //Failure reached
+                switch(PermissionManager.checkMatch(data, usedItem)) {
+                    case SKIP, ALLOW-> { continue; }
+                    case BLOCK ->  runFail = true;
                 }
-
-                if(!runFail && onlyNegate) runFail = true;
             }
         }
 
@@ -552,7 +540,9 @@ public class PermissionEvents {
         }
 
         final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger("onPlayerChangedDimension");
-        if(perms.isEmpty()) return; //No permission to protect against it
+        if(perms.isEmpty()) {
+            return; //No permission to protect against it
+        }
 
         final ResourceKey<Level> toDim = event.getDimension();
 
@@ -568,19 +558,14 @@ public class PermissionEvents {
                     .map( s -> s.replace("dimension:", ""))
                     .collect(Collectors.toCollection(ArrayList::new));
 
-            if(data.isEmpty()) runFail = true;
+            if(data.isEmpty()) {
+                runFail = true;
+            }
             else {
-                for(final String dimension : data) {
-                    final boolean isNegation = dimension.startsWith("!");
-                    final Pattern dimensionToCheck = isNegation ? Pattern.compile(dimension.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(dimension, Pattern.CASE_INSENSITIVE);
-
-                    runFail = isNegation != dimensionToCheck.matcher(toDim.getRegistryName().toString()).matches();
-
-                    if(!isNegation) onlyNegate = false;
-                    if(runFail) break;
+                switch(PermissionManager.checkMatch(data, toDim.getRegistryName().toString())) {
+                    case SKIP, ALLOW-> { continue; }
+                    case BLOCK ->  runFail = true;
                 }
-
-                if(!runFail && onlyNegate) runFail = true;
             }
         }
 

@@ -242,8 +242,6 @@ public class SkyblockAddonWorldCapability {
             throw new NBTNotFoundException();
         }
 
-        lastLocation = nextGridLocation(lastLocation);
-
         int finalBigestX = bigestX, finalBigestZ = bigestZ;
         int height = Integer.parseInt(SkyblockAddonConfig.getForKey("island.spawn.height"));
         blocks.stream().filter(block -> !block.getState().isAir()).forEach(block -> block.place(worldServer, lastLocation.offset(-(finalBigestX / 2), height, -(finalBigestZ / 2))));
@@ -251,7 +249,9 @@ public class SkyblockAddonWorldCapability {
         final ChunkAccess chunk = worldServer.getChunk(new BlockPos(lastLocation.getX(), height, lastLocation.getZ()));
         final int topHeight = chunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, lastLocation.getX(), lastLocation.getZ()) + 2;
 
-        return new Vec3i(lastLocation.getX(), topHeight, lastLocation.getZ());
+        final Vec3i rslt = new Vec3i(lastLocation.getX(), topHeight, lastLocation.getZ());
+        lastLocation = nextGridLocation(lastLocation);
+        return rslt;
     }
 
     /**

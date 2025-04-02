@@ -52,7 +52,7 @@ public class PermissionManager {
             permissions = JSONEncoder.loadFromFile(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/registries/PermissionRegistry.json"), PermissionHolder.class).permissions;
             LOGGER.info("Loaded {} island permission(s).", permissions.size());
         } catch (final Exception ex) {
-            LOGGER.error("Failed to load permission configuration.");
+            LOGGER.error("Failed to load permission configuration.", ex);
         }
     }
 
@@ -68,6 +68,35 @@ public class PermissionManager {
     }
 
     /**
+     * Run filter logic
+     */
+    public static MatchResult checkMatch(final List<String> rules, final String item) {
+        boolean foundNonNegatedMatch = false;
+        boolean onlyNegations = true; // Track if all rules are negated
+
+        for (final String rule : rules) {
+            final boolean isNegation = rule.startsWith("!");
+            final String patternString = isNegation ? rule.substring(1) : rule;
+            final Pattern pattern = Pattern.compile(patternString, Pattern.CASE_INSENSITIVE);
+
+            if (pattern.matcher(item).matches()) {
+                if (isNegation) {
+                    return MatchResult.SKIP; // If a negated rule matches, return SKIP immediately
+                } else {
+                    foundNonNegatedMatch = true; // Found a non-negated match
+                }
+            }
+
+            if (!isNegation) {
+                onlyNegations = false; // Found a non-negated rule, so it's not "only negations"
+            }
+        }
+
+        // If no non-negated matches were found, and all rules were negations, return BLOCK
+        return foundNonNegatedMatch ? MatchResult.BLOCK : (onlyNegations ? MatchResult.BLOCK : MatchResult.SKIP);
+    }
+
+    /**
      * Run requirement check for entity. This check determines if it may override on the event.
      * Or if a permission check should be performed.
      *
@@ -76,18 +105,31 @@ public class PermissionManager {
      * @return - True if entity may override permission check.
      */
     public static EntityVerification verifyEntity(final Entity entity, final AtomicReference<Island> standingOn) {
-        if(!(entity instanceof final ServerPlayer player) || entity instanceof FakePlayer) return EntityVerification.NOT_A_PLAYER; //Allowed types
-        if(player.getLevel().dimension() != Level.OVERWORLD) return EntityVerification.NOT_IN_OVERWORLD; //Is not in over-world
-        if(player.hasPermissions(Commands.LEVEL_ADMINS)) return EntityVerification.IS_ADMIN; //Player is admin;
+        record Verifier(Entity entity, AtomicReference<Island> standingOn) {
+            EntityVerification verify() {
+                if (!(entity instanceof final ServerPlayer player) || entity instanceof FakePlayer)
+                    return EntityVerification.NOT_A_PLAYER;
+                if (player.getLevel().dimension() != Level.OVERWORLD)
+                    return EntityVerification.NOT_IN_OVERWORLD;
+                if (player.hasPermissions(Commands.LEVEL_ADMINS))
+                    return EntityVerification.IS_ADMIN;
 
-        final Optional<SkyblockAddonWorldCapability> cap = player.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).resolve();
-        if(cap.isEmpty()) return EntityVerification.CAP_NOT_FOUND; //Could not find Capability
+                final Optional<SkyblockAddonWorldCapability> cap =
+                        player.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).resolve();
+                if (cap.isEmpty())
+                    return EntityVerification.CAP_NOT_FOUND;
 
-        final Island island = cap.get().getIslandPlayerIsStandingOn(player);
-        if(island == null) return EntityVerification.NOT_ON_ISLAND; //Not within protection
+                final Island island = cap.get().getIslandPlayerIsStandingOn(player);
+                if (island == null)
+                    return EntityVerification.NOT_ON_ISLAND;
 
-        standingOn.set(island); //Set atomic reference
-        return island.isOwner(player.getUUID()) ? EntityVerification.IS_ISLAND_OWNER : EntityVerification.IS_ISLAND_MEMBER; //Owners may do anything
+                standingOn.set(island);
+                return island.isOwner(player.getUUID()) ? EntityVerification.IS_ISLAND_OWNER : EntityVerification.IS_ISLAND_MEMBER;
+            }
+        }
+
+        final EntityVerification result = new Verifier(entity, standingOn).verify();
+        return result;
     }
 
     /**
@@ -143,7 +185,10 @@ public class PermissionManager {
 
         boolean runFail = false;
         for(final Permission perm : perms) {
-            if(group.get().canDo(perm.getId())) continue;
+            if(group.get().canDo(perm.getId())) {
+                LOGGER.info("action is allowed for " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim());
+                continue;
+            }
             if(runFail) break; //Break loop if we determine failure
 
             // Get permission item data and check for empty
@@ -161,43 +206,30 @@ public class PermissionManager {
 
             if(!handItem.isEmpty() && !itemsData.isEmpty()) {
                 final String item = Objects.requireNonNull(handItem.getItem().getRegistryName()).toString();
-                boolean onlyNegate = true;
 
-                for(final String itemInData : itemsData) {
-                    final boolean isNegation = itemInData.startsWith("!");
-                    final Pattern itemToCheck = isNegation ? Pattern.compile(itemInData.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(itemInData, Pattern.CASE_INSENSITIVE);
-
-                    itemAllowed = isNegation == itemToCheck.matcher(item).matches();
-
-                    if(!isNegation) onlyNegate = false;
-                    if(!itemAllowed) break; //Failure reached
+                MatchResult rslt = PermissionManager.checkMatch(itemsData, item);
+                LOGGER.info(item + " is " + rslt + " on " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim());
+                switch(rslt) {
+                    case SKIP, ALLOW-> { }
+                    case BLOCK ->  itemAllowed = false;
                 }
-
-                if(itemAllowed && onlyNegate) itemAllowed = false;
             }
 
             final BlockState clickedState = world.getBlockState(position);
             if(!clickedState.isAir() && !blocksData.isEmpty()) {
                 final Block clickedBlock = clickedState.getBlock();
                 final String block = Objects.requireNonNull(clickedBlock.getRegistryName()).toString();
-                boolean onlyNegate = true;
 
-                for(final String blockInData : blocksData) {
-                    final boolean isNegation = blockInData.startsWith("!");
-                    final Pattern blockToCheck = isNegation ? Pattern.compile(blockInData.substring(1), Pattern.CASE_INSENSITIVE) : Pattern.compile(blockInData, Pattern.CASE_INSENSITIVE);
-
-                    blockAllowed = isNegation == blockToCheck.matcher(block).matches();
-
-                    if(!isNegation) onlyNegate = false;
-                    if(!blockAllowed) break; //Failure reached
+                MatchResult rslt = PermissionManager.checkMatch(blocksData, block);
+                LOGGER.info(block + " is " + rslt + " on " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim());
+                switch(rslt) {
+                    case SKIP, ALLOW-> { }
+                    case BLOCK ->  blockAllowed = false;
                 }
-
-                if(blockAllowed && onlyNegate) blockAllowed = false;
             }
 
             runFail = (!blockAllowed || !itemAllowed);
         }
-
         return runFail;
     }
 }
