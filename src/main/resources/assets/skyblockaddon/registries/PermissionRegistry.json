@@ -310,7 +310,8 @@
       ],
       "data": {
         "skyblockaddon": [
-          "dimension:minecraft:dimension"
+          "dimension:minecraft:the_nether",
+          "dimension:minecraft:overworld"
         ],
         "items": [],
         "blocks": [],
@@ -458,7 +459,7 @@
         "items": [],
         "blocks": [
           ".*:.*_chest",
-          ".*:chest",
+          ".*:.*_chest",
           "the_vault:.*_chest_placeable"
         ],
         "entities": []
@@ -526,6 +527,40 @@
         "items": [],
         "blocks": [
           "minecraft:shulker_box"
+        ],
+        "entities": []
+      }
+    },
+    {
+      "id": "open_barrels",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Interact with Barrels\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:barrel",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Storage",
+      "triggers": [
+        "onRightClickBlock"
+      ],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [
+          "minecraft:barrel",
+          ".*:.*_barrel"
         ],
         "entities": []
       }
