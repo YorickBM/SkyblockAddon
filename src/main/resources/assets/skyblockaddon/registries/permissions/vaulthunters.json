@@ -200,7 +200,8 @@
           "!the_vault:ascension_forge",
           "!the_vault:transmog_table",
           "!the_vault:skill_altar",
-          "!the_vault:jewel_crafting_table"
+          "!the_vault:jewel_crafting_table",
+          "!the_vault:vault_altar"
         ],
         "entities": []
       }
@@ -358,11 +359,11 @@
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"Minecarts\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Boats\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Saddled Entities\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+            "{\"text\":\".\",\"color\":\"white\"}"
           ]
         ]
       },
@@ -398,9 +399,9 @@
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"Ender Pearls\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Chorus fruit\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+            "{\"text\":\".\",\"color\":\"white\"}"
           ]
         ]
       },
@@ -939,11 +940,11 @@
           [
             "{\"text\":\"\u2666 Allows: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"Feed\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Collect\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Attack\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+            "{\"text\":\".\",\"color\":\"white\"}"
           ]
         ]
       },
@@ -983,7 +984,7 @@
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"Bone Meal\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+            "{\"text\":\".\",\"color\":\"white\"}"
           ]
         ]
       },
@@ -1057,9 +1058,9 @@
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"Daylight Detector\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Note Block\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+            "{\"text\":\".\",\"color\":\"white\"}"
           ]
         ]
       },
@@ -1170,9 +1171,9 @@
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"Dispenser\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Dropper\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+            "{\"text\":\".\",\"color\":\"white\"}"
           ]
         ]
       },
@@ -1245,19 +1246,19 @@
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"Vault Forge\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Tool Station\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Artisan Station\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Jewel Cutting Station\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Jewel Application Station\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Jewel Crafting Station\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Vault Anvil\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+            "{\"text\":\".\",\"color\":\"white\"}"
           ]
         ]
       },
@@ -1301,11 +1302,11 @@
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"Crystal Workbench\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Catalyst Infusion Table\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Crystal Budding\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+            "{\"text\":\".\",\"color\":\"white\"}"
           ]
         ]
       },
@@ -1345,11 +1346,11 @@
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"Vault Enchanter\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Alchemy Table\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Modifier Workbench\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+            "{\"text\":\".\",\"color\":\"white\"}"
           ]
         ]
       },
@@ -1389,11 +1390,11 @@
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"Vault Recycler\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Vault Diffuser\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Void Crucible\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+            "{\"text\":\".\",\"color\":\"white\"}"
           ]
         ]
       },
@@ -1433,7 +1434,7 @@
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"Trinket Forge\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+            "{\"text\":\".\",\"color\":\"white\"}"
           ]
         ]
       },
@@ -1471,9 +1472,9 @@
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"Black Market\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Bounty Block\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+            "{\"text\":\".\",\"color\":\"white\"}"
           ]
         ]
       },
@@ -1512,15 +1513,17 @@
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"Eternal Pedestal\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Animatrix Block\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Ascension Forge\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Transmog Table\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\", \",\"color\":\"white\"}",
             "{\"text\":\"Skill Altar\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+            "{\"text\":\", \",\"color\":\"white\"}",
+            "{\"text\":\"Vault Altar\",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"white\"}"
           ]
         ]
       },
@@ -1536,7 +1539,8 @@
           "the_vault:animatrix_block",
           "the_vault:ascension_forge",
           "the_vault:transmog_table",
-          "the_vault:skill_altar"
+          "the_vault:skill_altar",
+          "the_vault:vault_altar"
         ],
         "entities": []
       }

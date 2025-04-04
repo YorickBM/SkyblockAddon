@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.FakePlayerFactory;
+import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
@@ -351,8 +352,6 @@ public class PermissionEvents {
     public void onPlayerChangedDimension(final EntityTravelToDimensionEvent event) {
         final Optional<IslandGroup> group = verifyPermissionAndGroup(event.getEntity(), event);
         if (group.isEmpty()) return;
-
-        LOGGER.info(event.getDimension().location().toString());
 
         final boolean runFail = processPermissions(
                 group,
