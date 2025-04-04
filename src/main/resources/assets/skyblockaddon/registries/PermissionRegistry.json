@@ -900,12 +900,14 @@
       },
       "category": "Interactables",
       "triggers": [
-        "onRightClickBlock"
+        "onRightClickBlock",
+        "onRightClickItem"
       ],
       "data": {
         "skyblockaddon": [],
         "items": [
-          ".*:.*_spawn_egg"
+          ".*:.*_spawn_egg",
+          "minecraft:egg"
         ],
         "blocks": [],
         "entities": []
