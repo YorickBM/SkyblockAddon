@@ -237,6 +237,7 @@ public class PermissionEvents {
                 if(state.use(event.getWorld(), p, event.getHand(), event.getHitVec()) == InteractionResult.PASS) {
                     trigger = "onPlaceBlock";
                 }
+                p.closeContainer();
                 p.kill();
             }
 
@@ -415,7 +416,7 @@ public class PermissionEvents {
                 runFail = true;
             } else {
                 final MatchResult rslt = PermissionManager.checkMatch(data, matchValue);
-                SkyblockAddon.CustomDebugMessages(LOGGER, data + " is " + rslt + " on " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim());
+                SkyblockAddon.CustomDebugMessages(LOGGER, matchValue + " is " + rslt + " on " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim());
                 switch (rslt) {
                     case SKIP, ALLOW -> { continue; }
                     case BLOCK -> runFail = true;
