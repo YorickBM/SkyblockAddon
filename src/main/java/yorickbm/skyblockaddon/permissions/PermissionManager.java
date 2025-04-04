@@ -163,7 +163,9 @@ public class PermissionManager {
      * @param trigger - Trigger type to use
      */
     public static boolean checkPlayerInteraction(final AtomicReference<Island> standingOn, final ServerPlayer player, final ServerLevel world, final BlockPos position, final ItemStack handItem, final String trigger) {
-        //Update doors
+        SkyblockAddon.CustomDebugMessages(LOGGER, trigger);
+
+                //Update doors
         if (player.getLevel().getBlockState(position).getBlock() instanceof DoorBlock) {
             final DoubleBlockHalf half = (player).getLevel().getBlockState(position).getValue(DoorBlock.HALF);
             if (half == DoubleBlockHalf.LOWER) {
@@ -186,7 +188,7 @@ public class PermissionManager {
         boolean runFail = false;
         for(final Permission perm : perms) {
             if(group.get().canDo(perm.getId())) {
-                LOGGER.info("action is allowed for " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim());
+                SkyblockAddon.CustomDebugMessages(LOGGER, "action is allowed for " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim());
                 continue;
             }
             if(runFail) break; //Break loop if we determine failure
@@ -194,9 +196,14 @@ public class PermissionManager {
             // Get permission item data and check for empty
             final List<String> itemsData = perm.getData().getItemsData();
             final List<String> blocksData = perm.getData().getBlocksData();
+            final BlockState clickedState = world.getBlockState(position);
+
+            final boolean isShifted = trigger.endsWith("Shifted");
+            final boolean SkipBlocks = perm.getData().getSkyblockaddonData().contains("permission:shifted_ignore_blocks");
+            final boolean SkipItems = perm.getData().getSkyblockaddonData().contains("permission:shifted_ignore_items");
 
             // Determine default
-            if(itemsData.isEmpty() && blocksData.isEmpty() && !group.get().canDo(perm.getId())) {
+            if(itemsData.isEmpty() && blocksData.isEmpty()) {
                 runFail = true;
                 break;
             }
@@ -204,29 +211,28 @@ public class PermissionManager {
             boolean itemAllowed = true;
             boolean blockAllowed = true;
 
-            if(!handItem.isEmpty() && !itemsData.isEmpty()) {
+            if(!handItem.isEmpty() && !itemsData.isEmpty() && !(isShifted && SkipItems)) {
                 final String item = Objects.requireNonNull(handItem.getItem().getRegistryName()).toString();
 
-                MatchResult rslt = PermissionManager.checkMatch(itemsData, item);
-                LOGGER.info(item + " is " + rslt + " on " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim());
+                final MatchResult rslt = PermissionManager.checkMatch(itemsData, item);
+                SkyblockAddon.CustomDebugMessages(LOGGER, item + " is " + rslt + " on " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim());
                 switch(rslt) {
                     case SKIP, ALLOW-> { }
                     case BLOCK ->  itemAllowed = false;
                 }
-            }
+            } else if(isShifted && SkipItems) itemAllowed = false;
 
-            final BlockState clickedState = world.getBlockState(position);
-            if(!clickedState.isAir() && !blocksData.isEmpty()) {
+            if(!clickedState.isAir() && !blocksData.isEmpty() && !(isShifted && SkipBlocks)) {
                 final Block clickedBlock = clickedState.getBlock();
                 final String block = Objects.requireNonNull(clickedBlock.getRegistryName()).toString();
 
-                MatchResult rslt = PermissionManager.checkMatch(blocksData, block);
-                LOGGER.info(block + " is " + rslt + " on " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim());
+                final MatchResult rslt = PermissionManager.checkMatch(blocksData, block);
+                SkyblockAddon.CustomDebugMessages(LOGGER, block + " is " + rslt + " on " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim());
                 switch(rslt) {
                     case SKIP, ALLOW-> { }
                     case BLOCK ->  blockAllowed = false;
                 }
-            }
+            } else if(isShifted && SkipBlocks) blockAllowed = false;
 
             runFail = (!blockAllowed || !itemAllowed);
         }
