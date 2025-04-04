@@ -1,37 +1,6 @@
 {
   "permissions": [
     {
-      "id": "interact_fluids",
-      "item": {
-        "display_name": [
-          "{\"text\": \"Place/Pickup fluids\", \"color\":\"blue\", \"bold\":\"true\"}"
-        ],
-        "item": "minecraft:BUCKET",
-        "lore": [
-          [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
-          ],
-          [
-            "{\"text\":\" \",\"color\":\"dark_gray\"}"
-          ],
-          [
-            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
-          ]
-        ]
-      },
-      "category": "General",
-      "triggers": [
-        "onBucket"
-      ],
-      "data": {
-        "skyblockaddon": [],
-        "items": [],
-        "blocks": [],
-        "entities": []
-      }
-    },
-    {
       "id": "place_blocks",
       "item": {
         "display_name": [
@@ -101,6 +70,37 @@
           "*:item_frame",
           "*:*_item_frame"
         ]
+      }
+    },
+    {
+      "id": "interact_fluids",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Place/Pickup fluids\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:BUCKET",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "General",
+      "triggers": [
+        "onBucket"
+      ],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": []
       }
     },
     {
@@ -518,7 +518,7 @@
           ]
         ]
       },
-      "category": "Interactables",
+      "category": "General",
       "triggers": [
         "onPickup",
         "onDrop"

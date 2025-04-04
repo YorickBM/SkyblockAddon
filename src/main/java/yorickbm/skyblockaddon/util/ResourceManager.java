@@ -5,6 +5,7 @@ import net.minecraft.nbt.NbtIo;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.resources.Resource;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.FileUtils;
 import org.apache.logging.log4j.LogManager;
@@ -100,7 +101,11 @@ public class ResourceManager {
         //Generate registries
         if (!Files.exists(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/registries/"))) FileUtils.getOrCreateDirectory(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/registries/"), SkyblockAddon.MOD_ID + "/registries/");
         if(!Files.exists(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/registries/BiomeRegistry.json"))) generateFile("registries/BiomeRegistry.json", "registries/BiomeRegistry.json");
-        if(!Files.exists(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/registries/PermissionRegistry.json"))) generateFile("registries/PermissionRegistry.json", "registries/PermissionRegistry.json");
+
+        if(!Files.exists(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/registries/PermissionRegistry.json"))) {
+            if(ModList.get().isLoaded("the_vault")) generateFile("registries/PermissionRegistry.json", "registries/permissions/vaulthunters.json");
+            else generateFile("registries/PermissionRegistry.json", "registries/permissions/default.json");
+        }
 
         //Generate GUIS
         if (!Files.exists(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddon.MOD_ID + "/guis/"))) {
