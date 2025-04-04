@@ -54,10 +54,13 @@
       "category": "General",
       "triggers": [
         "onRightClickBlock",
+        "onRightClickBlockShifted",
         "onUse"
       ],
       "data": {
-        "skyblockaddon": [],
+        "skyblockaddon": [
+          "permission:shifted_ignore_blocks"
+        ],
         "items": [
           "!easy_villagers:villager",
           "!.*:.*_spawn_egg",
@@ -75,20 +78,52 @@
           "!.*:.*_trapdoor",
           "!easy_villagers:.*",
           "!storagedrawers:.*",
+          "!.*:.*_spawn_egg",
           "!the_vault:animal_pen",
-          "!the_vault:spirit_extractor",
-          "!the_vault:wardrobe",
-          "!the_vault:vault_altar",
+          "!minecraft:repeater",
+          "!minecraft:comparator",
+          "!create:pulse_repeater",
+          "!create:pulse_extender",
+          "!create:powered_latch",
+          "!create:powered_toggle_latch",
+          "!minecraft:daylight_detector",
+          "!minecraft:note_block",
+          "!blockcarpentry:frame_daylight_detector",
+          "!blockcarpentry:illusion_daylight_detector",
+          "!minecraft:lever",
+          "!.*:.*_button",
+          "!.*:.*_button_.*",
+          "!.*:.*_lever",
+          "!.*:.*_lever_.*",
+          "!.*:.*_pressure_plate",
+          "!minecraft:hopper",
+          "!minecraft:dispenser",
+          "!minecraft:dropper",
+          "!create:linked_controller",
+          "!create:redstone_link",
+          "!the_vault:vault_forge",
+          "!the_vault:tool_station",
+          "!the_vault:vault_artisan_station",
+          "!the_vault:vault_jewel_cutting_station",
+          "!the_vault:vault_jewel_application_station",
+          "!the_vault:vault_anvil",
           "!the_vault:crystal_workbench",
           "!the_vault:catalyst_infusion_table",
-          "!the_vault:Inscription_table",
-          "!the_vault:tool_station",
-          "!the_vault:artisan_station",
-          "!the_vault:jewel_cutter",
-          "!the_vault:vault_forge",
-          "!the_vault:transmog_table",
+          "!the_vault:crystal_budding",
+          "!the_vault:vault_enchanter",
+          "!the_vault:alchemy_table",
           "!the_vault:modifier_workbench",
-          "!the_vault:vault_crystal"
+          "!the_vault:vault_recycler",
+          "!the_vault:vault_diffuser",
+          "!the_vault:vault_charm_controller",
+          "!the_vault:trinket_forge",
+          "!the_vault:black_market",
+          "!the_vault:bounty_block",
+          "!the_vault:eternal_pedestal",
+          "!the_vault:animatrix_block",
+          "!the_vault:ascension_forge",
+          "!the_vault:transmog_table",
+          "!the_vault:skill_altar"
         ],
         "entities": []
       }
@@ -116,11 +151,14 @@
       "category": "General",
       "triggers": [
         "onLeftClickBlock",
+        "onLeftClickBlockShifted",
         "onAttack",
         "onQuarkPickarangMixin"
       ],
       "data": {
-        "skyblockaddon": [],
+        "skyblockaddon": [
+          "permission:shifted_ignore_blocks"
+        ],
         "items": [
           "quark:flamerang",
           "quark:pickarang"
@@ -1031,8 +1069,7 @@
           ".*:.*_button",
           ".*:.*_button_.*",
           ".*:.*_lever",
-          ".*:.*_lever_.*",
-          ""
+          ".*:.*_lever_.*"
         ],
         "entities": []
       }
@@ -1195,6 +1232,21 @@
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Vault Forge\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Tool Station\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Artisan Station\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Jewel Cutting Station\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Jewel Application Station\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Vault Anvil\",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
           ]
         ]
       },
@@ -1233,6 +1285,15 @@
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Crystal Workbench\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Catalyst Infusion Table\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Crystal Budding\",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
           ]
         ]
       },
@@ -1268,6 +1329,15 @@
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Vault Enchanter\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Alchemy Table\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Modifier Workbench\",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
           ]
         ]
       },
@@ -1303,6 +1373,15 @@
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Vault Recycler\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Vault Diffuser\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Void Crucible\",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
           ]
         ]
       },
@@ -1315,7 +1394,8 @@
         "items": [],
         "blocks": [
           "the_vault:vault_recycler",
-          "the_vault:vault_diffuser"
+          "the_vault:vault_diffuser",
+          "the_vault:vault_charm_controller"
         ],
         "entities": []
       }
@@ -1324,7 +1404,7 @@
       "id": "vh_trinkets_charms",
       "item": {
         "display_name": [
-          "{\"text\": \"Trinket & Charm Management\", \"color\":\"green\", \"bold\":\"true\"}"
+          "{\"text\": \"Trinkets\", \"color\":\"green\", \"bold\":\"true\"}"
         ],
         "item": "the_vault:trinket_forge",
         "lore": [
@@ -1337,6 +1417,11 @@
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Trinket Forge\",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
           ]
         ]
       },
@@ -1348,8 +1433,7 @@
         "skyblockaddon": [],
         "items": [],
         "blocks": [
-          "the_vault:trinket_forge",
-          "the_vault:vault_charm_controller"
+          "the_vault:trinket_forge"
         ],
         "entities": []
       }
@@ -1371,6 +1455,13 @@
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Black Market\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Bounty Block\",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
           ]
         ]
       },
@@ -1405,6 +1496,19 @@
           [
             "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
             "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Eternal Pedestal\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Animatrix Block\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Ascension Forge\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Transmog Table\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Skill Altar\",\"color\":\"white\"}",
+            "{\"text\":\".\",\"color\":\"dark_gray\"}"
           ]
         ]
       },
@@ -1419,7 +1523,8 @@
           "the_vault:eternal_pedestal",
           "the_vault:animatrix_block",
           "the_vault:ascension_forge",
-          "the_vault:transmog_table"
+          "the_vault:transmog_table",
+          "the_vault:skill_altar"
         ],
         "entities": []
       }
