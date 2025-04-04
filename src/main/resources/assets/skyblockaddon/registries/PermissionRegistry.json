@@ -96,9 +96,7 @@
         "onQuarkPickarangMixin"
       ],
       "data": {
-        "skyblockaddon": [
-          "permission:shifted_ignore_blocks"
-        ],
+        "skyblockaddon": [],
         "items": [
           "quark:flamerang",
           "quark:pickarang"
@@ -109,23 +107,11 @@
         ],
         "entities": [
           "minecraft:minecart",
-          "minecraft:chest_minecart",
-          "minecraft:furnace_minecart",
-          "minecraft:tnt_minecart",
-          "minecraft:hopper_minecart",
-          "minecraft:oak_boat",
-          "minecraft:spruce_boat",
-          "minecraft:birch_boat",
-          "minecraft:jungle_boat",
-          "minecraft:acacia_boat",
-          "minecraft:dark_oak_boat",
-          "twigs:stripped_bamboo_boat",
-          "supplementaries:dispenser_minecart",
-          "quark:blossom_boat",
-          "quark:azalea_boat",
+          ".*:.*_minecart",
+          ".*:.*_boat",
           "minecraft:armor_stand",
-          "minecraft:item_frame",
-          "minecraft:glow_item_frame"
+          ".*:item_frame",
+          ".*:.*_item_frame"
         ]
       }
     },
@@ -458,9 +444,9 @@
         "skyblockaddon": [],
         "items": [],
         "blocks": [
+          ".*:chest",
           ".*:.*_chest",
-          ".*:.*_chest",
-          "the_vault:.*_chest_placeable"
+          ".*:.*_chest_placeable"
         ],
         "entities": []
       }
@@ -858,23 +844,11 @@
         "blocks": [],
         "entities": [
           "!minecraft:minecart",
-          "!minecraft:chest_minecart",
-          "!minecraft:furnace_minecart",
-          "!minecraft:tnt_minecart",
-          "!minecraft:hopper_minecart",
-          "!minecraft:oak_boat",
-          "!minecraft:spruce_boat",
-          "!minecraft:birch_boat",
-          "!minecraft:jungle_boat",
-          "!minecraft:acacia_boat",
-          "!minecraft:dark_oak_boat",
-          "!twigs:stripped_bamboo_boat",
-          "!supplementaries:dispenser_minecart",
-          "!quark:blossom_boat",
-          "!quark:azalea_boat",
+          "!.*:.*_minecart",
+          "!.*:.*_boat",
           "!minecraft:armor_stand",
-          "!minecraft:item_frame",
-          "!minecraft:glow_item_frame"
+          "!.*:item_frame",
+          "!.*:.*_item_frame"
         ]
       }
     },
