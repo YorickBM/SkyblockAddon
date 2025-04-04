@@ -5,12 +5,15 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
@@ -53,9 +56,9 @@ public class PermissionEvents {
 
         final boolean runFail = !group.get().canDo(perms.get(0).getId());
         if (runFail) { //Group may not run this
-            sendFailureMessage((ServerPlayer) event.getEntity());
             if (event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
+            sendFailureMessage((ServerPlayer) event.getEntity());
         }
     }
     @SubscribeEvent
@@ -70,9 +73,9 @@ public class PermissionEvents {
 
         final boolean runFail = !group.get().canDo(perms.get(0).getId());
         if (runFail) { //Group may not run this
-            sendFailureMessage((ServerPlayer) event.getEntity());
             if (event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
+            sendFailureMessage((ServerPlayer) event.getEntity());
         }
     }
     @SubscribeEvent
@@ -87,9 +90,9 @@ public class PermissionEvents {
 
         final boolean runFail = !group.get().canDo(perms.get(0).getId());
         if (runFail) { //Group may not run this
-            sendFailureMessage((ServerPlayer) event.getEntity());
             if (event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
+            sendFailureMessage((ServerPlayer) event.getEntity());
         }
     }
 
@@ -105,9 +108,9 @@ public class PermissionEvents {
 
         final boolean runFail = !group.get().canDo(perms.get(0).getId());
         if (runFail) { //Group may not run this
-            sendFailureMessage((ServerPlayer) event.getEntity());
             if (event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
+            sendFailureMessage((ServerPlayer) event.getEntity());
         }
     }
     @SubscribeEvent
@@ -122,9 +125,9 @@ public class PermissionEvents {
 
         final boolean runFail = !group.get().canDo(perms.get(0).getId());
         if (runFail) { //Group may not run this
-            sendFailureMessage((ServerPlayer) event.getEntity());
             if (event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
+            sendFailureMessage((ServerPlayer) event.getEntity());
         }
     }
     @SubscribeEvent
@@ -139,9 +142,9 @@ public class PermissionEvents {
 
         final boolean runFail = !group.get().canDo(perms.get(0).getId());
         if (runFail) { //Group may not run this
-            sendFailureMessage((ServerPlayer) event.getEntity());
             if (event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
+            sendFailureMessage((ServerPlayer) event.getEntity());
         }
     }
 
@@ -157,15 +160,15 @@ public class PermissionEvents {
         );
 
         if (runFail) {
-            sendFailureMessage((ServerPlayer) event.getEntity());
             if (event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
+            sendFailureMessage((ServerPlayer) event.getEntity());
         }
     }
 
     @SubscribeEvent
     public void onDrop(final ItemTossEvent event) {
-        final Optional<IslandGroup> group = verifyPermissionAndGroup(event.getEntity(), event);
+        final Optional<IslandGroup> group = verifyPermissionAndGroup(event.getPlayer(), event);
         if (group.isEmpty()) return;
 
         final boolean runFail = processPermissions(
@@ -175,9 +178,12 @@ public class PermissionEvents {
         );
 
         if (runFail) {
-            sendFailureMessage((ServerPlayer) event.getEntity());
             if (event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
+            sendFailureMessage((ServerPlayer) event.getPlayer());
+
+            event.getPlayer().addItem(event.getEntityItem().getItem());
+            event.getPlayer().getInventory().setChanged();
         }
     }
 
@@ -193,9 +199,9 @@ public class PermissionEvents {
         );
 
         if (runFail) {
-            sendFailureMessage((ServerPlayer) event.getEntity());
             if (event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
+            sendFailureMessage((ServerPlayer) event.getEntity());
         }
     }
 
@@ -211,9 +217,9 @@ public class PermissionEvents {
         );
 
         if (runFail) {
-            sendFailureMessage((ServerPlayer) event.getEntity());
             if (event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
+            sendFailureMessage((ServerPlayer) event.getEntity());
         }
     }
 
@@ -221,12 +227,27 @@ public class PermissionEvents {
     public void onRightClickBlock(final PlayerInteractEvent.RightClickBlock event) {
         final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(!PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) {
-            if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(), (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), event.getEntity().isShiftKeyDown() ? "onRightClickBlockShifted" : "onRightClickBlock")) {
+            String trigger = "onRightClickBlock";
+            final BlockState state = event.getWorld().getBlockState(event.getPos());
+
+            if(event.getEntity().isShiftKeyDown() && !event.getItemStack().isEmpty()) { //Item in hand forced shift, forces PLACE BLOCK
+                trigger = "onPlaceBlock";
+            } else {
+                final FakePlayer p = FakePlayerFactory.getMinecraft((ServerLevel) event.getWorld());
+                if(state.use(event.getWorld(), p, event.getHand(), event.getHitVec()) == InteractionResult.PASS) {
+                    trigger = "onPlaceBlock";
+                }
+                p.kill();
+            }
+
+            if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(), (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(),  trigger)) {
                 event.getPlayer().displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
                 if(event.isCancelable()) event.setCanceled(true);
                 else event.setResult(Event.Result.DENY);
             }
         }
+
+        //Nether portal ignition check from nether to over-world
         if(!PermissionManager.verifyNetherEntity(event.getEntity(), standingOn, event.getPos()).asBoolean()) {
             final ItemStack item = event.getItemStack();
             if(!item.isEmpty() && item.getItem() == Items.FLINT_AND_STEEL) {
@@ -269,7 +290,7 @@ public class PermissionEvents {
         final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
 
-        if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(), (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), event.getEntity().isShiftKeyDown() ? "onLeftClickBlockShifted" : "onLeftClickBlock")) {
+        if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(), (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), "onLeftClickBlock")) {
             event.getPlayer().displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
             if(event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
@@ -289,7 +310,7 @@ public class PermissionEvents {
 
     @SubscribeEvent
     public void onAttack(final AttackEntityEvent event) {
-        final Optional<IslandGroup> group = verifyPermissionAndGroup(event.getEntity(), event);
+        final Optional<IslandGroup> group = verifyPermissionAndGroup(event.getPlayer(), event);
         if (group.isEmpty()) return;
 
         final boolean runFail = processPermissions(
@@ -300,9 +321,9 @@ public class PermissionEvents {
         );
 
         if (runFail) {
-            sendFailureMessage((ServerPlayer) event.getEntity());
             if (event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
+            sendFailureMessage((ServerPlayer) event.getPlayer());
         }
     }
 
@@ -319,9 +340,9 @@ public class PermissionEvents {
         );
 
         if (runFail) {
-            sendFailureMessage((ServerPlayer) event.getEntity());
             if (event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
+            sendFailureMessage((ServerPlayer) event.getEntity());
         }
     }
 
@@ -341,9 +362,9 @@ public class PermissionEvents {
         );
 
         if (runFail) {
-            sendFailureMessage((ServerPlayer) event.getEntity());
             if (event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
+            sendFailureMessage((ServerPlayer) event.getEntity());
 
             final ServerPlayer player = (ServerPlayer) event.getEntity();
             final double radianYaw = Math.toRadians(player.getYRot());
@@ -355,13 +376,15 @@ public class PermissionEvents {
 
     private Optional<IslandGroup> verifyPermissionAndGroup(final Entity entity, final Event event) {
         final AtomicReference<Island> standingOn = new AtomicReference<>();
-        if (PermissionManager.verifyEntity(entity, standingOn).asBoolean()) return Optional.empty();
+        if (PermissionManager.verifyEntity(entity, standingOn).asBoolean()) {
+            return Optional.empty();
+        }
 
         final Optional<IslandGroup> group = standingOn.get().getGroupForEntity(entity);
         if (group.isEmpty()) {
-            sendFailureMessage((ServerPlayer) entity);
             if (event.isCancelable()) event.setCanceled(true);
             else event.setResult(Event.Result.DENY);
+            sendFailureMessage((ServerPlayer) entity);
             return Optional.empty();
         }
 

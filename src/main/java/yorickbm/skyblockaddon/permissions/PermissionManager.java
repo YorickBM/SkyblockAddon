@@ -74,6 +74,7 @@ public class PermissionManager {
         boolean foundNonNegatedMatch = false;
         boolean onlyNegations = true; // Track if all rules are negated
 
+        if(rules.isEmpty()) return MatchResult.BLOCK; //If its EMPTY we always block
         for (final String rule : rules) {
             final boolean isNegation = rule.startsWith("!");
             final String patternString = isNegation ? rule.substring(1) : rule;
@@ -93,7 +94,7 @@ public class PermissionManager {
         }
 
         // If no non-negated matches were found, and all rules were negations, return BLOCK
-        return foundNonNegatedMatch ? MatchResult.BLOCK : (onlyNegations ? MatchResult.BLOCK : MatchResult.SKIP);
+        return foundNonNegatedMatch ? MatchResult.BLOCK : (onlyNegations ? MatchResult.BLOCK : MatchResult.ALLOW);
     }
 
     /**
@@ -198,10 +199,6 @@ public class PermissionManager {
             final List<String> blocksData = perm.getData().getBlocksData();
             final BlockState clickedState = world.getBlockState(position);
 
-            final boolean isShifted = trigger.endsWith("Shifted");
-            final boolean SkipBlocks = perm.getData().getSkyblockaddonData().contains("permission:shifted_ignore_blocks");
-            final boolean SkipItems = perm.getData().getSkyblockaddonData().contains("permission:shifted_ignore_items");
-
             // Determine default
             if(itemsData.isEmpty() && blocksData.isEmpty()) {
                 runFail = true;
@@ -211,28 +208,28 @@ public class PermissionManager {
             boolean itemAllowed = true;
             boolean blockAllowed = true;
 
-            if(!handItem.isEmpty() && !itemsData.isEmpty() && !(isShifted && SkipItems)) {
+            if(!handItem.isEmpty() && !itemsData.isEmpty()) {
                 final String item = Objects.requireNonNull(handItem.getItem().getRegistryName()).toString();
 
                 final MatchResult rslt = PermissionManager.checkMatch(itemsData, item);
-                SkyblockAddon.CustomDebugMessages(LOGGER, item + " is " + rslt + " on " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim());
+                SkyblockAddon.CustomDebugMessages(LOGGER, "i) " + item + " is " + rslt + " on " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim());
                 switch(rslt) {
-                    case SKIP, ALLOW-> { }
+                    case SKIP, ALLOW -> { }
                     case BLOCK ->  itemAllowed = false;
                 }
-            } else if(isShifted && SkipItems) itemAllowed = false;
+            }
 
-            if(!clickedState.isAir() && !blocksData.isEmpty() && !(isShifted && SkipBlocks)) {
+            if(!clickedState.isAir() && !blocksData.isEmpty()) {
                 final Block clickedBlock = clickedState.getBlock();
                 final String block = Objects.requireNonNull(clickedBlock.getRegistryName()).toString();
 
                 final MatchResult rslt = PermissionManager.checkMatch(blocksData, block);
-                SkyblockAddon.CustomDebugMessages(LOGGER, block + " is " + rslt + " on " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim());
+                SkyblockAddon.CustomDebugMessages(LOGGER, "b) " + block + " is " + rslt + " on " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim());
                 switch(rslt) {
                     case SKIP, ALLOW-> { }
                     case BLOCK ->  blockAllowed = false;
                 }
-            } else if(isShifted && SkipBlocks) blockAllowed = false;
+            }
 
             runFail = (!blockAllowed || !itemAllowed);
         }

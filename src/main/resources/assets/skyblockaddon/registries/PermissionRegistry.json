@@ -53,19 +53,109 @@
       },
       "category": "General",
       "triggers": [
-        "onRightClickBlock",
-        "onRightClickBlockShifted",
+        "onPlaceBlock",
         "onUse"
+      ],
+      "data": {
+        "skyblockaddon": [],
+        "items": [
+          "!easy_villagers:villager",
+          "!.*:.*_spawn_egg",
+          "supplementaries:slingshot"
+        ],
+        "blocks": [
+          ".*:.*"
+        ],
+        "entities": []
+      }
+    },
+    {
+      "id": "destroy_blocks",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Destory Blocks\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:IRON_PICKAXE",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "General",
+      "triggers": [
+        "onLeftClickBlock",
+        "onAttack",
+        "onQuarkPickarangMixin"
       ],
       "data": {
         "skyblockaddon": [
           "permission:shifted_ignore_blocks"
         ],
         "items": [
-          "!easy_villagers:villager",
-          "!.*:.*_spawn_egg",
-          "supplementaries:slingshot"
+          "quark:flamerang",
+          "quark:pickarang"
         ],
+        "blocks": [
+          "!storagedrawers:.*",
+          "!the_vault:animal_pen"
+        ],
+        "entities": [
+          "minecraft:minecart",
+          "minecraft:chest_minecart",
+          "minecraft:furnace_minecart",
+          "minecraft:tnt_minecart",
+          "minecraft:hopper_minecart",
+          "minecraft:oak_boat",
+          "minecraft:spruce_boat",
+          "minecraft:birch_boat",
+          "minecraft:jungle_boat",
+          "minecraft:acacia_boat",
+          "minecraft:dark_oak_boat",
+          "twigs:stripped_bamboo_boat",
+          "supplementaries:dispenser_minecart",
+          "quark:blossom_boat",
+          "quark:azalea_boat",
+          "minecraft:armor_stand",
+          "minecraft:item_frame",
+          "minecraft:glow_item_frame"
+        ]
+      }
+    },
+    {
+      "id": "interact_generic",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Interact with stations\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:crafting_table",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": [
+        "onRightClickBlock"
+      ],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
         "blocks": [
           "!waystones:waystone",
           "!.*:.*_chest",
@@ -123,70 +213,10 @@
           "!the_vault:animatrix_block",
           "!the_vault:ascension_forge",
           "!the_vault:transmog_table",
-          "!the_vault:skill_altar"
+          "!the_vault:skill_altar",
+          "!the_vault:jewel_crafting_table"
         ],
         "entities": []
-      }
-    },
-    {
-      "id": "destroy_blocks",
-      "item": {
-        "display_name": [
-          "{\"text\": \"Destory Blocks\", \"color\":\"blue\", \"bold\":\"true\"}"
-        ],
-        "item": "minecraft:IRON_PICKAXE",
-        "lore": [
-          [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
-          ],
-          [
-            "{\"text\":\" \",\"color\":\"dark_gray\"}"
-          ],
-          [
-            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
-          ]
-        ]
-      },
-      "category": "General",
-      "triggers": [
-        "onLeftClickBlock",
-        "onLeftClickBlockShifted",
-        "onAttack",
-        "onQuarkPickarangMixin"
-      ],
-      "data": {
-        "skyblockaddon": [
-          "permission:shifted_ignore_blocks"
-        ],
-        "items": [
-          "quark:flamerang",
-          "quark:pickarang"
-        ],
-        "blocks": [
-          "!storagedrawers:.*",
-          "!the_vault:animal_pen"
-        ],
-        "entities": [
-          "minecraft:minecart",
-          "minecraft:chest_minecart",
-          "minecraft:furnace_minecart",
-          "minecraft:tnt_minecart",
-          "minecraft:hopper_minecart",
-          "minecraft:oak_boat",
-          "minecraft:spruce_boat",
-          "minecraft:birch_boat",
-          "minecraft:jungle_boat",
-          "minecraft:acacia_boat",
-          "minecraft:dark_oak_boat",
-          "twigs:stripped_bamboo_boat",
-          "supplementaries:dispenser_minecart",
-          "quark:blossom_boat",
-          "quark:azalea_boat",
-          "minecraft:armor_stand",
-          "minecraft:item_frame",
-          "minecraft:glow_item_frame"
-        ]
       }
     },
     {
@@ -909,6 +939,7 @@
       "category": "Interactables",
       "triggers": [
         "onRightClickBlock",
+        "onRightClickBlockShifted",
         "onLeftClickBlock"
       ],
       "data": {
@@ -1245,6 +1276,8 @@
             "{\"text\":\", \",\"color\":\"dark_gray\"}",
             "{\"text\":\"Jewel Application Station\",\"color\":\"white\"}",
             "{\"text\":\", \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Jewel Crafting Station\",\"color\":\"white\"}",
+            "{\"text\":\", \",\"color\":\"dark_gray\"}",
             "{\"text\":\"Vault Anvil\",\"color\":\"white\"}",
             "{\"text\":\".\",\"color\":\"dark_gray\"}"
           ]
@@ -1263,7 +1296,8 @@
           "the_vault:vault_artisan_station",
           "the_vault:vault_jewel_cutting_station",
           "the_vault:vault_jewel_application_station",
-          "the_vault:vault_anvil"
+          "the_vault:vault_anvil",
+          "the_vault:jewel_crafting_table"
         ],
         "entities": []
       }
