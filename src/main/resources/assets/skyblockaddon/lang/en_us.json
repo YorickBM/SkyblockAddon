@@ -54,7 +54,7 @@
 
   "menu.not.found": "Could not find the menu %s you are trying to open.",
   "gui.group.default.name": "Members",
-  "gui.group.nonmember.name": "Default",
+  "gui.group.nonmember.name": "Visitors",
   "toolbar.overlay.nothere": "You can not do this here.",
 
   "island.biome": "Your island biome has changed into %s.",
