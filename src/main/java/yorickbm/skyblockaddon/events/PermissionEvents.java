@@ -352,10 +352,12 @@ public class PermissionEvents {
         final Optional<IslandGroup> group = verifyPermissionAndGroup(event.getEntity(), event);
         if (group.isEmpty()) return;
 
+        LOGGER.info(event.getDimension().location().toString());
+
         final boolean runFail = processPermissions(
                 group,
                 "onPlayerChangedDimension",
-                event.getDimension().getRegistryName().toString(),
+                event.getDimension().location().toString(),
                 data -> data.getSkyblockaddonData().stream()
                         .filter(s -> s.startsWith("dimension:"))
                         .map(s -> s.replace("dimension:", ""))
