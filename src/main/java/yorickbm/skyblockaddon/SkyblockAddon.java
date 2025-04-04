@@ -82,6 +82,10 @@ public class SkyblockAddon {
         if(SkyblockAddonConfig.getForKey("island.particles.border").equalsIgnoreCase("TRUE")) MinecraftForge.EVENT_BUS.register(new ParticleEvents());
     }
 
+    public static void CustomDebugMessages(final Logger log, final String msg) {
+        if(SkyblockAddonConfig.getForKey("permissions.debug").equalsIgnoreCase("TRUE")) log.info(msg);
+    }
+
     /**
      * Inter Mod Communications.
      * Checks against Terralith

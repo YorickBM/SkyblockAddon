@@ -17,6 +17,8 @@ public class SkyblockAddonConfig {
         register("island.spawn.height", "110", "Define bottom height of your island.NBT to spawn at.");
         register("island.particles.border", "TRUE", "Enable/Disable the particle border that is generated at island buildable edge.");
 
+        register("permissions.debug", "FALSE", "Print debug messages on island permission events into console. This helps verifying and adding new permissions into your configuration.");
+
         BUILDER.pop();
         SPEC = BUILDER.build();
     }
