@@ -36,4 +36,11 @@ public class SkyblockAddonConfig {
             return key; //Return lookup value if not found
         return values.get(key).get(); //Return value from config
     }
+
+    public static boolean setValueForKey(final String key, final String value) {
+        if (!values.containsKey(key)) return false;
+        values.get(key).set(value);
+        return true;
+    }
+
 }

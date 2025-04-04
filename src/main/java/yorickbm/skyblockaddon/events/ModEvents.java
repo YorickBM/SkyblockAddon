@@ -48,6 +48,7 @@ public class ModEvents {
         new AdminTeleportCommand(event.getDispatcher());
         new ConfigReloadCommand(event.getDispatcher());
         new AdminAddMemberCommand(event.getDispatcher());
+        new DebugCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
         LOGGER.info("Registered commands for " + SkyblockAddon.MOD_ID);
