@@ -1117,39 +1117,6 @@
       }
     },
     {
-      "id": "redstone_pressure_plates",
-      "item": {
-        "display_name": [
-          "{\"text\": \"Pressure Plates\", \"color\":\"blue\", \"bold\":\"true\"}"
-        ],
-        "item": "minecraft:stone_pressure_plate",
-        "lore": [
-          [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
-          ],
-          [
-            "{\"text\":\" \",\"color\":\"dark_gray\"}"
-          ],
-          [
-            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
-          ]
-        ]
-      },
-      "category": "Redstone",
-      "triggers": [
-        "onRightClickBlock"
-      ],
-      "data": {
-        "skyblockaddon": [],
-        "items": [],
-        "blocks": [
-          ".*:.*_pressure_plate"
-        ],
-        "entities": []
-      }
-    },
-    {
       "id": "redstone_hoppers",
       "item": {
         "display_name": [
