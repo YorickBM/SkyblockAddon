@@ -46,8 +46,12 @@ public class PlayerEvents {
     public void onJoin(final PlayerEvent.PlayerLoggedInEvent event) {
         if(!event.getPlayer().hasPermissions(Commands.LEVEL_GAMEMASTERS)) return; //Only run for Gamemasters+ since they may purge
         event.getPlayer().getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            event.getPlayer().displayClientMessage(
-                    new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("admin.purge.data"), cap.getPurgableIslands().size())).withStyle(ChatFormatting.DARK_RED), true
+            final int purgable = cap.getPurgableIslands().size();
+            if(purgable < 12) return; //Don't bother with less than 12 to notify.
+
+            event.getPlayer().sendMessage(
+                    new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("admin.purge.data"), purgable)).withStyle(ChatFormatting.DARK_RED),
+                    event.getPlayer().getUUID()
             );
         });
     }
