@@ -59,6 +59,8 @@ public class SkyblockAddon {
     public static final int ISLAND_BUFFER = 200;
     public static final int ISLAND_SIZE = 400;
 
+    public static final int DEFAULT_CREATE_COOLDOWN = 5;
+
     public SkyblockAddon() {
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::processIMC);
