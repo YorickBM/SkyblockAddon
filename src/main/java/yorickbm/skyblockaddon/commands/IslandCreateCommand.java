@@ -113,5 +113,5 @@ public class IslandCreateCommand extends OverWorldCommandStack {
 
         // Round up
         return Math.max(0, (timeLeftMs + 999) / 1000);
-
+    }
 }
