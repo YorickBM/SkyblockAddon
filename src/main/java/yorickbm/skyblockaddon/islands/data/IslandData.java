@@ -254,4 +254,19 @@ public class IslandData implements NBTSerializable {
     public void updateName() {
         UsernameCache.get(getOwner()).thenAccept(r -> this.name = r);
     }
+
+    /**
+     * Determine whether there are still members and/or an owner present on the island.
+     * @return true - if abandoned
+     */
+    public boolean isAbandoned() {
+        final boolean hasOwner = this.getOwner() != SkyblockAddon.MOD_UUID;
+        final boolean hasMembers = !this.getMembers().isEmpty();
+
+        //If members found, but no owner we make a random member owner
+        //Should not be possible but here to protect against edge cases.
+        if(!hasOwner && hasMembers) this.getMembers().stream().findFirst().ifPresent(this::setOwner);
+
+        return !hasOwner && !hasMembers;
+    }
 }

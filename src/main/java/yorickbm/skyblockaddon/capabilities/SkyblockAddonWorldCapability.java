@@ -35,6 +35,8 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 
 public class SkyblockAddonWorldCapability {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -289,5 +291,12 @@ public class SkyblockAddonWorldCapability {
         //Register island into cache
         CACHE_islandByPlayerUUID.put(entity, Optional.of(island.getId()));
         CACHE_islandByBoundingBox.put(island.getIslandBoundingBox(), Optional.of(island.getId()));
+    }
+
+    public List<UUID> getPurgableIslands() {
+        return islandsByUUID.entrySet().stream() // Create a stream of map entries
+                .filter(entry -> entry.getValue().isAbandoned()) // Filter entries where island is abandoned
+                .map(Map.Entry::getKey) // Map to the UUID (key) of the entry
+                .collect(Collectors.toList()); // Collect into a List<UUID>
     }
 }
