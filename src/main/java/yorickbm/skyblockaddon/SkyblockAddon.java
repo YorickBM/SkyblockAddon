@@ -19,6 +19,7 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.maven.artifact.versioning.ComparableVersion;
 import yorickbm.guilibrary.GUILibraryRegistry;
 import yorickbm.guilibrary.events.DefaultEventHandler;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
@@ -45,7 +46,6 @@ import java.util.stream.Collectors;
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(SkyblockAddon.MOD_ID)
 public class SkyblockAddon {
-
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
     public static final UUID MOD_UUID = UUID.fromString("36916271-8ff4-483c-9379-bde032a01270");
@@ -138,12 +138,7 @@ public class SkyblockAddon {
                 })
         );
 
-        // Check mod version
-        final Optional<? extends ModContainer> modContainer = ModList.get().getModContainerById(MOD_ID);
-        if (modContainer.isPresent()) {
-            final VersionChecker.CheckResult result = VersionChecker.getResult(modContainer.get().getModInfo());
-            LOGGER.info("Vaulthunters Skyblock addon v{} ({}) has loaded!", VERSION, result.status().name());
-        }
+        LOGGER.info("Vaulthunters Skyblock addon v{} has loaded!", VERSION);
     }
 
     /**
