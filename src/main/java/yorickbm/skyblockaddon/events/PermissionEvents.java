@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
@@ -26,6 +27,7 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import vazkii.quark.content.building.entity.GlassItemFrame;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.islands.Island;
@@ -222,6 +224,19 @@ public class PermissionEvents {
             else event.setResult(Event.Result.DENY);
             sendFailureMessage((ServerPlayer) event.getEntity());
         }
+    }
+
+    @SubscribeEvent
+    public void onClickEntity(PlayerInteractEvent.EntityInteract event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
+        if(!PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) {
+            if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(), (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(),  "onRightClickEntity")) {
+                event.getPlayer().displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
+                if(event.isCancelable()) event.setCanceled(true);
+                else event.setResult(Event.Result.DENY);
+            }
+        }
+
     }
 
     @SubscribeEvent
