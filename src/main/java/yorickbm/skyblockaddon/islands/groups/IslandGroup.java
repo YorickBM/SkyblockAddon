@@ -4,6 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import yorickbm.skyblockaddon.permissions.PermissionManager;
+import yorickbm.skyblockaddon.permissions.util.Permission;
 import yorickbm.skyblockaddon.util.NBT.IsUnique;
 import yorickbm.skyblockaddon.util.NBT.NBTSerializable;
 import yorickbm.skyblockaddon.util.NBT.NBTUtil;
@@ -24,7 +25,7 @@ public class IslandGroup implements IsUnique, NBTSerializable {
         this.item = new ItemStack(Items.PAPER);
 
         PermissionManager.getInstance().getPermissions().forEach(p -> {
-            this.permissions.put(p.getId(), false);
+            this.permissions.put(p.getId(), p.getData().getDefault());
         });
     }
     public IslandGroup(final UUID uuid, final ItemStack item, final boolean allowAll) {
@@ -32,7 +33,7 @@ public class IslandGroup implements IsUnique, NBTSerializable {
         this.item = item;
 
         PermissionManager.getInstance().getPermissions().forEach(p -> {
-            this.permissions.put(p.getId(), allowAll);
+            this.permissions.put(p.getId(), p.getData().getDefault() ? true : allowAll);
         });
     }
 
@@ -99,7 +100,14 @@ public class IslandGroup implements IsUnique, NBTSerializable {
     }
 
     public boolean canDo(final String id) {
-        if(!this.permissions.containsKey(id)) return false;
+        if(!this.permissions.containsKey(id)) {
+            Optional<Permission> perm = PermissionManager.getInstance().getPermissions().stream().filter(p -> p.getId().equalsIgnoreCase(id)).findFirst();
+            if(perm.isEmpty()) return false;
+
+            //Add permission into list for session with default.
+            this.permissions.put(id, perm.get().getData().getDefault());
+            return perm.get().getData().getDefault();
+        }
         return this.permissions.get(id);
     }
     public void setPermission(final String id, final boolean value) {
