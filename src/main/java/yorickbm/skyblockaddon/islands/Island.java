@@ -115,7 +115,7 @@ public class Island extends IslandData implements IsUnique, NBTSerializable {
      * @param entity - UUID of entity to add
      */
     public boolean addMember(final Entity source, final UUID entity) {
-        super.addMember(entity, SkyblockAddon.MOD_UUID);
+        if(!super.addMember(entity, SkyblockAddon.MOD_UUID)) return false;
 
         //Teleport entity to island
         final ServerPlayer player = Objects.requireNonNull(source.getServer()).getPlayerList().getPlayer(entity); //Get entity from online player list

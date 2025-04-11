@@ -55,8 +55,8 @@ public class IslandInviteCommand extends OverWorldCommandStack {
                     targetIsland.kickMember(target, target.getUUID()); //Kick himself off the island.
                 }
 
-                if(sourceIsland.addMember(executor, target.getUUID())) {
-                    target.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.invite.failure").formatted(executor.getDisplayName().getString(), sourceIsland.getOwner())).withStyle(ChatFormatting.RED), target.getUUID());
+                if(!sourceIsland.addMember(executor, target.getUUID())) {
+                    target.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.invite.failure").formatted(executor.getDisplayName().getString(), UsernameCache.getBlocking(sourceIsland.getOwner()))).withStyle(ChatFormatting.RED), target.getUUID());
                     return true;
                 }
 

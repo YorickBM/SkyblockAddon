@@ -260,7 +260,7 @@ public class IslandData implements NBTSerializable {
      * @return true - if abandoned
      */
     public boolean isAbandoned() {
-        final boolean hasOwner = this.getOwner() != SkyblockAddon.MOD_UUID;
+        final boolean hasOwner = !this.getOwner().equals(SkyblockAddon.MOD_UUID);
         final boolean hasMembers = !this.getMembers().isEmpty();
 
         //If members found, but no owner we make a random member owner
