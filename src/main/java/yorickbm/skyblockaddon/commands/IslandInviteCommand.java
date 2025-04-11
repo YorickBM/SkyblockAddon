@@ -46,6 +46,11 @@ public class IslandInviteCommand extends OverWorldCommandStack {
                 return;
             }
 
+            if (cap.getIslandByEntityUUID(target.getUUID()) != null) {
+                command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.invite.has.island").formatted(UsernameCache.getBlocking(target.getUUID()))));
+                return;
+            }
+
             final UUID functionKey = UUID.randomUUID();
             FunctionRegistry.registerFunction(functionKey, (e) -> {
                 if(super.execute(command, e) == 0) return true;
