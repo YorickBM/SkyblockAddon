@@ -1,5 +1,5 @@
 {
-  "required": false,
+  "required": true,
   "package": "yorickbm.skyblockaddon.mixins",
   "compatibilityLevel": "JAVA_11",
   "minVersion": "0.8",
@@ -8,7 +8,8 @@
   },
   "server": [
     "QuarkPickarangMixinConfig",
-    "QuarkScreenMixinConfig"
+    "QuarkScreenMixinConfig",
+    "QuarkGlassFrameMixinConfig"
   ],
   "refmap": "skyblockaddon.refmap.json"
 }
