@@ -147,8 +147,8 @@ public class IslandData implements NBTSerializable {
      */
     public BoundingBox getIslandBoundingBox() {
         final int size = SkyblockAddon.ISLAND_SIZE;
-        final BlockPos blockpos = BiomeUtil.quantize(new BlockPos(center.getX() - size, -100, center.getZ() - size));
-        final BlockPos blockpos1 = BiomeUtil.quantize(new BlockPos(center.getX() + size, 350, center.getZ() + size));
+        final BlockPos blockpos = BiomeUtil.quantize(new BlockPos(center.getX() - size, -450, center.getZ() - size));
+        final BlockPos blockpos1 = BiomeUtil.quantize(new BlockPos(center.getX() + size, 450, center.getZ() + size));
         return BoundingBox.fromCorners(blockpos, blockpos1);
     }
 
