@@ -29,6 +29,7 @@
   "commands.invite.accepted": "%s has joined your island.",
   "commands.invite.teleporting": "Teleporting you to your island.",
   "commands.invite.failure": "%s could not add you to %s's island. Try again another time.",
+  "commands.invite.has.island": "%s is already part of an island, they have to leave it before you may invite them.",
 
   "commands.request.self": "You cannot request yourself to teleport to your own island, sorry.",
   "commands.request.other": "Teleporting you to %s's island...",
