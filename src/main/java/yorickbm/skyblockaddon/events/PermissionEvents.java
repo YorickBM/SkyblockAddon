@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -21,6 +22,7 @@ import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -29,6 +31,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import vazkii.quark.content.building.entity.GlassItemFrame;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldCapability;
+import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.islands.groups.IslandGroup;
@@ -408,12 +412,38 @@ public class PermissionEvents {
         return group;
     }
 
+    @SubscribeEvent
+    public void onMobSpawn(LivingSpawnEvent.CheckSpawn event) {
+        EntityType<?> entityType = event.getEntity().getType();
+        final Optional<SkyblockAddonWorldCapability> cap = event.getEntity().getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).resolve();
+        if(cap.isEmpty()) return;
+
+        final Island island = cap.get().getIslandPlayerIsStandingOn(event.getEntity());
+        if(island == null) return;
+
+        final boolean runFail = processPermissions(
+                island.getGroupForEntity(event.getEntity()),
+                (entityType.getCategory() == MobCategory.MONSTER ? "OnHostileMobSpawn" : "OnPassiveMobSpawn"),
+                event.getEntity().getType().toString(),
+                PermissionDataHolder::getEntitiesData,
+                false
+        );
+
+        if(runFail) {
+            event.setResult(Event.Result.DENY);
+            if(event.isCancelable()) event.setCanceled(true);
+        }
+    }
+
     private boolean processPermissions(final Optional<IslandGroup> group, final String trigger, final String matchValue, final Function<PermissionDataHolder, List<String>> dataExtractor) {
-        SkyblockAddon.CustomDebugMessages(LOGGER, trigger);
+        return this.processPermissions(group, trigger, matchValue, dataExtractor, true);
+    }
+        private boolean processPermissions(final Optional<IslandGroup> group, final String trigger, final String matchValue, final Function<PermissionDataHolder, List<String>> dataExtractor, boolean log) {
+        if(log) SkyblockAddon.CustomDebugMessages(LOGGER, trigger);
 
         final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger(trigger);
         if (perms.isEmpty()) {
-            SkyblockAddon.CustomDebugMessages(LOGGER, "No permissions found for trigger (ALLOWED)");
+            if(log) SkyblockAddon.CustomDebugMessages(LOGGER, "No permissions found for trigger (ALLOWED)");
             return false; // No permission to protect against
         }
         if(group.isEmpty()) return false; //No group present should have failed before
@@ -421,18 +451,18 @@ public class PermissionEvents {
         boolean runFail = false;
         for (final Permission perm : perms) {
             if (group.get().canDo(perm.getId())) {
-                SkyblockAddon.CustomDebugMessages(LOGGER, "action is ALLOWED on " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim() + "");
+                if(log) SkyblockAddon.CustomDebugMessages(LOGGER, "action is ALLOWED on " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim() + "");
                 continue;
             }
             if (runFail) break;
 
             final List<String> data = dataExtractor.apply(perm.getData());
             if (data.isEmpty()) {
-                SkyblockAddon.CustomDebugMessages(LOGGER, "action is BLOCKED on " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim() + "");
+                if(log) SkyblockAddon.CustomDebugMessages(LOGGER, "action is BLOCKED on " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim() + "");
                 runFail = true;
             } else {
                 final MatchResult rslt = PermissionManager.checkMatch(data, matchValue);
-                SkyblockAddon.CustomDebugMessages(LOGGER, matchValue + " is " + rslt + " on " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim());
+                if(log) SkyblockAddon.CustomDebugMessages(LOGGER, matchValue + " is " + rslt + " on " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim());
                 switch (rslt) {
                     case SKIP, ALLOW -> { continue; }
                     case BLOCK -> runFail = true;
