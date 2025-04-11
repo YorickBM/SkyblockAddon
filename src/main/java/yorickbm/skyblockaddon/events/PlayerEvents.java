@@ -14,23 +14,26 @@ import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.islands.Island;
 
 public class PlayerEvents {
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onVoidFall(final LivingDamageEvent event) {
         if(event.getSource().equals(DamageSource.OUT_OF_WORLD)) {
             final Entity entity = event.getEntity();
+
             if(entity instanceof ServerPlayer || entity instanceof DollMiniMeEntity || entity instanceof SpiritEntity) {
                 if(entity.getLevel().dimension() != Level.OVERWORLD) return; //Ignore non overworld events
 
                 entity.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
                     final Island island = cap.getIslandPlayerIsStandingOn(entity);
                     if(island == null) return;
-
                     event.setCanceled(true); //Cancel damage
 
                     entity.resetFallDistance();
