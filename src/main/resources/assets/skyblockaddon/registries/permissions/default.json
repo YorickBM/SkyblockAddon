@@ -635,6 +635,40 @@
       }
     },
     {
+      "id": "interact_item_frame",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Interact with Item Frames\", \"color\":\"blue\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:ITEM_FRAME",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": [
+        "onRightClickEntity"
+      ],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [
+          ".*:item_frame",
+          ".*:.*_item_frame"
+        ],
+        "entities": []
+      }
+    },
+    {
       "id": "interact_misc",
       "item": {
         "display_name": [
