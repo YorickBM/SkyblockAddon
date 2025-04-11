@@ -50,6 +50,10 @@ public class GuiEvents {
                 event.setCanceled(shouldCancel);
             }
 
+            if(event.getItemHolder().hasCondition("is_op")) {
+                event.setCanceled(!event.getHolder().getOwner().hasPermissions(Commands.LEVEL_ADMINS));
+            }
+
             if(event.getItemHolder().hasCondition("is_part")) {
                 event.setCanceled(!island.isPartOf(event.getHolder().getOwner().getUUID()));
             } else if(event.getItemHolder().hasCondition("!is_part")) {
