@@ -23,7 +23,7 @@ public class AdminAddMemberCommand {
     public AdminAddMemberCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("island")
             .then(Commands.literal("admin")
-                .requires(source -> source.getEntity() instanceof ServerPlayer && source.hasPermission(Commands.LEVEL_GAMEMASTERS))
+                .requires(source -> source.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(Commands.literal("addMember")
                     .then(Commands.argument("islandId", UuidArgument.uuid())
                         .then(Commands.argument("player", EntityArgument.player())
