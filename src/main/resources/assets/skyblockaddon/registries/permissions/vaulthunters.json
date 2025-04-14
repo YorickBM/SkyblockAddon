@@ -149,11 +149,14 @@
           "!the_vault:.*_chest_placeable",
           "!colossalchests:.*",
           "!minecraft:shulker_box",
+          "!minecraft:.*_shulker_box",
           "!sophisticatedbackpacks:.*",
           "!.*:.*_door",
           "!.*:.*_trapdoor",
           "!easy_villagers:.*",
           "!storagedrawers:.*",
+          "!ae2:.*",
+          "!refinedstorage:.*",
           "!.*:.*_spawn_egg",
           "!the_vault:animal_pen",
           "!minecraft:repeater",
@@ -506,14 +509,13 @@
         ]
       },
       "category": "Storage",
-      "triggers": [
-        "onRightClickBlock"
-      ],
+      "triggers": [ "onRightClickBlock" ],
       "data": {
         "skyblockaddon": [],
         "items": [],
         "blocks": [
-          "minecraft:shulker_box"
+          "minecraft:shulker_box",
+          "minecraft:.*_shulker_box"
         ],
         "entities": []
       }
@@ -573,9 +575,7 @@
         ]
       },
       "category": "Storage",
-      "triggers": [
-        "onRightClickBlock"
-      ],
+      "triggers": [ "onRightClickBlock" ],
       "data": {
         "skyblockaddon": [],
         "items": [],
@@ -606,7 +606,7 @@
         ]
       },
       "category": "Storage",
-      "triggers": [],
+      "triggers": [ "onRightClickBlock" ],
       "data": {
         "skyblockaddon": [],
         "items": [],
@@ -637,7 +637,7 @@
         ]
       },
       "category": "Storage",
-      "triggers": [],
+      "triggers": [ "onRightClickBlock" ],
       "data": {
         "skyblockaddon": [],
         "items": [],
@@ -668,9 +668,7 @@
         ]
       },
       "category": "Interactables",
-      "triggers": [
-        "onRightClickBlock"
-      ],
+      "triggers": [ "onRightClickBlock" ],
       "data": {
         "skyblockaddon": [],
         "items": [],
