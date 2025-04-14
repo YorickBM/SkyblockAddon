@@ -47,12 +47,12 @@ public class RegistryEvents extends GuiDrawFillerEvent {
 
         //Add all data as replaceable keys
         for(final String key : data.getAllKeys()) {
-            replacements.put("%data_"+key+"%", data.getString(key));
+            replacements.put("%data_"+key+"%", data.getString(key).trim());
         }
 
         //Add all Library Mod as replaceable keys
         for(final String key : holder.getData().getAllKeys()) {
-            replacements.put("%data_"+key+"%", holder.getData().getString(key));
+            replacements.put("%data_"+key+"%", holder.getData().getString(key).trim());
         }
 
         //Replace found data keys with their values
