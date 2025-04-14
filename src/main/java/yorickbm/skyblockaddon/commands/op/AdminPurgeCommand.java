@@ -19,10 +19,7 @@ import yorickbm.skyblockaddon.commands.interfaces.OverWorldCommandStack;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.permissions.PermissionManager;
-import yorickbm.skyblockaddon.util.ChunkClearer;
-import yorickbm.skyblockaddon.util.FunctionRegistry;
-import yorickbm.skyblockaddon.util.ResourceManager;
-import yorickbm.skyblockaddon.util.UsernameCache;
+import yorickbm.skyblockaddon.util.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -45,32 +42,46 @@ public class AdminPurgeCommand extends OverWorldCommandStack {
         if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
         executor.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            final List<UUID> purgable = cap.getPurgableIslands();
+            final List<UUID> purgable = cap.getPurgableIslands().stream().findFirst().stream().toList();;
 
             //Register purge function into registry
             final UUID functionKey = UUID.randomUUID();
             FunctionRegistry.registerFunction(functionKey, (e) -> {
 
-                final List<BoundingBox> boundingBoxes = purgable.stream()
+                final List<Island> islands = purgable.stream()
                         // Get Island objects for each UUID
                         .map(cap::getIslandByUUID)
                         // Filter only the abandoned islands
                         .filter(Island::isAbandoned)
-                        // Get the bounding box for each abandoned island
-                        .map(Island::getIslandBoundingBox)
                         // Collect all bounding boxes into a list
                         .collect(Collectors.toList());
 
-                // Once all bounding boxes are collected, pass them to the clearBlocksInBoundingBoxes method
-                final ChunkClearer destroyer = new ChunkClearer();
-                destroyer.clearBlocksInBoundingBoxes(executor.getLevel(), boundingBoxes);
+                //Create progressbar
+                final ProgressBar progressBar = new ProgressBar(executor, "Purging...", islands.size());
+                progressBar.start();
 
-                executor.sendMessage(
-                    new TextComponent(
-                            SkyBlockAddonLanguage.getLocalizedString("commands.admin.purge.done")
-                                    .formatted((purgable.size() - cap.getPurgableIslands().size()) + ""))
-                            .withStyle(ChatFormatting.GREEN),
-                    executor.getUUID());
+                // Once all bounding boxes are collected, pass them to the clearBlocksInBoundingBoxes method
+                IslandChunkManager manager = new IslandChunkManager(
+                        4,
+                        island -> {
+                            progressBar.finishedOne();
+                            //TODO: Remove NBT File
+                            //TODO: Remove island data from cache
+                            //TODO: Remove island data from persistent cache
+                        },
+                        () -> {
+                            progressBar.kill();
+                            executor.sendMessage(
+                                new TextComponent(
+                                        SkyBlockAddonLanguage.getLocalizedString("commands.admin.purge.done")
+                                                .formatted((purgable.size() - cap.getPurgableIslands().size()) + ""))
+                                        .withStyle(ChatFormatting.GREEN),
+                                executor.getUUID());
+                        }
+                );
+                manager.createDummies(islands, executor.getLevel(), executor, progressBar);
+
+
                 return true;
             }, 5); //Register function to purge under hash 'functionKey' for 5 minutes.
 
@@ -86,3 +97,6 @@ public class AdminPurgeCommand extends OverWorldCommandStack {
     }
 
 }
+
+//f6ad3af8-6861-4fd2-a512-024735d3403c -> -3005 150 -16017
+//c8adf14c-2238-48f0-9c66-c79bc5e9f464 -> 25993 121 22994
