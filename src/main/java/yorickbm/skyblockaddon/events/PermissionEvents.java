@@ -5,18 +5,14 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
@@ -29,7 +25,6 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import vazkii.quark.content.building.entity.GlassItemFrame;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldCapability;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
@@ -40,6 +35,7 @@ import yorickbm.skyblockaddon.permissions.MatchResult;
 import yorickbm.skyblockaddon.permissions.PermissionManager;
 import yorickbm.skyblockaddon.permissions.json.PermissionDataHolder;
 import yorickbm.skyblockaddon.permissions.util.Permission;
+import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.List;
 import java.util.Objects;
@@ -199,9 +195,11 @@ public class PermissionEvents {
         final Optional<IslandGroup> group = verifyPermissionAndGroup(event.getEntity(), event);
         if (group.isEmpty()) return;
 
+        ItemStack bucket = event.getFilledBucket() == null ? event.getEmptyBucket() : event.getFilledBucket();
+
         final boolean runFail = processPermissions(
                 group, "onBucket",
-                Objects.requireNonNull(event.getFilledBucket().getItem().getRegistryName()).toString(),
+                Objects.requireNonNull(bucket.getItem().getRegistryName()).toString(),
                 PermissionDataHolder::getItemsData
         );
 
@@ -247,19 +245,9 @@ public class PermissionEvents {
     public void onRightClickBlock(final PlayerInteractEvent.RightClickBlock event) {
         final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(!PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) {
-            String trigger = "onRightClickBlock";
             final BlockState state = event.getWorld().getBlockState(event.getPos());
-
-            if(event.getEntity().isShiftKeyDown() && !event.getItemStack().isEmpty()) { //Item in hand forced shift, forces PLACE BLOCK
-                trigger = "onPlaceBlock";
-            } else {
-                final FakePlayer p = FakePlayerFactory.getMinecraft((ServerLevel) event.getWorld());
-                if(state.use(event.getWorld(), p, event.getHand(), event.getHitVec()) == InteractionResult.PASS) {
-                    trigger = "onPlaceBlock";
-                }
-                p.closeContainer();
-                p.kill();
-            }
+            final BlockEntity be = event.getWorld().getBlockEntity(event.getPos());
+            final String trigger = ServerHelper.isBlockInteractable(event.getWorld(), event.getPos(), event.getPlayer(), event.getHand(), event.getHitVec()) ? "onRightClickBlock" : "onPlaceBlock";
 
             if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(), (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(),  trigger)) {
                 event.getPlayer().displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
