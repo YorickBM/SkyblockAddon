@@ -10,34 +10,51 @@ import net.minecraftforge.common.world.ForgeChunkManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
+import yorickbm.skyblockaddon.islands.Island;
 
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.function.BiConsumer;
 
 public class ChunkClearer {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private static final int CHUNK_SIZE = 16; // Size of each chunk in blocks (16x16)
     private static final int BLOCKS_PER_BATCH = 1024; // Number of blocks to process per async batch (32x32 region)
-    private static final int MAX_CONCURRENT_TASKS = 20; // Maximum number of concurrent tasks to avoid overloading the server
+    private static final int MAX_CONCURRENT_TASKS = 10; // Maximum number of concurrent tasks to avoid overloading the server
+    private static final int DELAY_BETWEEN_CHUNKS_MS = 500; // Delay between processing chunks (in ms)
 
-    private static final ForkJoinPool executorService = new ForkJoinPool(4); // Use ForkJoinPool for better parallel task scheduling
+    private static final ForkJoinPool executorService = new ForkJoinPool(3); // Use ForkJoinPool for better parallel task scheduling
 
-    // Semaphore to limit the number of concurrent tasks
-    private final Semaphore semaphore = new Semaphore(MAX_CONCURRENT_TASKS);
+    private static final ScheduledExecutorService delayExecutorService = Executors.newSingleThreadScheduledExecutor(); // Delayed executor for throttling
 
-    // Cache for chunk load status (whether chunks have been checked as empty or not)
-    private final ConcurrentHashMap<ChunkPos, Boolean> chunkEmptyCache = new ConcurrentHashMap<>();
+    private final Semaphore semaphore = new Semaphore(MAX_CONCURRENT_TASKS); // Semaphore to limit concurrent tasks
+    private final ConcurrentHashMap<ChunkPos, Boolean> chunkEmptyCache = new ConcurrentHashMap<>(); // Cache for chunk load status
+    private final ConcurrentHashMap<ChunkPos, LevelChunk> chunkCache = new ConcurrentHashMap<>(); // Cache for chunk loading
 
-    // Cache for chunk loading to avoid reloading chunks
-    private final ConcurrentHashMap<ChunkPos, LevelChunk> chunkCache = new ConcurrentHashMap<>();
+    // Method to clear blocks asynchronously in multiple bounding boxes, but only one at a time
+    public void clearBlocksInBoundingBoxes(final ServerLevel world, final List<Island> islands, final BiConsumer<Integer, Island> action, final Runnable end) {
+        // Sequentially process each bounding box by using an executor with a single task queue
+        CompletableFuture<Void> lastFuture = CompletableFuture.completedFuture(null);
 
-    // Method to clear blocks asynchronously in multiple bounding boxes
-    public void clearBlocksInBoundingBoxes(ServerLevel world, List<BoundingBox> boundingBoxes) {
-        // Submit the task for each bounding box to clear the blocks asynchronously
-        for (BoundingBox box : boundingBoxes) {
-            executorService.submit(() -> clearBlocksInBoundingBox(world, box));
+        for (int index = 0; index < islands.size(); index++) {
+            final Island island = islands.get(index);
+            final BoundingBox box = island.getIslandBoundingBox();
+
+            // Create a final variable to capture the current index
+            final int currentIndex = index;
+
+            // Chain the tasks in sequence, and add a delay between each chunk processing
+            int finalIndex = index;
+            lastFuture = lastFuture.thenRunAsync(() -> {
+                        // Delay the task submission for chunk processing
+                        delayExecutorService.schedule(() -> clearBlocksInBoundingBox(world, box), DELAY_BETWEEN_CHUNKS_MS * finalIndex, TimeUnit.MILLISECONDS);
+                    }, executorService)
+                    .thenRunAsync(() -> action.accept(currentIndex, island), executorService); // Use currentIndex
+
         }
+
+        lastFuture.thenRunAsync(end);
     }
 
     // Main method for clearing a specific bounding box
@@ -52,7 +69,7 @@ public class ChunkClearer {
         // Loop over the bounding box in chunks
         for (int x = minX; x <= maxX; x += CHUNK_SIZE) {
             for (int z = minZ; z <= maxZ; z += CHUNK_SIZE) {
-                ChunkPos chunkPos = new ChunkPos(x >> 4, z >> 4); // Get the chunk coordinates
+                ChunkPos chunkPos = world.getChunkAt(new BlockPos(x, 0, z)).getPos(); // Get the chunk coordinates
 
                 // Only load the chunk if it contains blocks that need clearing
                 if (!isChunkEmpty(world, chunkPos)) {
@@ -98,7 +115,6 @@ public class ChunkClearer {
 
     // Check if a chunk contains non-air blocks (avoids unnecessary chunk loading)
     private boolean isChunkEmpty(ServerLevel world, ChunkPos chunkPos) {
-        // Check the cache before loading the chunk
         return chunkEmptyCache.computeIfAbsent(chunkPos, pos -> {
             LevelChunk chunk = loadChunkIfNotCached(world, pos);
             for (int x = 0; x < CHUNK_SIZE; x++) {
