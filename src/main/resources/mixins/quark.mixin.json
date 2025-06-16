@@ -9,7 +9,8 @@
   "server": [
     "QuarkPickarangMixinConfig",
     "QuarkScreenMixinConfig",
-    "QuarkGlassFrameMixinConfig"
+    "QuarkGlassFrameMixinConfig",
+    "QuarkBlockPlaceMixinConfig"
   ],
   "refmap": "skyblockaddon.refmap.json"
 }
