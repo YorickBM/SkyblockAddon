@@ -6,7 +6,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.server.level.ServerPlayer;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 
 public class DebugCommand {
@@ -15,13 +14,13 @@ public class DebugCommand {
                 .then(Commands.literal("admin")
                         .requires(source -> source.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .then(Commands.literal("debug")
-                                .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity()))
+                                .executes(context -> execute(context.getSource()))
                         )
                 )
         );
     }
 
-    public int execute(final CommandSourceStack command, final ServerPlayer executor) {
+    public int execute(final CommandSourceStack command) {
         final String def = SkyblockAddonConfig.getForKey("permissions.debug");
         SkyblockAddonConfig.setValueForKey("permissions.debug", def.equalsIgnoreCase("TRUE") ? "FALSE" : "TRUE");
 

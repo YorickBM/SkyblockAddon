@@ -27,12 +27,12 @@ public class AdminAddMemberCommand {
                 .then(Commands.literal("addMember")
                     .then(Commands.argument("islandId", UuidArgument.uuid())
                         .then(Commands.argument("player", EntityArgument.player())
-                                .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity(),
+                                .executes(context -> execute(context.getSource(),
                                         UuidArgument.getUuid(context, "islandId"),
                                         EntityArgument.getPlayer(context, "player")))
                         )
                         .then(Commands.argument("uuid", UuidArgument.uuid())
-                                .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity(),
+                                .executes(context -> execute(context.getSource(),
                                         UuidArgument.getUuid(context, "islandId"),
                                         UuidArgument.getUuid(context, "uuid")))
                         )
@@ -42,12 +42,12 @@ public class AdminAddMemberCommand {
         );
     }
 
-    public int execute(final CommandSourceStack command, final ServerPlayer executor, final UUID islandId, final ServerPlayer target) {
-        execute(command, executor, islandId, target.getUUID()); //Convert target into UUID
+    public int execute(final CommandSourceStack command, final UUID islandId, final ServerPlayer target) {
+        execute(command, islandId, target.getUUID()); //Convert target into UUID
         return Command.SINGLE_SUCCESS;
     }
 
-    public int execute(final CommandSourceStack command, final ServerPlayer executor, final UUID islandId, final UUID target) {
+    public int execute(final CommandSourceStack command, final UUID islandId, final UUID target) {
 
         Objects.requireNonNull(command.getServer().getLevel(Level.OVERWORLD)).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
             final Island island = cap.getIslandByUUID(islandId);

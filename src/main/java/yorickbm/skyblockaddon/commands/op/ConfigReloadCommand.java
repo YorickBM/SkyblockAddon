@@ -6,7 +6,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.fml.loading.FMLPaths;
 import yorickbm.guilibrary.GUILibraryRegistry;
 import yorickbm.skyblockaddon.SkyblockAddon;
@@ -19,13 +18,13 @@ public class ConfigReloadCommand {
             .then(Commands.literal("admin")
                 .requires(source -> source.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(Commands.literal("reload")
-                        .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity()))
+                        .executes(context -> execute(context.getSource()))
                 )
             )
         );
     }
 
-    public int execute(final CommandSourceStack command, final ServerPlayer executor) {
+    public int execute(final CommandSourceStack command) {
         ResourceManager.commonSetup();
         PermissionManager.getInstance().loadPermissions();
 

@@ -1,6 +1,5 @@
 package yorickbm.skyblockaddon.permissions;
 
-import net.mehvahdjukaar.supplementaries.common.block.blocks.SconceLeverBlock;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
@@ -10,9 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.LeverBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraftforge.common.util.FakePlayer;
@@ -30,10 +27,10 @@ import yorickbm.skyblockaddon.permissions.util.Permission;
 import yorickbm.skyblockaddon.util.JSON.JSONEncoder;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
-import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -192,7 +189,7 @@ public class PermissionManager {
         boolean runFail = false;
         for(final Permission perm : perms) {
             if(group.get().canDo(perm.getId())) {
-                SkyblockAddon.CustomDebugMessages(LOGGER, "action is allowed for " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim());
+                //SkyblockAddon.CustomDebugMessages(LOGGER, "action is allowed for " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim() + " on " + trigger);
                 continue;
             }
             if(runFail) break; //Break loop if we determine failure

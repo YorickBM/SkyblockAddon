@@ -36,7 +36,6 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
 
 public class SkyblockAddonWorldCapability {
     private static final Logger LOGGER = LogManager.getLogger();

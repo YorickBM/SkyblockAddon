@@ -15,7 +15,6 @@ import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.islands.Island;
 
-import java.util.HashMap;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
