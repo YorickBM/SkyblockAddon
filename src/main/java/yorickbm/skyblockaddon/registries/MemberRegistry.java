@@ -27,6 +27,8 @@ public class MemberRegistry extends SkyblockAddonRegistry {
      */
     @Override
     public void getNextData(final CompoundTag tag) {
+        if(this.index >= this.getSize()) return;
+
         final String username = UsernameCache.getBlocking(this.members.get(this.index));
 
         tag.putString("SkullOwner", username);
