@@ -20,13 +20,22 @@ import java.util.UUID;
 
 public class IslandRequestTeleportCommand extends OverWorldCommandStack {
     public IslandRequestTeleportCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("island")
-            .then(Commands.literal("request_tp")
-                .requires(source -> source.getEntity() instanceof ServerPlayer)
-                .then(Commands.argument("player", EntityArgument.player())
-                    .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity(), EntityArgument.getPlayer(context, "player")))
+        register(dispatcher, "island");
+        register(dispatcher, "is"); // Alias
+    }
+
+    private void register(CommandDispatcher<CommandSourceStack> dispatcher, String rootLiteral) {
+        dispatcher.register(Commands.literal(rootLiteral)
+                .then(Commands.literal("request_tp")
+                        .requires(source -> source.getEntity() instanceof ServerPlayer)
+                        .then(Commands.argument("player", EntityArgument.player())
+                                .executes(context -> execute(
+                                        context.getSource(),
+                                        (ServerPlayer) context.getSource().getEntity(),
+                                        EntityArgument.getPlayer(context, "player")
+                                ))
+                        )
                 )
-            )
         );
     }
 

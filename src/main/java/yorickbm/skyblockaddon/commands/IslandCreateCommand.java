@@ -22,11 +22,19 @@ public class IslandCreateCommand extends OverWorldCommandStack {
     private static final WeakHashMap<UUID, Long> cooldowns = new WeakHashMap<>();
 
     public IslandCreateCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("island")
-            .then(Commands.literal("create")
-                .requires(source -> source.getEntity() instanceof ServerPlayer)
-                .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity()))
-            )
+        register(dispatcher, "island");
+        register(dispatcher, "is"); // alias
+    }
+
+    private void register(CommandDispatcher<CommandSourceStack> dispatcher, String rootLiteral) {
+        dispatcher.register(
+                Commands.literal(rootLiteral)
+                        .then(Commands.literal("create")
+                                .requires(source -> source.getEntity() instanceof ServerPlayer)
+                                .executes(context -> execute(
+                                        context.getSource(),
+                                        (ServerPlayer) context.getSource().getEntity()))
+                        )
         );
     }
 

@@ -23,16 +23,31 @@ import java.util.UUID;
 
 public class IslandTeleportCommand extends OverWorldCommandStack {
     public IslandTeleportCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("island")
+        register(dispatcher, "island");
+        register(dispatcher, "is"); // Alias
+    }
+
+    private void register(CommandDispatcher<CommandSourceStack> dispatcher, String rootLiteral) {
+        dispatcher.register(Commands.literal(rootLiteral)
                 .then(Commands.literal("tp")
                         .requires(source -> source.getEntity() instanceof ServerPlayer)
-                        .executes(context -> executePersonal(context.getSource(), (ServerPlayer) context.getSource().getEntity()))
+                        .executes(context -> executePersonal(
+                                context.getSource(),
+                                (ServerPlayer) context.getSource().getEntity()))
                         .then(Commands.argument("player", EntityArgument.player())
-                            .executes(context -> executeRequest(context.getSource(), (ServerPlayer) context.getSource().getEntity(), EntityArgument.getPlayer(context, "player")))
+                                .executes(context -> executeRequest(
+                                        context.getSource(),
+                                        (ServerPlayer) context.getSource().getEntity(),
+                                        EntityArgument.getPlayer(context, "player")))
                         )
                         .then(Commands.argument("uuid", UuidArgument.uuid())
-                            .requires(source -> source.getEntity() instanceof ServerPlayer && source.hasPermission(Commands.LEVEL_MODERATORS))
-                            .executes(context -> executeAdmin(context.getSource(), (ServerPlayer) context.getSource().getEntity(), UuidArgument.getUuid(context, "uuid")))
+                                .requires(source ->
+                                        source.getEntity() instanceof ServerPlayer &&
+                                                source.hasPermission(Commands.LEVEL_MODERATORS))
+                                .executes(context -> executeAdmin(
+                                        context.getSource(),
+                                        (ServerPlayer) context.getSource().getEntity(),
+                                        UuidArgument.getUuid(context, "uuid")))
                         )
                 )
         );

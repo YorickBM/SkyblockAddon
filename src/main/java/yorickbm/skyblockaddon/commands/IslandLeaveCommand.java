@@ -18,13 +18,19 @@ import yorickbm.skyblockaddon.util.FunctionRegistry;
 import java.util.UUID;
 
 public class IslandLeaveCommand extends OverWorldCommandStack {
-
     public IslandLeaveCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("island")
-            .then(Commands.literal("leave")
-                .requires(source -> source.getEntity() instanceof ServerPlayer)
-                .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity()))
-            )
+        register(dispatcher, "island");
+        register(dispatcher, "is"); // Alias
+    }
+
+    private void register(CommandDispatcher<CommandSourceStack> dispatcher, String rootLiteral) {
+        dispatcher.register(Commands.literal(rootLiteral)
+                .then(Commands.literal("leave")
+                        .requires(source -> source.getEntity() instanceof ServerPlayer)
+                        .executes(context -> execute(
+                                context.getSource(),
+                                (ServerPlayer) context.getSource().getEntity()))
+                )
         );
     }
 

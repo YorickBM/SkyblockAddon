@@ -16,13 +16,23 @@ import java.util.UUID;
 public class FunctionRegistryCommand {
 
     public FunctionRegistryCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("island")
-            .then(Commands.literal("registry")
-                .then(Commands.argument("uuid", UuidArgument.uuid())
-                        .requires(source -> source.getEntity() instanceof ServerPlayer)
-                        .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity(), UuidArgument.getUuid(context, "uuid")))
-                )
-            )
+        register(dispatcher, "island");
+        register(dispatcher, "is"); // Alias
+    }
+
+    private void register(CommandDispatcher<CommandSourceStack> dispatcher, String rootLiteral) {
+        dispatcher.register(
+                Commands.literal(rootLiteral)
+                        .then(Commands.literal("registry")
+                                .then(Commands.argument("uuid", UuidArgument.uuid())
+                                        .requires(source -> source.getEntity() instanceof ServerPlayer)
+                                        .executes(context -> execute(
+                                                context.getSource(),
+                                                (ServerPlayer) context.getSource().getEntity(),
+                                                UuidArgument.getUuid(context, "uuid")
+                                        ))
+                                )
+                        )
         );
     }
 

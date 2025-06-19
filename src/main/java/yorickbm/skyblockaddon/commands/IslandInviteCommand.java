@@ -21,13 +21,23 @@ import java.util.UUID;
 
 public class IslandInviteCommand extends OverWorldCommandStack {
     public IslandInviteCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("island")
-            .then(Commands.literal("invite")
-                .then(Commands.argument("player", EntityArgument.player())
-                    .requires(source -> source.getEntity() instanceof ServerPlayer)
-                        .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity(), EntityArgument.getPlayer(context, "player")))
-                )
-            )
+        register(dispatcher, "island");
+        register(dispatcher, "is"); // Alias
+    }
+
+    private void register(CommandDispatcher<CommandSourceStack> dispatcher, String rootLiteral) {
+        dispatcher.register(
+                Commands.literal(rootLiteral)
+                        .then(Commands.literal("invite")
+                                .then(Commands.argument("player", EntityArgument.player())
+                                        .requires(source -> source.getEntity() instanceof ServerPlayer)
+                                        .executes(context -> execute(
+                                                context.getSource(),
+                                                (ServerPlayer) context.getSource().getEntity(),
+                                                EntityArgument.getPlayer(context, "player")
+                                        ))
+                                )
+                        )
         );
     }
 

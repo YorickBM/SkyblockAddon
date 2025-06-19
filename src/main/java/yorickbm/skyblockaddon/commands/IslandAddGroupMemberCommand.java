@@ -24,20 +24,29 @@ import java.util.concurrent.CompletableFuture;
 
 public class IslandAddGroupMemberCommand extends OverWorldCommandStack {
     public IslandAddGroupMemberCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("island")
-            .requires(source -> source.getEntity() instanceof ServerPlayer)
-                .then(Commands.literal("group")
-                    .then(Commands.argument("groupName", StringArgumentType.string())
-                        .suggests(this::groupOptions)
-                        .then(Commands.literal("addMember")
-                            .then(Commands.argument("player", EntityArgument.player())
-                                .executes(
-                                    context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity(), EntityArgument.getPlayer(context, "player"), StringArgumentType.getString(context, "groupName"))
+        register(dispatcher, "island");
+        register(dispatcher, "is"); // Alias
+    }
+
+    private void register(CommandDispatcher<CommandSourceStack> dispatcher, String rootLiteral) {
+        dispatcher.register(
+                Commands.literal(rootLiteral)
+                        .requires(source -> source.getEntity() instanceof ServerPlayer)
+                        .then(Commands.literal("group")
+                                .then(Commands.argument("groupName", StringArgumentType.string())
+                                        .suggests(this::groupOptions)
+                                        .then(Commands.literal("addMember")
+                                                .then(Commands.argument("player", EntityArgument.player())
+                                                        .executes(context -> execute(
+                                                                context.getSource(),
+                                                                (ServerPlayer) context.getSource().getEntity(),
+                                                                EntityArgument.getPlayer(context, "player"),
+                                                                StringArgumentType.getString(context, "groupName")
+                                                        ))
+                                                )
+                                        )
                                 )
-                            )
                         )
-                    )
-                )
         );
     }
 

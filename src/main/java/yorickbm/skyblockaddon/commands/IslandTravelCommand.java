@@ -11,10 +11,17 @@ import yorickbm.skyblockaddon.commands.interfaces.OverWorldCommandStack;
 
 public class IslandTravelCommand extends OverWorldCommandStack {
     public IslandTravelCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("island")
+        register(dispatcher, "island");
+        register(dispatcher, "is"); // Alias
+    }
+
+    private void register(CommandDispatcher<CommandSourceStack> dispatcher, String rootLiteral) {
+        dispatcher.register(Commands.literal(rootLiteral)
                 .then(Commands.literal("travel")
                         .requires(source -> source.getEntity() instanceof ServerPlayer)
-                        .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity()))
+                        .executes(context -> execute(
+                                context.getSource(),
+                                (ServerPlayer) context.getSource().getEntity()))
                 )
         );
     }
