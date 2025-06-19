@@ -136,9 +136,10 @@ public class AdminPurgeCommand extends OverWorldCommandStack {
         IslandChunkManager manager = new IslandChunkManager(
                 threadCount,
                 island -> {
-                    progressBar.finishedOne();
+                    cap.islandSpaceReusable(island.getCenter());
                     cap.removeIslandNBT(island);
                     cap.clearIslandCache(island);
+                    progressBar.finishedOne();
                 },
                 () -> {
                     progressBar.kill();

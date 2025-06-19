@@ -42,6 +42,7 @@ public class SkyblockAddonWorldCapability {
     private static final Logger LOGGER = LogManager.getLogger();
 
     Vec3i lastLocation;
+    Queue<Vec3i> reusableLocations;
     HashMap<UUID, Island> islandsByUUID;
 
     //Reverse Lookup Caches
@@ -55,6 +56,7 @@ public class SkyblockAddonWorldCapability {
 
         islandsByUUID = new HashMap<>();
         lastLocation = Vec3i.ZERO;
+        reusableLocations = new LinkedList();
 
         initializeCaches(server);
     }
@@ -168,6 +170,16 @@ public class SkyblockAddonWorldCapability {
         nbt.put("lastIsland", NBTUtil.Vec3iToNBT(lastLocation));
         nbt.putInt("nbt-v", 6);
 
+        ListTag listTag = new ListTag();
+        for (Vec3i vec : reusableLocations) {
+            CompoundTag vecTag = new CompoundTag();
+            vecTag.putInt("x", vec.getX());
+            vecTag.putInt("y", vec.getY());
+            vecTag.putInt("z", vec.getZ());
+            listTag.add(vecTag);
+        }
+        nbt.put("reusableLocations", listTag);
+
         final Path worldPath = serverInstance.getWorldPath(LevelResource.ROOT).normalize();
         final Path filePath = worldPath.resolve("islanddata");
 
@@ -182,6 +194,17 @@ public class SkyblockAddonWorldCapability {
 
         final Path worldPath = serverInstance.getWorldPath(LevelResource.ROOT).normalize();
         final Path filePath = worldPath.resolve("islanddata");
+
+        if (nbt.contains("reusableLocations", 9)) { // 9 = ListTag type
+            ListTag listTag = nbt.getList("reusableLocations", 10); // 10 = CompoundTag type
+            for (int i = 0; i < listTag.size(); i++) {
+                CompoundTag vecTag = listTag.getCompound(i);
+                int x = vecTag.getInt("x");
+                int y = vecTag.getInt("y");
+                int z = vecTag.getInt("z");
+                reusableLocations.add(new Vec3i(x, y, z));
+            }
+        }
 
         //legacy check
         if(nbt.contains("nbt-v") && nbt.getInt("nbt-v") < 5) {
@@ -244,15 +267,17 @@ public class SkyblockAddonWorldCapability {
             throw new NBTNotFoundException();
         }
 
-        int finalBigestX = bigestX, finalBigestZ = bigestZ;
-        int height = Integer.parseInt(SkyblockAddonConfig.getForKey("island.spawn.height"));
-        blocks.stream().filter(block -> !block.getState().isAir()).forEach(block -> block.place(worldServer, lastLocation.offset(-(finalBigestX / 2), height, -(finalBigestZ / 2))));
+        final Vec3i islandLocation = reusableLocations.isEmpty() ? lastLocation : reusableLocations.remove();
+        final int finalBigestX = bigestX;
+        final int finalBigestZ = bigestZ;
+        final int height = Integer.parseInt(SkyblockAddonConfig.getForKey("island.spawn.height"));
+        blocks.stream().filter(block -> !block.getState().isAir()).forEach(block -> block.place(worldServer, islandLocation.offset(-(finalBigestX / 2), height, -(finalBigestZ / 2))));
 
-        final ChunkAccess chunk = worldServer.getChunk(new BlockPos(lastLocation.getX(), height, lastLocation.getZ()));
-        final int topHeight = chunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, lastLocation.getX(), lastLocation.getZ()) + 2;
+        final ChunkAccess chunk = worldServer.getChunk(new BlockPos(islandLocation.getX(), height, islandLocation.getZ()));
+        final int topHeight = chunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, islandLocation.getX(), islandLocation.getZ()) + 2;
 
-        final Vec3i rslt = new Vec3i(lastLocation.getX(), topHeight, lastLocation.getZ());
-        lastLocation = nextGridLocation(lastLocation);
+        final Vec3i rslt = new Vec3i(islandLocation.getX(), topHeight, islandLocation.getZ());
+        if(islandLocation == lastLocation) lastLocation = nextGridLocation(lastLocation);
         return rslt;
     }
 
@@ -315,5 +340,9 @@ public class SkyblockAddonWorldCapability {
         final Path filePath = worldPath.resolve("islanddata");
 
         NBTEncoder.removeFileFromFolder(filePath, data);
+    }
+
+    public void islandSpaceReusable(Vec3i center) {
+
     }
 }
