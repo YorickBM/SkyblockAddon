@@ -36,6 +36,7 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SkyblockAddonWorldCapability {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -297,5 +298,22 @@ public class SkyblockAddonWorldCapability {
                 .filter(entry -> entry.getValue().isAbandoned()) // Filter entries where island is abandoned
                 .map(Map.Entry::getKey) // Map to the UUID (key) of the entry
                 .collect(Collectors.toList()); // Collect into a List<UUID>
+    }
+
+    public void clearIslandCache(Island data) {
+        CACHE_islandByBoundingBox.invalidate(data.getIslandBoundingBox());
+        Stream.concat(data.getMembers().stream(), Stream.of(data.getOwner()))
+            .forEach(uuid -> {
+                CACHE_islandByPlayerUUID.invalidate(uuid);
+                CACHE_islandByPlayerUUID.put(uuid, Optional.empty());
+            });
+        islandsByUUID.remove(data.getId());
+    }
+
+    public void removeIslandNBT(Island data) {
+        final Path worldPath = serverInstance.getWorldPath(LevelResource.ROOT).normalize();
+        final Path filePath = worldPath.resolve("islanddata");
+
+        NBTEncoder.removeFileFromFolder(filePath, data);
     }
 }

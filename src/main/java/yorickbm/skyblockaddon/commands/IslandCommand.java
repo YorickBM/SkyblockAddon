@@ -16,9 +16,17 @@ import yorickbm.skyblockaddon.islands.Island;
 
 public class IslandCommand extends OverWorldCommandStack {
     public IslandCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("island")
-                .requires(source -> source.getEntity() instanceof ServerPlayer)
-                .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity()))
+        register(dispatcher, "island");
+        register(dispatcher, "is"); // Alias
+    }
+
+    private void register(CommandDispatcher<CommandSourceStack> dispatcher, String rootLiteral) {
+        dispatcher.register(
+                Commands.literal(rootLiteral)
+                        .requires(source -> source.getEntity() instanceof ServerPlayer)
+                        .executes(context -> execute(
+                                context.getSource(),
+                                (ServerPlayer) context.getSource().getEntity()))
         );
     }
 

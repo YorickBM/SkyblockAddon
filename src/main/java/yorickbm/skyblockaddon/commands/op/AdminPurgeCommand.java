@@ -2,13 +2,16 @@ package yorickbm.skyblockaddon.commands.op;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.UuidArgument;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
+import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldCapability;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.commands.interfaces.OverWorldCommandStack;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
@@ -17,82 +20,138 @@ import yorickbm.skyblockaddon.util.FunctionRegistry;
 import yorickbm.skyblockaddon.util.IslandChunkManager;
 import yorickbm.skyblockaddon.util.ProgressBar;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class AdminPurgeCommand extends OverWorldCommandStack {
 
     public AdminPurgeCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("island")
-                .then(Commands.literal("admin")
-                        .requires(source -> source.getEntity() instanceof ServerPlayer && source.hasPermission(Commands.LEVEL_GAMEMASTERS))
-                        .then(Commands.literal("purge")
-                                .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity()))
+        dispatcher.register(
+                Commands.literal("island")
+                        .then(Commands.literal("admin")
+                                .requires(source -> source.getEntity() instanceof ServerPlayer &&
+                                        source.hasPermission(Commands.LEVEL_GAMEMASTERS))
+                                .then(Commands.literal("purge")
+                                        .then(Commands.argument("target", UuidArgument.uuid())
+                                                .executes(ctx -> executeUUID(
+                                                        ctx.getSource(),
+                                                        (ServerPlayer) ctx.getSource().getEntity(),
+                                                        UuidArgument.getUuid(ctx, "target"),
+                                                        2)) // default thread count
+                                                .then(Commands.argument("threadCount", IntegerArgumentType.integer(1))
+                                                        .executes(ctx -> executeUUID(
+                                                                ctx.getSource(),
+                                                                (ServerPlayer) ctx.getSource().getEntity(),
+                                                                UuidArgument.getUuid(ctx, "target"),
+                                                                IntegerArgumentType.getInteger(ctx, "threadCount")
+                                                        ))
+                                                )
+                                        )
+                                        .then(Commands.argument("count", IntegerArgumentType.integer(1))
+                                                .executes(ctx -> executeAmount(
+                                                        ctx.getSource(),
+                                                        (ServerPlayer) ctx.getSource().getEntity(),
+                                                        IntegerArgumentType.getInteger(ctx, "count"),
+                                                        2)) // default thread count
+                                                .then(Commands.argument("threadCount", IntegerArgumentType.integer(1))
+                                                        .executes(ctx -> executeAmount(
+                                                                ctx.getSource(),
+                                                                (ServerPlayer) ctx.getSource().getEntity(),
+                                                                IntegerArgumentType.getInteger(ctx, "count"),
+                                                                IntegerArgumentType.getInteger(ctx, "threadCount")
+                                                        ))
+                                                )
+                                        )
+                                )
                         )
-                )
         );
     }
 
-    public int execute(final CommandSourceStack command, final ServerPlayer executor) {
-        if(super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
+    private int executeUUID(CommandSourceStack command, ServerPlayer executor, UUID uuid, int threadCount) {
+        if (super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
 
         executor.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            final List<UUID> purgable = cap.getPurgableIslands().stream().findFirst().stream().toList();;
+            List<UUID> purgable = new ArrayList<>(cap.getPurgableIslands());
 
-            //Register purge function into registry
-            final UUID functionKey = UUID.randomUUID();
-            FunctionRegistry.registerFunction(functionKey, (e) -> {
+            if (!purgable.contains(uuid)) {
+                executor.sendMessage(new TextComponent("UUID not found in purgable list.").withStyle(ChatFormatting.RED), executor.getUUID());
+                return;
+            }
 
-                final List<Island> islands = purgable.stream()
-                        // Get Island objects for each UUID
-                        .map(cap::getIslandByUUID)
-                        // Filter only the abandoned islands
-                        .filter(Island::isAbandoned)
-                        // Collect all bounding boxes into a list
-                        .collect(Collectors.toList());
-
-                //Create progressbar
-                final ProgressBar progressBar = new ProgressBar(executor, "Purging...", islands.size());
-                progressBar.start();
-
-                // Once all bounding boxes are collected, pass them to the clearBlocksInBoundingBoxes method
-                IslandChunkManager manager = new IslandChunkManager(
-                        4,
-                        island -> {
-                            progressBar.finishedOne();
-                            //TODO: Remove NBT File
-                            //TODO: Remove island data from cache
-                            //TODO: Remove island data from persistent cache
-                        },
-                        () -> {
-                            progressBar.kill();
-                            executor.sendMessage(
-                                new TextComponent(
-                                        SkyBlockAddonLanguage.getLocalizedString("commands.admin.purge.done")
-                                                .formatted((purgable.size() - cap.getPurgableIslands().size()) + ""))
-                                        .withStyle(ChatFormatting.GREEN),
-                                executor.getUUID());
-                        }
-                );
-                manager.createDummies(islands, executor.getLevel(), executor, progressBar);
-
-
-                return true;
-            }, 5); //Register function to purge under hash 'functionKey' for 5 minutes.
-
-            //Sending clickable message to accept request to requested
-            command.sendSuccess(new TextComponent(
-                            SkyBlockAddonLanguage.getLocalizedString("commands.admin.purge.ask")
-                                    .formatted(purgable.size() + ""))
-                            .withStyle(ChatFormatting.GREEN)
-                            .withStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, FunctionRegistry.getCommand(functionKey))))
-                    , false);
+            registerAndPromptPurge(command, executor, cap, List.of(uuid), threadCount);
         });
+
         return Command.SINGLE_SUCCESS;
     }
 
+    private int executeAmount(CommandSourceStack command, ServerPlayer executor, int count, int threadCount) {
+        if (super.execute(command, executor) == 0) return Command.SINGLE_SUCCESS;
+
+        executor.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
+            List<UUID> purgable = new ArrayList<>(cap.getPurgableIslands());
+
+            if (purgable.isEmpty()) {
+                executor.sendMessage(new TextComponent("No purgable islands found.").withStyle(ChatFormatting.RED), executor.getUUID());
+                return;
+            }
+
+            List<UUID> selected = purgable.stream().limit(count).collect(Collectors.toList());
+            registerAndPromptPurge(command, executor, cap, selected, threadCount);
+        });
+
+        return Command.SINGLE_SUCCESS;
+    }
+
+    private void registerAndPromptPurge(CommandSourceStack command, ServerPlayer executor, SkyblockAddonWorldCapability cap, List<UUID> islandUUIDs, int threadCount) {
+        UUID functionKey = UUID.randomUUID();
+
+        FunctionRegistry.registerFunction(functionKey, (e) -> {
+            startPurgeWithIslands(cap, executor, islandUUIDs, threadCount);
+            return true;
+        }, 5);
+
+        command.sendSuccess(new TextComponent(
+                        SkyBlockAddonLanguage.getLocalizedString("commands.admin.purge.ask")
+                                .formatted(String.valueOf(islandUUIDs.size())))
+                        .withStyle(ChatFormatting.GREEN)
+                        .withStyle(Style.EMPTY.withClickEvent(new ClickEvent(
+                                ClickEvent.Action.RUN_COMMAND,
+                                FunctionRegistry.getCommand(functionKey)))),
+                false);
+    }
+
+    private void startPurgeWithIslands(SkyblockAddonWorldCapability cap, ServerPlayer executor, List<UUID> islandUUIDs, int threadCount) {
+        List<Island> islands = islandUUIDs.stream()
+                .map(cap::getIslandByUUID)
+                .filter(Objects::nonNull)
+                .filter(Island::isAbandoned)
+                .collect(Collectors.toList());
+
+        ProgressBar progressBar = new ProgressBar(executor, "Purging...", islands.size());
+        progressBar.start();
+
+        IslandChunkManager manager = new IslandChunkManager(
+                threadCount,
+                island -> {
+                    progressBar.finishedOne();
+                    cap.removeIslandNBT(island);
+                    cap.clearIslandCache(island);
+                },
+                () -> {
+                    progressBar.kill();
+                    executor.sendMessage(new TextComponent(
+                            SkyBlockAddonLanguage.getLocalizedString("commands.admin.purge.done")
+                                    .formatted(String.valueOf(islands.size())))
+                            .withStyle(ChatFormatting.GREEN), executor.getUUID());
+                });
+
+        manager.createDummies(islands, executor.getLevel(), executor, progressBar);
+    }
 }
+
 
 //f6ad3af8-6861-4fd2-a512-024735d3403c -> -3005 150 -16017
 //c8adf14c-2238-48f0-9c66-c79bc5e9f464 -> 25993 121 22994

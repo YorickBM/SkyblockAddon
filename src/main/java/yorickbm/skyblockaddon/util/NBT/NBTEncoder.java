@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 public class NBTEncoder {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -121,6 +122,33 @@ public class NBTEncoder {
             } catch (final IOException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    /**
+     * Remove an NBT file with the given UUID from the specified folder.
+     *
+     * @param folderPath - Folder where the NBT file is stored
+     * @param object     - Object to remove
+     *
+     * @returns - If the file has been able to be removed
+     */
+    public static <T extends IsUnique & NBTSerializable> boolean removeFileFromFolder(Path folderPath, T object) {
+        // Resolve the path to the specific file
+        Path fileToDelete = folderPath.resolve(object.getId().toString() + ".nbt");
+        // Check if the file exists before attempting to delete
+        if (Files.exists(fileToDelete)) {
+            try {
+                Files.delete(fileToDelete);
+                LOGGER.info("Successfully deleted NBT file: " + fileToDelete.getFileName());
+                return true;
+            } catch (IOException e) {
+                LOGGER.error("Failed to delete file '" + fileToDelete.getFileName() + "': " + e.getMessage());
+                return false;
+            }
+        } else {
+            LOGGER.warn("File not found for deletion: " + fileToDelete.getFileName());
+            return false;
         }
     }
 }
