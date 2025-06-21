@@ -1,5 +1,7 @@
 package yorickbm.guilibrary.events;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.sounds.SoundEvents;
@@ -21,6 +23,29 @@ public class DefaultEventHandler {
         if(event.isCanceled()) {
             event.setResult(Event.Result.DENY);
             return; //Skip if canceled
+        }
+
+        //SkullTexture
+        if(event.getItemStackHolder().getData().contains("SkullTexture")) {
+            CompoundTag tag = event.getItemStackHolder().getData();
+            CompoundTag skullOwnerTag = new CompoundTag();
+            skullOwnerTag.putString("Name", "Piggy");
+
+            // Create Properties tag
+            CompoundTag propertiesTag = new CompoundTag();
+            ListTag texturesList = new ListTag();
+
+            // Texture tag with Base64
+            CompoundTag textureTag = new CompoundTag();
+            for(String texture : tag.getString("SkullTexture").split(",")) {
+                textureTag.putString("Value", texture);
+                texturesList.add(textureTag);
+            }
+
+            propertiesTag.put("textures", texturesList);
+            skullOwnerTag.put("Properties", propertiesTag);
+
+            tag.put("SkullOwner", skullOwnerTag);
         }
 
         //Default dynamic text
