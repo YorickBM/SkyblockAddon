@@ -42,7 +42,10 @@ public class RegistryEvents extends GuiDrawFillerEvent {
     public GUIItemStackHolder processHolder(final GUIItemStackHolder holder, final CompoundTag data) {
         //Add skullowner data into the item
         if(data.contains("SkullOwner")) {
-            holder.addData("SkullOwner", data.getString("SkullOwner"));
+            holder.putData("SkullOwner", data.getString("SkullOwner"));
+        }
+        if(data.contains("SkullTexture")) {
+            holder.putData("SkullTexture", data.getString("SkullTexture"));
         }
 
         //Add all data as replaceable keys
@@ -98,7 +101,7 @@ public class RegistryEvents extends GuiDrawFillerEvent {
                 instance.getOwner().getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
                     final Island island = cap.getIslandByUUID(instance.getData().getUUID("island_id"));
                     if(island == null) return;
-                    super.getItemStackHolder().addData("island_biome", island.getBiome());
+                    super.getItemStackHolder().putData("island_biome", island.getBiome());
                 });
             }
         }
