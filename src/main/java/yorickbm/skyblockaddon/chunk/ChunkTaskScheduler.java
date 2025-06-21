@@ -15,7 +15,7 @@ public class ChunkTaskScheduler {
     private static final Queue<ScheduledTask> taskQueue = new ConcurrentLinkedQueue<>();
 
     private static int TASKS_CONCURRENTLY = 2;
-    private static int TICKS_PER_BATCH = 200;
+    private static int TICKS_PER_BATCH = 40;
     private static int tickCounter = 0;
 
     public static void init() {

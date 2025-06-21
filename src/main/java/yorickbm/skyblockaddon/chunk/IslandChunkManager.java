@@ -14,6 +14,7 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.util.ProgressBar;
 
@@ -139,7 +140,7 @@ public class IslandChunkManager {
             }
 
             // Now schedule block removals in batches of 100
-            int batchSize = 180;
+            int batchSize = Integer.parseInt(SkyblockAddonConfig.getForKey("purge.blocks"));
             for (int i = 0; i < nonAirBlocks.size(); i += batchSize) {
                 final int start = i;
                 final int end = Math.min(i + batchSize, nonAirBlocks.size());

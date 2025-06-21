@@ -23,6 +23,7 @@ public class SkyblockAddonConfig {
 
         register("purge.batch_time", "80", "Amount of ticks (20 ticks +- 1 second) in between filling batch buffer.");
         register("purge.concurrent", "2", "Amount of chunks allowed to be processed concurrent.");
+        register("purge.blocks", "800", "Amount of blocks to remove per execution.");
 
 
         BUILDER.pop();
