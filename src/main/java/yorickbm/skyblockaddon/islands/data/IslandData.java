@@ -189,6 +189,13 @@ public class IslandData implements NBTSerializable {
         }
         tag.put("members", members);
 
+        final CompoundTag chunks = new CompoundTag();
+        List<ChunkPos> chunksData = this.getModifiedChunks();
+        for(int i=0; i < chunksData.size(); i++) {
+            chunks.putString(i+"", chunksData.get(i).toString());
+        }
+        tag.put("chunks", chunks);
+
         return tag;
     }
 
@@ -226,6 +233,14 @@ public class IslandData implements NBTSerializable {
         final CompoundTag members = tag.getCompound("members");
         for(final String key : members.getAllKeys()) {
             this.members.add(members.getUUID(key));
+        }
+
+        final CompoundTag chunks = tag.getCompound("chunks");
+        for(final String key : chunks.getAllKeys()) {
+            this.playerLoadedChunks.add(new ChunkPos(
+                    Integer.parseInt(chunks.getString(key).replaceAll("[\\[\\]\\s]", "").split(",")[0]),
+                    Integer.parseInt(chunks.getString(key).replaceAll("[\\[\\]\\s]", "").split(",")[1])
+            ));
         }
 
     }

@@ -69,7 +69,8 @@
   "island.member.kicked": "%s has been kicked from the group/island.",
   "island.setspawn.outside": "You can not set your spawn outside of your islands boundaries.",
 
-  "admin.purge.data": "%s island(s) are currently abandoned, we suggest running a purge.",
-  "commands.admin.purge.ask": "%s island(s) are currently abandoned, click here to confirm purging. This will take a large amount of server resources to run.",
-  "commands.admin.purge.done": "%s island(s) have been purged! There locations have been freed up to reuse."
+  "commands.admin.purge.ask": "Click here to confirm purging %s island(s). This will take up a part of the servers resources.",
+  "commands.admin.purge.done": "%s island(s) have been purged! There locations have been freed up to reuse.",
+  "commands.admin.purge.notallowed": "This island may not be purged, as its not abandoned.",
+  "commands.admin.purge.zero": "No purgable islands found."
 }

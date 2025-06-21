@@ -21,6 +21,10 @@ public class SkyblockAddonConfig {
 
         register("permissions.debug", "FALSE", "Print debug messages on island permission events into console. This helps verifying and adding new permissions into your configuration.");
 
+        register("purge.batch_time", "80", "Amount of ticks (20 ticks +- 1 second) in between filling batch buffer.");
+        register("purge.concurrent", "2", "Amount of chunks allowed to be processed concurrent.");
+
+
         BUILDER.pop();
         SPEC = BUILDER.build();
     }
