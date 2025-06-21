@@ -14,11 +14,11 @@ import net.minecraft.server.level.ServerPlayer;
 import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldCapability;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.chunk.ChunkTaskScheduler;
+import yorickbm.skyblockaddon.chunk.IslandChunkManager;
 import yorickbm.skyblockaddon.commands.interfaces.OverWorldCommandStack;
 import yorickbm.skyblockaddon.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.islands.Island;
 import yorickbm.skyblockaddon.util.FunctionRegistry;
-import yorickbm.skyblockaddon.chunk.IslandChunkManager;
 import yorickbm.skyblockaddon.util.ProgressBar;
 
 import java.util.ArrayList;
