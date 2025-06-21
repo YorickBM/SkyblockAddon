@@ -1576,6 +1576,73 @@
         ],
         "entities": []
       }
+    },
+    {
+      "id": "disable_hostile_spawns",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Hostile Mobs\", \"color\":\"red\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:ZOMBIE_HEAD",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "general",
+      "triggers": [
+        "OnHostileMobSpawn"
+      ],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": [],
+        "defaults": true
+      }
+    },
+    {
+      "id": "disable_passive_spawns",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Passive Mobs\", \"color\":\"green\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:player_head",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ]
+        ],
+        "data": {
+          "SkullTexture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzFhZmY2ZWNjZWRmMzYwNzFiY2NlYTRiNWE2MjY1MTYzMWVhYzJlM2ZkYTk5ZGM3MWZkNDNlZTgzYmU4ZDJlOSJ9fX0="
+        }
+      },
+      "category": "general",
+      "triggers": [
+        "OnPassiveMobSpawn"
+      ],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [],
+        "entities": [],
+        "defaults": true
+      }
     }
   ]
 }
