@@ -15,7 +15,7 @@ public class GUIItemStackHolder implements Cloneable {
 
     private Item item;
     private int amount;
-    private final CompoundTag tag;
+    private CompoundTag tag;
 
     private List<TextComponent> display_name;
     private List<List<TextComponent>> lore;
@@ -64,6 +64,9 @@ public class GUIItemStackHolder implements Cloneable {
         if(this.tag.contains("SkullOwner")) {
             stack.getOrCreateTag().putString("SkullOwner", this.tag.getString("SkullOwner"));
         }
+        if(this.tag.contains("SkullTexture")) {
+            stack.getOrCreateTag().putString("SkullTexture", this.tag.getString("SkullTexture"));
+        }
 
         stack.setHoverName(this.display_name.stream().reduce(new TextComponent(""), (a, b) -> (TextComponent) a.append(b)));
 
@@ -75,8 +78,11 @@ public class GUIItemStackHolder implements Cloneable {
         return stack;
     }
 
-    public void addData(final String key, final String value) {
+    public void putData(final String key, final String value) {
         this.tag.putString(key, value);
+    }
+    public void setData(final CompoundTag tag) {
+        this.tag = tag;
     }
     public CompoundTag getData() {
         return this.tag;

@@ -86,7 +86,8 @@ public class ProgressBar {
         }
 
         // Add closing brackets with gray color
-        progressBar.append(new TextComponent("]").withStyle(ChatFormatting.DARK_GRAY));
+        progressBar.append(new TextComponent("] ").withStyle(ChatFormatting.DARK_GRAY));
+        progressBar.append(new TextComponent(this.prefix).withStyle(ChatFormatting.DARK_GRAY));
 
         player.displayClientMessage(progressBar, true);
     }

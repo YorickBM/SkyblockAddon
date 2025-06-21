@@ -37,10 +37,10 @@ public class Permission implements JSONSerializable {
 
     public GUIItemStackHolder getItemStackHolder(final Island island, final UUID groupId) {
         final GUIItemStackHolder stack = this.item.getItemStackHolder();
-        stack.addData("permission_id", this.id);
-        stack.addData("category", this.category);
-        stack.addData("group_name", island.getGroup(groupId).getItem().getDisplayName().getString());
-        stack.addData("status", island.getPermissionState(this.id, groupId));
+        stack.putData("permission_id", this.id);
+        stack.putData("category", this.category);
+        stack.putData("group_name", island.getGroup(groupId).getItem().getDisplayName().getString());
+        stack.putData("status", island.getPermissionState(this.id, groupId));
         return stack;
     }
 

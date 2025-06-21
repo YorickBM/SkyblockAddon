@@ -7,10 +7,10 @@
     "defaultRequire": 1
   },
   "server": [
-    "QuarkPickarangMixinConfig",
-    "QuarkScreenMixinConfig",
+    "QuarkBlockPlaceMixinConfig",
     "QuarkGlassFrameMixinConfig",
-    "QuarkBlockPlaceMixinConfig"
+    "QuarkPickarangMixinConfig",
+    "QuarkScreenMixinConfig"
   ],
   "refmap": "skyblockaddon.refmap.json"
 }

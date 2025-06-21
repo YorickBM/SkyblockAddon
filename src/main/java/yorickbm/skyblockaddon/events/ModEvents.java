@@ -7,6 +7,7 @@ import net.minecraft.world.level.storage.LevelResource;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyblockAddon;
 import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldCapability;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
+import yorickbm.skyblockaddon.chunk.ChunkTaskScheduler;
 import yorickbm.skyblockaddon.commands.*;
 import yorickbm.skyblockaddon.commands.op.*;
 import yorickbm.skyblockaddon.util.NBT.NBTEncoder;
@@ -49,7 +51,7 @@ public class ModEvents {
         new ConfigReloadCommand(event.getDispatcher());
         new AdminAddMemberCommand(event.getDispatcher());
         new DebugCommand(event.getDispatcher());
-        //new AdminPurgeCommand(event.getDispatcher());
+        new AdminPurgeCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
         LOGGER.info("Registered commands for " + SkyblockAddon.MOD_ID);

@@ -5,9 +5,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import org.jetbrains.annotations.NotNull;
 import yorickbm.skyblockaddon.SkyblockAddon;
@@ -31,6 +34,7 @@ public class IslandData implements NBTSerializable {
 
     private final List<UUID> members = new ArrayList<>();
     private final Map<UUID, IslandGroup> islandGroups = new HashMap<>();
+    private final List<ChunkPos> playerLoadedChunks = new ArrayList<>();
 
     public IslandData() {
     }
@@ -269,4 +273,13 @@ public class IslandData implements NBTSerializable {
 
         return !hasOwner && !hasMembers;
     }
+
+    public List<ChunkPos> getModifiedChunks() {
+        return Collections.unmodifiableList(playerLoadedChunks);
+    }
+    public boolean storeChunk(final ChunkAccess chunk) {
+        if(playerLoadedChunks.contains(chunk.getPos())) return false;
+        return playerLoadedChunks.add(chunk.getPos());
+    }
+
 }
