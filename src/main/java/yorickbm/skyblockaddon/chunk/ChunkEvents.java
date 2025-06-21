@@ -34,7 +34,7 @@ public class ChunkEvents {
             final Island island = cap.getIslandByPos(chunk.getPos().getMiddleBlockPosition(155));
             if(island == null) return;
 
-            if(island.storeChunk(chunk)) LOGGER.info("Chunk {} added to island {}", pos, island.getId());
+            if(island.storeChunk(chunk)) LOGGER.debug("Chunk {} added to island {}", pos, island.getId());
         });
 
         for (final IslandChunkManager.Task task : IslandChunkManager.getActiveTasks()) {
