@@ -293,6 +293,36 @@ public class PermissionEvents {
             else event.setResult(Event.Result.DENY);
         }
     }
+    @SubscribeEvent
+    public void onRightClickEmpty(final BlockEvent.EntityPlaceEvent event) {
+        final AtomicReference<Island> standingOn = new AtomicReference<>();
+        if(!PermissionManager.verifyEntity(event.getEntity(), standingOn).asBoolean()) {
+            final BlockState state = event.getWorld().getBlockState(event.getPos());
+            final BlockEntity be = event.getWorld().getBlockEntity(event.getPos());
+            final String trigger = "onPlaceBlock";
+
+            if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getEntity(), (ServerLevel) event.getWorld(), event.getPos(), ((ServerPlayer) event.getEntity()).getMainHandItem(),  trigger)) {
+                ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
+                if(event.isCancelable()) event.setCanceled(true);
+                else event.setResult(Event.Result.DENY);
+            }
+        }
+
+        //Nether portal ignition check from nether to over-world
+        if(!PermissionManager.verifyNetherEntity(event.getEntity(), standingOn, event.getPos()).asBoolean()) {
+            final ItemStack item = ((ServerPlayer) Objects.requireNonNull(event.getEntity())).getMainHandItem();
+            if(!item.isEmpty() && item.getItem() == Items.FLINT_AND_STEEL) {
+                final BlockState state = event.getWorld().getBlockState(event.getPos());
+                if(!state.isAir() && state.getBlock().asItem() == Items.OBSIDIAN) {
+                    if(PermissionManager.checkPlayerInteraction(standingOn, (ServerPlayer) event.getEntity(), (ServerLevel) event.getWorld(), event.getPos(), ((ServerPlayer) event.getEntity()).getMainHandItem(), "onPortalIgnition")) {
+                        ((ServerPlayer) event.getEntity()).displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
+                        if(event.isCancelable()) event.setCanceled(true);
+                        else event.setResult(Event.Result.DENY);
+                    }
+                }
+            }
+        }
+    }
 
     @SubscribeEvent
     public void onLeftClickBlock(final PlayerInteractEvent.LeftClickBlock event) {
