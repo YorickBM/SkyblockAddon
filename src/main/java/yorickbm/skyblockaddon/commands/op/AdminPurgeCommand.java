@@ -10,7 +10,11 @@ import net.minecraft.commands.arguments.UuidArgument;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.BossEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldCapability;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.chunk.ChunkTaskScheduler;
@@ -25,9 +29,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class AdminPurgeCommand extends OverWorldCommandStack {
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public AdminPurgeCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
@@ -134,18 +142,24 @@ public class AdminPurgeCommand extends OverWorldCommandStack {
                 .filter(Island::isAbandoned)
                 .collect(Collectors.toList());
 
-        ProgressBar progressBar = new ProgressBar(executor, "Batches...", islands.size());
-        progressBar.start();
+        ProgressBar bar = new ProgressBar(new TextComponent("Purging "));
+        bar.start(executor);
 
         IslandChunkManager manager = new IslandChunkManager();
-        manager.createDummies(islands, progressBar, island -> {
+        manager.createDummies(islands, bar, island -> {
+                    LOGGER.debug("Finished the island {}", island.getId());
+                    bar.sendToast(new TextComponent("Completed purging island " + island.getId()));
+
                     cap.islandSpaceReusable(island.getCenter());
                     cap.removeIslandNBT(island);
                     cap.clearIslandCache(island);
-                    progressBar.finishedOne();
                 },
                 () -> {
-                    progressBar.kill();
+                    LOGGER.debug("Finished purging");
+
+                    ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+                    scheduler.schedule(bar::kill, 800, TimeUnit.MILLISECONDS);
+
                     executor.sendMessage(new TextComponent(
                             SkyBlockAddonLanguage.getLocalizedString("commands.admin.purge.done")
                                     .formatted(String.valueOf(islands.size())))

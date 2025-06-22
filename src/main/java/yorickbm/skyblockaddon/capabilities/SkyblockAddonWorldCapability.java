@@ -320,7 +320,7 @@ public class SkyblockAddonWorldCapability {
 
     public List<UUID> getPurgableIslands() {
         return islandsByUUID.entrySet().stream() // Create a stream of map entries
-                .filter(entry -> entry.getValue().isAbandoned()) // Filter entries where island is abandoned
+                .filter(entry -> entry.getValue().isAbandoned() && !entry.getValue().getModifiedChunks().isEmpty()) // Filter entries where island is abandoned
                 .map(Map.Entry::getKey) // Map to the UUID (key) of the entry
                 .collect(Collectors.toList()); // Collect into a List<UUID>
     }
@@ -343,6 +343,6 @@ public class SkyblockAddonWorldCapability {
     }
 
     public void islandSpaceReusable(Vec3i center) {
-
+        reusableLocations.add(new Vec3i(center.getX(), 0, center.getZ()));
     }
 }

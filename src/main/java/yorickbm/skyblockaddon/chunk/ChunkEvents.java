@@ -29,19 +29,20 @@ public class ChunkEvents {
         final ChunkPos pos = chunk.getPos();
 
         LOGGER.debug("ChunkEvent.Load Chunk {}", pos);
+
+//        for (final IslandChunkManager.Task task : IslandChunkManager.getActiveTasks()) {
+//            if (task.isChunkRequested(pos) && task.hasChunkBeenHandeld(pos)) {
+//                LOGGER.debug("Queued chunk {} from ChunkEvent.Load for task {}", pos, task.getId());
+//                IslandChunkManager.processChunk(chunk, serverLevel, task);
+//                break;
+//            }
+//        }
+
         serverLevel.getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
             final Island island = cap.getIslandByPos(chunk.getPos().getMiddleBlockPosition(155));
             if(island == null) return;
 
             if(island.storeChunk(chunk)) LOGGER.debug("Chunk {} added to island {}", pos, island.getId());
         });
-
-        for (final IslandChunkManager.Task task : IslandChunkManager.getActiveTasks()) {
-            if (task.isChunkRequested(pos) && task.hasChunkBeenHandeld(pos)) {
-                LOGGER.debug("Queued chunk {} from ChunkEvent.Load for task {}", pos, task.getId());
-                IslandChunkManager.processChunk(chunk, serverLevel, task);
-                break;
-            }
-        }
     }
 }

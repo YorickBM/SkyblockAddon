@@ -22,6 +22,7 @@ import yorickbm.guilibrary.GUILibraryRegistry;
 import yorickbm.guilibrary.events.DefaultEventHandler;
 import yorickbm.skyblockaddon.capabilities.providers.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.chunk.ChunkEvents;
+import yorickbm.skyblockaddon.chunk.ChunkTaskScheduler;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.events.Gui.GuiEvents;
 import yorickbm.skyblockaddon.events.Gui.IslandGuiEvents;
@@ -147,6 +148,7 @@ public class SkyblockAddon {
     @SubscribeEvent
     public void onServerShutDown(final ServerStoppedEvent event) {
         try {
+            ChunkTaskScheduler.clear();
             ThreadManager.terminateAllThreads();
         } catch (final NoClassDefFoundError ex) {
             //Seems to be thrown

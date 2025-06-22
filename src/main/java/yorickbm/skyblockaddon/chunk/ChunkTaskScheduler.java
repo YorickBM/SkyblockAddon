@@ -63,7 +63,7 @@ public class ChunkTaskScheduler {
 
         // Then, execute the collected tasks
         for (ScheduledTask task : tasksToRun) {
-            LOGGER.debug("Starting execution of task ID " + task.id + " for ticks " + tick);
+            LOGGER.debug("Starting execution of task ID {}", task.id);
 
             // Run the task on main thread
             task.task.run();

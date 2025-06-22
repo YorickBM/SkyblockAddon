@@ -155,6 +155,32 @@
     {
       "item": {
         "display_name": [
+          "{\"text\": \"Admin Controls\", \"color\":\"dark_red\", \"bold\":\"true\"}"
+        ],
+        "item": "minecraft:COMMAND_BLOCK",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Access special administrative controls.\",\"color\":\"dark_gray\"}"
+          ]
+        ],
+        "data": {
+          "category_id": "admin_controls"
+        }
+      },
+      "slot": 4,
+      "action": {
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:set_permission"
+        }
+      },
+      "conditions": [
+        "is_op"
+      ]
+    },
+    {
+      "item": {
+        "display_name": [
           "{\"text\": \"Back\",\"bold\": true,\"color\": \"red\"}"
         ],
         "item": "minecraft:ARROW",
