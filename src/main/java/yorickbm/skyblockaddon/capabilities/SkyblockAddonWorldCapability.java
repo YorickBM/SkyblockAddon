@@ -236,6 +236,9 @@ public class SkyblockAddonWorldCapability {
      * @return Spawn location of island
      */
     public Vec3i genIsland(final ServerLevel worldServer) {
+        final Vec3i islandLocation = reusableLocations.isEmpty() ? lastLocation : reusableLocations.remove();
+        if(islandLocation == lastLocation) lastLocation = nextGridLocation(lastLocation);
+
         final CompoundTag nbt = ResourceManager.getIslandNBT(worldServer.getServer());
 
         final ListTag paletteNbt = nbt.getList("palette", 10);
@@ -267,7 +270,6 @@ public class SkyblockAddonWorldCapability {
             throw new NBTNotFoundException();
         }
 
-        final Vec3i islandLocation = reusableLocations.isEmpty() ? lastLocation : reusableLocations.remove();
         final int finalBigestX = bigestX;
         final int finalBigestZ = bigestZ;
         final int height = Integer.parseInt(SkyblockAddonConfig.getForKey("island.spawn.height"));
@@ -277,7 +279,6 @@ public class SkyblockAddonWorldCapability {
         final int topHeight = chunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, islandLocation.getX(), islandLocation.getZ()) + 2;
 
         final Vec3i rslt = new Vec3i(islandLocation.getX(), topHeight, islandLocation.getZ());
-        if(islandLocation == lastLocation) lastLocation = nextGridLocation(lastLocation);
         return rslt;
     }
 
