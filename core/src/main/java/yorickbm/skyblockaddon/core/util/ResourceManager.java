@@ -20,9 +20,9 @@ public class ResourceManager {
      * @throws ResourceNotFoundException If asset is not within projects resources
      */
     private static void generateFile(final Path FMLPath, final String file, final String asset) throws ResourceNotFoundException {
-        try {
-            final File resourceFile = new File(FMLPath.resolve(SkyblockAddonCore.MOD_ID) + "/" +  file);
+        final File resourceFile = new File(FMLPath.resolve(SkyblockAddonCore.MOD_ID) + "/" +  file);
 
+        try {
             //Determine if file doesnt exists
             if (!resourceFile.exists()) {
                 if (resourceFile.createNewFile()) {
@@ -37,7 +37,7 @@ public class ResourceManager {
                 }
             }
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(resourceFile.getPath() + "\n" + e);
         }
     }
 
@@ -52,8 +52,10 @@ public class ResourceManager {
         SkyBlockAddonLanguage.loadLocalization(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/language.json"));
 
         //Generate registries
-        //if (!Files.exists(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/registries/"))) ResourceManager.getOrCreateDirectory(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/registries/"), SkyblockAddonCore.MOD_ID + "/registries/");
-        if(!Files.exists(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/registries/BiomeRegistry.json"))) generateFile(FMLPath, "registries/BiomeRegistry.json", "registries/BiomeRegistry.json");
+        if (!Files.exists(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/registries/"))) ResourceManager.getOrCreateDirectory(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/registries/"), SkyblockAddonCore.MOD_ID + "/registries/");
+        if(!Files.exists(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/registries/BiomeRegistry.json"))) {
+            generateFile(FMLPath, "registries/BiomeRegistry.json", "registries/BiomeRegistry.json");
+        }
 
         //Generate correct permissionRegistry
         try {
@@ -65,8 +67,9 @@ public class ResourceManager {
 
 
         //Generate GUIS
+        ResourceManager.getOrCreateDirectory(FMLPath.resolve(SkyblockAddonCore.MOD_ID), "/guis/");
         if (!Files.exists(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/guis/"))) {
-            //ResourceManager.getOrCreateDirectory(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/guis/"), SkyblockAddonCore.MOD_ID + "/guis/");
+            ResourceManager.getOrCreateDirectory(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/guis/"), SkyblockAddonCore.MOD_ID + "/guis/");
 
             generateFile(FMLPath, "guis/overview.json", "guis/overview.json");
             generateFile(FMLPath, "guis/settings.json", "guis/settings.json");
