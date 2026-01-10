@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Specification-Title: skyblockaddon
-Specification-Vendor: YorickBM
-Specification-Version: 1
-Implementation-Title: skyblockaddon
-Implementation-Version: 8.0
-Implementation-Vendor: YorickBM
-Implementation-Timestamp: 2025-11-10T14:10:09+0100
-
