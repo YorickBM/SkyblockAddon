@@ -12,6 +12,7 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.storage.LevelResource;
 import org.slf4j.Logger;
+import yorickbm.skyblockaddon.SkyBlockAddon;
 import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.core.islands.IslandManager;
 import yorickbm.skyblockaddon.core.util.exceptions.NBTNotFoundException;
@@ -99,7 +100,7 @@ public class SkyblockAddonWorldCapability {
 
     public net.minecraft.core.Vec3i genIsland(ServerLevel level) {
         final net.minecraft.core.Vec3i islandLocation = ForgeConverter.InternalToForgeVec3i(IslandManager.getInstance().getNextIslandGen());
-        final CompoundTag nbt = ResourceManager.getIslandNBT(worldServer.getServer());
+        final CompoundTag nbt = SkyBlockAddon.getIslandNBT(level.getServer());
 
         final ListTag paletteNbt = nbt.getList("palette", 10);
         final ListTag blocksNbt = nbt.getList("blocks", 10);

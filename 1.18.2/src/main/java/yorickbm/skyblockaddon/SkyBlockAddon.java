@@ -1,6 +1,11 @@
 package yorickbm.skyblockaddon;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
@@ -34,6 +39,8 @@ import yorickbm.skyblockaddon.events.Gui.GuiEvents;
 import yorickbm.skyblockaddon.events.Gui.IslandGuiEvents;
 import yorickbm.skyblockaddon.events.Gui.RegistryGuiEvents;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -142,5 +149,24 @@ public class SkyBlockAddon {
         } catch (final NoClassDefFoundError ex) {
             //Seems to be thrown
         }
+    }
+
+    private static CompoundTag IslandNBTData = null;
+    public static CompoundTag getIslandNBT(final MinecraftServer server) {
+        if (IslandNBTData == null) {
+            try {
+                final File islandFile = new File(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddonCore.MOD_ID) + "/island.nbt");
+                IslandNBTData = NbtIo.readCompressed(islandFile);
+            } catch (final IOException e) {
+                LOGGER.error("Could not load external island.nbt file, using mod's internal island.nbt file.");
+                try {
+                    final Resource rs = server.getResourceManager().getResource(new ResourceLocation(SkyblockAddonCore.MOD_ID, "structures/island.nbt"));
+                    IslandNBTData = NbtIo.readCompressed(rs.getInputStream());
+                } catch (final IOException ex) {
+                    LOGGER.error("Could not load mod's internal island.nbt file!!!");
+                }
+            }
+        }
+        return IslandNBTData;
     }
 }

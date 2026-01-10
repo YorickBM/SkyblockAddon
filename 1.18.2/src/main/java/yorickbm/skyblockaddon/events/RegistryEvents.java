@@ -14,7 +14,6 @@ import yorickbm.guilibrary.events.GuiDrawFillerEvent;
 import yorickbm.guilibrary.interfaces.ServerInterface;
 import yorickbm.guilibrary.util.FillerPattern;
 import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldProvider;
-import yorickbm.skyblockaddon.core.SkyblockAddonCore;
 import yorickbm.skyblockaddon.core.islands.Island;
 import yorickbm.skyblockaddon.core.islands.IslandManager;
 import yorickbm.skyblockaddon.core.registries.interfaces.SkyblockAddonRegistry;
