@@ -14,7 +14,6 @@ import yorickbm.skyblockaddon.core.SkyblockAddonCore;
 import yorickbm.skyblockaddon.core.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.core.islands.IslandGroup;
 import yorickbm.skyblockaddon.core.permissions.Permission;
-import yorickbm.skyblockaddon.core.permissions.PermissionManager;
 import yorickbm.skyblockaddon.core.registries.GroupsRegistry;
 import yorickbm.skyblockaddon.core.registries.PermissionRegistry;
 import yorickbm.skyblockaddon.events.RegistryEvents;
