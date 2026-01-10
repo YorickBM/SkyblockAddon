@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group = 'yorickbm.skyblockaddon.core'
+version = '8.0'
+archivesBaseName = 'SkyBlockAddon-Core'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Gson dependency
+    implementation 'com.google.code.gson:gson:2.10.1' // latest stable version
+
+    //Google cache dependency
+    implementation 'com.google.guava:guava:32.1.2-jre' // latest stable version
+
+    // JUnit for testing
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            groupId = project.group
+            artifactId = project.archivesBaseName
+            version = project.version
+        }
+    }
+}
