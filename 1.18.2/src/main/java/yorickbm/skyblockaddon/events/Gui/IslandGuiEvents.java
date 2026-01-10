@@ -12,6 +12,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.guilibrary.GUILibraryRegistry;
+import yorickbm.skyblockaddon.SkyBlockAddon;
 import yorickbm.skyblockaddon.core.SkyblockAddonCore;
 import yorickbm.skyblockaddon.core.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.core.islands.IslandManager;
@@ -116,7 +117,7 @@ public class IslandGuiEvents {
                                 "/island group \""
                                         +  event.getIsland().getGroup(guiData.getUUID("group_id")).getName()
                                         + "\" addMember "
-                                        + event.getTarget().getDisplayName().getString().trim())))
+                                        + event.getTarget().getName().getString().trim())))
                 ,event.getTarget().getUUID());
     }
 
@@ -175,9 +176,7 @@ public class IslandGuiEvents {
 
     @SubscribeEvent
     public void onKickMemberEvent(final IslandEvents.KickMember event) {
-        final CompoundTag guiData = event.getHolder().getData();
-
-        LOGGER.info(guiData);
+        final CompoundTag guiData = event.getHolder().getData().getCompound(SkyblockAddonCore.MOD_ID);
 
         if(!guiData.contains("player_id")) {
             event.setResult(Event.Result.DENY);
@@ -198,8 +197,8 @@ public class IslandGuiEvents {
 
     @SubscribeEvent
     public void onSetPlayerGroupEvent(final IslandEvents.SetPlayerGroup event) {
-        final CompoundTag modData = event.getClickedItem().getOrCreateTagElement(SkyblockAddonCore.MOD_ID);
-        final CompoundTag guiData = event.getHolder().getData();
+        final CompoundTag modData = event.getClickedItem().getOrCreateTag();
+        final CompoundTag guiData = event.getHolder().getData().getCompound(SkyblockAddonCore.MOD_ID);
 
         LOGGER.info(modData);
         LOGGER.info(guiData);

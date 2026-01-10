@@ -14,6 +14,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import yorickbm.skyblockaddon.commands.interfaces.Cmds;
 import yorickbm.skyblockaddon.commands.interfaces.OverWorldCommandStack;
+import yorickbm.skyblockaddon.core.SkyblockAddonCore;
 import yorickbm.skyblockaddon.core.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.core.islands.Island;
 import yorickbm.skyblockaddon.core.islands.IslandGroup;
@@ -61,6 +62,7 @@ public class IslandAddGroupMemberCommand extends OverWorldCommandStack {
         }
 
         island.getGroups().forEach(g -> {
+            if(g.getId().equals(SkyblockAddonCore.MOD_UUID) || g.getId().equals(SkyblockAddonCore.MOD_UUID2)) return; //Skip basic groups
             builder.suggest("\"" + g.getName() + "\"");
         });
 
@@ -83,6 +85,10 @@ public class IslandAddGroupMemberCommand extends OverWorldCommandStack {
         }
 
         final IslandGroup group = island.getGroup(groupId.get());
+        if(group.getId().equals(SkyblockAddonCore.MOD_UUID) || group.getId().equals(SkyblockAddonCore.MOD_UUID2)) {
+            command.sendFailure(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("commands.group.not.found"), groupId)));
+            return Command.SINGLE_SUCCESS;
+        }
         group.addMember(target.getUUID());
 
         command.sendSuccess(new TextComponent(String.format(SkyBlockAddonLanguage.getLocalizedString("commands.group.added.member"), target.getDisplayName().getString().trim(), group.getName())).withStyle(ChatFormatting.GREEN), false);
