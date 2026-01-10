@@ -246,15 +246,12 @@ public class PermissionEvents {
 
     @SubscribeEvent
     public void onRightClickBlock(final PlayerInteractEvent.RightClickBlock event) {
-        System.out.println("onRightClickBlock");
         final AtomicReference<Island> standingOn = new AtomicReference<>();
         if(!InteractionHandler.verifyEntity(event.getEntity(), standingOn).asBoolean()) {
-            System.out.println("Entity verified");
             final BlockState state = event.getWorld().getBlockState(event.getPos());
             final BlockEntity be = event.getWorld().getBlockEntity(event.getPos());
             final String trigger = ServerHelper.isBlockInteractable(event.getWorld(), event.getPos(), event.getPlayer(), event.getHand(), event.getHitVec()) ? "onRightClickBlock" : "onPlaceBlock";
 
-            System.out.println("Running interaction");
             if(InteractionHandler.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(), (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(),  trigger)) {
                 event.getPlayer().displayClientMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere")).withStyle(ChatFormatting.DARK_RED), true);
                 if(event.isCancelable()) event.setCanceled(true);

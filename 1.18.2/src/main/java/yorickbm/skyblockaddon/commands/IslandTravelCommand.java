@@ -3,7 +3,6 @@ package yorickbm.skyblockaddon.commands;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerPlayer;
 import yorickbm.guilibrary.GUILibraryRegistry;
 import yorickbm.skyblockaddon.commands.interfaces.Cmds;

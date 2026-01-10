@@ -16,11 +16,8 @@ import yorickbm.guilibrary.GUILibraryRegistry;
 import yorickbm.guilibrary.GUIType;
 import yorickbm.guilibrary.interfaces.MenuProviderInterface;
 import yorickbm.guilibrary.interfaces.ServerInterface;
-import yorickbm.skyblockaddon.util.NBTEncoder;
-import yorickbm.skyblockaddon.util.NBTUtil;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Cancelable
 public class OpenMenuEvent extends Event {
