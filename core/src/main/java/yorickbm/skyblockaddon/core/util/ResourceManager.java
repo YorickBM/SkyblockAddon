@@ -52,7 +52,9 @@ public class ResourceManager {
         SkyBlockAddonLanguage.loadLocalization(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/language.json"));
 
         //Generate registries
-        if (!Files.exists(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/registries/"))) ResourceManager.getOrCreateDirectory(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/registries/"), SkyblockAddonCore.MOD_ID + "/registries/");
+        if (!Files.exists(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/registries/"))) {
+            ResourceManager.getOrCreateDirectory(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/"), "registries");
+        }
         if(!Files.exists(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/registries/BiomeRegistry.json"))) {
             generateFile(FMLPath, "registries/BiomeRegistry.json", "registries/BiomeRegistry.json");
         }
@@ -67,9 +69,8 @@ public class ResourceManager {
 
 
         //Generate GUIS
-        ResourceManager.getOrCreateDirectory(FMLPath.resolve(SkyblockAddonCore.MOD_ID), "/guis/");
         if (!Files.exists(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/guis/"))) {
-            ResourceManager.getOrCreateDirectory(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/guis/"), SkyblockAddonCore.MOD_ID + "/guis/");
+            ResourceManager.getOrCreateDirectory(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/"), "guis");
 
             generateFile(FMLPath, "guis/overview.json", "guis/overview.json");
             generateFile(FMLPath, "guis/settings.json", "guis/settings.json");
@@ -98,7 +99,7 @@ public class ResourceManager {
                 Files.createDirectories(dir);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Failed to create directory: " + dir, e);
+            //throw new RuntimeException("Failed to create directory: " + dir, e);
         }
     }
 }
