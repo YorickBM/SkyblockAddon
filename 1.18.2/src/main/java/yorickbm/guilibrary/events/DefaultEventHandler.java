@@ -29,7 +29,7 @@ public class DefaultEventHandler {
         if(event.getItemStackHolder().getData().contains("SkullTexture")) {
             CompoundTag tag = event.getItemStackHolder().getData();
             CompoundTag skullOwnerTag = new CompoundTag();
-            skullOwnerTag.putString("Name", "Piggy");
+            skullOwnerTag.putString("Name", tag.contains("SkullOwner") ? tag.getString("SkullOwner") : "Piggy");
 
             // Create Properties tag
             CompoundTag propertiesTag = new CompoundTag();
