@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.chunk.ChunkTaskScheduler;
 import yorickbm.skyblockaddon.core.islands.Island;
 import yorickbm.skyblockaddon.core.islands.IslandManager;
+import yorickbm.skyblockaddon.islands.ForgeIsland;
 import yorickbm.skyblockaddon.util.ForgeConverter;
 
 public class ChunkEvents {
@@ -30,7 +31,9 @@ public class ChunkEvents {
         final ChunkAccess chunk = (ChunkAccess) event.getChunk();
         final ChunkPos pos = chunk.getPos();
 
-        final Island island = IslandManager.getInstance().getIslandByPos(ForgeConverter.ForgeToInternalVec3i(chunk.getPos().getMiddleBlockPosition(155)));
+        final ForgeIsland island = (ForgeIsland)IslandManager.getInstance().getIslandByPos(ForgeConverter.ForgeToInternalVec3i(chunk.getPos().getMiddleBlockPosition(155)));
         if(island == null) return;
+
+        if(island.storeChunk(chunk)) LOGGER.debug("Chunk {} added to island {}", pos, island.getId());
     }
 }
