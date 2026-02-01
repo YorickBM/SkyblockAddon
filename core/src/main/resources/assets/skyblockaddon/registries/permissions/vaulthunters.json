@@ -1258,10 +1258,51 @@
       }
     },
     {
-      "id": "vh_gear_crafting",
+      "id": "vh_crystals_crafting",
       "item": {
         "display_name": [
-          "{\"text\": \"Gear Crafting Stations\", \"color\":\"gold\", \"bold\":\"true\"}"
+          "{\"text\": \"Crystals & Crafting\", \"color\":\"yellow\", \"bold\":\"true\"}"
+        ],
+        "item": "the_vault:vault_altar",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Vault Altar, Greed Altar, Inscription Table, Crystal Workbench, Catalyst Infusion Table\",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Vaulthunters",
+      "triggers": [
+        "onRightClickBlock"
+      ],
+      "data": {
+        "skyblockaddon": [],
+        "items": [],
+        "blocks": [
+          "the_vault:vault_altar",
+          "the_vault:vault_greed_altar",
+          "the_vault:inscription_table",
+          "the_vault:crystal_workbench",
+          "the_vault:catalyst_infusion_table"
+        ],
+        "entities": []
+      }
+    },
+    {
+      "id": "vh_gear_tools",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Gear & Tools\", \"color\":\"yellow\", \"bold\":\"true\"}"
         ],
         "item": "the_vault:vault_forge",
         "lore": [
@@ -1277,20 +1318,7 @@
           ],
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"Vault Forge\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"white\"}",
-            "{\"text\":\"Tool Station\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"white\"}",
-            "{\"text\":\"Artisan Station\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"white\"}",
-            "{\"text\":\"Jewel Cutting Station\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"white\"}",
-            "{\"text\":\"Jewel Application Station\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"white\"}",
-            "{\"text\":\"Jewel Crafting Station\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"white\"}",
-            "{\"text\":\"Vault Anvil\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"white\"}"
+            "{\"text\":\"Vault Forge, Artisan Station, Vault Sealer, Imbuement Altar, Tool Station, Vault Enchanter\",\"color\":\"white\"}"
           ]
         ]
       },
@@ -1299,197 +1327,64 @@
         "onRightClickBlock"
       ],
       "data": {
-        "skyblockaddon": [],
-        "items": [],
         "blocks": [
           "the_vault:vault_forge",
-          "the_vault:tool_station",
           "the_vault:vault_artisan_station",
-          "the_vault:vault_jewel_cutting_station",
+          "the_vault:vault_sealer",
+          "the_vault:imbuement_altar",
+          "the_vault:tool_station",
+          "the_vault:vault_enchanter"
+        ],
+        "items": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "vh_jewels_trinkets",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Jewels & Trinkets\", \"color\":\"yellow\", \"bold\":\"true\"}"
+        ],
+        "item": "the_vault:vault_jewel_application_station",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Vault Jewel Application Station, Jewel Crafting Table, Unboxing Station, Trinket Forge\",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Vaulthunters",
+      "triggers": [
+        "onRightClickBlock"
+      ],
+      "data": {
+        "blocks": [
           "the_vault:vault_jewel_application_station",
-          "the_vault:vault_anvil",
-          "the_vault:jewel_crafting_table"
-        ],
-        "entities": []
-      }
-    },
-    {
-      "id": "vh_crystal_crafting",
-      "item": {
-        "display_name": [
-          "{\"text\": \"Crystal Crafting Stations\", \"color\":\"aqua\", \"bold\":\"true\"}"
-        ],
-        "item": "the_vault:crystal_workbench",
-        "lore": [
-          [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
-          ],
-          [
-            "{\"text\":\" \",\"color\":\"dark_gray\"}"
-          ],
-          [
-            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
-          ],
-          [
-            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"Crystal Workbench\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"white\"}",
-            "{\"text\":\"Catalyst Infusion Table\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"white\"}",
-            "{\"text\":\"Crystal Budding\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"white\"}"
-          ]
-        ]
-      },
-      "category": "Vaulthunters",
-      "triggers": [
-        "onRightClickBlock"
-      ],
-      "data": {
-        "skyblockaddon": [],
-        "items": [],
-        "blocks": [
-          "the_vault:crystal_workbench",
-          "the_vault:catalyst_infusion_table",
-          "the_vault:crystal_budding"
-        ],
-        "entities": []
-      }
-    },
-    {
-      "id": "vh_enchantment_alchemy",
-      "item": {
-        "display_name": [
-          "{\"text\": \"Enchantment & Alchemy\", \"color\":\"purple\", \"bold\":\"true\"}"
-        ],
-        "item": "the_vault:vault_enchanter",
-        "lore": [
-          [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
-          ],
-          [
-            "{\"text\":\" \",\"color\":\"dark_gray\"}"
-          ],
-          [
-            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
-          ],
-          [
-            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"Vault Enchanter\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"white\"}",
-            "{\"text\":\"Alchemy Table\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"white\"}",
-            "{\"text\":\"Modifier Workbench\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"white\"}"
-          ]
-        ]
-      },
-      "category": "Vaulthunters",
-      "triggers": [
-        "onRightClickBlock"
-      ],
-      "data": {
-        "skyblockaddon": [],
-        "items": [],
-        "blocks": [
-          "the_vault:vault_enchanter",
-          "the_vault:alchemy_table",
-          "the_vault:modifier_workbench"
-        ],
-        "entities": []
-      }
-    },
-    {
-      "id": "vh_recycling_salvaging",
-      "item": {
-        "display_name": [
-          "{\"text\": \"Recycling & Salvaging\", \"color\":\"gray\", \"bold\":\"true\"}"
-        ],
-        "item": "the_vault:vault_recycler",
-        "lore": [
-          [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
-          ],
-          [
-            "{\"text\":\" \",\"color\":\"dark_gray\"}"
-          ],
-          [
-            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
-          ],
-          [
-            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"Vault Recycler\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"white\"}",
-            "{\"text\":\"Vault Diffuser\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"white\"}",
-            "{\"text\":\"Void Crucible\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"white\"}"
-          ]
-        ]
-      },
-      "category": "Vaulthunters",
-      "triggers": [
-        "onRightClickBlock"
-      ],
-      "data": {
-        "skyblockaddon": [],
-        "items": [],
-        "blocks": [
-          "the_vault:vault_recycler",
-          "the_vault:vault_diffuser",
-          "the_vault:vault_charm_controller"
-        ],
-        "entities": []
-      }
-    },
-    {
-      "id": "vh_trinkets_charms",
-      "item": {
-        "display_name": [
-          "{\"text\": \"Trinkets\", \"color\":\"green\", \"bold\":\"true\"}"
-        ],
-        "item": "the_vault:trinket_forge",
-        "lore": [
-          [
-            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
-          ],
-          [
-            "{\"text\":\" \",\"color\":\"dark_gray\"}"
-          ],
-          [
-            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
-          ],
-          [
-            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"Trinket Forge\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"white\"}"
-          ]
-        ]
-      },
-      "category": "Vaulthunters",
-      "triggers": [
-        "onRightClickBlock"
-      ],
-      "data": {
-        "skyblockaddon": [],
-        "items": [],
-        "blocks": [
+          "the_vault:jewel_crafting_table",
+          "the_vault:unboxing_station",
           "the_vault:trinket_forge"
         ],
+        "items": [],
         "entities": []
       }
     },
     {
-      "id": "vh_economy_trading",
+      "id": "vh_decks_cards",
       "item": {
         "display_name": [
-          "{\"text\": \"Economy & Trading\", \"color\":\"yellow\", \"bold\":\"true\"}"
+          "{\"text\": \"Decks & Cards\", \"color\":\"yellow\", \"bold\":\"true\"}"
         ],
-        "item": "the_vault:black_market",
+        "item": "the_vault:deck_station",
         "lore": [
           [
             "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
@@ -1503,32 +1398,239 @@
           ],
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"Black Market\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"white\"}",
-            "{\"text\":\"Bounty Block\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"white\"}"
+            "{\"text\":\"Deck Station, Card Essence Extractor, Card Binder\",\"color\":\"white\"}"
           ]
         ]
       },
       "category": "Vaulthunters",
-      "triggers": [
-        "onRightClickBlock"
-      ],
+      "triggers": ["onRightClickBlock"],
       "data": {
-        "skyblockaddon": [],
-        "items": [],
         "blocks": [
-          "the_vault:black_market",
-          "the_vault:bounty_block"
+          "the_vault:deck_station",
+          "the_vault:card_essence_extractor",
+          "the_vault:card_binder"
         ],
+        "items": [],
         "entities": []
       }
     },
     {
-      "id": "vh_eternals_misc",
+      "id": "vh_etchings_artifacts",
       "item": {
         "display_name": [
-          "{\"text\": \"Eternals & Miscellaneous\", \"color\":\"blue\", \"bold\":\"true\"}"
+          "{\"text\": \"Etchings\", \"color\":\"yellow\", \"bold\":\"true\"}"
+        ],
+        "item": "the_vault:etching_application_table",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Etching Application Table, Artifact Projector Block\",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Vaulthunters",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "blocks": [
+          "the_vault:etching_application_table"
+        ],
+        "items": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "vh_alchemy_drinks",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Alchemy & Drinks\", \"color\":\"yellow\", \"bold\":\"true\"}"
+        ],
+        "item": "the_vault:alchemy_table",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Alchemy Table, Vault Coffee Machine\",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Vaulthunters",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "blocks": [
+          "the_vault:alchemy_table",
+          "the_vault:vault_coffee_machine"
+        ],
+        "items": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "vh_companions",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Companions\", \"color\":\"yellow\", \"bold\":\"true\"}"
+        ],
+        "item": "the_vault:companion_incubator",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Companion Incubator, Companion Home\",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Vaulthunters",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "blocks": [
+          "the_vault:companion_incubator",
+          "the_vault:companion_home"
+        ],
+        "items": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "vh_personal",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Personal\", \"color\":\"yellow\", \"bold\":\"true\"}"
+        ],
+        "item": "the_vault:spirit_extractor",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Spirit Extractor, Wardrobe, Skill Altar, Personal Vault, Ascension Forge\",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Vaulthunters",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "blocks": [
+          "the_vault:spirit_extractor",
+          "the_vault:wardrobe",
+          "the_vault:skill_altar",
+          "the_vault:personal_vault",
+          "the_vault:ascension_forge"
+        ],
+        "items": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "vh_animals_farming",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Animals & Farming\", \"color\":\"yellow\", \"bold\":\"true\"}"
+        ],
+        "item": "the_vault:animal_pen",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Animal Pen, Animatrix Block\",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Vaulthunters",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "blocks": [
+          "the_vault:animal_pen",
+          "the_vault:animatrix_block"
+        ],
+        "items": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "vh_crates",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Crates\", \"color\":\"yellow\", \"bold\":\"true\"}"
+        ],
+        "item": "the_vault:vault_crate",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"All Vault Crates\",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Vaulthunters",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "blocks": [
+          "the_vault:*_crate_*",
+          "the_vault:*_crate"
+        ],
+        "items": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "vh_eternals",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Eternals\", \"color\":\"yellow\", \"bold\":\"true\"}"
         ],
         "item": "the_vault:eternal_pedestal",
         "lore": [
@@ -1544,36 +1646,130 @@
           ],
           [
             "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"Eternal Pedestal\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"white\"}",
-            "{\"text\":\"Animatrix Block\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"white\"}",
-            "{\"text\":\"Ascension Forge\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"white\"}",
-            "{\"text\":\"Transmog Table\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"white\"}",
-            "{\"text\":\"Skill Altar\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"white\"}",
-            "{\"text\":\"Vault Altar\",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"white\"}"
+            "{\"text\":\"Cryo Chamber, Eternal Pedestal\",\"color\":\"white\"}"
           ]
         ]
       },
       "category": "Vaulthunters",
-      "triggers": [
-        "onRightClickBlock"
-      ],
+      "triggers": ["onRightClickBlock"],
       "data": {
-        "skyblockaddon": [],
-        "items": [],
         "blocks": [
-          "the_vault:eternal_pedestal",
-          "the_vault:animatrix_block",
-          "the_vault:ascension_forge",
-          "the_vault:transmog_table",
-          "the_vault:skill_altar",
-          "the_vault:vault_altar"
+          "the_vault:cryo_chamber",
+          "the_vault:eternal_pedestal"
         ],
+        "items": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "vh_artifacts",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Artifact's\", \"color\":\"yellow\", \"bold\":\"true\"}"
+        ],
+        "item": "the_vault:artifact_projector_block",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Transmog Table, Bounty Block, Black Market, Vault Anvil, Spectator Terminal, Identification Stand, Treasure Pedestal\",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Vaulthunters",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "blocks": [
+          "the_vault:artifact_projector_block"
+        ],
+        "items": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "vh_recycle",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Recycle & Vault Management\", \"color\":\"yellow\", \"bold\":\"true\"}"
+        ],
+        "item": "the_vault:vault_recycler",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Recycler, Diffuser, Harvester, Charm Controller\",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Vaulthunters",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "blocks": [
+          "the_vault:vault_recycler",
+          "the_vault:vault_diffuser",
+          "the_vault:vault_harvester",
+          "the_vault:vault_charm_controller"
+        ],
+        "items": [],
+        "entities": []
+      }
+    },
+    {
+      "id": "vh_miscellaneous",
+      "item": {
+        "display_name": [
+          "{\"text\": \"Miscellaneous\", \"color\":\"yellow\", \"bold\":\"true\"}"
+        ],
+        "item": "the_vault:transmog_table",
+        "lore": [
+          [
+            "{\"text\":\"\u00bb Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Status: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"%data_status% \",\"color\":\"white\"}"
+          ],
+          [
+            "{\"text\":\"\u2666 Contains: \",\"color\":\"dark_gray\"}",
+            "{\"text\":\"Transmog Table, Bounty Block, Black Market, Vault Anvil, Spectator Terminal, Identification Stand, Treasure Pedestal\",\"color\":\"white\"}"
+          ]
+        ]
+      },
+      "category": "Vaulthunters",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "blocks": [
+          "the_vault:transmog_table",
+          "the_vault:bounty_block",
+          "the_vault:black_market",
+          "the_vault:vault_anvil",
+          "the_vault:spectator_terminal",
+          "the_vault:identification_stand",
+          "the_vault:treasure_pedestal",
+          "the_vault:artifact_projector_block"
+        ],
+        "items": [],
         "entities": []
       }
     },
