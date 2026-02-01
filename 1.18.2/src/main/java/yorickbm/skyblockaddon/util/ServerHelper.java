@@ -1,10 +1,14 @@
 package yorickbm.skyblockaddon.util;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
@@ -17,6 +21,8 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -53,6 +59,32 @@ public class ServerHelper {
 
     public static void showParticleToPlayer(final ServerPlayer player, final Vec3i location, final ParticleOptions particle, final int count) {
         ServerHelper.SendPacket(player, new ClientboundLevelParticlesPacket(particle, false, location.getX() + 0.5f, location.getY() + 0.5f, location.getZ() + 0.5f, 0.1f, 0f, 0.1f, 0f, count));
+    }
+
+    /**
+     * Applies custom skull texture to an ItemStack
+     * @param itemStack The ItemStack (should be a player head)
+     * @param skullTexture The base64 encoded texture string
+     * @return The ItemStack with the applied texture
+     */
+    public static ItemStack applySkullTexture(ItemStack itemStack, String skullTexture) {
+        if (itemStack.getItem() != Items.PLAYER_HEAD || skullTexture.length() < 10) {
+            return itemStack;
+        }
+
+        // Create a GameProfile with random UUID
+        GameProfile profile = new GameProfile(UUID.randomUUID(), "");
+
+        // Add the texture property
+        profile.getProperties().put("textures", new Property("textures", skullTexture));
+
+        // Convert GameProfile to NBT
+        CompoundTag profileTag = NbtUtils.writeGameProfile(new CompoundTag(), profile);
+
+        // Add to ItemStack NBT
+        itemStack.getOrCreateTag().put("SkullOwner", profileTag);
+
+        return itemStack;
     }
 
     /**

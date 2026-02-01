@@ -28,6 +28,7 @@ public class IslandRegistry extends SkyblockAddonRegistry<DataComponent> {
 
         component.put("SkullOwner", username);
         component.put("owner_name", username);
+        component.put("skull_texture", island.getSkullTexture());
 
         component.put("biome", island.getBiome());
 

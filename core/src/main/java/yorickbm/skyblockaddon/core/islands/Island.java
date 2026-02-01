@@ -20,6 +20,8 @@ public abstract class Island {
     protected String biome = "Unknown";
     protected boolean travelability = false;
 
+    protected String skullTexture = "";
+
     protected final List<UUID> members = new ArrayList<>();
     protected final Map<UUID, IslandGroup> islandGroups = new HashMap<>();
 
@@ -27,6 +29,19 @@ public abstract class Island {
      * Empty constructor
      */
     public Island() {}
+
+    /**
+     * Set island's custom skull texture
+     * If empty or below 10 characters custom texture will be removed
+     * @param base64 - Texture string as base64
+     */
+    public void setSkullTexture(String base64) {
+        if(base64.length() < 10) this.skullTexture = "";
+        this.skullTexture = base64;
+    }
+    public String getSkullTexture() {
+        return this.skullTexture;
+    }
 
     /**
      * Retrieve list of island groups

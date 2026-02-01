@@ -1,8 +1,11 @@
 package yorickbm.skyblockaddon.islands;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.*;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;

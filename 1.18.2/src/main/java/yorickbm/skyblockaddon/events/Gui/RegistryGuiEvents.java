@@ -15,12 +15,15 @@ import yorickbm.skyblockaddon.core.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.core.islands.IslandGroup;
 import yorickbm.skyblockaddon.core.permissions.Permission;
 import yorickbm.skyblockaddon.core.registries.GroupsRegistry;
+import yorickbm.skyblockaddon.core.registries.IslandRegistry;
 import yorickbm.skyblockaddon.core.registries.PermissionRegistry;
 import yorickbm.skyblockaddon.events.RegistryEvents;
 import yorickbm.skyblockaddon.islands.ForgeIslandGroup;
 import yorickbm.skyblockaddon.util.ForgeConverter;
+import yorickbm.skyblockaddon.util.ServerHelper;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public class RegistryGuiEvents {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -104,6 +107,31 @@ public class RegistryGuiEvents {
             item.getOrCreateTag().put(SkyblockAddonCore.MOD_ID, data.copy());
 
             event.drawItem(slot, item);
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public void onIslandRegistryFiller(final RegistryEvents.IslandRegistry event) {
+        if(event.isCanceled()) return; //Event is canceled
+        event.setCanceled(true);
+
+        IslandRegistry registry = (IslandRegistry) event.getRegistry();
+
+        for (int slot = 0; slot < event.getSlots(); slot++) {
+            if((slot < 10 || slot > event.getSlots() - 10)  || (slot%9 == 0 || slot%9 == 8)) continue;
+            if(!event.getRegistry().hasNext()) break;
+
+            ItemStackComponent component = new ItemStackComponent();
+            registry.getNextData(component);
+
+            final GUIItemStackHolder holder = event.processHolder(event.getItemStackHolder().clone(), component.getCompound());
+            final ItemStack stack = holder.getItemStack();
+            stack.getOrCreateTag().put(SkyblockAddonCore.MOD_ID, component.getCompound());
+
+            String skullTexture = component.getObject("skull_texture", String.class);
+            ServerHelper.applySkullTexture(stack, skullTexture);
+
+            event.drawItem(slot, stack);
         }
     }
 
