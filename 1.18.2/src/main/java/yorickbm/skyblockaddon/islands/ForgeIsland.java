@@ -23,6 +23,8 @@ import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.mutable.MutableInt;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.core.SkyblockAddonCore;
 import yorickbm.skyblockaddon.core.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.core.islands.Island;
@@ -45,6 +47,8 @@ public class ForgeIsland extends Island implements NBTSerializable {
         super.setSpawn(island.getCenter());
         super.setCenter(island.getCenter());
         super.setVisibility(island.isVisible());
+        super.setSkullTexture(island.getSkullTexture());
+        setChunks(((ForgeIsland)island).getModifiedChunks());
 
         island.getGroups().forEach(super::addGroup);
         island.getMembers().stream()
@@ -175,6 +179,9 @@ public class ForgeIsland extends Island implements NBTSerializable {
         if(playerLoadedChunks.contains(chunk.getPos())) return false;
         return playerLoadedChunks.add(chunk.getPos());
     }
+    public void setChunks(Collection<ChunkPos> data) {
+        this.playerLoadedChunks.addAll(data);
+    }
 
     @Override
     public Square getIslandBoundingBoxAsSquare() {
@@ -194,6 +201,7 @@ public class ForgeIsland extends Island implements NBTSerializable {
         tag.putUUID("Id", getId());
         tag.putString("owner", getOwner().toString());
         tag.putString("biome", getBiome());
+        tag.putString("skullTexture", getSkullTexture());
         tag.putBoolean("travelability", isVisible());
         tag.put("spawn", NBTUtil.Vec3iToNBT(getSpawn()));
         tag.put("center", NBTUtil.Vec3iToNBT(getCenter()));
@@ -227,6 +235,7 @@ public class ForgeIsland extends Island implements NBTSerializable {
 
         setBiome(tag.getString("biome"));
         setVisibility(tag.getBoolean("travelability"));
+        setSkullTexture(tag.getString("skullTexture"));
         setSpawn(NBTUtil.NBTToVec3i(tag.getCompound("spawn")));
         setCenter(NBTUtil.NBTToVec3i(tag.getCompound("center")));
 
