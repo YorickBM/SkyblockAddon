@@ -28,9 +28,14 @@ public class ForgeIslandGroup extends IslandGroup implements NBTSerializable {
     }
 
     public ItemStack getItem() {
+        if(this.item.getItem() == Items.AIR) {
+            this.item = new ItemStack(Items.PAPER, 1);
+        }
+
         ItemStack withData = this.item.copy();
         withData.getOrCreateTag().putString("group_name", this.getName());
         withData.getOrCreateTag().putUUID("group_id", this.getId());
+
         return withData;
     }
 
@@ -45,6 +50,9 @@ public class ForgeIslandGroup extends IslandGroup implements NBTSerializable {
         }
         tag.put("members", members);
 
+        if(this.item.getItem() == Items.AIR) { //Security for air items
+            this.item = new ItemStack(Items.PAPER, 1);
+        }
         tag.put("item", NBTUtil.ItemStackToNBT(this.item));
 
         final CompoundTag permissions = new CompoundTag();

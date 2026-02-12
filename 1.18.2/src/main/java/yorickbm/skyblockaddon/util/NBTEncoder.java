@@ -13,9 +13,36 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 public class NBTEncoder {
     private static final Logger LOGGER = LogManager.getLogger();
+
+    /**
+     * Load a single NBT file from a folder by UUID filename.
+     *
+     * @param folderPath - Folder to load NBT file from
+     * @param clazz      - Class instance in which to load the NBT file
+     * @param uuid       - UUID matching the filename (<uuid>.nbt)
+     */
+    public static <T extends NBTSerializable> T loadSingleFromFolder(final Path folderPath, final Class<T> clazz, final UUID uuid) {
+        final Path filePath = folderPath.resolve(uuid.toString() + ".nbt");
+
+        if (!Files.exists(filePath)) {
+            LOGGER.warn("Island file not found: " + filePath.getFileName());
+            return null;
+        }
+
+        try (final FileInputStream fileInputStream = new FileInputStream(filePath.toFile())) {
+            final CompoundTag NBT = NbtIo.readCompressed(fileInputStream);
+            final T instance = clazz.getDeclaredConstructor().newInstance();
+            instance.deserializeNBT(NBT);
+            return instance;
+        } catch (final Exception e) {
+            LOGGER.error("Failed to load '" + filePath.getFileName() + "'");
+            return null;
+        }
+    }
 
     /**
      * Load NBT files into a collection of CompoundTags

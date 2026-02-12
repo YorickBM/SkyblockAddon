@@ -54,6 +54,7 @@ public class ModEvents {
         new DebugCommand(event.getDispatcher());
         new AdminPurgeCommand(event.getDispatcher());
         new AdminSkullCommand(event.getDispatcher());
+        new AdminLoadIslandCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
         LOGGER.info("Registered commands for " + SkyblockAddonCore.MOD_ID);

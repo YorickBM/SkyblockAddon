@@ -13,6 +13,9 @@
   "commands.admin.island.member.failure": "Could not add %s to %s's island.",
   "commands.admin.skull.set": "Applied custom skull texture for %s's island.",
 
+  "commands.admin.island.file.not.found": "No island file found for UUID: %s",
+  "commands.admin.island.loaded": "Island %s successfully loaded into memory.",
+
   "commands.teleporting.own": "Teleporting you to your island...",
   "commands.teleporting.other": "Teleporting you to %s's island...",
   "commands.teleporting.requested": "Requested teleport to %s's island...",
@@ -50,6 +53,8 @@
   "commands.group.not.found": "Sorry we could not find the group with Id '%s'.",
   "commands.group.added.member": "%s has been added to group %s.",
   "commands.group.click.to.add": "Click here to get the command to add someone to the group.",
+  "commands.group.name.exists": "A group with the name '%s' already exists on this island.",
+
   "island.group.remove.failed": "The group '%s' could not be removed, try again later.",
   "island.group.remove.success": "The group '%s' has been removed, all members are moved to their default group.",
 

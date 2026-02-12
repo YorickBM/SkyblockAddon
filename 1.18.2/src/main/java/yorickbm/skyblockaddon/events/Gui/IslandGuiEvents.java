@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
@@ -126,19 +127,36 @@ public class IslandGuiEvents {
         //Create clickable command
         final UUID id = UUID.randomUUID();
         final Function<ServerPlayer, Boolean> function = executor -> {
-            if(executor.getMainHandItem().isEmpty()) {
-                executor.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.group.failure").formatted(executor.getMainHandItem().getDisplayName().getString(), Objects.requireNonNull(executor.getMainHandItem().getItem().getRegistryName()).toString().split(":")[1]))
-                                .withStyle(ChatFormatting.RED)
-                        ,executor.getUUID());
-                return false; //Keep hash function alive.
+            // Check if hand is empty or air
+            if (executor.getMainHandItem().isEmpty() || executor.getMainHandItem().getItem() == Items.AIR) {
+                executor.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.group.failure")
+                                .formatted(executor.getMainHandItem().getDisplayName().getString(),
+                                        Objects.requireNonNull(executor.getMainHandItem().getItem().getRegistryName()).toString().split(":")[1]))
+                                .withStyle(ChatFormatting.RED),
+                        executor.getUUID());
+                return false;
+            }
+
+            // Check if group name is unique
+            final String newGroupName = executor.getMainHandItem().getDisplayName().getString().trim();
+            final boolean nameAlreadyExists = event.getIsland().getGroups().stream()
+                    .anyMatch(g -> g.getName().equalsIgnoreCase(newGroupName));
+
+            if (nameAlreadyExists) {
+                executor.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.group.name.exists")
+                                .formatted(newGroupName))
+                                .withStyle(ChatFormatting.RED),
+                        executor.getUUID());
+                return false;
             }
 
             ServerHelper.playSongToPlayer(executor, SoundEvents.NOTE_BLOCK_CHIME, SkyblockAddonCore.UI_SUCCESS_VOL, 1f);
             event.getIsland().addGroup(new ForgeIslandGroup(UUID.randomUUID(), executor.getMainHandItem(), false));
 
-            executor.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.group.created").formatted(executor.getMainHandItem().getDisplayName().getString().trim(), Objects.requireNonNull(executor.getMainHandItem().getItem().getRegistryName()).toString().split(":")[1].trim()))
-                            .withStyle(ChatFormatting.GREEN)
-                    ,executor.getUUID());
+            executor.sendMessage(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.group.created")
+                            .formatted(newGroupName, Objects.requireNonNull(executor.getMainHandItem().getItem().getRegistryName()).toString().split(":")[1].trim()))
+                            .withStyle(ChatFormatting.GREEN),
+                    executor.getUUID());
 
             return true;
         };

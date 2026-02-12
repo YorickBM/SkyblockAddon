@@ -10,15 +10,18 @@ import yorickbm.skyblockaddon.core.configs.SkyBlockAddonLanguage;
 
 public abstract class OverWorldCommandStack implements CommandStack {
     public int execute(final CommandSourceStack command, final ServerPlayer executor) {
-        if (executor.level.dimension() != Level.OVERWORLD) {
-            executor.sendMessage(
+        return isInOverworld(executor) ? Command.SINGLE_SUCCESS : 0;
+    }
+
+    public boolean isInOverworld(final ServerPlayer target) {
+        if (target.level.dimension() != Level.OVERWORLD) {
+            target.sendMessage(
                     new TextComponent(
                             SkyBlockAddonLanguage.getLocalizedString("commands.not.in.overworld")
                     ).withStyle(ChatFormatting.RED),
-                    executor.getUUID());
-            return 0;
+                    target.getUUID());
+            return false;
         }
-
-        return Command.SINGLE_SUCCESS;
+        return true;
     }
 }
