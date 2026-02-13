@@ -107,19 +107,14 @@ public class IslandManager {
     public Island getIslandByEntityUUID(UUID uuid) {
         final Optional<UUID> islandId = CACHE_islandByPlayerUUID.getIfPresent(uuid);
 
-        // null = nog nooit opgezocht, scan islandsByUUID
-        if (islandId == null) {
+        if (islandId == null || islandId.isEmpty()) {
             final Optional<Island> island = islandsByUUID.values().stream()
                     .filter(isl -> isl.isPartOf(uuid))
                     .findFirst();
             island.ifPresent(value -> CACHE_islandByPlayerUUID.put(uuid, Optional.of(value.getId())));
             return island.orElse(null);
         }
-
-        // Lege Optional = eerder opgezocht, niet gevonden
-        if (islandId.isEmpty()) return null;
-
-        // Gevulde Optional = bekend island
+        
         return getIslandByUUID(islandId.get());
     }
 
