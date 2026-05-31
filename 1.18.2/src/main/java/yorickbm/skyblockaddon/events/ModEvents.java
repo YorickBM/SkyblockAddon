@@ -64,12 +64,9 @@ public class ModEvents {
     @SubscribeEvent
     public void onWorldSave(final WorldEvent.Save event) {
         if (event.getWorld().isClientSide()) return;
-        event.getWorld().getServer().getLevel(Level.OVERWORLD).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
-            final Path worldPath = event.getWorld().getServer().getWorldPath(LevelResource.ROOT).normalize();
-            final Path filePath = worldPath.resolve("islanddata");
-
-            NBTEncoder.saveToFile(IslandManager.getInstance().getIslandsFromCache().stream().map(s -> (ForgeIsland)s).toList(), filePath); //Save islands to drive on world save
-        });
+        if (!(event.getWorld() instanceof ServerLevel level)) return;
+        if (level.dimension() != Level.OVERWORLD) return; //World save fires once per dimension; only act on the overworld.
+        level.getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(SkyblockAddonWorldCapability::saveIslandsToDisk);
     }
 
     @SubscribeEvent
