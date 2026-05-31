@@ -56,6 +56,16 @@ public class SkyblockAddonWorldCapability {
         }
         nbt.put("reusableLocations", listTag);
 
+        saveIslandsToDisk();
+    }
+
+    /**
+     * Persist every in-memory island to its NBT file. Single source of truth for island-file
+     * writes - both the capability serialize hook and {@code WorldEvent.Save} call this so the
+     * two save paths can't diverge on which islands get written or how they're serialised.
+     * Must run on the server thread (reads {@link IslandManager} singleton state).
+     */
+    public void saveIslandsToDisk() {
         final Path worldPath = serverInstance.getWorldPath(LevelResource.ROOT).normalize();
         final Path filePath = worldPath.resolve("islanddata");
 

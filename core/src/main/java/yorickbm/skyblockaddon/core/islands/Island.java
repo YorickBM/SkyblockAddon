@@ -323,4 +323,8 @@ public abstract class Island {
      */
     public abstract Square getIslandBoundingBoxAsSquare();
     public abstract Optional<UUID> getGroupByName(final String groupName);
+
+    protected boolean removeChunk(ChunkRef chunkRef) {
+        return loadedChunks.remove(chunkRef);
+    }
 }
