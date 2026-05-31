@@ -78,7 +78,7 @@
       }
     },
     {
-      "id": "vh_etchings",
+      "id": "vh_etchings_artifacts",
       "priority": 20,
       "item": {
         "display_name": ["{\"text\": \"Etchings\", \"color\":\"yellow\", \"bold\":\"true\"}"],
@@ -96,7 +96,7 @@
       }
     },
     {
-      "id": "vh_alchemy",
+      "id": "vh_alchemy_drinks",
       "priority": 20,
       "item": {
         "display_name": ["{\"text\": \"Alchemy & Drinks\", \"color\":\"yellow\", \"bold\":\"true\"}"],
@@ -226,6 +226,44 @@
       "triggers": ["onRightClickBlock"],
       "data": {
         "block": ["#vh_recycle"]
+      }
+    },
+    {
+      "id": "vh_artifacts",
+      "priority": 20,
+      "item": {
+        "display_name": ["{\"text\": \"Artifact's\", \"color\":\"yellow\", \"bold\":\"true\"}"],
+        "item": "the_vault:artifact_projector_block",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Artifact Projector Block\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Vaulthunters",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["the_vault:artifact_projector_block"]
+      }
+    },
+    {
+      "id": "interact_animal_pen",
+      "priority": 20,
+      "item": {
+        "display_name": ["{\"text\": \"Interact with Animal Pen\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "the_vault:animal_pen",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Allows: \",\"color\":\"dark_gray\"}", "{\"text\":\"Feed, Collect, Attack.\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": ["onRightClickBlock", "onRightClickBlockShifted", "onLeftClickBlock"],
+      "data": {
+        "block": ["the_vault:animal_pen"]
       }
     },
     {

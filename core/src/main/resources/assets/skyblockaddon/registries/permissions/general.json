@@ -72,7 +72,7 @@
       "data": {}
     },
     {
-      "id": "trample_farmland",
+      "id": "trample_framland",
       "priority": 5,
       "item": {
         "display_name": ["{\"text\": \"Trample Crops\", \"color\":\"blue\", \"bold\":\"true\"}"],

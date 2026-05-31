@@ -2,7 +2,8 @@ package yorickbm.skyblockaddon.core.registries;
 
 import com.google.gson.Gson;
 import yorickbm.skyblockaddon.core.JSON.PermissionGroupJson;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,7 +12,7 @@ import java.util.*;
 import java.util.function.Predicate;
 
 public class PermissionGroupRegistry {
-    private static final Logger LOGGER = Logger.getLogger(PermissionGroupRegistry.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger();
     private static final PermissionGroupRegistry INSTANCE = new PermissionGroupRegistry();
 
     public static PermissionGroupRegistry getInstance() { return INSTANCE; }
@@ -29,7 +30,7 @@ public class PermissionGroupRegistry {
         try {
             Files.list(dir).filter(p -> p.toString().endsWith(".json")).forEach(files::add);
         } catch (final IOException e) {
-            LOGGER.severe("Failed to list group files in " + dir + ": " + e.getMessage());
+            LOGGER.error("Failed to list group files in {}: {}", dir, e.getMessage());
             return -1;
         }
 
@@ -42,7 +43,7 @@ public class PermissionGroupRegistry {
 
                 // Skip if required mod is not loaded
                 if (data.mod != null && !data.mod.isEmpty() && !isModLoaded.test(data.mod)) {
-                    LOGGER.info("Skipping group file " + file.getFileName() + " (mod '" + data.mod + "' not loaded)");
+                    LOGGER.info("Skipping group file {} (mod '{}' not loaded)", file.getFileName(), data.mod);
                     continue;
                 }
 
@@ -52,9 +53,9 @@ public class PermissionGroupRegistry {
                     loaded++;
                 }
                 final String modLabel = (data.mod != null && !data.mod.isEmpty()) ? data.mod : "always";
-                LOGGER.info("Loaded " + data.groups.size() + " group(s) from " + file.getFileName() + " [mod: " + modLabel + "]");
+                LOGGER.info("Loaded {} group(s) from {} [mod: {}]", data.groups.size(), file.getFileName(), modLabel);
             } catch (final Exception e) {
-                LOGGER.severe("Failed to load group file " + file.getFileName() + ": " + e.getMessage());
+                LOGGER.error("Failed to load group file {}: {}", file.getFileName(), e.getMessage());
             }
         }
         return loaded;

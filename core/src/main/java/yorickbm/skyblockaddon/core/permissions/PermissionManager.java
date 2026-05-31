@@ -1,7 +1,8 @@
 package yorickbm.skyblockaddon.core.permissions;
 
 import com.google.gson.Gson;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.core.JSON.PermissionJson;
 import yorickbm.skyblockaddon.core.registries.PermissionGroupRegistry;
 import yorickbm.skyblockaddon.core.util.JSON.JSONEncoder;
@@ -18,7 +19,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class PermissionManager {
-    private static final Logger LOGGER = Logger.getLogger(PermissionManager.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger();
     private List<Permission> permissions = new ArrayList<>();
 
     private static final PermissionManager instance = new PermissionManager();
@@ -43,7 +44,7 @@ public class PermissionManager {
             sortByPriority();
             return permissions.size();
         } catch (final Exception ex) {
-            LOGGER.severe("Failed to load permissions from " + path + ": " + ex.getMessage());
+            LOGGER.error("Failed to load permissions from {}: {}", path, ex.getMessage());
             return -1;
         }
     }
@@ -60,7 +61,7 @@ public class PermissionManager {
         try {
             Files.list(dir).filter(p -> p.toString().endsWith(".json")).forEach(files::add);
         } catch (final IOException e) {
-            LOGGER.severe("Failed to scan permissions directory " + dir + ": " + e.getMessage());
+            LOGGER.error("Failed to scan permissions directory {}: {}", dir, e.getMessage());
             return -1;
         }
 
@@ -72,14 +73,14 @@ public class PermissionManager {
                 if (json == null || json.permissions == null) continue;
 
                 if (json.mod != null && !json.mod.isEmpty() && !isModLoaded.test(json.mod)) {
-                    LOGGER.fine("Skipping permission file " + file.getFileName() + " (mod '" + json.mod + "' not loaded)");
+                    LOGGER.debug("Skipping permission file {} (mod '{}' not loaded)", file.getFileName(), json.mod);
                     continue;
                 }
 
                 resolveAndAdd(json.permissions);
-                LOGGER.fine("Loaded " + json.permissions.size() + " permissions from " + file.getFileName());
+                LOGGER.debug("Loaded {} permissions from {}", json.permissions.size(), file.getFileName());
             } catch (final Exception e) {
-                LOGGER.severe("Failed to load permission file " + file.getFileName() + ": " + e.getMessage());
+                LOGGER.error("Failed to load permission file {}: {}", file.getFileName(), e.getMessage());
             }
         }
 

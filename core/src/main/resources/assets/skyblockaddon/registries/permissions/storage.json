@@ -73,7 +73,7 @@
       }
     },
     {
-      "id": "open_colossal_chests",
+      "id": "open_colossalchests",
       "priority": 10,
       "item": {
         "display_name": ["{\"text\": \"Interact with Colossal Chests\", \"color\":\"blue\", \"bold\":\"true\"}"],
