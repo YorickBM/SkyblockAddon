@@ -1,0 +1,7 @@
+tasks.register('buildAll') {
+    description = 'Builds core and all Minecraft version jars'
+    group = 'build'
+
+    dependsOn gradle.includedBuild('core').task(':build')
+    dependsOn gradle.includedBuild('1.18.2').task(':jar')
+}

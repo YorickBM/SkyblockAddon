@@ -114,7 +114,7 @@ public class IslandManager {
             island.ifPresent(value -> CACHE_islandByPlayerUUID.put(uuid, Optional.of(value.getId())));
             return island.orElse(null);
         }
-        
+
         return getIslandByUUID(islandId.get());
     }
 

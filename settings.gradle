@@ -1,0 +1,9 @@
+rootProject.name = 'SkyblockAddon'
+
+includeBuild('core') {
+    dependencySubstitution {
+        substitute module('yorickbm.skyblockaddon.core:SkyBlockAddon-Core:8.0') using project(':')
+    }
+}
+
+includeBuild '1.18.2'
