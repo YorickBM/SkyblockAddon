@@ -1,11 +1,11 @@
 package yorickbm.guilibrary.JSON;
 
 import com.google.gson.Gson;
-import net.minecraft.nbt.CompoundTag;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.guilibrary.interfaces.GuiClickItemEvent;
 import yorickbm.guilibrary.util.JSON.JSONSerializable;
+import yorickbm.skyblockaddon.components.ItemStackComponent;
 
 import java.util.HashMap;
 
@@ -64,14 +64,10 @@ public class GUIActionJson implements JSONSerializable {
         return null;
     }
 
-    public CompoundTag getData() {
-        final CompoundTag tag = new CompoundTag();
-
-        if(!data.isEmpty()) {
-            this.data.forEach(tag::putString);
-        }
-
-        return tag;
+    public ItemStackComponent getData() {
+        final ItemStackComponent component = new ItemStackComponent();
+        this.data.forEach(component::put);
+        return component;
     }
 
     @Override

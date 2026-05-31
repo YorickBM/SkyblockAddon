@@ -10,14 +10,20 @@ public class ItemStackComponent extends DataComponent {
     public CompoundTag getCompound() {
         CompoundTag tag = new CompoundTag();
 
-        super.getDataMap().forEach((k,v)-> {
-            if(v instanceof UUID) tag.putUUID(k, (UUID)v);
-            if(v instanceof String) tag.putString(k, (String)v);
-            if(v instanceof CompoundTag) tag.put(k, (CompoundTag)v);
-            if(v instanceof Boolean) tag.putBoolean(k, (Boolean)v);
-            if(v instanceof Integer) tag.putInt(k, (Integer)v);
+        super.getDataMap().forEach((k, v) -> {
+            if (v instanceof UUID) tag.putUUID(k, (UUID) v);
+            if (v instanceof String) tag.putString(k, (String) v);
+            if (v instanceof CompoundTag) tag.put(k, (CompoundTag) v);
+            if (v instanceof Boolean) tag.putBoolean(k, (Boolean) v);
+            if (v instanceof Integer) tag.putInt(k, (Integer) v);
         });
 
         return tag;
+    }
+
+    public ItemStackComponent copy() {
+        final ItemStackComponent copy = new ItemStackComponent();
+        super.getDataMap().forEach(copy::put);
+        return copy;
     }
 }

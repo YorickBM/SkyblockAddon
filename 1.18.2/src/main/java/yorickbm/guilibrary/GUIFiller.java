@@ -1,11 +1,11 @@
 package yorickbm.guilibrary;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.eventbus.api.Event;
 import yorickbm.guilibrary.events.GuiDrawFillerEvent;
 import yorickbm.guilibrary.interfaces.GuiClickItemEvent;
 import yorickbm.guilibrary.interfaces.ServerInterface;
 import yorickbm.guilibrary.util.FillerPattern;
+import yorickbm.skyblockaddon.components.ItemStackComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,7 @@ public class GUIFiller extends GUIItem {
         private GUIItemStackHolder item;
         private FillerPattern pattern = FillerPattern.INSIDE;
         Class<? extends GuiClickItemEvent> primaryClickClass, secondaryClickClass;
-        private CompoundTag data = new CompoundTag();
+        private ItemStackComponent data = new ItemStackComponent();
         private List<String> conditions = new ArrayList<>();
         private Class<? extends GuiDrawFillerEvent> event = null;
 
@@ -73,7 +73,7 @@ public class GUIFiller extends GUIItem {
             return this;
         }
 
-        public Builder setActionData(final CompoundTag data) {
+        public Builder setActionData(final ItemStackComponent data) {
             this.data = data;
             return this;
         }

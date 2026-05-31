@@ -4,6 +4,7 @@ import yorickbm.skyblockaddon.core.SkyblockAddonCore;
 import yorickbm.skyblockaddon.core.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.core.util.UsernameCache;
 import yorickbm.skyblockaddon.core.util.geometry.BoundingBox;
+import yorickbm.skyblockaddon.core.util.geometry.ChunkRef;
 import yorickbm.skyblockaddon.core.util.geometry.Square;
 import yorickbm.skyblockaddon.core.util.geometry.Vec3i;
 
@@ -24,6 +25,7 @@ public abstract class Island {
 
     protected final List<UUID> members = new ArrayList<>();
     protected final Map<UUID, IslandGroup> islandGroups = new HashMap<>();
+    private final List<ChunkRef> loadedChunks = new ArrayList<>();
 
     /**
      * Empty constructor
@@ -298,6 +300,22 @@ public abstract class Island {
     }
     public void updateName() {
         UsernameCache.get(getOwner()).thenAccept(r -> this.name = r);
+    }
+
+    /**
+     * Chunk tracking
+     */
+    public List<ChunkRef> getLoadedChunks() {
+        return Collections.unmodifiableList(loadedChunks);
+    }
+
+    public boolean addChunk(final ChunkRef ref) {
+        if (loadedChunks.contains(ref)) return false;
+        return loadedChunks.add(ref);
+    }
+
+    public void setChunks(final Collection<ChunkRef> chunks) {
+        loadedChunks.addAll(chunks);
     }
 
     /**

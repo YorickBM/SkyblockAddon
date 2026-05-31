@@ -30,13 +30,17 @@ import yorickbm.skyblockaddon.core.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.core.islands.Island;
 import yorickbm.skyblockaddon.core.islands.IslandGroup;
 import yorickbm.skyblockaddon.core.islands.IslandManager;
+import yorickbm.skyblockaddon.core.util.geometry.ChunkRef;
 import yorickbm.skyblockaddon.core.util.geometry.Square;
 import yorickbm.skyblockaddon.util.*;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 
 public class ForgeIsland extends Island implements NBTSerializable {
-    private final List<ChunkPos> playerLoadedChunks = new ArrayList<>();
 
     public ForgeIsland() {
         super();
@@ -48,7 +52,7 @@ public class ForgeIsland extends Island implements NBTSerializable {
         super.setCenter(island.getCenter());
         super.setVisibility(island.isVisible());
         super.setSkullTexture(island.getSkullTexture());
-        setChunks(((ForgeIsland)island).getModifiedChunks());
+        super.setChunks(island.getLoadedChunks());
 
         island.getGroups().forEach(super::addGroup);
         island.getMembers().stream()
@@ -173,14 +177,13 @@ public class ForgeIsland extends Island implements NBTSerializable {
     }
 
     public List<ChunkPos> getModifiedChunks() {
-        return Collections.unmodifiableList(playerLoadedChunks);
+        return getLoadedChunks().stream().map(r -> new ChunkPos(r.x(), r.z())).toList();
     }
     public boolean storeChunk(final ChunkAccess chunk) {
-        if(playerLoadedChunks.contains(chunk.getPos())) return false;
-        return playerLoadedChunks.add(chunk.getPos());
+        return super.addChunk(new ChunkRef(chunk.getPos().x, chunk.getPos().z));
     }
     public void setChunks(Collection<ChunkPos> data) {
-        this.playerLoadedChunks.addAll(data);
+        data.forEach(cp -> super.addChunk(new ChunkRef(cp.x, cp.z)));
     }
 
     @Override
@@ -219,9 +222,9 @@ public class ForgeIsland extends Island implements NBTSerializable {
         tag.put("members", members);
 
         final CompoundTag chunks = new CompoundTag();
-        List<ChunkPos> chunksData = this.getModifiedChunks();
-        for(int i=0; i < chunksData.size(); i++) {
-            chunks.putString(i+"", chunksData.get(i).toString());
+        final List<ChunkRef> chunksData = getLoadedChunks();
+        for (int i = 0; i < chunksData.size(); i++) {
+            chunks.putString(i + "", chunksData.get(i).x() + "," + chunksData.get(i).z());
         }
         tag.put("chunks", chunks);
 
@@ -266,11 +269,9 @@ public class ForgeIsland extends Island implements NBTSerializable {
         }
 
         final CompoundTag chunks = tag.getCompound("chunks");
-        for(final String key : chunks.getAllKeys()) {
-            this.playerLoadedChunks.add(new ChunkPos(
-                    Integer.parseInt(chunks.getString(key).replaceAll("[\\[\\]\\s]", "").split(",")[0]),
-                    Integer.parseInt(chunks.getString(key).replaceAll("[\\[\\]\\s]", "").split(",")[1])
-            ));
+        for (final String key : chunks.getAllKeys()) {
+            final String[] parts = chunks.getString(key).replaceAll("[\\[\\]\\s]", "").split(",");
+            super.addChunk(new ChunkRef(Integer.parseInt(parts[0]), Integer.parseInt(parts[1])));
         }
 
     }

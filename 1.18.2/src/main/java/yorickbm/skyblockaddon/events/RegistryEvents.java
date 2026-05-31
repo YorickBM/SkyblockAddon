@@ -46,6 +46,12 @@ public class RegistryEvents extends GuiDrawFillerEvent {
         return this.registry;
     }
 
+    protected void initRegistryPagination() {
+        final int maxPage = (int) Math.ceil((double) registry.getSize() / getItemsPerPage());
+        setMaxPage(maxPage);
+        registry.setIndex(((getCurrentPage() - 1) * getItemsPerPage()) - 1);
+    }
+
     public GUIItemStackHolder processHolder(final GUIItemStackHolder holder, final CompoundTag data) {
         //Add skullowner data into the item
         if(data.contains("SkullOwner")) {
@@ -103,19 +109,11 @@ public class RegistryEvents extends GuiDrawFillerEvent {
                     "minecraft:DEATH_BUSH",
                     ForgeRegistries.BIOMES.getValues()
                             .stream()
-                            .filter(p ->
-                                    Objects.requireNonNull(p.getRegistryName())
-                                            .toString().startsWith("minecraft:")
-                            )
-                            .map(b ->
-                                    b.getRegistryName().toString()
-                            )
+                            .filter(p -> Objects.requireNonNull(p.getRegistryName()).toString().startsWith("minecraft:"))
+                            .map(b -> b.getRegistryName().toString())
                             .toList()
             );
-
-            final int maxPage = (int)Math.ceil((double) getRegistry().getSize() / super.getItemsPerPage()); //Divide the item amounts we have by available slots per page
-            super.setMaxPage(maxPage);
-            getRegistry().setIndex(((super.getCurrentPage() - 1) * super.getItemsPerPage())-1);
+            super.initRegistryPagination();
 
             if(instance.getData().contains("island_id")) {
                 final Island island = IslandManager.getInstance().getIslandByUUID(instance.getData().getUUID("island_id"));
@@ -132,10 +130,7 @@ public class RegistryEvents extends GuiDrawFillerEvent {
 
             instance.getOwner().getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
                 super.registry = new yorickbm.skyblockaddon.core.registries.IslandRegistry(IslandManager.getInstance().getIslands().stream().toList());
-
-                final int maxPage = (int)Math.ceil((double) getRegistry().getSize() / super.getItemsPerPage()); //Divide the item amounts we have by available slots per page
-                super.setMaxPage(maxPage);
-                getRegistry().setIndex(((super.getCurrentPage() - 1) * super.getItemsPerPage())-1);
+                super.initRegistryPagination();
             });
         }
     }
@@ -151,9 +146,7 @@ public class RegistryEvents extends GuiDrawFillerEvent {
             if(island == null) return;
 
             super.registry = new yorickbm.skyblockaddon.core.registries.GroupsRegistry(island);
-            final int maxPage = (int)Math.ceil((double) getRegistry().getSize() / super.getItemsPerPage()); //Divide the item amounts we have by available slots per page
-            super.setMaxPage(maxPage);
-            getRegistry().setIndex(((super.getCurrentPage() - 1) * super.getItemsPerPage())-1);
+            super.initRegistryPagination();
         }
     }
 
@@ -167,9 +160,7 @@ public class RegistryEvents extends GuiDrawFillerEvent {
             if(island == null) return;
 
             super.registry = new yorickbm.skyblockaddon.core.registries.PermissionRegistry(island, instance.getData().getCompound(GUILibraryRegistry.MOD_ID).getString("category_id"), instance.getData().getUUID("group_id"));
-            final int maxPage = (int)Math.ceil((double) getRegistry().getSize() / super.getItemsPerPage()); //Divide the item amounts we have by available slots per page
-            super.setMaxPage(maxPage);
-            getRegistry().setIndex(((super.getCurrentPage() - 1) * super.getItemsPerPage())-1);
+            super.initRegistryPagination();
         }
     }
 
@@ -183,9 +174,7 @@ public class RegistryEvents extends GuiDrawFillerEvent {
             if(island == null) return;
 
             super.registry = new yorickbm.skyblockaddon.core.registries.GroupMemberRegistry(island, instance.getData().getUUID("group_id"));
-            final int maxPage = (int)Math.ceil((double) getRegistry().getSize() / super.getItemsPerPage()); //Divide the item amounts we have by available slots per page
-            super.setMaxPage(maxPage);
-            getRegistry().setIndex(((super.getCurrentPage() - 1) * super.getItemsPerPage())-1);
+            super.initRegistryPagination();
         }
     }
 
@@ -199,9 +188,7 @@ public class RegistryEvents extends GuiDrawFillerEvent {
             if(island == null) return;
 
             super.registry = new yorickbm.skyblockaddon.core.registries.MemberRegistry(island);
-            final int maxPage = (int)Math.ceil((double) getRegistry().getSize() / super.getItemsPerPage()); //Divide the item amounts we have by available slots per page
-            super.setMaxPage(maxPage);
-            getRegistry().setIndex(((super.getCurrentPage() - 1) * super.getItemsPerPage())-1);;
+            super.initRegistryPagination();
         }
     }
 }

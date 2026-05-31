@@ -8,7 +8,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -21,10 +20,10 @@ import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.core.islands.Island;
 import yorickbm.skyblockaddon.core.islands.IslandGroup;
 import yorickbm.skyblockaddon.core.islands.IslandManager;
+import yorickbm.skyblockaddon.core.islands.InteractionValidator;
 import yorickbm.skyblockaddon.core.permissions.EntityVerification;
 import yorickbm.skyblockaddon.core.permissions.Permission;
 import yorickbm.skyblockaddon.core.permissions.PermissionManager;
-import yorickbm.skyblockaddon.core.util.MatchResult;
 import yorickbm.skyblockaddon.util.ForgeConverter;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
@@ -32,6 +31,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+
 
 public class InteractionHandler {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -118,63 +118,19 @@ public class InteractionHandler {
         }
 
         final Optional<IslandGroup> group = standingOn.get().getGroupForEntityUUID(player.getUUID());
-        if(group.isEmpty()) {
-            return true;
-        }
+        if (group.isEmpty()) return true;
 
         final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger(trigger);
-        if(perms.isEmpty()) return false; //No permission to protect against it
 
-        boolean runFail = false;
-        for(final Permission perm : perms) {
-            if(group.get().canDo(perm.getId())) {
-                //SkyblockAddon.CustomDebugMessages(LOGGER, "action is allowed for " + perm.getId() + " in group " + group.get().getItem().getDisplayName().getString().trim() + " on " + trigger);
-                continue;
-            }
-            if(runFail) break; //Break loop if we determine failure
+        final String itemName = handItem.isEmpty() ? "" : Objects.requireNonNull(handItem.getItem().getRegistryName()).toString();
+        final BlockState clickedState = world.getBlockState(position);
+        final String blockName = clickedState.isAir() ? "" : Objects.requireNonNull(clickedState.getBlock().getRegistryName()).toString();
 
-            // Get permission item data and check for empty
-            final List<String> itemsData = perm.getData().getItemsData();
-            final List<String> blocksData = perm.getData().getBlocksData();
-            final BlockState clickedState = world.getBlockState(position);
+        SkyBlockAddon.CustomDebugMessages(LOGGER, "item=" + itemName + " block=" + blockName + " trigger=" + trigger);
 
-            // Determine default
-            if(itemsData.isEmpty() && blocksData.isEmpty()) {
-                runFail = true;
-                break;
-            }
+        final boolean runFail = InteractionValidator.checkPermissions(group.get(), perms, itemName, blockName);
 
-            boolean itemAllowed = true;
-            boolean blockAllowed = true;
-
-            if(!handItem.isEmpty() && !itemsData.isEmpty()) {
-                final String item = Objects.requireNonNull(handItem.getItem().getRegistryName()).toString();
-
-                final MatchResult rslt = PermissionManager.checkMatch(itemsData, item);
-                SkyBlockAddon.CustomDebugMessages(LOGGER, "i) " + item + " is " + rslt + " on " + perm.getId() + " in group " + group.get().getName());
-                switch(rslt) {
-                    case SKIP, ALLOW -> { }
-                    case BLOCK ->  itemAllowed = false;
-                }
-            }
-
-            if(!clickedState.isAir() && !blocksData.isEmpty()) {
-                final Block clickedBlock = clickedState.getBlock();
-                final String block = Objects.requireNonNull(clickedBlock.getRegistryName()).toString();
-
-                final MatchResult rslt = PermissionManager.checkMatch(blocksData, block);
-                SkyBlockAddon.CustomDebugMessages(LOGGER, "b) " + block + " is " + rslt + " on " + perm.getId() + " in group " + group.get().getName());
-                switch(rslt) {
-                    case SKIP, ALLOW-> { }
-                    case BLOCK ->  blockAllowed = false;
-                }
-            }
-
-            runFail = (!blockAllowed || !itemAllowed);
-        }
-
-        //Update redstone signals to cancel
-        if(runFail) {
+        if (runFail) {
             ServerHelper.forceUnpowerOrTogglePoweredBlock(world, position);
         }
 
