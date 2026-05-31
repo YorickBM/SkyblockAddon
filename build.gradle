@@ -1,7 +1,14 @@
-tasks.register('buildAll') {
-    description = 'Builds core and all Minecraft version jars'
-    group = 'build'
-
+tasks.register('buildCore') {
     dependsOn gradle.includedBuild('core').task(':build')
+}
+
+tasks.register('build_1_18_2') {
     dependsOn gradle.includedBuild('1.18.2').task(':jar')
+    mustRunAfter 'buildCore'
+}
+
+tasks.register('buildAll') {
+    description = 'Builds core and all Minecraft version jars in order'
+    group = 'build'
+    dependsOn 'buildCore', 'build_1_18_2'
 }
