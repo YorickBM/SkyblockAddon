@@ -2,6 +2,7 @@ package yorickbm.skyblockaddon.core.util;
 
 import yorickbm.skyblockaddon.core.SkyblockAddonCore;
 import yorickbm.skyblockaddon.core.configs.SkyBlockAddonLanguage;
+import yorickbm.skyblockaddon.core.configs.VoidProtectionConfig;
 import yorickbm.skyblockaddon.core.util.exceptions.ResourceNotFoundException;
 
 import java.io.File;
@@ -74,6 +75,11 @@ public class ResourceManager {
             generateFile(FMLPath, "registries/groups/" + name + ".json", "registries/groups/" + name + ".json");
         }
 
+
+        //Generate void protection config
+        getOrCreateDirectory(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/"), "configs");
+        generateFile(FMLPath, "configs/void_protection.json", "configs/void_protection.json");
+        VoidProtectionConfig.getInstance().load(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/configs/void_protection.json"));
 
         //Generate GUIS
         if (!Files.exists(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/guis/"))) {
