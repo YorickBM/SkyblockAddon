@@ -1,26 +1,17 @@
 package yorickbm.skyblockaddon.capabilities;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.storage.LevelResource;
 import org.slf4j.Logger;
-import yorickbm.skyblockaddon.SkyBlockAddon;
-import yorickbm.skyblockaddon.configs.SkyblockAddonConfig;
 import yorickbm.skyblockaddon.core.islands.IslandManager;
-import yorickbm.skyblockaddon.core.util.exceptions.NBTNotFoundException;
 import yorickbm.skyblockaddon.core.util.geometry.Vec3i;
 import yorickbm.skyblockaddon.islands.ForgeIsland;
+import yorickbm.skyblockaddon.islands.IslandStructurePlacer;
 import yorickbm.skyblockaddon.legacy.LegacyFormatter;
-import yorickbm.skyblockaddon.util.BuildingBlock;
-import yorickbm.skyblockaddon.util.ForgeConverter;
 import yorickbm.skyblockaddon.util.NBTEncoder;
 import yorickbm.skyblockaddon.util.NBTUtil;
 
@@ -108,49 +99,8 @@ public class SkyblockAddonWorldCapability {
         LOGGER.info("Loaded {} island(s).", islands.size());
     }
 
-    public net.minecraft.core.Vec3i genIsland(ServerLevel level) {
-        final net.minecraft.core.Vec3i islandLocation = ForgeConverter.InternalToForgeVec3i(IslandManager.getInstance().getNextIslandGen());
-        final CompoundTag nbt = SkyBlockAddon.getIslandNBT(level.getServer());
-
-        final ListTag paletteNbt = nbt.getList("palette", 10);
-        final ListTag blocksNbt = nbt.getList("blocks", 10);
-
-        final ArrayList<BuildingBlock> blocks = new ArrayList<>();
-        final ArrayList<BlockState> palette = new ArrayList<>();
-        int bigestX = 0, bigestZ = 0;
-
-        for (int i = 0; i < paletteNbt.size(); i++) palette.add(NbtUtils.readBlockState(paletteNbt.getCompound(i)));
-        for (int i = 0; i < blocksNbt.size(); i++) {
-            final CompoundTag blockNbt = blocksNbt.getCompound(i);
-            final ListTag blockPosNbt = blockNbt.getList("pos", 3);
-
-            if (blockPosNbt.getInt(0) > bigestX) bigestX = blockPosNbt.getInt(0);
-            if (blockPosNbt.getInt(2) > bigestZ) bigestZ = blockPosNbt.getInt(2);
-
-            blocks.add(new BuildingBlock(
-                    new BlockPos(
-                            blockPosNbt.getInt(0),
-                            blockPosNbt.getInt(1),
-                            blockPosNbt.getInt(2)
-                    ),
-                    palette.get(blockNbt.getInt("state"))
-            ));
-        }
-
-        if (blocks.isEmpty()) {
-            throw new NBTNotFoundException();
-        }
-
-        final int finalBigestX = bigestX;
-        final int finalBigestZ = bigestZ;
-        final int height = Integer.parseInt(SkyblockAddonConfig.getForKey("island.spawn.height"));
-        blocks.stream().filter(block -> !block.getState().isAir()).forEach(block -> block.place(level, islandLocation.offset(-(finalBigestX / 2), height, -(finalBigestZ / 2))));
-
-        final ChunkAccess chunk = level.getChunk(new BlockPos(islandLocation.getX(), height, islandLocation.getZ()));
-        final int topHeight = chunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, islandLocation.getX(), islandLocation.getZ()) + 2;
-
-        final net.minecraft.core.Vec3i rslt = new net.minecraft.core.Vec3i(islandLocation.getX(), topHeight, islandLocation.getZ());
-        return rslt;
+    public net.minecraft.core.Vec3i genIsland(final ServerLevel level) {
+        return new IslandStructurePlacer(serverInstance).genIsland(level);
     }
 
     public void removeIslandNBT(ForgeIsland data) {
