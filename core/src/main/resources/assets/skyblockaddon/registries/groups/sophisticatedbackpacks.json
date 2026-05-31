@@ -1,0 +1,8 @@
+{
+  "mod": "sophisticatedbackpacks",
+  "groups": {
+    "backpacks": {
+      "block": ["sophisticatedbackpacks:.*"]
+    }
+  }
+}

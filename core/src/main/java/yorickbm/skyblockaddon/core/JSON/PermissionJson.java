@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PermissionJson implements JSONSerializable {
+    public String mod;
     public List<Permission> permissions;
 
     public PermissionJson() {

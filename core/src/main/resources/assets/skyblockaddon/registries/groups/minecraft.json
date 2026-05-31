@@ -1,0 +1,46 @@
+{
+  "groups": {
+    "chests": {
+      "block": [".*:chest", ".*:.*_chest", ".*:.*_chest_placeable"]
+    },
+    "shulkers": {
+      "block": ["minecraft:shulker_box", "minecraft:.*_shulker_box"]
+    },
+    "barrels": {
+      "block": ["minecraft:barrel", ".*:.*_barrel"]
+    },
+    "doors": {
+      "block": [".*:.*_door", ".*:.*_trapdoor"]
+    },
+    "beds": {
+      "block": [".*:.*_bed"]
+    },
+    "redstone_delays": {
+      "block": ["minecraft:repeater", "minecraft:comparator"]
+    },
+    "redstone_detectors": {
+      "block": ["minecraft:daylight_detector", "minecraft:note_block"]
+    },
+    "redstone_switches": {
+      "block": ["minecraft:lever", ".*:.*_button", ".*:.*_button_.*", ".*:.*_lever", ".*:.*_lever_.*", ".*:.*_pressure_plate"]
+    },
+    "redstone_containers": {
+      "block": ["minecraft:hopper", "minecraft:dispenser", "minecraft:dropper"]
+    },
+    "spawn_eggs": {
+      "item": [".*:.*_spawn_egg", "minecraft:egg"]
+    },
+    "xp_orbs": {
+      "entity": ["minecraft:experience_orb"]
+    },
+    "vehicles": {
+      "entity": ["minecraft:minecart", ".*:.*_minecart", ".*:.*_boat"]
+    },
+    "item_frames": {
+      "entity": [".*:item_frame", ".*:.*_item_frame"]
+    },
+    "armor_stands": {
+      "entity": ["minecraft:armor_stand"]
+    }
+  }
+}

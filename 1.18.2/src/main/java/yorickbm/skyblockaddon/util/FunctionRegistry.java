@@ -1,7 +1,6 @@
 package yorickbm.skyblockaddon.util;
 
 import net.minecraft.server.level.ServerPlayer;
-import yorickbm.skyblockaddon.core.util.FunctionRegistry;
 
 import java.util.UUID;
 import java.util.function.Function;

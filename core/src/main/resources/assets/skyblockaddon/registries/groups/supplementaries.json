@@ -1,0 +1,8 @@
+{
+  "mod": "supplementaries",
+  "groups": {
+    "slingshots": {
+      "item": ["supplementaries:slingshot"]
+    }
+  }
+}

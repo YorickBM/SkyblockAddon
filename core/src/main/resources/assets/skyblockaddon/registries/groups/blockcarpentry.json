@@ -1,0 +1,8 @@
+{
+  "mod": "blockcarpentry",
+  "groups": {
+    "redstone_detectors": {
+      "block": ["blockcarpentry:frame_daylight_detector", "blockcarpentry:illusion_daylight_detector"]
+    }
+  }
+}

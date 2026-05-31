@@ -1,0 +1,8 @@
+{
+  "mod": "waystones",
+  "groups": {
+    "waystones_blocks": {
+      "block": ["waystones:waystone"]
+    }
+  }
+}

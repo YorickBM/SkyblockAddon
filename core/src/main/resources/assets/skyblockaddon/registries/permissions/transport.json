@@ -1,0 +1,76 @@
+{
+  "permissions": [
+    {
+      "id": "travel_nether",
+      "priority": 5,
+      "item": {
+        "display_name": ["{\"text\": \"Use Nether Portal\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:OBSIDIAN",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Transport",
+      "triggers": ["onPortalIgnition", "onPlayerChangedDimension"],
+      "data": {
+        "dimension": ["minecraft:the_nether", "minecraft:overworld"]
+      }
+    },
+    {
+      "id": "use_vehicles",
+      "priority": 5,
+      "item": {
+        "display_name": ["{\"text\": \"Use Vehicles\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:OAK_BOAT",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Minecarts, Boats, Saddled Entities.\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Transport",
+      "triggers": ["onMount"],
+      "data": {
+        "entity": ["#vehicles"]
+      }
+    },
+    {
+      "id": "transport_misc",
+      "priority": 5,
+      "item": {
+        "display_name": ["{\"text\": \"Miscellaneous\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:ender_pearl",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Ender Pearls, Chorus fruit.\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Transport",
+      "triggers": ["onEnderPearl", "onChorusFruit"],
+      "data": {}
+    },
+    {
+      "id": "activate_waystones",
+      "priority": 10,
+      "item": {
+        "display_name": ["{\"text\": \"Activate Waystones\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "waystones:WAYSTONE",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Transport",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#waystones_blocks"]
+      }
+    }
+  ]
+}

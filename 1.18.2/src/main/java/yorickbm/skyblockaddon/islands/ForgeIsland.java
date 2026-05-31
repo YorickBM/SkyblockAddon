@@ -182,10 +182,6 @@ public class ForgeIsland extends Island implements NBTSerializable {
     public boolean storeChunk(final ChunkAccess chunk) {
         return super.addChunk(new ChunkRef(chunk.getPos().x, chunk.getPos().z));
     }
-    public void setChunks(Collection<ChunkPos> data) {
-        data.forEach(cp -> super.addChunk(new ChunkRef(cp.x, cp.z)));
-    }
-
     @Override
     public Square getIslandBoundingBoxAsSquare() {
         final yorickbm.skyblockaddon.core.util.geometry.BoundingBox box = getIslandBoundingBox();

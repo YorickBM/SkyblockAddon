@@ -1,0 +1,11 @@
+{
+  "mod": "create",
+  "groups": {
+    "redstone_delays": {
+      "block": ["create:pulse_repeater", "create:pulse_extender", "create:powered_latch", "create:powered_toggle_latch"]
+    },
+    "redstone_links": {
+      "block": ["create:linked_controller", "create:redstone_link"]
+    }
+  }
+}

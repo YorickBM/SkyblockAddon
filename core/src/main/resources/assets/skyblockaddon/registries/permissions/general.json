@@ -1,0 +1,109 @@
+{
+  "permissions": [
+    {
+      "id": "place_blocks",
+      "priority": 5,
+      "item": {
+        "display_name": ["{\"text\": \"Place blocks\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:BRICKS",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "General",
+      "triggers": ["onPlaceBlock", "onUse"],
+      "data": {
+        "item": ["!#spawn_eggs", "#slingshots"],
+        "block": [".*:.*"]
+      }
+    },
+    {
+      "id": "destroy_blocks",
+      "priority": 5,
+      "item": {
+        "display_name": ["{\"text\": \"Destroy Blocks\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:IRON_PICKAXE",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "General",
+      "triggers": ["onLeftClickBlock", "onAttack", "onQuarkPickarangMixin"],
+      "data": {
+        "item": ["quark:flamerang", "quark:pickarang"],
+        "block": ["!storagedrawers:.*", "!the_vault:animal_pen"],
+        "entity": ["#vehicles", "#item_frames", "#armor_stands"]
+      }
+    },
+    {
+      "id": "interact_fluids",
+      "priority": 5,
+      "item": {
+        "display_name": ["{\"text\": \"Place/Pickup fluids\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:BUCKET",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "General",
+      "triggers": ["onBucket"],
+      "data": {}
+    },
+    {
+      "id": "interact_items",
+      "priority": 5,
+      "item": {
+        "display_name": ["{\"text\": \"Pickup/Drop Items\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:CANDLE",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "General",
+      "triggers": ["onPickup", "onDrop"],
+      "data": {}
+    },
+    {
+      "id": "trample_farmland",
+      "priority": 5,
+      "item": {
+        "display_name": ["{\"text\": \"Trample Crops\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:FARMLAND",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "General",
+      "triggers": ["onTrample"],
+      "data": {}
+    },
+    {
+      "id": "admin_menu",
+      "priority": 5,
+      "item": {
+        "display_name": ["{\"text\": \"Island Admin\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:ANVIL",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "General",
+      "triggers": ["onGui"],
+      "data": {
+        "gui": ["members", "settings"]
+      }
+    }
+  ]
+}

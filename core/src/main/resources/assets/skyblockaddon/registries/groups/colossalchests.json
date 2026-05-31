@@ -1,0 +1,8 @@
+{
+  "mod": "colossalchests",
+  "groups": {
+    "colossal_chests": {
+      "block": ["colossalchests:.*"]
+    }
+  }
+}

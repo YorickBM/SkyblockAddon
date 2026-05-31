@@ -1,0 +1,167 @@
+{
+  "permissions": [
+    {
+      "id": "interact_generic",
+      "priority": 0,
+      "item": {
+        "display_name": ["{\"text\": \"Interact with stations\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:crafting_table",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": [".*:.*"]
+      }
+    },
+    {
+      "id": "interact_doors",
+      "priority": 10,
+      "item": {
+        "display_name": ["{\"text\": \"Interact with Doors/Trapdoors\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:oak_door",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#doors"]
+      }
+    },
+    {
+      "id": "interact_XP",
+      "priority": 5,
+      "item": {
+        "display_name": ["{\"text\": \"Collect XP Orbs\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:experience_bottle",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": ["onXp"],
+      "data": {
+        "entity": ["#xp_orbs"]
+      }
+    },
+    {
+      "id": "interact_entities",
+      "priority": 5,
+      "item": {
+        "display_name": ["{\"text\": \"Attack entities\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:IRON_SWORD",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": ["onAttack"],
+      "data": {
+        "entity": ["!#vehicles", "!#item_frames", "!#armor_stands"]
+      }
+    },
+    {
+      "id": "interact_spawn",
+      "priority": 10,
+      "item": {
+        "display_name": ["{\"text\": \"Spawn entities\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:ZOMBIE_SPAWN_EGG",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": ["onRightClickBlock", "onRightClickItem"],
+      "data": {
+        "item": ["#spawn_eggs"]
+      }
+    },
+    {
+      "id": "interact_bed",
+      "priority": 10,
+      "item": {
+        "display_name": ["{\"text\": \"Sleep in beds\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:RED_BED",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": ["onSleepInBed"],
+      "data": {
+        "block": ["#beds"]
+      }
+    },
+    {
+      "id": "interact_item_frame",
+      "priority": 10,
+      "item": {
+        "display_name": ["{\"text\": \"Interact with Item Frames\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:ITEM_FRAME",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": ["onRightClickEntity"],
+      "data": {
+        "entity": ["#item_frames"]
+      }
+    },
+    {
+      "id": "interact_misc",
+      "priority": 5,
+      "item": {
+        "display_name": ["{\"text\": \"Miscellaneous\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:BONE_MEAL",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Bone Meal.\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": ["onBonemeal"],
+      "data": {}
+    },
+    {
+      "id": "interact_easy_villagers",
+      "priority": 10,
+      "item": {
+        "display_name": ["{\"text\": \"Interact with Easy Villagers chambers\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "easy_villagers:TRADER",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Interactables",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#easy_villagers_blocks"],
+        "item": ["#easy_villagers_blocks"],
+        "entity": ["#easy_villagers_blocks"]
+      }
+    }
+  ]
+}

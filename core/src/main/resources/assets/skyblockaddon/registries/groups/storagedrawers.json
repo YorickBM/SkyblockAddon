@@ -1,0 +1,8 @@
+{
+  "mod": "storagedrawers",
+  "groups": {
+    "storage_drawers": {
+      "block": ["storagedrawers:.*"]
+    }
+  }
+}

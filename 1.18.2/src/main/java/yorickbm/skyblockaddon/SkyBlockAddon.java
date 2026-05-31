@@ -117,8 +117,24 @@ public class SkyBlockAddon {
         //Register guis
         GUILibraryRegistry.registerFolder(SkyblockAddonCore.MOD_ID, FMLPaths.CONFIGDIR.get().resolve(SkyblockAddonCore.MOD_ID + "/guis/"));
 
-        //Register permissions
-        PermissionManager.getInstance().loadPermissions(FMLPaths.CONFIGDIR.get().resolve(SkyblockAddonCore.MOD_ID + "/registries/PermissionRegistry.json"));
+        //Register permissions: load groups first, then detect format (new dir vs old file)
+        final java.util.function.Predicate<String> isModLoaded = modId -> ModList.get().isLoaded(modId);
+
+        final java.nio.file.Path groupsDir  = FMLPaths.CONFIGDIR.get().resolve(SkyblockAddonCore.MOD_ID + "/registries/groups/");
+        final java.nio.file.Path newPermsDir = FMLPaths.CONFIGDIR.get().resolve(SkyblockAddonCore.MOD_ID + "/registries/permissions/");
+        final java.nio.file.Path oldPermsFile = FMLPaths.CONFIGDIR.get().resolve(SkyblockAddonCore.MOD_ID + "/registries/PermissionRegistry.json");
+
+        if (groupsDir.toFile().isDirectory()) {
+            yorickbm.skyblockaddon.core.registries.PermissionGroupRegistry.getInstance()
+                    .loadFromDirectory(groupsDir, isModLoaded);
+        }
+
+        if (oldPermsFile.toFile().isFile()) {
+            // Backward compat: user has customised old single-file config
+            PermissionManager.getInstance().loadPermissions(oldPermsFile);
+        } else if (newPermsDir.toFile().isDirectory()) {
+            PermissionManager.getInstance().loadPermissions(newPermsDir, isModLoaded);
+        }
 
         //Init Version Checker
         VersionChecker.startVersionCheck();

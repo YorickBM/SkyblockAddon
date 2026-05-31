@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
+
 public class ResourceManager {
 
     /**
@@ -59,12 +60,18 @@ public class ResourceManager {
             generateFile(FMLPath, "registries/BiomeRegistry.json", "registries/BiomeRegistry.json");
         }
 
-        //Generate correct permissionRegistry
-        try {
-            String path = selector.getRegistry("PermissionRegistry");
-            generateFile(FMLPath, "registries/PermissionRegistry.json", path);
-        } catch(IllegalArgumentException ex) {
-            throw new ResourceNotFoundException("registries/PermissionRegistry.json");
+        //Generate new permission files
+        getOrCreateDirectory(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/registries/"), "permissions");
+        getOrCreateDirectory(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/registries/"), "groups");
+
+        for (final String name : new String[]{"general", "storage", "transport", "redstone", "interactables", "admin", "the_vault"}) {
+            generateFile(FMLPath, "registries/permissions/" + name + ".json", "registries/permissions/" + name + ".json");
+        }
+
+        for (final String name : new String[]{"minecraft", "create", "ae2", "waystones", "refinedstorage",
+                "storagedrawers", "colossalchests", "easy_villagers", "blockcarpentry",
+                "sophisticatedbackpacks", "supplementaries", "the_vault"}) {
+            generateFile(FMLPath, "registries/groups/" + name + ".json", "registries/groups/" + name + ".json");
         }
 
 

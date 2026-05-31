@@ -1,0 +1,13 @@
+{
+  "mod": "easy_villagers",
+  "groups": {
+    "easy_villagers_blocks": {
+      "block": ["easy_villagers:.*"],
+      "item": ["easy_villagers:villager"],
+      "entity": ["minecraft:villager"]
+    },
+    "spawn_eggs": {
+      "item": ["easy_villagers:villager"]
+    }
+  }
+}
