@@ -6,7 +6,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.UuidArgument;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.LevelResource;
 import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.commands.interfaces.Cmds;
@@ -17,6 +17,7 @@ import yorickbm.skyblockaddon.islands.ForgeIsland;
 import yorickbm.skyblockaddon.util.NBTEncoder;
 
 import java.nio.file.Path;
+import java.util.Objects;
 import java.util.UUID;
 
 public class AdminLoadIslandCommand {
@@ -24,13 +25,11 @@ public class AdminLoadIslandCommand {
     public AdminLoadIslandCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Cmds.literal("island")
                 .then(Cmds.literal("admin")
-                        .requires(source -> source.getEntity() instanceof ServerPlayer
-                                && source.hasPermission(Commands.LEVEL_MODERATORS))
+                        .requires(source -> source.hasPermission(Commands.LEVEL_MODERATORS))
                         .then(Cmds.literal("load")
                                 .then(Cmds.argument("uuid", UuidArgument.uuid())
                                         .executes(context -> execute(
                                                 context.getSource(),
-                                                (ServerPlayer) context.getSource().getEntity(),
                                                 UuidArgument.getUuid(context, "uuid")
                                         ))
                                 )
@@ -39,9 +38,9 @@ public class AdminLoadIslandCommand {
         );
     }
 
-    public int execute(final CommandSourceStack command, final ServerPlayer executor, final UUID islandUUID) {
+    public int execute(final CommandSourceStack command, final UUID islandUUID) {
 
-        command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
+        Objects.requireNonNull(command.getServer().getLevel(Level.OVERWORLD)).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
 
             // Build path to islanddata folder (same as SkyblockAddonWorldCapability)
             final Path worldPath = command.getServer().getWorldPath(LevelResource.ROOT).normalize();

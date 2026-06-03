@@ -23,10 +23,10 @@ public class IslandCommand extends OverWorldCommandStack {
     private void register(CommandDispatcher<CommandSourceStack> dispatcher, String rootLiteral) {
         dispatcher.register(
                 Cmds.literal(rootLiteral)
-                        .requires(source -> source.getEntity() instanceof ServerPlayer)
-                        .executes(context -> execute(
-                                context.getSource(),
-                                (ServerPlayer) context.getSource().getEntity()))
+                        .executes(context -> {
+                            if (!(context.getSource().getEntity() instanceof ServerPlayer player)) return Command.SINGLE_SUCCESS;
+                            return execute(context.getSource(), player);
+                        })
         );
     }
 

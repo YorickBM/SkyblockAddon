@@ -6,12 +6,11 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.UuidArgument;
+import net.minecraft.world.level.Level;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.server.level.ServerPlayer;
 import yorickbm.skyblockaddon.capabilities.SkyblockAddonWorldProvider;
 import yorickbm.skyblockaddon.commands.interfaces.Cmds;
 import yorickbm.skyblockaddon.commands.interfaces.OverWorldCommandStack;
@@ -21,13 +20,14 @@ import yorickbm.skyblockaddon.core.util.UsernameCache;
 import yorickbm.skyblockaddon.islands.ForgeIsland;
 import yorickbm.skyblockaddon.util.ForgeConverter;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class AdminSkullCommand extends OverWorldCommandStack {
     public AdminSkullCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Cmds.literal("island")
                 .then(Cmds.literal("admin")
-                        .requires(source -> source.getEntity() instanceof ServerPlayer && source.hasPermission(Commands.LEVEL_MODERATORS))
+                        .requires(source -> source.hasPermission(Commands.LEVEL_MODERATORS))
                         .then(Cmds.literal("setSkull")
                                 .then(Cmds.argument("islandId", UuidArgument.uuid())
                                         .then(Cmds.argument("skullTexture", StringArgumentType.greedyString())
@@ -43,7 +43,7 @@ public class AdminSkullCommand extends OverWorldCommandStack {
 
     public int execute(final CommandSourceStack command, UUID islandId, String skullTexture) {
 
-        command.getLevel().getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
+        Objects.requireNonNull(command.getServer().getLevel(Level.OVERWORLD)).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).ifPresent(cap -> {
             final ForgeIsland island = (ForgeIsland) IslandManager.getInstance().getIslandByUUID(islandId);
             if (island == null) {
                 command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.admin.no.island")));

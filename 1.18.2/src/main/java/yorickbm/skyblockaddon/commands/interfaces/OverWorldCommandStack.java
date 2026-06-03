@@ -10,6 +10,7 @@ import yorickbm.skyblockaddon.core.configs.SkyBlockAddonLanguage;
 
 public abstract class OverWorldCommandStack implements CommandStack {
     public int execute(final CommandSourceStack command, final ServerPlayer executor) {
+        if (executor == null) return Command.SINGLE_SUCCESS; // console: assume overworld
         return isInOverworld(executor) ? Command.SINGLE_SUCCESS : 0;
     }
 

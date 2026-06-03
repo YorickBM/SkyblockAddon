@@ -24,8 +24,9 @@ public class AdminMenuCommand extends OverWorldCommandStack {
     public AdminMenuCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Cmds.literal("island")
                 .then(Cmds.literal("admin")
-                        .requires(source -> source.getEntity() instanceof ServerPlayer && source.hasPermission(Commands.LEVEL_GAMEMASTERS))
+                        .requires(source -> source.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .then(Cmds.literal("menu")
+                        .requires(source -> source.getEntity() instanceof ServerPlayer)
                                 .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity(), null))
                                 .then(Cmds.argument("id", UuidArgument.uuid())
                                         .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity(), UuidArgument.getUuid(context, "id")))

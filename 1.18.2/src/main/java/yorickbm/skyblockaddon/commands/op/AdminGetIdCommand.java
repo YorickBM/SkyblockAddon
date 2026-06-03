@@ -26,8 +26,9 @@ public class AdminGetIdCommand extends OverWorldCommandStack {
     public AdminGetIdCommand(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Cmds.literal("island")
             .then(Cmds.literal("admin")
-                .requires(source -> source.getEntity() instanceof ServerPlayer && source.hasPermission(Commands.LEVEL_MODERATORS))
+                .requires(source -> source.hasPermission(Commands.LEVEL_MODERATORS))
                 .then(Cmds.literal("getId")
+                .requires(source -> source.getEntity() instanceof ServerPlayer)
                     .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity(), (ServerPlayer) null))
                     .then(Cmds.argument("player", EntityArgument.player())
                         .executes(context -> execute(context.getSource(), (ServerPlayer) context.getSource().getEntity(), EntityArgument.getPlayer(context, "player")))
