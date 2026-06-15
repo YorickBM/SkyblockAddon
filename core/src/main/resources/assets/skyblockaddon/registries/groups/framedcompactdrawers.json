@@ -1,0 +1,8 @@
+{
+  "mod": "framedcompactdrawers",
+  "groups": {
+    "storage_drawers": {
+      "block": ["framedcompactdrawers:.*"]
+    }
+  }
+}

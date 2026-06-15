@@ -1,0 +1,121 @@
+{
+  "categories": [
+    {
+      "id": "general",
+      "item": {
+        "display_name": ["{\"text\": \"General\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:grass_block",
+        "lore": [
+          ["{\"text\":\"» Change general permissions.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Place/Destroy, Items, Vehicles, Transport, Beds, etc.\",\"color\":\"dark_gray\"}"]
+        ]
+      }
+    },
+    {
+      "id": "redstone",
+      "item": {
+        "display_name": ["{\"text\": \"Redstone\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:redstone",
+        "lore": [
+          ["{\"text\":\"» Change redstone permissions.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Delays, Detectors, Buttons, Levers, Hoppers, Containers.\",\"color\":\"dark_gray\"}"]
+        ]
+      }
+    },
+    {
+      "id": "storage",
+      "item": {
+        "display_name": ["{\"text\": \"Storage\", \"color\":\"aqua\", \"bold\":\"true\"}"],
+        "item": "minecraft:chest",
+        "lore": [
+          ["{\"text\":\"» Change storage permissions.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ AE2, Refined Storage, Drawers, Colossals, Backpacks, SSN.\",\"color\":\"dark_gray\"}"]
+        ]
+      }
+    },
+    {
+      "id": "create",
+      "mods": ["create", "moreburners", "createaddition", "railways"],
+      "item": {
+        "display_name": ["{\"text\": \"Create\", \"color\":\"gold\", \"bold\":\"true\"}"],
+        "item": "minecraft:piston",
+        "lore": [
+          ["{\"text\":\"» Change Create mod permissions.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Machines, Redstone Links, Railways, Electrical.\",\"color\":\"dark_gray\"}"]
+        ]
+      }
+    },
+    {
+      "id": "energy",
+      "mods": ["mekanism", "mekanismgenerators", "fluxnetworks", "thermal", "powah", "irongenerators", "ironfurnaces", "rftoolsbase"],
+      "item": {
+        "display_name": ["{\"text\": \"Energy\", \"color\":\"red\", \"bold\":\"true\"}"],
+        "item": "minecraft:lightning_rod",
+        "lore": [
+          ["{\"text\":\"» Change energy mod permissions.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Mekanism, Flux Networks, Thermal, Powah, Iron Generators.\",\"color\":\"dark_gray\"}"]
+        ]
+      }
+    },
+    {
+      "id": "automation",
+      "mods": ["xnet", "pipez", "modularrouters"],
+      "item": {
+        "display_name": ["{\"text\": \"Automation\", \"color\":\"dark_purple\", \"bold\":\"true\"}"],
+        "item": "minecraft:dropper",
+        "lore": [
+          ["{\"text\":\"» Change automation permissions.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ XNet, Pipez, Modular Routers.\",\"color\":\"dark_gray\"}"]
+        ]
+      }
+    },
+    {
+      "id": "utility",
+      "mods": ["waystones", "elevatorid", "buildinggadgets", "mininggadgets", "cookingforblockheads"],
+      "item": {
+        "display_name": ["{\"text\": \"Utility\", \"color\":\"green\", \"bold\":\"true\"}"],
+        "item": "minecraft:ender_pearl",
+        "lore": [
+          ["{\"text\":\"» Change utility permissions.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Waystones, Elevators, Gadgets, Cooking for Blockheads.\",\"color\":\"dark_gray\"}"]
+        ]
+      }
+    },
+    {
+      "id": "farming",
+      "mods": ["botania", "botanypots"],
+      "item": {
+        "display_name": ["{\"text\": \"Farming\", \"color\":\"green\", \"bold\":\"true\"}"],
+        "item": "minecraft:wheat",
+        "lore": [
+          ["{\"text\":\"» Change farming permissions.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Botania, Botany Pots.\",\"color\":\"dark_gray\"}"]
+        ]
+      }
+    },
+    {
+      "id": "mobs",
+      "mods": ["easy_villagers", "easy_piglins"],
+      "item": {
+        "display_name": ["{\"text\": \"Mobs\", \"color\":\"yellow\", \"bold\":\"true\"}"],
+        "item": "minecraft:zombie_head",
+        "lore": [
+          ["{\"text\":\"» Change mob interaction permissions.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Easy Villagers, Easy Piglins.\",\"color\":\"dark_gray\"}"]
+        ]
+      }
+    },
+    {
+      "id": "vaulthunters",
+      "mods": ["the_vault", "vaultintegrations"],
+      "item": {
+        "display_name": ["{\"text\": \"Vault Hunters\", \"color\":\"yellow\", \"bold\":\"true\"}"],
+        "item": "the_vault:vault_crystal",
+        "lore": [
+          ["{\"text\":\"» Change Vault Hunters permissions.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Crafting stations, storage, companions, eternals, etc.\",\"color\":\"dark_gray\"}"]
+        ]
+      }
+    }
+  ]
+}

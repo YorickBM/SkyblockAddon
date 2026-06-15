@@ -5,11 +5,35 @@ import yorickbm.skyblockaddon.core.permissions.Permission;
 import yorickbm.skyblockaddon.core.permissions.PermissionManager;
 import yorickbm.skyblockaddon.core.util.MatchResult;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
 public class InteractionValidator {
+
+    /**
+     * Collects permission check results for a single debug log line.
+     * Passed  = claimed + canDo=true (allowed)
+     * Blocked = claimed + canDo=false (blocked)
+     * Ignored = matched trigger but filtered out by context / negation
+     */
+    public static class PermissionDebug {
+        public final List<String> passed  = new ArrayList<>();
+        public final List<String> blocked = new ArrayList<>();
+        public final List<String> ignored = new ArrayList<>();
+
+        public void log(final java.util.function.Consumer<String> logger, final String header) {
+            logger.accept(header);
+            logger.accept("  Passed permissions:             " + fmt(passed));
+            logger.accept("  Blocked permissions:            " + fmt(blocked));
+            logger.accept("  Ignored permissions on trigger: " + fmt(ignored));
+        }
+
+        private static String fmt(final List<String> list) {
+            return list.isEmpty() ? "-" : String.join(", ", list);
+        }
+    }
 
     /**
      * Primary check: context-map approach with priority.
@@ -33,27 +57,30 @@ public class InteractionValidator {
     public static boolean checkPermission(final IslandGroup group,
                                           final List<Permission> perms,
                                           final Map<String, String> contextValues) {
+        return checkPermission(group, perms, contextValues, null);
+    }
+
+    public static boolean checkPermission(final IslandGroup group,
+                                          final List<Permission> perms,
+                                          final Map<String, String> contextValues,
+                                          final PermissionDebug debug) {
         if (group == null) return false;
 
         for (final Permission perm : perms) {
-            if (group.canDo(perm.getId())) continue;
-
             boolean skipThisPerm = false;
             boolean anyMatch = false;
             boolean hasData = false;
 
             for (final Map.Entry<String, String> ctx : contextValues.entrySet()) {
                 final List<String> patterns = perm.getData().getFiltersForContext(ctx.getKey());
-                if (patterns == null) continue;    // context not set → not relevant
+                if (patterns == null) continue;
                 hasData = true;
 
                 if (patterns.isEmpty()) {
-                    // Binary context (old format empty array = match everything)
                     anyMatch = true;
                     continue;
                 }
 
-                // Explicit negation → skip this permission for this action
                 if (PermissionManager.hasExplicitNegation(patterns, ctx.getValue())) {
                     skipThisPerm = true;
                     break;
@@ -64,11 +91,35 @@ public class InteractionValidator {
                 }
             }
 
-            if (skipThisPerm) continue;              // explicitly excluded → try lower priority
+            if (skipThisPerm) {
+                if (debug != null) debug.ignored.add(perm.getId());
+                continue;
+            }
 
-            if (!hasData) return true;               // binary permission, no filter data → BLOCK
-            if (anyMatch) return true;               // permission claims this action → BLOCK
-            // No claim → continue to lower priority
+            // If the permission declares a context key that is absent from the provided
+            // contextValues (e.g. interact_spawn requires "item" but player has empty hand),
+            // treat it as hasData=true with no match — the permission requires that context
+            // to be present, so it should not claim an action where it is absent.
+            if (!hasData || !anyMatch) {
+                for (final String declaredCtx : perm.getData().getContextKeys()) {
+                    if (!contextValues.containsKey(declaredCtx)) {
+                        hasData = true; // permission requires this context but it's absent
+                    }
+                }
+            }
+
+            final boolean claims = !hasData || anyMatch;
+            if (!claims) {
+                if (debug != null) debug.ignored.add(perm.getId());
+                continue;
+            }
+
+            final boolean isBlocked = !group.canDo(perm.getId());
+            if (debug != null) {
+                if (isBlocked) debug.blocked.add(perm.getId());
+                else           debug.passed.add(perm.getId());
+            }
+            return isBlocked;
         }
 
         return false;
@@ -96,18 +147,39 @@ public class InteractionValidator {
                                                final List<Permission> perms,
                                                final String matchValue,
                                                final Function<PermissionDataJson, List<String>> dataExtractor) {
-        // Legacy bridge: determine which context the extractor maps to by trying known extractors
+        return checkMatchPermission(group, perms, matchValue, dataExtractor, null);
+    }
+
+    public static boolean checkMatchPermission(final IslandGroup group,
+                                               final List<Permission> perms,
+                                               final String matchValue,
+                                               final Function<PermissionDataJson, List<String>> dataExtractor,
+                                               final PermissionDebug debug) {
         if (group == null) return false;
 
         for (final Permission perm : perms) {
-            if (group.canDo(perm.getId())) continue;
-
             final List<String> data = dataExtractor.apply(perm.getData());
-            if (data.isEmpty()) return true; // binary
 
-            if (PermissionManager.hasExplicitNegation(data, matchValue)) continue;
-            if (PermissionManager.checkMatch(data, matchValue) == MatchResult.BLOCK) return true;
+            if (PermissionManager.hasExplicitNegation(data, matchValue)) {
+                if (debug != null) debug.ignored.add(perm.getId());
+                continue;
+            }
+
+            final boolean claims = data.isEmpty()
+                    || PermissionManager.checkMatch(data, matchValue) == MatchResult.BLOCK;
+            if (!claims) {
+                if (debug != null) debug.ignored.add(perm.getId());
+                continue;
+            }
+
+            final boolean isBlocked = !group.canDo(perm.getId());
+            if (debug != null) {
+                if (isBlocked) debug.blocked.add(perm.getId());
+                else           debug.passed.add(perm.getId());
+            }
+            return isBlocked;
         }
+
         return false;
     }
 }

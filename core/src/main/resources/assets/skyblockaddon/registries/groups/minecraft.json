@@ -1,10 +1,11 @@
 {
   "groups": {
     "chests": {
-      "block": [".*:chest", ".*:.*_chest", ".*:.*_chest_placeable"]
+      "block": [".*:chest", ".*:.*_chest", ".*:.*_chest_placeable"],
+      "entity": ["minecraft:chest_minecart"]
     },
     "shulkers": {
-      "block": ["minecraft:shulker_box", "minecraft:.*_shulker_box"]
+      "block": ["minecraft:shulker_box", "minecraft:.*_shulker_box", ".*:shulker_box", ".*:.*_shulker_box"]
     },
     "barrels": {
       "block": ["minecraft:barrel", ".*:.*_barrel"]
@@ -25,7 +26,8 @@
       "block": ["minecraft:lever", ".*:.*_button", ".*:.*_button_.*", ".*:.*_lever", ".*:.*_lever_.*", ".*:.*_pressure_plate"]
     },
     "redstone_containers": {
-      "block": ["minecraft:hopper", "minecraft:dispenser", "minecraft:dropper"]
+      "block": ["minecraft:hopper", "minecraft:dispenser", "minecraft:dropper"],
+      "entity": ["minecraft:hopper_minecart"]
     },
     "spawn_eggs": {
       "item": [".*:.*_spawn_egg", "minecraft:egg"]
@@ -34,7 +36,26 @@
       "entity": ["minecraft:experience_orb"]
     },
     "vehicles": {
-      "entity": ["minecraft:minecart", ".*:.*_minecart", ".*:.*_boat"]
+      "entity": [
+        ".*:minecart",
+        ".*:.*_minecart",
+        ".*:boat",
+        ".*:.*_boat",
+        "minecraft:pig",
+        "minecraft:horse",
+        "minecraft:donkey",
+        "minecraft:mule",
+        "minecraft:strider",
+        "minecraft:skeleton_horse",
+        "minecraft:zombie_horse",
+        "minecraft:llama",
+        "minecraft:trader_llama",
+        "!minecraft:chest_minecart",
+        "!minecraft:hopper_minecart"
+      ]
+    },
+    "furnaces": {
+      "block": ["minecraft:furnace", "minecraft:blast_furnace", "minecraft:smoker"]
     },
     "item_frames": {
       "entity": [".*:item_frame", ".*:.*_item_frame"]

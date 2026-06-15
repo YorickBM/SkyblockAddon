@@ -20,6 +20,7 @@ import yorickbm.guilibrary.util.FillerPattern;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ServerInterface extends AbstractContainerMenu {
     protected CompoundTag data;
@@ -31,6 +32,7 @@ public class ServerInterface extends AbstractContainerMenu {
 
     private int maxPage = 1;
     private int currPage = 1;
+    private final AtomicBoolean refreshPending = new AtomicBoolean(false);
 
     public ServerInterface(final int syncId, final Inventory playerInventory, final Player holder, final GUIType type, final CompoundTag data) {
         super(fromRows(type.getRows()), syncId);
@@ -190,6 +192,19 @@ public class ServerInterface extends AbstractContainerMenu {
             if(item.hasEvent()) MinecraftForge.EVENT_BUS.post(item.getEvent(this, type.getRows() * 9));
             else MinecraftForge.EVENT_BUS.post(new GuiDrawFillerEvent(this, item, type.getRows() * 9));
         }
+    }
+
+    /**
+     * Schedules a redraw on the server thread. Safe to call from any thread.
+     * Deduplicates: if a refresh is already queued, this is a no-op.
+     */
+    public void scheduleUpdate() {
+        if (!(holder instanceof ServerPlayer sp)) return;
+        if (!refreshPending.compareAndSet(false, true)) return;
+        sp.getServer().execute(() -> {
+            refreshPending.set(false);
+            if (sp.containerMenu == this) update();
+        });
     }
 
     /**

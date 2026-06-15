@@ -53,7 +53,7 @@ public class ThreadManager {
         }
     }
 
-    private static synchronized UUID getNextThreadId() {
+    private static UUID getNextThreadId() {
         return UUID.randomUUID();
     }
 

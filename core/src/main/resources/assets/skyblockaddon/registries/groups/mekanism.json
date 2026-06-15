@@ -1,0 +1,36 @@
+{
+  "mod": "mekanism",
+  "groups": {
+    "mekanism_machine_blocks": {
+      "block": [
+        "mekanism:enrichment_chamber", "mekanism:crusher",
+        "mekanism:purification_chamber", "mekanism:chemical_injection_chamber",
+        "mekanism:combiner", "mekanism:metallurgic_infuser",
+        "mekanism:energized_smelter", "mekanism:precision_sawmill",
+        "mekanism:chemical_crystallizer", "mekanism:chemical_dissolution_chamber",
+        "mekanism:chemical_washer", "mekanism:chemical_infuser",
+        "mekanism:osmium_compressor", "mekanism:chemical_oxidizer",
+        "mekanism:rotary_condensentrator", "mekanism:antiprotonic_nucleosynthesizer",
+        "mekanism:electric_pump", "mekanism:digital_miner",
+        "mekanism:formulaic_assemblicator", "mekanism:seismic_vibrator",
+        "mekanism:fluid_tank", "mekanism:gas_tank",
+        "mekanism:basic_factory", "mekanism:advanced_factory", "mekanism:elite_factory",
+        "mekanism:ultimate_factory", "mekanism:creative_factory",
+        "mekanism:isotopic_centrifuge", "mekanism:nutritional_liquifier",
+        "mekanism:industrial_turbine", "mekanism:boiler_casing",
+        "mekanism:fission_reactor_casing", "mekanism:fission_reactor_logic_adapter",
+        "mekanism:thermoelectric_boiler"
+      ]
+    },
+    "mekanism_qio_blocks": {
+      "block": [
+        "mekanism:qio_drive_array", "mekanism:qio_dashboard",
+        "mekanism:qio_importer", "mekanism:qio_exporter",
+        "mekanism:qio_redstone_adapter"
+      ]
+    },
+    "mekanism_blocks": {
+      "block": ["#mekanism_machine_blocks", "#mekanism_qio_blocks"]
+    }
+  }
+}

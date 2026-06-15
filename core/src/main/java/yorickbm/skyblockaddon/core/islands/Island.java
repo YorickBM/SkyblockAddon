@@ -9,6 +9,8 @@ import yorickbm.skyblockaddon.core.util.geometry.Square;
 import yorickbm.skyblockaddon.core.util.geometry.Vec3i;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class Island {
     private UUID id = UUID.randomUUID(); //UUID Of island
@@ -17,7 +19,9 @@ public abstract class Island {
     protected Vec3i spawn; //Spawn coordinates of island
     protected Vec3i center; //Spawn coordinates of island
 
-    protected String name = "";
+    protected volatile String name = "";
+    private final AtomicBoolean nameFetching = new AtomicBoolean(false);
+    private final CopyOnWriteArrayList<Runnable> nameCallbacks = new CopyOnWriteArrayList<>();
     protected String biome = "Unknown";
     protected boolean travelability = false;
 
@@ -38,7 +42,7 @@ public abstract class Island {
      * @param base64 - Texture string as base64
      */
     public void setSkullTexture(String base64) {
-        if(base64.length() < 10) this.skullTexture = "";
+        if(base64.length() < 10) { this.skullTexture = ""; return; }
         this.skullTexture = base64;
     }
     public String getSkullTexture() {
@@ -86,11 +90,10 @@ public abstract class Island {
         if(islandGroups.size() <= 1 || uuid.equals(SkyblockAddonCore.MOD_UUID) || uuid.equals(SkyblockAddonCore.MOD_UUID2)) return false;
         if(!islandGroups.containsKey(uuid)) return false;
 
-        if(!islandGroups.get(uuid).getMembers().isEmpty()) { //Move them all to default group
-            islandGroups.get(uuid).getMembers().forEach(p -> {
-                //Add island members from group to default island member group
+        final IslandGroup groupToRemove = islandGroups.get(uuid);
+        if(!groupToRemove.getMembers().isEmpty()) { //Move them all to default group
+            new ArrayList<>(groupToRemove.getMembers()).forEach(p -> {
                 if(this.members.contains(p)) this.getMembersGroup().addMember(p);
-                //Non-members will default back to default group as they are in no group
             });
         }
 
@@ -293,13 +296,35 @@ public abstract class Island {
     }
 
     public String getName() {
-        if(this.name.isEmpty()) {
-            UsernameCache.get(getOwner()).thenAccept(r -> this.name = r);
-        }
-        return this.name.isEmpty() ? "..." : this.name;
+        triggerNameFetch();
+        return name.isEmpty() ? "..." : name;
     }
+
+    /**
+     * Register a one-shot callback that fires when the owner name finishes loading.
+     * If the name is already loaded the callback is NOT called — the current render
+     * already has the correct value so no refresh is needed.
+     */
+    public void onNameLoaded(final Runnable callback) {
+        if (!name.isEmpty()) return;
+        nameCallbacks.add(callback);
+        triggerNameFetch();
+    }
+
+    private void triggerNameFetch() {
+        if (!name.isEmpty()) return;
+        if (!nameFetching.compareAndSet(false, true)) return;
+        UsernameCache.get(getOwner()).thenAccept(r -> {
+            name = r;
+            final List<Runnable> cbs = new ArrayList<>(nameCallbacks);
+            nameCallbacks.clear();
+            cbs.forEach(Runnable::run);
+        });
+    }
+
     public void updateName() {
-        UsernameCache.get(getOwner()).thenAccept(r -> this.name = r);
+        name = "";
+        nameFetching.set(false);
     }
 
     /**

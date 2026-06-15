@@ -1,0 +1,24 @@
+{
+  "mod": "colossalchests",
+  "permissions": [
+    {
+      "id": "open_colossalchests",
+      "priority": 10,
+      "order": 5,
+      "item": {
+        "display_name": ["{\"text\": \"Colossal Chests\", \"color\":\"aqua\", \"bold\":\"true\"}"],
+        "item": "colossalchests:interface_wood",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Storage",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#colossal_chests"]
+      }
+    }
+  ]
+}

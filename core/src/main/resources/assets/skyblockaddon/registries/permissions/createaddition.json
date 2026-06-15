@@ -1,0 +1,24 @@
+{
+  "mod": "createaddition",
+  "permissions": [
+    {
+      "id": "create_electrical",
+      "priority": 15,
+      "item": {
+        "display_name": ["{\"text\": \"Create: Addition — Electrical\", \"color\":\"gold\", \"bold\":\"true\"}"],
+        "item": "createaddition:electric_motor",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Electric Motor, Alternator, Accumulator, Battery Box.\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Create",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["createaddition:.*"]
+      }
+    }
+  ]
+}

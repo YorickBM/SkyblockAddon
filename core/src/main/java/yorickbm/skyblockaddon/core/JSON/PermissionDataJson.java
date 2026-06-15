@@ -26,7 +26,7 @@ public class PermissionDataJson implements JSONSerializable {
     // null  = context not set (not relevant for this permission)
     // []    = set but empty (binary: matches everything, old format only)
     // [..] = patterns to match against
-    private transient Map<String, List<String>> resolvedFilters;
+    private transient volatile Map<String, List<String>> resolvedFilters;
 
     /**
      * Resolve group references and normalise old/new format into resolvedFilters.
@@ -94,13 +94,22 @@ public class PermissionDataJson implements JSONSerializable {
      * [..] → patterns to match
      */
     public List<String> getFiltersForContext(final String context) {
-        if (resolvedFilters == null) resolve(PermissionGroupRegistry.getInstance());
+        ensureResolved();
         return resolvedFilters.get(context);
     }
 
     public boolean hasContext(final String context) {
-        if (resolvedFilters == null) resolve(PermissionGroupRegistry.getInstance());
+        ensureResolved();
         return resolvedFilters.containsKey(context);
+    }
+
+    public Set<String> getContextKeys() {
+        ensureResolved();
+        return resolvedFilters.keySet();
+    }
+
+    private synchronized void ensureResolved() {
+        if (resolvedFilters == null) resolve(PermissionGroupRegistry.getInstance());
     }
 
     public boolean getDefault() { return defaults; }

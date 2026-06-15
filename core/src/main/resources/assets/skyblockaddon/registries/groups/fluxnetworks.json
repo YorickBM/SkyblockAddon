@@ -1,0 +1,14 @@
+{
+  "mod": "fluxnetworks",
+  "groups": {
+    "flux_plug_point_blocks": {
+      "block": ["fluxnetworks:flux_plug", "fluxnetworks:flux_point", "fluxnetworks:flux_controller"]
+    },
+    "flux_config_blocks": {
+      "block": ["fluxnetworks:flux_network_connector", "fluxnetworks:flux_storage", "fluxnetworks:flux_admin"]
+    },
+    "fluxnetworks_blocks": {
+      "block": ["#flux_plug_point_blocks", "#flux_config_blocks"]
+    }
+  }
+}

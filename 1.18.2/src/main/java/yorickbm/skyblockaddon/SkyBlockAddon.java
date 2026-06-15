@@ -19,6 +19,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
+import yorickbm.skyblockaddon.core.events.IslandEventBus;
 import net.minecraftforge.fml.loading.FileUtils;
 import org.slf4j.Logger;
 import yorickbm.guilibrary.GUILibraryRegistry;
@@ -78,6 +79,10 @@ public class SkyBlockAddon {
         if(SkyblockAddonConfig.getForKey("permissions.debug").equalsIgnoreCase("TRUE")) log.info(msg);
     }
 
+    public static boolean isDebugEnabled() {
+        return SkyblockAddonConfig.getForKey("permissions.debug").equalsIgnoreCase("TRUE");
+    }
+
     /**
      * Inter Mod Communications.
      * Checks against Terralith
@@ -109,7 +114,7 @@ public class SkyBlockAddon {
                     }
                 }
         ));
-        ResourceManager.commonSetup(FMLPaths.CONFIGDIR.get(), selector);
+        ResourceManager.commonSetup(FMLPaths.CONFIGDIR.get(), selector, mod -> ModList.get().isLoaded(mod));
 
         //Register username cache
         UsernameCache.initCache(500);
@@ -145,6 +150,7 @@ public class SkyBlockAddon {
      */
     @SubscribeEvent
     public void onServerStarting(final ServerStartingEvent event) {
+        IslandEventBus.register(new ForgeIslandEventBus(event.getServer()));
 
         //Loading public island owner names into username cache form Mojang API
         IslandManager.getInstance().getIslands().stream().filter(Island::isVisible).forEach(Island::updateName);

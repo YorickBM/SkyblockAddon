@@ -16,6 +16,8 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * @author diesieben07
@@ -25,10 +27,11 @@ public final class UsernameCache {
     private static LoadingCache<UUID, String> cache;
 
     public static String getBlocking(final UUID uuid) {
-        return get(uuid).exceptionally(ex -> {
-            //LOGGER.warn("Failure while contacting Mojang API (" + uuid.toString() + ").");
-            return "-"; // Default value if there's an error
-        }).getNow("...");
+        try {
+            return get(uuid).get(5, TimeUnit.SECONDS);
+        } catch (final ExecutionException | TimeoutException | InterruptedException ex) {
+            return "-";
+        }
     }
 
     public static CompletableFuture<String> get(final UUID uuid) {

@@ -108,6 +108,7 @@ public class PermissionManager {
     public List<Permission> getPermissionsFor(final String category) {
         return permissions.stream()
                 .filter(pm -> pm.getCategory().equalsIgnoreCase(category))
+                .sorted(Comparator.comparingInt(Permission::getOrder))
                 .collect(Collectors.toList());
     }
 

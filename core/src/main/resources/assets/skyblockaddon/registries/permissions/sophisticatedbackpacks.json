@@ -1,0 +1,26 @@
+{
+  "mod": "sophisticatedbackpacks",
+  "permissions": [
+    {
+      "id": "open_backpacks",
+      "priority": 10,
+      "order": 10,
+      "item": {
+        "display_name": ["{\"text\": \"Backpacks — Open\", \"color\":\"aqua\", \"bold\":\"true\"}"],
+        "item": "sophisticatedbackpacks:backpack",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Place/View/Pickup backpacks.\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Storage",
+      "triggers": ["onRightClickBlock", "onPlaceBlock"],
+      "data": {
+        "block": ["#backpacks"],
+        "item": ["#backpacks"]
+      }
+    }
+  ]
+}

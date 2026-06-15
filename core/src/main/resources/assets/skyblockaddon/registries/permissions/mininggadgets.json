@@ -1,0 +1,23 @@
+{
+  "mod": "mininggadgets",
+  "permissions": [
+    {
+      "id": "mining_gadgets_use",
+      "priority": 10,
+      "item": {
+        "display_name": ["{\"text\": \"Mining Gadgets\", \"color\":\"green\", \"bold\":\"true\"}"],
+        "item": "mininggadgets:mining_gadget",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Utility",
+      "triggers": ["onUse"],
+      "data": {
+        "item": ["mininggadgets:.*"]
+      }
+    }
+  ]
+}

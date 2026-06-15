@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.SkyBlockAddon;
@@ -27,10 +28,14 @@ import yorickbm.skyblockaddon.core.permissions.PermissionManager;
 import yorickbm.skyblockaddon.util.ForgeConverter;
 import yorickbm.skyblockaddon.util.ServerHelper;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
+
 
 
 public class InteractionHandler {
@@ -85,8 +90,12 @@ public class InteractionHandler {
         if(player.getLevel().dimension() != Level.NETHER) return EntityVerification.NOT_IN_NETHER; //Is not in nether
         if(player.hasPermissions(Commands.LEVEL_ADMINS)) return EntityVerification.IS_ADMIN; //Player is admin;
 
-        final Optional<SkyblockAddonWorldCapability> cap = Objects.requireNonNull(Objects.requireNonNull(player.getServer()).getLevel(Level.OVERWORLD)).getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).resolve();
-        if(cap.isEmpty()) return EntityVerification.CAP_NOT_FOUND; //Could not find Capability
+        final net.minecraft.server.MinecraftServer netherServer = player.getServer();
+        if (netherServer == null) return EntityVerification.CAP_NOT_FOUND;
+        final ServerLevel overworldLevel = netherServer.getLevel(Level.OVERWORLD);
+        if (overworldLevel == null) return EntityVerification.CAP_NOT_FOUND;
+        final Optional<SkyblockAddonWorldCapability> cap = overworldLevel.getCapability(SkyblockAddonWorldProvider.SKYBLOCKADDON_WORLD_CAPABILITY).resolve();
+        if(cap.isEmpty()) return EntityVerification.CAP_NOT_FOUND;
 
 
         final Island island = IslandManager.getInstance().getIslandByPos(ForgeConverter.ForgeToInternalVec3i(new BlockPos(triggerPoint.getX() * 8, triggerPoint.getY(), triggerPoint.getZ() * 8)));
@@ -103,7 +112,6 @@ public class InteractionHandler {
      * @param trigger - Trigger type to use
      */
     public static boolean checkPlayerInteraction(final AtomicReference<Island> standingOn, final ServerPlayer player, final ServerLevel world, final BlockPos position, final ItemStack handItem, final String trigger) {
-        SkyBlockAddon.CustomDebugMessages(LOGGER, trigger);
 
         //Update doors
         if (player.getLevel().getBlockState(position).getBlock() instanceof DoorBlock) {
@@ -120,20 +128,65 @@ public class InteractionHandler {
         final Optional<IslandGroup> group = standingOn.get().getGroupForEntityUUID(player.getUUID());
         if (group.isEmpty()) return true;
 
-        final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger(trigger);
-
         final String itemName = handItem.isEmpty() ? "" : Objects.requireNonNull(handItem.getItem().getRegistryName()).toString();
         final BlockState clickedState = world.getBlockState(position);
         final String blockName = clickedState.isAir() ? "" : Objects.requireNonNull(clickedState.getBlock().getRegistryName()).toString();
 
-        SkyBlockAddon.CustomDebugMessages(LOGGER, "item=" + itemName + " block=" + blockName + " trigger=" + trigger);
+        final Map<String, String> ctx = new LinkedHashMap<>();
+        if (!blockName.isEmpty()) ctx.put("block", blockName);
+        if (!itemName.isEmpty()) ctx.put("item", itemName);
 
-        final boolean runFail = InteractionValidator.checkPermissions(group.get(), perms, itemName, blockName);
+        final boolean runFail = evaluatePermissions(group.get(), trigger, ctx);
 
         if (runFail) {
             ServerHelper.forceUnpowerOrTogglePoweredBlock(world, position);
         }
 
         return runFail;
+    }
+
+    /**
+     * Entity right-click interaction check — passes entity type as context so
+     * permissions with entity filters (e.g. open_chests for chest_minecart) work correctly.
+     */
+    public static boolean checkEntityInteraction(final AtomicReference<Island> standingOn,
+                                                 final ServerPlayer player,
+                                                 final Entity target,
+                                                 final ItemStack handItem,
+                                                 final String trigger) {
+        SkyBlockAddon.CustomDebugMessages(LOGGER, trigger);
+
+        final Optional<IslandGroup> group = standingOn.get().getGroupForEntityUUID(player.getUUID());
+        if (group.isEmpty()) return true;
+
+        final String itemName = handItem.isEmpty() ? "" : Objects.requireNonNull(handItem.getItem().getRegistryName()).toString();
+        final var entityKey = ForgeRegistries.ENTITIES.getKey(target.getType());
+        final String entityName = entityKey != null ? entityKey.toString() : "";
+
+        final Map<String, String> ctx = new LinkedHashMap<>();
+        if (!itemName.isEmpty()) ctx.put("item", itemName);
+        if (!entityName.isEmpty()) ctx.put("entity", entityName);
+
+        return evaluatePermissions(group.get(), trigger, ctx);
+    }
+
+    /** Shared: run permission check with optional debug logging. Returns true if blocked. */
+    private static boolean evaluatePermissions(final IslandGroup group,
+                                               final String trigger,
+                                               final Map<String, String> ctx) {
+        final List<Permission> perms = PermissionManager.getInstance().getPermissionsForTrigger(trigger);
+        final boolean debugEnabled = SkyBlockAddon.isDebugEnabled();
+        final InteractionValidator.PermissionDebug debug = debugEnabled ? new InteractionValidator.PermissionDebug() : null;
+
+        final boolean blocked = InteractionValidator.checkPermission(group, perms, ctx, debug);
+
+        if (debugEnabled) {
+            final String header = "[PermCheck] trigger=" + trigger + " "
+                    + ctx.entrySet().stream().map(e -> e.getKey() + "=" + e.getValue()).collect(Collectors.joining(" "))
+                    + " group=" + group.getName() + " -> " + (blocked ? "BLOCKED" : "ALLOWED");
+            debug.log(LOGGER::info, header);
+        }
+
+        return blocked;
     }
 }

@@ -1,0 +1,23 @@
+{
+  "mod": "waystones",
+  "permissions": [
+    {
+      "id": "activate_waystones",
+      "priority": 10,
+      "item": {
+        "display_name": ["{\"text\": \"Activate Waystones\", \"color\":\"green\", \"bold\":\"true\"}"],
+        "item": "waystones:waystone",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Utility",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#waystones_blocks"]
+      }
+    }
+  ]
+}

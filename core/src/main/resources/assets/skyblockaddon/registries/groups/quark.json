@@ -1,0 +1,8 @@
+{
+  "mod": "quark",
+  "groups": {
+    "quark_items": {
+      "item": ["quark:flamerang", "quark:pickarang"]
+    }
+  }
+}

@@ -10,6 +10,8 @@ import yorickbm.guilibrary.GUILibraryRegistry;
 import yorickbm.skyblockaddon.commands.interfaces.Cmds;
 import yorickbm.skyblockaddon.commands.interfaces.OverWorldCommandStack;
 import yorickbm.skyblockaddon.core.SkyblockAddonCore;
+import yorickbm.skyblockaddon.core.events.IslandEventBus;
+import yorickbm.skyblockaddon.core.events.IslandGuiOpenEvent;
 import yorickbm.skyblockaddon.core.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.core.islands.Island;
 import yorickbm.skyblockaddon.core.islands.IslandManager;
@@ -39,6 +41,10 @@ public class IslandCommand extends OverWorldCommandStack {
             command.sendFailure(new TextComponent(SkyBlockAddonLanguage.getLocalizedString("commands.has.no.island")));
             return Command.SINGLE_SUCCESS;
         }
+
+        final var guiEvent = IslandEventBus.fire(
+                new IslandGuiOpenEvent(island, executor.getUUID(), IslandGuiOpenEvent.GuiType.OVERVIEW));
+        if (guiEvent.isCancelled()) return Command.SINGLE_SUCCESS;
 
         final CompoundTag tag = new CompoundTag();
         tag.putUUID("island_id", island.getId());

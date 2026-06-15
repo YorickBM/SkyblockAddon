@@ -1,0 +1,43 @@
+{
+  "mod": "xnet",
+  "permissions": [
+    {
+      "id": "xnet_access",
+      "priority": 15,
+      "item": {
+        "display_name": ["{\"text\": \"XNet — View Channels\", \"color\":\"dark_purple\", \"bold\":\"true\"}"],
+        "item": "xnet:controller",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"XNet Controller (view only).\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Automation",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#xnet_access_blocks"]
+      }
+    },
+    {
+      "id": "xnet_configure",
+      "priority": 15,
+      "item": {
+        "display_name": ["{\"text\": \"XNet — Configure\", \"color\":\"dark_purple\", \"bold\":\"true\"}"],
+        "item": "xnet:advanced_connector",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Connectors, Advanced Connector, Facade.\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Automation",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#xnet_config_blocks"]
+      }
+    }
+  ]
+}

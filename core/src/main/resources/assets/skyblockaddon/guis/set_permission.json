@@ -2,7 +2,7 @@
   "title": [
     "{\"text\": \"%group_name% - %group_category%\"}"
   ],
-  "rows": 4,
+  "rows": 5,
   "key": "set_permission",
   "fillers": [
     {
@@ -40,7 +40,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 35,
+      "slot": 44,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
         "data": {
@@ -57,7 +57,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 31,
+      "slot": 40,
       "action": {}
     },
     {
@@ -69,7 +69,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 30,
+      "slot": 39,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemPreviousPageEvent"
       }
@@ -83,7 +83,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 32,
+      "slot": 41,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemNextPageEvent"
       }

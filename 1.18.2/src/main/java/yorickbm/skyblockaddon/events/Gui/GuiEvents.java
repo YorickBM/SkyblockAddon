@@ -2,6 +2,7 @@ package yorickbm.skyblockaddon.events.Gui;
 
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -60,6 +61,21 @@ public class GuiEvents {
         } else if(event.getItemHolder().hasCondition("!is_part")) {
             event.setCanceled(island.isPartOf(event.getHolder().getOwner().getUUID()));
         }
+
+        // any_mod_loaded:mod1,mod2,... — hide item when none of the listed mods are loaded
+        if (!event.isCanceled()) {
+            for (final String condition : event.getItemHolder().getConditions()) {
+                if (!condition.startsWith("any_mod_loaded:")) continue;
+                final String[] mods = condition.substring("any_mod_loaded:".length()).split(",");
+                final boolean anyLoaded = java.util.Arrays.stream(mods)
+                        .map(String::trim)
+                        .anyMatch(ModList.get()::isLoaded);
+                if (!anyLoaded) {
+                    event.setCanceled(true);
+                    break;
+                }
+            }
+        }
     }
 
     @SubscribeEvent
@@ -90,6 +106,9 @@ public class GuiEvents {
         final ForgeIsland island = (ForgeIsland) IslandManager.getInstance().getIslandByUUID(event.getHolder().getData().getUUID("island_id"));
         if (island == null) return;
 
+        // When the owner name finishes loading async, redraw the GUI once so %owner% shows correctly.
+        island.onNameLoaded(event.getHolder()::scheduleUpdate);
+
         final Map<String, String> replacements = buildIslandReplacements(island, event.getHolder().getData());
 
         event.getItemStackHolder().setDisplayName(event.getItemStackHolder().getDisplayName().stream()
@@ -107,7 +126,7 @@ public class GuiEvents {
 
     private Map<String, String> buildIslandReplacements(final ForgeIsland island, final net.minecraft.nbt.CompoundTag data) {
         final Map<String, String> replacements = new HashMap<>();
-        replacements.put("%owner%", UsernameCache.getBlocking(island.getOwner()));
+        replacements.put("%owner%", UsernameCache.get(island.getOwner()).getNow("..."));
         replacements.put("%x%", island.getSpawn().getX() + "");
         replacements.put("%y%", island.getSpawn().getY() + "");
         replacements.put("%z%", island.getSpawn().getZ() + "");

@@ -1,8 +1,33 @@
 {
   "mod": "refinedstorage",
   "groups": {
+    "rs_storage_blocks": {
+      "block": [
+        "refinedstorage:grid", "refinedstorage:fluid_grid",
+        "refinedstorage:crafting_grid", "refinedstorage:pattern_grid",
+        "refinedstorage:disk_drive", "refinedstorage:storage_monitor",
+        "refinedstorage:portable_grid", "refinedstorage:controller",
+        "refinedstorage:relay"
+      ]
+    },
+    "rs_crafting_blocks": {
+      "block": [
+        "refinedstorage:crafting_manager",
+        "refinedstorage:autocrafting_monitor"
+      ]
+    },
+    "rs_network_blocks": {
+      "block": [
+        "refinedstorage:exporter", "refinedstorage:importer",
+        "refinedstorage:destructor", "refinedstorage:constructor",
+        "refinedstorage:interface", "refinedstorage:external_storage",
+        "refinedstorage:detector", "refinedstorage:network_receiver",
+        "refinedstorage:network_transmitter", "refinedstorage:cable",
+        "refinedstorage:security_manager", "refinedstorage:wireless_transmitter"
+      ]
+    },
     "refinedstorage_blocks": {
-      "block": ["refinedstorage:.*"]
+      "block": ["#rs_storage_blocks", "#rs_crafting_blocks", "#rs_network_blocks"]
     }
   }
 }

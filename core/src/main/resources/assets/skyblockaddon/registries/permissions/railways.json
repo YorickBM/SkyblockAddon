@@ -1,0 +1,24 @@
+{
+  "mod": "railways",
+  "permissions": [
+    {
+      "id": "create_railways",
+      "priority": 15,
+      "item": {
+        "display_name": ["{\"text\": \"Create: Railways\", \"color\":\"gold\", \"bold\":\"true\"}"],
+        "item": "railways:track_station",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Train Stations, Signal Blocks, Schedule Blocks.\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Create",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["railways:.*"]
+      }
+    }
+  ]
+}

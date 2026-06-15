@@ -15,6 +15,7 @@ public class Permission implements JSONSerializable {
     protected String[] triggers;
     protected PermissionDataJson data;
     protected int priority = 0;
+    protected int order = 0;
 
     @Override
     public String toJSON() {
@@ -51,4 +52,6 @@ public class Permission implements JSONSerializable {
     public PermissionDataJson getData() { return this.data; }
 
     public int getPriority() { return priority; }
+
+    public int getOrder() { return order; }
 }

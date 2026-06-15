@@ -1,10 +1,14 @@
 package yorickbm.skyblockaddon.events;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -165,8 +169,8 @@ public class PermissionEvents {
     public void onClickEntity(final PlayerInteractEvent.EntityInteract event) {
         final AtomicReference<Island> standingOn = new AtomicReference<>();
         if (!InteractionHandler.verifyEntity(event.getEntity(), standingOn).asBoolean()) {
-            if (InteractionHandler.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(),
-                    (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), "onRightClickEntity")) {
+            if (InteractionHandler.checkEntityInteraction(standingOn, (ServerPlayer) event.getPlayer(),
+                    event.getTarget(), event.getItemStack(), "onRightClickEntity")) {
                 denyEvent(event, (ServerPlayer) event.getPlayer());
             }
         }
@@ -178,9 +182,8 @@ public class PermissionEvents {
         if (!InteractionHandler.verifyEntity(event.getEntity(), standingOn).asBoolean()) {
             final String trigger = ServerHelper.isBlockInteractable(event.getWorld(), event.getPos(),
                     event.getPlayer(), event.getHand(), event.getHitVec()) ? "onRightClickBlock" : "onPlaceBlock";
-            if (InteractionHandler.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(),
-                    (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), trigger)) {
-                denyEvent(event, (ServerPlayer) event.getPlayer());
+            if (handleBlockEvent(standingOn, event, trigger)) {
+                resyncDoubleBlock(event);
             }
         }
         checkNetherPortalIgnition(event.getEntity(), standingOn, event.getPos(), event.getItemStack(), event);
@@ -189,20 +192,16 @@ public class PermissionEvents {
     @SubscribeEvent
     public void onRightClickEmpty(final PlayerInteractEvent.RightClickEmpty event) {
         final AtomicReference<Island> standingOn = new AtomicReference<>();
-        if (InteractionHandler.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
-        if (InteractionHandler.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(),
-                (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), "onRightClickEmpty")) {
-            denyEvent(event, (ServerPlayer) event.getPlayer());
+        if (!InteractionHandler.verifyEntity(event.getEntity(), standingOn).asBoolean()) {
+            handleBlockEvent(standingOn, event, "onRightClickEmpty");
         }
     }
 
     @SubscribeEvent
     public void onRightClickItem(final PlayerInteractEvent.RightClickItem event) {
         final AtomicReference<Island> standingOn = new AtomicReference<>();
-        if (InteractionHandler.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
-        if (InteractionHandler.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(),
-                (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), "onRightClickItem")) {
-            denyEvent(event, (ServerPlayer) event.getPlayer());
+        if (!InteractionHandler.verifyEntity(event.getEntity(), standingOn).asBoolean()) {
+            handleBlockEvent(standingOn, event, "onRightClickItem");
         }
     }
 
@@ -223,20 +222,16 @@ public class PermissionEvents {
     @SubscribeEvent
     public void onLeftClickBlock(final PlayerInteractEvent.LeftClickBlock event) {
         final AtomicReference<Island> standingOn = new AtomicReference<>();
-        if (InteractionHandler.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
-        if (InteractionHandler.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(),
-                (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), "onLeftClickBlock")) {
-            denyEvent(event, (ServerPlayer) event.getPlayer());
+        if (!InteractionHandler.verifyEntity(event.getEntity(), standingOn).asBoolean()) {
+            handleBlockEvent(standingOn, event, "onLeftClickBlock");
         }
     }
 
     @SubscribeEvent
     public void onLeftClickEmpty(final PlayerInteractEvent.LeftClickEmpty event) {
         final AtomicReference<Island> standingOn = new AtomicReference<>();
-        if (InteractionHandler.verifyEntity(event.getEntity(), standingOn).asBoolean()) return;
-        if (InteractionHandler.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(),
-                (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), "onLeftClickEmpty")) {
-            denyEvent(event, (ServerPlayer) event.getPlayer());
+        if (!InteractionHandler.verifyEntity(event.getEntity(), standingOn).asBoolean()) {
+            handleBlockEvent(standingOn, event, "onLeftClickEmpty");
         }
     }
 
@@ -265,7 +260,7 @@ public class PermissionEvents {
     private boolean check(final Optional<IslandGroup> group, final String trigger,
                           final String context, final String value) {
         return InteractionValidator.checkPermission(
-                group.get(),
+                group.orElseThrow(),
                 PermissionManager.getInstance().getPermissionsForTrigger(trigger),
                 Map.of(context, value));
     }
@@ -278,16 +273,58 @@ public class PermissionEvents {
         return group;
     }
 
+    /** Runs checkPlayerInteraction for a PlayerInteractEvent and denies if blocked. Returns true if blocked. */
+    private boolean handleBlockEvent(final AtomicReference<Island> standingOn,
+                                     final PlayerInteractEvent event,
+                                     final String trigger) {
+        if (InteractionHandler.checkPlayerInteraction(standingOn, (ServerPlayer) event.getPlayer(),
+                (ServerLevel) event.getWorld(), event.getPos(), event.getItemStack(), trigger)) {
+            denyEvent(event, (ServerPlayer) event.getPlayer());
+            return true;
+        }
+        return false;
+    }
+
     private void denyIf(final boolean blocked, final Event event, final ServerPlayer player) {
         if (blocked) denyEvent(event, player);
     }
 
     private void denyEvent(final Event event, final ServerPlayer player) {
-        if (event.isCancelable()) event.setCanceled(true);
-        else event.setResult(Event.Result.DENY);
+        if (event instanceof PlayerInteractEvent.RightClickBlock interactEvent) {
+            // Do NOT cancel RightClickBlock — cancelling interrupts Forge's ack flow
+            // (ClientboundBlockChangedAckPacket is never sent), so the client keeps its
+            // prediction active and ignores any block update packets we send.
+            // Setting DENY flags is sufficient: Forge skips state.use() so the block
+            // never changes on the server, and the natural ack resolves the prediction.
+            interactEvent.setUseBlock(Event.Result.DENY);
+            interactEvent.setUseItem(Event.Result.DENY);
+        } else if (event.isCancelable()) {
+            event.setCanceled(true);
+        } else {
+            event.setResult(Event.Result.DENY);
+        }
+
         player.displayClientMessage(
                 new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere"))
                         .withStyle(ChatFormatting.DARK_RED), true);
+    }
+
+    /**
+     * Doors are two-block-tall structures. Forge's ack flow resolves the client prediction for
+     * the clicked half. We only need to explicitly resync the OTHER half, which Minecraft's
+     * vanilla ack path does not cover.
+     */
+    private void resyncDoubleBlock(final PlayerInteractEvent.RightClickBlock event) {
+        final var blockState = event.getWorld().getBlockState(event.getPos());
+        if (!(blockState.getBlock() instanceof DoorBlock)) return;
+
+        final ServerPlayer player = (ServerPlayer) event.getPlayer();
+        final BlockPos clicked = event.getPos();
+        final BlockPos otherHalf = blockState.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER
+                ? clicked.below()
+                : clicked.above();
+
+        player.connection.send(new ClientboundBlockUpdatePacket(event.getWorld(), otherHalf));
     }
 
     private void checkNetherPortalIgnition(final Entity entity, final AtomicReference<Island> standingOn,

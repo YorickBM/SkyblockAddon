@@ -1,0 +1,14 @@
+{
+  "mod": "xnet",
+  "groups": {
+    "xnet_access_blocks": {
+      "block": ["xnet:controller"]
+    },
+    "xnet_config_blocks": {
+      "block": ["xnet:connector", "xnet:advanced_connector", "xnet:facade"]
+    },
+    "xnet_blocks": {
+      "block": ["#xnet_access_blocks", "#xnet_config_blocks"]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "mod": "easy_piglins",
+  "permissions": [
+    {
+      "id": "easy_piglins_interact",
+      "priority": 10,
+      "item": {
+        "display_name": ["{\"text\": \"Easy Piglins\", \"color\":\"yellow\", \"bold\":\"true\"}"],
+        "item": "easy_piglins:piglin_trader",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Mobs",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["easy_piglins:.*"]
+      }
+    }
+  ]
+}

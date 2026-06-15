@@ -88,6 +88,10 @@ public class IslandStructurePlacer {
         for (int i = 0; i < blocksNbt.size(); i++) {
             final CompoundTag blockNbt = blocksNbt.getCompound(i);
             final ListTag blockPosNbt = blockNbt.getList("pos", 3);
+            if (blockPosNbt.size() < 3) {
+                LOGGER.warn("Island structure: skipping block entry with invalid pos array (size={})", blockPosNbt.size());
+                continue;
+            }
 
             if (blockPosNbt.getInt(0) > bigestX) bigestX = blockPosNbt.getInt(0);
             if (blockPosNbt.getInt(2) > bigestZ) bigestZ = blockPosNbt.getInt(2);

@@ -7,8 +7,13 @@ import yorickbm.skyblockaddon.core.SkyblockAddonCore;
 import yorickbm.skyblockaddon.core.util.geometry.BoundingBox;
 import yorickbm.skyblockaddon.core.util.geometry.Vec3i;
 
+import yorickbm.skyblockaddon.core.events.IslandCreatedEvent;
+import yorickbm.skyblockaddon.core.events.IslandDeletedEvent;
+import yorickbm.skyblockaddon.core.events.IslandEventBus;
+
 import javax.annotation.Nonnull;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -17,7 +22,7 @@ import java.util.stream.Stream;
 public class IslandManager {
     private Vec3i lastLocation;
     private Queue<Vec3i> reusableLocations;
-    private HashMap<UUID, Island> islandsByUUID;
+    private ConcurrentHashMap<UUID, Island> islandsByUUID;
 
     LoadingCache<UUID, Optional<UUID>> CACHE_islandByPlayerUUID;
     LoadingCache<BoundingBox, Optional<UUID>> CACHE_islandByBoundingBox;
@@ -28,7 +33,7 @@ public class IslandManager {
     }
 
     public IslandManager() {
-        islandsByUUID = new HashMap<>();
+        islandsByUUID = new ConcurrentHashMap<>();
         lastLocation = new Vec3i(0,0,0);
         reusableLocations = new LinkedList();
     }
@@ -72,20 +77,8 @@ public class IslandManager {
                 });
     }
 
-    /**
-     * Stream over {@code islandsByUUID} defensively. The map is mutated from the server thread
-     * but {@code CacheLoader.load} may run from any caller's thread, so a concurrent modification
-     * can surface as {@link java.util.ConcurrentModificationException} mid-iteration. We catch it,
-     * log it, and return empty so the caller falls back to a fresh slow-path lookup rather than
-     * crashing the player join / command handler.
-     */
     private Optional<UUID> safeFindIslandId(final java.util.function.Predicate<Island> match) {
-        try {
-            return islandsByUUID.values().stream().filter(match).findFirst().map(Island::getId);
-        } catch (final java.util.ConcurrentModificationException cme) {
-            org.apache.logging.log4j.LogManager.getLogger().warn("CME during island lookup; returning empty for this attempt", cme);
-            return Optional.empty();
-        }
+        return islandsByUUID.values().stream().filter(match).findFirst().map(Island::getId);
     }
 
     /**
@@ -124,17 +117,13 @@ public class IslandManager {
      * @return - Island of entity
      */
     public Island getIslandByEntityUUID(UUID uuid) {
-        final Optional<UUID> islandId = CACHE_islandByPlayerUUID.getIfPresent(uuid);
-
-        if (islandId == null || islandId.isEmpty()) {
-            final Optional<Island> island = islandsByUUID.values().stream()
-                    .filter(isl -> isl.isPartOf(uuid))
-                    .findFirst();
-            island.ifPresent(value -> CACHE_islandByPlayerUUID.put(uuid, Optional.of(value.getId())));
-            return island.orElse(null);
+        try {
+            return CACHE_islandByPlayerUUID.get(uuid)
+                    .map(this::getIslandByUUID)
+                    .orElse(null);
+        } catch (final ExecutionException e) {
+            return null;
         }
-
-        return getIslandByUUID(islandId.get());
     }
 
     /**
@@ -165,9 +154,10 @@ public class IslandManager {
     public void registerIsland(Island island, UUID entity) {
         islandsByUUID.put(island.getId(), island);
 
-        //Register island into cache
         CACHE_islandByPlayerUUID.put(entity, Optional.of(island.getId()));
         CACHE_islandByBoundingBox.put(island.getIslandBoundingBox(), Optional.of(island.getId()));
+
+        IslandEventBus.fire(new IslandCreatedEvent(island, entity));
     }
 
     /**
@@ -179,6 +169,8 @@ public class IslandManager {
         Stream.concat(island.getMembers().stream(), Stream.of(island.getOwner()))
                 .forEach(CACHE_islandByPlayerUUID::invalidate);
         islandsByUUID.remove(island.getId());
+
+        IslandEventBus.fire(new IslandDeletedEvent(island, island.getOwner()));
     }
 
     /**
@@ -267,5 +259,5 @@ public class IslandManager {
     public Queue<Vec3i> getReusableLocations() {
         return reusableLocations;
     }
-    public HashMap<UUID, Island> getEntrySet() { return this.islandsByUUID; }
+    public Map<UUID, Island> getEntrySet() { return this.islandsByUUID; }
 }

@@ -4,11 +4,12 @@ import yorickbm.skyblockaddon.core.permissions.Permission;
 import yorickbm.skyblockaddon.core.permissions.PermissionManager;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class IslandGroup {
 
     protected UUID uuid;
-    protected final Map<String, Boolean> permissions = new HashMap<>();
+    protected final Map<String, Boolean> permissions = new ConcurrentHashMap<>();
     protected final List<UUID> members = new ArrayList<>();
 
     public IslandGroup() {
@@ -32,15 +33,12 @@ public abstract class IslandGroup {
      * @return If permission can be done by group
      */
     public boolean canDo(final String id) {
-        if(!this.permissions.containsKey(id)) {
-            Optional<Permission> perm = PermissionManager.getInstance().getPermissions().stream().filter(p -> p.getId().equalsIgnoreCase(id)).findFirst();
-            if(perm.isEmpty()) return false;
-
-            //Add permission into list for session with default.
-            this.permissions.put(id, perm.get().getData().getDefault());
-            return perm.get().getData().getDefault();
-        }
-        return this.permissions.get(id);
+        return permissions.computeIfAbsent(id, key ->
+            PermissionManager.getInstance().getPermissions().stream()
+                .filter(p -> p.getId().equalsIgnoreCase(key))
+                .findFirst()
+                .map(p -> p.getData().getDefault())
+                .orElse(false));
     }
 
     /**

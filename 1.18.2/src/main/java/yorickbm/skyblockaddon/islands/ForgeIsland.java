@@ -97,6 +97,12 @@ public class ForgeIsland extends Island implements NBTSerializable {
      * @param entity - Entity to teleport
      */
     public void teleportTo(final Entity entity) {
+        if (entity instanceof final ServerPlayer player) {
+            final var event = yorickbm.skyblockaddon.core.events.IslandEventBus.fire(
+                    new yorickbm.skyblockaddon.core.events.TeleportToIslandEvent(this, player.getUUID()));
+            if (event.isCancelled()) return;
+        }
+
         entity.teleportTo(getSpawn().getX(), getSpawn().getY() + 0.5, getSpawn().getZ());
 
         if (entity instanceof final ServerPlayer player) {
@@ -125,17 +131,18 @@ public class ForgeIsland extends Island implements NBTSerializable {
             );
         }
 
-        //CLear player from cache
         IslandManager.getInstance().clearCacheForPlayer(entity);
 
-        //Teleport entity to world spawn
-        final BlockPos worldSpawn = Objects.requireNonNull(Objects.requireNonNull(source.getServer()).getLevel(Level.OVERWORLD)).getSharedSpawnPos();
-        final ServerPlayer player = source.getServer().getPlayerList().getPlayer(entity); //Get entity from online player list
-        if(player != null //Check if we found entity as an online player
-                && player.getLevel().dimension() == Level.OVERWORLD //Check player is found
-                && getIslandBoundingBox().isInside(ForgeConverter.ForgeToInternalVec3i(player.getOnPos())) //Determine if player is on the island
+        final net.minecraft.server.MinecraftServer server = source.getServer();
+        if (server == null) return;
+        final ServerLevel overworld = server.getLevel(Level.OVERWORLD);
+        final BlockPos worldSpawn = overworld != null ? overworld.getSharedSpawnPos() : BlockPos.ZERO;
+        final ServerPlayer player = server.getPlayerList().getPlayer(entity);
+        if(player != null
+                && player.getLevel().dimension() == Level.OVERWORLD
+                && getIslandBoundingBox().isInside(ForgeConverter.ForgeToInternalVec3i(player.getOnPos()))
         ) {
-            player.teleportTo(worldSpawn.getX(), worldSpawn.getY(), worldSpawn.getZ()); //Teleport player
+            player.teleportTo(worldSpawn.getX(), worldSpawn.getY(), worldSpawn.getZ());
         }
     }
 

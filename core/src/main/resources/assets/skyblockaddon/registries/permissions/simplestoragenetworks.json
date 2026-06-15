@@ -1,0 +1,45 @@
+{
+  "mod": "storagenetwork",
+  "permissions": [
+    {
+      "id": "ssn_access",
+      "priority": 15,
+      "order": 6,
+      "item": {
+        "display_name": ["{\"text\": \"Simple Storage — Access\", \"color\":\"aqua\", \"bold\":\"true\"}"],
+        "item": "storagenetwork:inventory",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Request Table, Storage Remote, Cable.\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Storage",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#ssn_access_blocks"]
+      }
+    },
+    {
+      "id": "ssn_config",
+      "priority": 15,
+      "order": 7,
+      "item": {
+        "display_name": ["{\"text\": \"Simple Storage — Network Config\", \"color\":\"aqua\", \"bold\":\"true\"}"],
+        "item": "storagenetwork:storage_kabel",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"IO Manager, Item Exporter/Importer.\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Storage",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#ssn_config_blocks"]
+      }
+    }
+  ]
+}

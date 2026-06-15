@@ -1,0 +1,43 @@
+{
+  "mod": "fluxnetworks",
+  "permissions": [
+    {
+      "id": "flux_access",
+      "priority": 15,
+      "item": {
+        "display_name": ["{\"text\": \"Flux Networks — Use\", \"color\":\"red\", \"bold\":\"true\"}"],
+        "item": "fluxnetworks:flux_plug",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Flux Plug, Flux Point, Flux Controller.\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Energy",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#flux_plug_point_blocks"]
+      }
+    },
+    {
+      "id": "flux_configure",
+      "priority": 15,
+      "item": {
+        "display_name": ["{\"text\": \"Flux Networks — Configure\", \"color\":\"red\", \"bold\":\"true\"}"],
+        "item": "fluxnetworks:flux_storage",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Flux Storage, Network Connector, Admin block.\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Energy",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#flux_config_blocks"]
+      }
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -100,7 +101,7 @@ public class RegistryGuiEvents {
                                 SkyBlockAddonLanguage.getLocalizedString("island.permission.enabled")
                         :
                                 SkyBlockAddonLanguage.getLocalizedString("island.permission.disabled"));
-                stack = ForgeConverter.JSONItemToGUIItemStackHolder(permission.get().getItem());
+                stack = ForgeConverter.JSONItemToGUIItemStackHolder(permission.get().getItem(), ModList.get()::isLoaded);
             }
 
             ItemStack item = event.processHolder(stack, data.copy()).getItemStack();

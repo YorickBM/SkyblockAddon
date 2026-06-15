@@ -46,6 +46,7 @@ public class GUIItem {
     }
 
     public boolean hasCondition(final String condition) { return conditions.contains(condition); }
+    public List<String> getConditions() { return conditions; }
 
     public Class<? extends GuiClickItemEvent> getPrimaryClickClass() {
         return this.primaryClickClass;

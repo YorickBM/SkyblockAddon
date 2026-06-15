@@ -1,0 +1,31 @@
+{
+  "mod": "thermal",
+  "groups": {
+    "thermal_machine_blocks": {
+      "block": [
+        "thermal:machine_pulverizer", "thermal:machine_sawmill",
+        "thermal:machine_smelter", "thermal:machine_insolator",
+        "thermal:machine_centrifuge", "thermal:machine_press",
+        "thermal:machine_crucible", "thermal:machine_refinery",
+        "thermal:machine_pyrolyzer", "thermal:machine_bottler",
+        "thermal:machine_crafter", "thermal:device_collector",
+        "thermal:device_distributor", "thermal:device_fisherman",
+        "thermal:device_hive_extractor", "thermal:device_item_buffer",
+        "thermal:device_fluid_buffer", "thermal:device_soil_infuser",
+        "thermal:device_tree_extractor", "thermal:device_nullifier",
+        "thermal:device_rock_gen", "thermal:device_water_gen"
+      ]
+    },
+    "thermal_dynamo_blocks": {
+      "block": [
+        "thermal:dynamo_steam", "thermal:dynamo_magmatic",
+        "thermal:dynamo_compression", "thermal:dynamo_fuel",
+        "thermal:dynamo_numismatic", "thermal:dynamo_lapidary",
+        "thermal:dynamo_disenchantment", "thermal:dynamo_gourmand"
+      ]
+    },
+    "thermal_blocks": {
+      "block": ["#thermal_machine_blocks", "#thermal_dynamo_blocks"]
+    }
+  }
+}
