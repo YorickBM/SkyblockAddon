@@ -19,3 +19,4 @@ Thumbs.db
 .idea/gradle.xml
 /.idea
 /SkyblockAddon.wiki
+/core/src/main/resources/assets/skyblockaddon/registries/legacy
