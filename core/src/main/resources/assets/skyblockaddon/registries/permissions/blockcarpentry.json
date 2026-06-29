@@ -1,0 +1,26 @@
+{
+  "mod": "blockcarpentry",
+  "permissions": [
+    {
+      "id": "blockcarpentry_interact",
+      "priority": 10,
+      "order": 13,
+      "item": {
+        "display_name": ["{\"text\": \"Block Carpentry\", \"color\":\"green\", \"bold\":\"true\"}"],
+        "item": "blockcarpentry:frameblock",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Allows: \",\"color\":\"dark_gray\"}", "{\"text\":\"Changing the block variant of frame blocks.\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Miscellaneous",
+      "triggers": ["onRightClickBlock", "onRightClickItem", "onPlaceBlock"],
+      "data": {
+        "block": ["blockcarpentry:.*"],
+        "item": ["blockcarpentry:hammer", "blockcarpentry:texture_wrench", "blockcarpentry:chisel", "blockcarpentry:paintbrush"]
+      }
+    }
+  ]
+}

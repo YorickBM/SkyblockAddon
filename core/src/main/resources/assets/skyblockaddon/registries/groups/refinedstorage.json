@@ -1,0 +1,8 @@
+{
+  "mod": "refinedstorage",
+  "groups": {
+    "refinedstorage_blocks": {
+      "block": ["refinedstorage:.*", "refinedstorageaddons:.*", "rsrequestify:.*", "extrastorage:.*"]
+    }
+  }
+}

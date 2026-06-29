@@ -11,7 +11,14 @@
         "lore": [
           ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
           ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Storage Drawers.\",\"color\":\"white\"}"]
+        ],
+        "conditional_lore": [
+          {
+            "condition": "any_mod_loaded:framedcompactdrawers",
+            "line": ["{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}", "{\"text\":\"Framed Compact Drawers.\",\"color\":\"white\"}"]
+          }
         ]
       },
       "category": "Storage",

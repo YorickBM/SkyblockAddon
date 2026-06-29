@@ -1,0 +1,8 @@
+{
+  "mod": "ae2",
+  "groups": {
+    "ae2_blocks": {
+      "block": ["ae2:.*", "ae2things:.*", "merequester:.*"]
+    }
+  }
+}

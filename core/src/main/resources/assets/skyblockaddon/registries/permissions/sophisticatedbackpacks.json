@@ -4,7 +4,7 @@
     {
       "id": "open_backpacks",
       "priority": 10,
-      "order": 10,
+      "order": 6,
       "item": {
         "display_name": ["{\"text\": \"Backpacks — Open\", \"color\":\"aqua\", \"bold\":\"true\"}"],
         "item": "sophisticatedbackpacks:backpack",

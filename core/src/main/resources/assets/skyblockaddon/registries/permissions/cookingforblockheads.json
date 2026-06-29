@@ -4,6 +4,7 @@
     {
       "id": "cookingforblockheads_interact",
       "priority": 10,
+      "order": 4,
       "item": {
         "display_name": ["{\"text\": \"Cooking for Blockheads\", \"color\":\"green\", \"bold\":\"true\"}"],
         "item": "cookingforblockheads:cooking_table",
@@ -16,7 +17,26 @@
       "category": "Miscellaneous",
       "triggers": ["onRightClickBlock"],
       "data": {
-        "block": ["cookingforblockheads:.*"]
+        "block": ["!#cookingforblockheads_storage", "cookingforblockheads:.*"]
+      }
+    },
+    {
+      "id": "cookingforblockheads_storage",
+      "priority": 10,
+      "order": 15,
+      "item": {
+        "display_name": ["{\"text\": \"Cooking for Blockheads\", \"color\":\"green\", \"bold\":\"true\"}"],
+        "item": "cookingforblockheads:fruit_basket",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Miscellaneous",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#cookingforblockheads_storage"]
       }
     }
   ]

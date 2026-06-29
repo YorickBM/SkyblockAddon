@@ -6,7 +6,7 @@
       "priority": 15,
       "item": {
         "display_name": ["{\"text\": \"Create More Burners\", \"color\":\"gold\", \"bold\":\"true\"}"],
-        "item": "moreburners:ice_burner",
+        "item": "create:blaze_burner",
         "lore": [
           ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
           ["{\"text\":\" \",\"color\":\"dark_gray\"}"],

@@ -2,7 +2,7 @@
   "title": [
     "{\"text\": \"%group_name% - Permissions\"}"
   ],
-  "rows": 4,
+  "rows": 3,
   "key": "permissions",
   "fillers": [
     {
@@ -32,7 +32,7 @@
           "category_id": "admin"
         }
       },
-      "slot": 4,
+      "slot": 13,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
         "data": {
@@ -55,7 +55,7 @@
           "category_id": "general"
         }
       },
-      "slot": 9,
+      "slot": 10,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
         "data": {
@@ -66,7 +66,7 @@
     {
       "item": {
         "display_name": [
-          "{\"text\": \"Redstone\", \"color\":\"blue\", \"bold\":\"true\"}"
+          "{\"text\": \"Redstone\", \"color\":\"red\", \"bold\":\"true\"}"
         ],
         "item": "minecraft:REDSTONE",
         "lore": [
@@ -77,7 +77,7 @@
           "category_id": "redstone"
         }
       },
-      "slot": 10,
+      "slot": 11,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
         "data": {
@@ -93,13 +93,13 @@
         "item": "minecraft:CHEST",
         "lore": [
           ["{\"text\":\"» Change storage permissions.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ AE2, Refined Storage, Drawers, Colossals, Backpacks, SSN.\",\"color\":\"dark_gray\"}"]
+          ["{\"text\":\"♦ Drawers, Colossals, Backpacks, Chests, AE2, RS, SSN, Mekanism QIO.\",\"color\":\"dark_gray\"}"]
         ],
         "data": {
           "category_id": "storage"
         }
       },
-      "slot": 11,
+      "slot": 12,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
         "data": {
@@ -115,54 +115,10 @@
         "item": "minecraft:PISTON",
         "lore": [
           ["{\"text\":\"» Change Create mod permissions.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Machines, Redstone Links, Railways, Electrical.\",\"color\":\"dark_gray\"}"]
+          ["{\"text\":\"♦ Machines, Copycats, Railways, Electrical, Burners, Links.\",\"color\":\"dark_gray\"}"]
         ],
         "data": {
           "category_id": "create"
-        }
-      },
-      "slot": 12,
-      "action": {
-        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
-        "data": {
-          "gui": "skyblockaddon:set_permission"
-        }
-      }
-    },
-    {
-      "item": {
-        "display_name": [
-          "{\"text\": \"Energy\", \"color\":\"red\", \"bold\":\"true\"}"
-        ],
-        "item": "minecraft:LIGHTNING_ROD",
-        "lore": [
-          ["{\"text\":\"» Change energy mod permissions.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Mekanism, Flux Networks, Thermal, Powah, Iron Generators.\",\"color\":\"dark_gray\"}"]
-        ],
-        "data": {
-          "category_id": "energy"
-        }
-      },
-      "slot": 13,
-      "action": {
-        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
-        "data": {
-          "gui": "skyblockaddon:set_permission"
-        }
-      }
-    },
-    {
-      "item": {
-        "display_name": [
-          "{\"text\": \"Automation\", \"color\":\"dark_purple\", \"bold\":\"true\"}"
-        ],
-        "item": "minecraft:DROPPER",
-        "lore": [
-          ["{\"text\":\"» Change automation permissions.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ XNet, Pipez, Modular Routers.\",\"color\":\"dark_gray\"}"]
-        ],
-        "data": {
-          "category_id": "automation"
         }
       },
       "slot": 14,
@@ -176,62 +132,18 @@
     {
       "item": {
         "display_name": [
-          "{\"text\": \"Utility\", \"color\":\"green\", \"bold\":\"true\"}"
+          "{\"text\": \"Miscellaneous\", \"color\":\"green\", \"bold\":\"true\"}"
         ],
-        "item": "minecraft:ENDER_PEARL",
+        "item": "minecraft:COMPASS",
         "lore": [
-          ["{\"text\":\"» Change utility permissions.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Waystones, Elevators, Gadgets, Cooking for Blockheads.\",\"color\":\"dark_gray\"}"]
+          ["{\"text\":\"» Change miscellaneous permissions.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Mekanism, Flux, Thermal, Botania, Waystones, CFM, etc.\",\"color\":\"dark_gray\"}"]
         ],
         "data": {
-          "category_id": "utility"
-        }
-      },
-      "slot": 15,
-      "action": {
-        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
-        "data": {
-          "gui": "skyblockaddon:set_permission"
-        }
-      }
-    },
-    {
-      "item": {
-        "display_name": [
-          "{\"text\": \"Farming\", \"color\":\"green\", \"bold\":\"true\"}"
-        ],
-        "item": "minecraft:WHEAT",
-        "lore": [
-          ["{\"text\":\"» Change farming permissions.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Botania, Botany Pots.\",\"color\":\"dark_gray\"}"]
-        ],
-        "data": {
-          "category_id": "farming"
+          "category_id": "miscellaneous"
         }
       },
       "slot": 16,
-      "action": {
-        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
-        "data": {
-          "gui": "skyblockaddon:set_permission"
-        }
-      }
-    },
-    {
-      "item": {
-        "display_name": [
-          "{\"text\": \"Mobs\", \"color\":\"yellow\", \"bold\":\"true\"}"
-        ],
-        "item": "minecraft:ZOMBIE_HEAD",
-        "lore": [
-          ["{\"text\":\"» Change mob interaction permissions.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Easy Villagers, Easy Piglins.\",\"color\":\"dark_gray\"}"]
-        ],
-        "data": {
-          "category_id": "mobs"
-        }
-      },
-      "slot": 17,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
         "data": {
@@ -253,7 +165,7 @@
           "category_id": "vaulthunters"
         }
       },
-      "slot": 22,
+      "slot": 15,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
         "data": {
@@ -270,7 +182,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 29,
+      "slot": 20,
       "action": {
         "onClick": "yorickbm.skyblockaddon.events.IslandEvents$RemoveGroup"
       }
@@ -284,7 +196,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 31,
+      "slot": 22,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
         "data": {
@@ -301,7 +213,7 @@
         "lore": [],
         "data": {}
       },
-      "slot": 35,
+      "slot": 26,
       "action": {
         "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
         "data": {

@@ -1,0 +1,65 @@
+{
+  "mod": "everycomp",
+  "groups": {
+    "cfm_cabinets": {
+      "block": [
+        "everycomp:cfm/cabinet",
+        "everycomp:cfm/.*_cabinet",
+        "everycomp:cfm/cabinet_.*",
+        "everycomp:cfm/.*_cabinet_.*"
+      ]
+    },
+    "cfm_crates": {
+      "block": [
+        "everycomp:cfm/crate",
+        "everycomp:cfm/.*_crate",
+        "everycomp:cfm/crate_.*",
+        "everycomp:cfm/.*_crate_.*"
+      ]
+    },
+    "cfm_drawers": {
+      "block": [
+        "everycomp:cfm/drawer",
+        "everycomp:cfm/.*_drawer",
+        "everycomp:cfm/drawer_.*",
+        "everycomp:cfm/.*_drawer_.*"
+      ]
+    },
+    "cfm_mailbox": {
+      "block": [
+        "everycomp:cfm/mail_box",
+        "everycomp:cfm/.*_mail_box",
+        "everycomp:cfm/mail_box_.*",
+        "everycomp:cfm/.*_mail_box_.*",
+        "everycomp:cfm/post_box",
+        "everycomp:cfm/.*_post_box",
+        "everycomp:cfm/post_box_.*",
+        "everycomp:cfm/.*_post_box_.*"
+      ]
+    },
+    "cfm_cooler": {
+      "block": [
+        "everycomp:cfm/cooler",
+        "everycomp:cfm/.*_cooler",
+        "everycomp:cfm/cooler_.*",
+        "everycomp:cfm/.*_cooler_.*"
+      ]
+    },
+    "cfm_fridge": {
+      "block": [
+        "everycomp:cfm/fridge",
+        "everycomp:cfm/.*_fridge",
+        "everycomp:cfm/fridge_.*",
+        "everycomp:cfm/.*_fridge_.*"
+      ]
+    },
+    "cfm_kitchen_sinks": {
+      "block": [
+        "everycomp:cfm/kitchen_sink",
+        "everycomp:cfm/.*_kitchen_sink",
+        "everycomp:cfm/kitchen_sink_.*",
+        "everycomp:cfm/.*_kitchen_sink_.*"
+      ]
+    }
+  }
+}

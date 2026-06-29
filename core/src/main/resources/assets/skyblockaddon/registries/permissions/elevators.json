@@ -4,9 +4,10 @@
     {
       "id": "elevators_use",
       "priority": 10,
+      "order": 14,
       "item": {
         "display_name": ["{\"text\": \"Elevators\", \"color\":\"green\", \"bold\":\"true\"}"],
-        "item": "elevatorid:elevator_oak",
+        "item": "elevatorid:elevator_white",
         "lore": [
           ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
           ["{\"text\":\" \",\"color\":\"dark_gray\"}"],

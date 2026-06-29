@@ -1,0 +1,14 @@
+
+{
+  "mod": "mcwfences",
+  "groups": {
+    "fence_gates": {
+      "block": [
+        ".*:.*_highley_gate",
+        ".*:.*_pyramid_gate",
+        ".*:.*_railing_gate",
+        "mcwfences:.*_gate"
+      ]
+    }
+  }
+}

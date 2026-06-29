@@ -1,24 +1,24 @@
 {
-  "mod": "fluxnetworks",
+  "mod": "thermal",
   "permissions": [
     {
-      "id": "flux_networks",
+      "id": "thermal_machines",
       "priority": 15,
-      "order": 10,
+      "order": 12,
       "item": {
-        "display_name": ["{\"text\": \"Flux Networks\", \"color\":\"red\", \"bold\":\"true\"}"],
-        "item": "fluxnetworks:flux_plug",
+        "display_name": ["{\"text\": \"Thermal Machines\", \"color\":\"orange\", \"bold\":\"true\"}"],
+        "item": "thermal:machine_furnace",
         "lore": [
           ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
           ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
           ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Flux Plug, Flux Point, Flux Controller, Flux Storage.\",\"color\":\"white\"}"]
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"All Thermal Expansion machines, dynamos and energy cells.\",\"color\":\"white\"}"]
         ]
       },
       "category": "Miscellaneous",
       "triggers": ["onRightClickBlock"],
       "data": {
-        "block": ["#flux_networks"]
+        "block": ["thermal:.*"]
       }
     }
   ]

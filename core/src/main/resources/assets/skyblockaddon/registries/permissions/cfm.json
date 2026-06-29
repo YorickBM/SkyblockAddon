@@ -1,0 +1,103 @@
+{
+  "mod": "cfm",
+  "permissions": [
+    {
+      "id": "cfm_cabinets",
+      "priority": 10,
+      "order": 12,
+      "item": {
+        "display_name": ["{\"text\": \"Furniture — Storage\", \"color\":\"aqua\", \"bold\":\"true\"}"],
+        "item": "cfm:oak_cabinet",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Cabinets, Drawers & Crates\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Storage",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#cfm_cabinets", "#cfm_crates", "#cfm_drawers"]
+      }
+    },
+    {
+      "id": "cfm_mailbox",
+      "priority": 10,
+      "order": 5,
+      "item": {
+        "display_name": ["{\"text\": \"Furniture — Mailbox\", \"color\":\"green\", \"bold\":\"true\"}"],
+        "item": "cfm:post_box",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Mail Box & Post Box variants.\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Miscellaneous",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#cfm_mailbox"]
+      }
+    },
+    {
+      "id": "cfm_kitchen_sink",
+      "priority": 10,
+      "order": 6,
+      "item": {
+        "display_name": ["{\"text\": \"Furniture — Kitchen Sink\", \"color\":\"green\", \"bold\":\"true\"}"],
+        "item": "cfm:oak_kitchen_sink_light",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Allows: \",\"color\":\"dark_gray\"}", "{\"text\":\"Filling and emptying buckets at the kitchen sink.\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Miscellaneous",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#cfm_kitchen_sinks"]
+      }
+    },
+    {
+      "id": "cfm_cooler",
+      "priority": 10,
+      "order": 13,
+      "item": {
+        "display_name": ["{\"text\": \"Furniture — Cooler\", \"color\":\"aqua\", \"bold\":\"true\"}"],
+        "item": "cfm:yellow_cooler",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Storage",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#cfm_cooler"]
+      }
+    },
+    {
+      "id": "cfm_fridge",
+      "priority": 10,
+      "order": 7,
+      "item": {
+        "display_name": ["{\"text\": \"Furniture — Fridge\", \"color\":\"green\", \"bold\":\"true\"}"],
+        "item": "cfm:fridge",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Miscellaneous",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#cfm_fridge"]
+      }
+    }
+  ]
+}

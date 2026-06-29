@@ -1,0 +1,19 @@
+{
+  "mod": "cookingforblockheads",
+  "groups": {
+    "cookingforblockheads_storage": {
+      "block": [
+        "cookingforblockheads:tool_rack",
+        "cookingforblockheads:.*_tool_rack",
+        "cookingforblockheads:spice_rack",
+        "cookingforblockheads:.*_spice_rack",
+        "cookingforblockheads:fruit_basket",
+        "cookingforblockheads:.*_fruit_basket",
+        "cookingforblockheads:cabinet",
+        "cookingforblockheads:.*_cabinet",
+        "cookingforblockheads:counter",
+        "cookingforblockheads:.*_counter"
+      ]
+    }
+  }
+}

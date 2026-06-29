@@ -4,6 +4,7 @@
     {
       "id": "mekanism_machines",
       "priority": 15,
+      "order": 11,
       "item": {
         "display_name": ["{\"text\": \"Mekanism — Machines\", \"color\":\"red\", \"bold\":\"true\"}"],
         "item": "mekanism:enrichment_chamber",
@@ -14,15 +15,16 @@
           ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Enrichment Chamber, Metallurgic Infuser, Factories, Crusher, etc.\",\"color\":\"white\"}"]
         ]
       },
-      "category": "Factory",
+      "category": "Miscellaneous",
       "triggers": ["onRightClickBlock"],
       "data": {
-        "block": ["#mekanism_machine_blocks"]
+        "block": ["!#mekanism_qio_blocks", "mekanism:.*"]
       }
     },
     {
       "id": "mekanism_qio",
       "priority": 15,
+      "order": 10,
       "item": {
         "display_name": ["{\"text\": \"Mekanism — QIO Storage\", \"color\":\"aqua\", \"bold\":\"true\"}"],
         "item": "mekanism:qio_drive_array",

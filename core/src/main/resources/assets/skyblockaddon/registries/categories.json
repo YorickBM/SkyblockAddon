@@ -38,46 +38,28 @@
       "mods": ["create", "moreburners", "createaddition", "railways"],
       "item": {
         "display_name": ["{\"text\": \"Create\", \"color\":\"gold\", \"bold\":\"true\"}"],
-        "item": "minecraft:piston",
+        "item": "create:mechanical_arm",
         "lore": [
           ["{\"text\":\"» Change Create mod permissions.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Machines, Redstone Links, Railways, Electrical, Burners.\",\"color\":\"dark_gray\"}"]
-        ]
-      }
-    },
-    {
-      "id": "factory",
-      "mods": ["mekanism", "mekanismgenerators", "fluxnetworks"],
-      "item": {
-        "display_name": ["{\"text\": \"Factory\", \"color\":\"red\", \"bold\":\"true\"}"],
-        "item": "minecraft:blast_furnace",
-        "lore": [
-          ["{\"text\":\"» Change factory & energy permissions.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Mekanism Machines, Flux Networks.\",\"color\":\"dark_gray\"}"]
+          ["{\"text\":\"♦ Machines, Copycats, Railways, Electrical, Burners, Links.\",\"color\":\"dark_gray\"}"]
         ]
       }
     },
     {
       "id": "miscellaneous",
-      "mods": ["waystones", "elevatorid", "cookingforblockheads"],
+      "mods": [
+        "mekanism", "fluxnetworks",
+        "waystones", "elevatorid", "cookingforblockheads",
+        "thermal", "blockcarpentry", "cfm",
+        "botania", "easy_villagers", "easy_piglins"
+      ],
       "item": {
         "display_name": ["{\"text\": \"Miscellaneous\", \"color\":\"green\", \"bold\":\"true\"}"],
         "item": "minecraft:compass",
         "lore": [
           ["{\"text\":\"» Change miscellaneous permissions.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Waystones, Elevators, Cooking for Blockheads.\",\"color\":\"dark_gray\"}"]
-        ]
-      }
-    },
-    {
-      "id": "nature",
-      "mods": ["botania", "easy_villagers", "easy_piglins"],
-      "item": {
-        "display_name": ["{\"text\": \"Nature\", \"color\":\"green\", \"bold\":\"true\"}"],
-        "item": "minecraft:lily_pad",
-        "lore": [
-          ["{\"text\":\"» Change nature & creature permissions.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Botania, Easy Villagers, Easy Piglins.\",\"color\":\"dark_gray\"}"]
+          ["{\"text\":\"♦ Mekanism, Flux, Thermal, Botania, Villagers, Waystones,\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"  Elevators, CookingForBlockheads, Block Carpentry, CFM.\",\"color\":\"dark_gray\"}"]
         ]
       }
     },

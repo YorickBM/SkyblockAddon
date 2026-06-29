@@ -4,7 +4,7 @@
     {
       "id": "ssn_access",
       "priority": 10,
-      "order": 10,
+      "order": 7,
       "item": {
         "display_name": ["{\"text\": \"Interact with Simple Storage Network\", \"color\":\"aqua\", \"bold\":\"true\"}"],
         "item": "storagenetwork:inventory",

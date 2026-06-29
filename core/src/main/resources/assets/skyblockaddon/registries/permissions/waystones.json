@@ -4,6 +4,7 @@
     {
       "id": "activate_waystones",
       "priority": 10,
+      "order": 3,
       "item": {
         "display_name": ["{\"text\": \"Activate Waystones\", \"color\":\"green\", \"bold\":\"true\"}"],
         "item": "waystones:waystone",

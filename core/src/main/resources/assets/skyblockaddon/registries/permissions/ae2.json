@@ -12,13 +12,23 @@
           ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
           ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
           ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"AE2, AE2 Things, ME Requester.\",\"color\":\"white\"}"]
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"AE2.\",\"color\":\"white\"}"]
+        ],
+        "conditional_lore": [
+          {
+            "condition": "any_mod_loaded:ae2things",
+            "line": ["{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}", "{\"text\":\"AE2 Things.\",\"color\":\"white\"}"]
+          },
+          {
+            "condition": "any_mod_loaded:merequester",
+            "line": ["{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}", "{\"text\":\"ME Requester.\",\"color\":\"white\"}"]
+          }
         ]
       },
       "category": "Storage",
       "triggers": ["onRightClickBlock"],
       "data": {
-        "block": ["ae2:.*", "ae2things:.*", "merequester:.*"]
+        "block": ["#ae2_blocks"]
       }
     }
   ]

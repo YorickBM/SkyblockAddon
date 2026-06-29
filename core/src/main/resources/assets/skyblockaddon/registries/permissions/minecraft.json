@@ -133,9 +133,29 @@
       }
     },
     {
-      "id": "interact_item_frame",
+      "id": "interact_fence_gates",
       "priority": 10,
       "order": 8,
+      "item": {
+        "display_name": ["{\"text\": \"Interact with Fence Gates\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "item": "minecraft:oak_fence_gate",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"All fence gate variants. If Macaw's Fences is installed: all railing gates.\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "General",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#fence_gates"]
+      }
+    },
+    {
+      "id": "interact_item_frame",
+      "priority": 10,
+      "order": 9,
       "item": {
         "display_name": ["{\"text\": \"Interact with Item Frames\", \"color\":\"blue\", \"bold\":\"true\"}"],
         "item": "minecraft:item_frame",
@@ -154,7 +174,7 @@
     {
       "id": "interact_furnaces",
       "priority": 10,
-      "order": 9,
+      "order": 10,
       "item": {
         "display_name": ["{\"text\": \"Interact with Furnaces\", \"color\":\"blue\", \"bold\":\"true\"}"],
         "item": "minecraft:furnace",
@@ -180,7 +200,7 @@
     {
       "id": "interact_generic",
       "priority": 0,
-      "order": 10,
+      "order": 11,
       "item": {
         "display_name": ["{\"text\": \"Interact with Blocks\", \"color\":\"blue\", \"bold\":\"true\"}"],
         "item": "minecraft:crafting_table",
@@ -200,7 +220,7 @@
     {
       "id": "trample_framland",
       "priority": 5,
-      "order": 11,
+      "order": 12,
       "item": {
         "display_name": ["{\"text\": \"Trample Crops\", \"color\":\"blue\", \"bold\":\"true\"}"],
         "item": "minecraft:farmland",
@@ -217,7 +237,7 @@
     {
       "id": "interact_entities",
       "priority": 5,
-      "order": 12,
+      "order": 13,
       "item": {
         "display_name": ["{\"text\": \"Attack Entities\", \"color\":\"blue\", \"bold\":\"true\"}"],
         "item": "minecraft:iron_sword",
@@ -236,7 +256,7 @@
     {
       "id": "interact_spawn",
       "priority": 10,
-      "order": 13,
+      "order": 14,
       "item": {
         "display_name": ["{\"text\": \"Spawn Entities\", \"color\":\"blue\", \"bold\":\"true\"}"],
         "item": "minecraft:zombie_spawn_egg",
@@ -255,7 +275,7 @@
     {
       "id": "use_vehicles",
       "priority": 5,
-      "order": 14,
+      "order": 15,
       "item": {
         "display_name": ["{\"text\": \"Use Vehicles\", \"color\":\"blue\", \"bold\":\"true\"}"],
         "item": "minecraft:oak_boat",
@@ -275,7 +295,7 @@
     {
       "id": "transport_misc",
       "priority": 5,
-      "order": 15,
+      "order": 16,
       "item": {
         "display_name": ["{\"text\": \"Teleportation\", \"color\":\"blue\", \"bold\":\"true\"}"],
         "item": "minecraft:ender_pearl",
@@ -293,7 +313,7 @@
     {
       "id": "travel_nether",
       "priority": 5,
-      "order": 16,
+      "order": 17,
       "item": {
         "display_name": ["{\"text\": \"Use Nether Portal\", \"color\":\"blue\", \"bold\":\"true\"}"],
         "item": "minecraft:obsidian",
@@ -312,9 +332,9 @@
     {
       "id": "interact_misc",
       "priority": 5,
-      "order": 17,
+      "order": 18,
       "item": {
-        "display_name": ["{\"text\": \"Miscellaneous\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": ["{\"text\": \"Use Bone Meal\", \"color\":\"blue\", \"bold\":\"true\"}"],
         "item": "minecraft:bone_meal",
         "lore": [
           ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
@@ -330,7 +350,7 @@
     {
       "id": "admin_menu",
       "priority": 5,
-      "order": 18,
+      "order": 19,
       "item": {
         "display_name": ["{\"text\": \"Island Admin\", \"color\":\"red\", \"bold\":\"true\"}"],
         "item": "minecraft:anvil",
@@ -369,7 +389,7 @@
     {
       "id": "open_shulker_box",
       "priority": 10,
-      "order": 2,
+      "order": 3,
       "item": {
         "display_name": ["{\"text\": \"Interact with Shulker Boxes\", \"color\":\"blue\", \"bold\":\"true\"}"],
         "item": "minecraft:shulker_box",
@@ -388,7 +408,7 @@
     {
       "id": "open_barrels",
       "priority": 10,
-      "order": 3,
+      "order": 2,
       "item": {
         "display_name": ["{\"text\": \"Interact with Barrels\", \"color\":\"blue\", \"bold\":\"true\"}"],
         "item": "minecraft:barrel",
@@ -422,26 +442,6 @@
       "triggers": ["onRightClickBlock"],
       "data": {
         "block": ["#redstone_delays"]
-      }
-    },
-    {
-      "id": "redstone_detectors",
-      "priority": 10,
-      "order": 2,
-      "item": {
-        "display_name": ["{\"text\": \"Redstone Detectors\", \"color\":\"blue\", \"bold\":\"true\"}"],
-        "item": "minecraft:daylight_detector",
-        "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Daylight Detector, Note Block.\",\"color\":\"white\"}"]
-        ]
-      },
-      "category": "Redstone",
-      "triggers": ["onRightClickBlock"],
-      "data": {
-        "block": ["#redstone_detectors"]
       }
     },
     {

@@ -4,16 +4,17 @@
     {
       "id": "interact_easy_villagers",
       "priority": 10,
+      "order": 1,
       "item": {
         "display_name": ["{\"text\": \"Easy Villagers\", \"color\":\"yellow\", \"bold\":\"true\"}"],
-        "item": "easy_villagers:trader",
+        "item": "easy_villagers:villager",
         "lore": [
           ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
           ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
           ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
         ]
       },
-      "category": "Nature",
+      "category": "Miscellaneous",
       "triggers": ["onRightClickBlock"],
       "data": {
         "block": ["#easy_villagers_blocks"],

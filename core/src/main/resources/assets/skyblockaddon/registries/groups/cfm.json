@@ -1,0 +1,71 @@
+{
+  "mod": "cfm",
+  "groups": {
+    "cfm_cabinets": {
+      "block": [
+        "cfm:cabinet",
+        "cfm:.*_cabinet",
+        "cfm:cabinet_.*",
+        "cfm:.*_cabinet_.*"
+      ]
+    },
+    "cfm_crates": {
+      "block": [
+        "cfm:crate",
+        "cfm:.*_crate",
+        "cfm:crate_.*",
+        "cfm:.*_crate_.*"
+      ]
+    },
+    "cfm_drawers": {
+      "block": [
+        "cfm:drawer",
+        "cfm:.*_drawer",
+        "cfm:drawer_.*",
+        "cfm:.*_drawer_.*"
+      ]
+    },
+    "cfm_mailbox": {
+      "block": [
+        "cfm:mail_box",
+        "cfm:.*_mail_box",
+        "cfm:mail_box_.*",
+        "cfm:.*_mail_box_.*",
+        "cfm:post_box",
+        "cfm:.*_post_box",
+        "cfm:post_box_.*",
+        "cfm:.*_post_box_.*"
+      ]
+    },
+    "cfm_cooler": {
+      "block": [
+        "cfm:cooler",
+        "cfm:.*_cooler",
+        "cfm:cooler_.*",
+        "cfm:.*_cooler_.*"
+      ]
+    },
+    "cfm_fridge": {
+      "block": [
+        "cfm:fridge",
+        "cfm:.*_fridge",
+        "cfm:fridge_.*",
+        "cfm:.*_fridge_.*"
+      ]
+    },
+    "cfm_kitchen_sinks": {
+      "block": [
+        "cfm:kitchen_sink",
+        "cfm:.*_kitchen_sink",
+        "cfm:kitchen_sink_.*",
+        "cfm:.*_kitchen_sink_.*"
+      ]
+    },
+    "fence_gates": {
+      "block": [
+        "cfm:.*_upgraded_gate",
+        "cfm:.*_picket_gate"
+      ]
+    }
+  }
+}

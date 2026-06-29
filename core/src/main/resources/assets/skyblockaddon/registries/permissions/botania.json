@@ -4,6 +4,7 @@
     {
       "id": "botania_mana",
       "priority": 15,
+      "order": 8,
       "item": {
         "display_name": ["{\"text\": \"Botania — Mana\", \"color\":\"green\", \"bold\":\"true\"}"],
         "item": "botania:mana_pool",
@@ -14,7 +15,7 @@
           ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Mana Spreaders, Mana Pools, Mana Void, Prism, Pump.\",\"color\":\"white\"}"]
         ]
       },
-      "category": "Nature",
+      "category": "Miscellaneous",
       "triggers": ["onRightClickBlock"],
       "data": {
         "block": ["#botania_mana_blocks"]
@@ -23,6 +24,7 @@
     {
       "id": "botania_functional",
       "priority": 15,
+      "order": 9,
       "item": {
         "display_name": ["{\"text\": \"Botania — Functional\", \"color\":\"green\", \"bold\":\"true\"}"],
         "item": "botania:runic_altar",
@@ -33,7 +35,7 @@
           ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Runic Altar, Petal Apothecary, Terra Plate, Brew Station, Corporea.\",\"color\":\"white\"}"]
         ]
       },
-      "category": "Nature",
+      "category": "Miscellaneous",
       "triggers": ["onRightClickBlock"],
       "data": {
         "block": ["#botania_functional_blocks"]

@@ -6,6 +6,35 @@
     },
     "redstone_links": {
       "block": ["create:linked_controller", "create:redstone_link"]
+    },
+    "create_machines": {
+      "block": [
+        "create:mechanical_arm", "create:deployer", "create:mechanical_mixer",
+        "create:mechanical_press", "create:mechanical_saw", "create:encased_fan",
+        "create:millstone", "create:basin", "create:crushing_wheel",
+        "create:spout", "create:item_drain", "create:depot",
+        "create:chute", "create:smart_chute", "create:mechanical_piston",
+        "create:piston_extension_pole", "create:rope_pulley",
+        "create:mechanical_bearing", "create:clockwork_bearing",
+        "create:windmill_bearing", "create:mechanical_drill",
+        "create:mechanical_harvester", "create:mechanical_plough",
+        "create:mechanical_roller", "create:blaze_burner",
+        "create:flywheel",
+        "create:water_wheel", "create:large_water_wheel",
+        "create:cogwheel", "create:large_cogwheel",
+        "create:shaft", "create:encased_chain_drive",
+        "create:adjustable_chain_gearshift", "create:encased_belt",
+        "create:belt", "create:gearbox", "create:gearshift",
+        "create:clutch", "create:sequenced_gearshift",
+        "create:rotation_speed_controller",
+        "create:nixie_tube", "create:display_board",
+        "create:portable_storage_interface",
+        "create:portable_fluid_interface",
+        "create:weighted_ejector", "create:weighted_ejector_.*",
+        "create:stockpile_switch", "create:threshold_switch",
+        "create:content_observer", "create:smart_observer",
+        "create:analog_lever", "create:cart_assembler"
+      ]
     }
   }
 }
