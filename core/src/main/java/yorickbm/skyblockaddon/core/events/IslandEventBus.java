@@ -21,7 +21,9 @@ public final class IslandEventBus {
         <T extends IslandEvent> T fire(T event);
     }
 
-    private static Bus bus = event -> event; // no-op default
+    private static Bus bus = new Bus() {
+        @Override public <T extends IslandEvent> T fire(T event) { return event; }
+    };
 
     /** Called once at startup by the version module to register the platform bridge. */
     public static void register(final Bus implementation) {

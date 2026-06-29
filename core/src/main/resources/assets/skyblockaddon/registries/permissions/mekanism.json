@@ -6,7 +6,7 @@
       "priority": 15,
       "item": {
         "display_name": ["{\"text\": \"Mekanism — Machines\", \"color\":\"red\", \"bold\":\"true\"}"],
-        "item": "mekanism:machine_block",
+        "item": "mekanism:enrichment_chamber",
         "lore": [
           ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
           ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
@@ -14,7 +14,7 @@
           ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Enrichment Chamber, Metallurgic Infuser, Factories, Crusher, etc.\",\"color\":\"white\"}"]
         ]
       },
-      "category": "Energy",
+      "category": "Factory",
       "triggers": ["onRightClickBlock"],
       "data": {
         "block": ["#mekanism_machine_blocks"]
@@ -24,7 +24,7 @@
       "id": "mekanism_qio",
       "priority": 15,
       "item": {
-        "display_name": ["{\"text\": \"Mekanism — QIO Storage\", \"color\":\"red\", \"bold\":\"true\"}"],
+        "display_name": ["{\"text\": \"Mekanism — QIO Storage\", \"color\":\"aqua\", \"bold\":\"true\"}"],
         "item": "mekanism:qio_drive_array",
         "lore": [
           ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
@@ -33,7 +33,7 @@
           ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"QIO Drive Array, QIO Dashboard, QIO Importer/Exporter.\",\"color\":\"white\"}"]
         ]
       },
-      "category": "Energy",
+      "category": "Storage",
       "triggers": ["onRightClickBlock"],
       "data": {
         "block": ["#mekanism_qio_blocks"]

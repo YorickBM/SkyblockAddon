@@ -11,9 +11,18 @@ import yorickbm.skyblockaddon.core.util.exceptions.ResourceNotFoundException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.jar.JarFile;
+import java.util.stream.Stream;
 
 
 public class ResourceManager {
@@ -23,31 +32,6 @@ public class ResourceManager {
         "general", "storage", "transport", "redstone", "interactables", "admin"
     };
 
-    private static final String[] NEW_PERMISSION_FILES = {
-        "minecraft",
-        "ae2", "merequester", "ae2things",
-        "refinedstorage", "refinedstorageaddons", "rsrequestify", "extrastorage",
-        "simplestoragenetworks",
-        "storagedrawers",
-        "colossalchests", "sophisticatedbackpacks",
-        "create", "moreburners", "createaddition", "railways",
-        "mekanism", "mekanismgenerators",
-        "fluxnetworks", "thermal", "powah", "irongenerators", "rftoolsbase",
-        "xnet", "pipez", "modularrouters",
-        "waystones", "elevators", "buildinggadgets", "mininggadgets", "cookingforblockheads",
-        "botania", "botanypots",
-        "easy_villagers", "easy_piglins",
-        "the_vault", "vaultintegrations"
-    };
-
-
-    private static final String[] GROUP_FILES = {
-        "minecraft", "quark", "create", "ae2", "waystones", "refinedstorage",
-        "storagedrawers", "colossalchests", "easy_villagers", "blockcarpentry",
-        "sophisticatedbackpacks", "supplementaries", "the_vault",
-        "mekanism", "fluxnetworks", "thermal", "xnet", "botania", "simplestoragenetworks",
-        "ironfurnaces", "framedcompactdrawers"
-    };
 
     /**
      * Generate resource file from projects resources folder
@@ -105,13 +89,8 @@ public class ResourceManager {
 
         migrateOldPermissionFiles(FMLPath);
 
-        for (final String name : NEW_PERMISSION_FILES) {
-            generateFile(FMLPath, "registries/permissions/" + name + ".json", "registries/permissions/" + name + ".json");
-        }
-
-        for (final String name : GROUP_FILES) {
-            generateFile(FMLPath, "registries/groups/" + name + ".json", "registries/groups/" + name + ".json");
-        }
+        extractResourceDirectory(FMLPath, "registries/permissions");
+        extractResourceDirectory(FMLPath, "registries/groups");
 
 
         //Generate void protection config
@@ -145,6 +124,69 @@ public class ResourceManager {
         } else {
             // Fallback: extract static default (shows all categories, no mod-gating)
             generateFile(FMLPath, "guis/permissions.json", "guis/permissions.json");
+        }
+    }
+
+    /**
+     * Dynamically discovers and extracts all JSON files from a resource directory inside the JAR,
+     * so no hardcoded file list is needed — whatever is packaged gets deployed.
+     *
+     * Strategy:
+     *  1. Try Paths.get(uri) — works for file: (dev) and union: (Forge production, which registers
+     *     its own NIO filesystem provider at startup).
+     *  2. Fall back to JarFile scanning for standard jar: URIs (non-Forge / test environments).
+     */
+    private static void extractResourceDirectory(final Path FMLPath, final String resourceSubDir) {
+        final String resourcePath = "/assets/" + SkyblockAddonCore.MOD_ID + "/" + resourceSubDir + "/";
+        final URL dirUrl = SkyblockAddonCore.class.getResource(resourcePath);
+        if (dirUrl == null) {
+            LOGGER.warn("Resource directory not found: {}", resourcePath);
+            return;
+        }
+        LOGGER.debug("Scanning resource directory '{}' via {} URL", resourceSubDir, dirUrl.getProtocol());
+
+        try {
+            final URI dirUri = dirUrl.toURI();
+
+            // Primary: NIO path — covers file: (dev) and union: (Forge production)
+            try {
+                final Path dirPath = Paths.get(dirUri);
+                try (final Stream<Path> listing = Files.list(dirPath)) {
+                    listing.filter(p -> p.getFileName().toString().endsWith(".json"))
+                           .forEach(p -> extractSingleFile(FMLPath, resourceSubDir, p.getFileName().toString()));
+                }
+                return;
+            } catch (final FileSystemNotFoundException ignored) {
+                // Not a registered NIO filesystem — fall through to JarFile fallback
+            }
+
+            // Fallback: standard jar: protocol (non-Forge environments)
+            if ("jar".equals(dirUrl.getProtocol())) {
+                final String jarFilePath = URLDecoder.decode(
+                        dirUrl.getPath().substring(5, dirUrl.getPath().indexOf("!")),
+                        StandardCharsets.UTF_8);
+                final String prefix = "assets/" + SkyblockAddonCore.MOD_ID + "/" + resourceSubDir + "/";
+                try (final JarFile jar = new JarFile(jarFilePath)) {
+                    jar.stream()
+                       .filter(e -> !e.isDirectory() && e.getName().startsWith(prefix) && e.getName().endsWith(".json"))
+                       .forEach(e -> extractSingleFile(FMLPath, resourceSubDir, e.getName().substring(prefix.length())));
+                }
+                return;
+            }
+
+            LOGGER.warn("Unhandled resource URL protocol '{}' for directory '{}'; no files extracted.",
+                    dirUrl.getProtocol(), resourceSubDir);
+
+        } catch (final IOException | URISyntaxException e) {
+            LOGGER.error("Failed to scan resource directory '{}': {}", resourceSubDir, e.getMessage());
+        }
+    }
+
+    private static void extractSingleFile(final Path FMLPath, final String resourceSubDir, final String fileName) {
+        try {
+            generateFile(FMLPath, resourceSubDir + "/" + fileName, resourceSubDir + "/" + fileName);
+        } catch (final ResourceNotFoundException ex) {
+            LOGGER.warn("Skipping resource {}: {}", fileName, ex.getMessage());
         }
     }
 

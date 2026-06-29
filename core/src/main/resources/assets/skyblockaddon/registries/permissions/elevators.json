@@ -13,7 +13,7 @@
           ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
         ]
       },
-      "category": "Utility",
+      "category": "Miscellaneous",
       "triggers": ["onRightClickBlock"],
       "data": {
         "block": ["elevatorid:.*"]

@@ -43,7 +43,7 @@ public class PermissionGroupRegistry {
 
                 // Skip if required mod is not loaded
                 if (data.mod != null && !data.mod.isEmpty() && !isModLoaded.test(data.mod)) {
-                    LOGGER.info("Skipping group file {} (mod '{}' not loaded)", file.getFileName(), data.mod);
+                    LOGGER.debug("Skipping group file {} (mod '{}' not loaded)", file.getFileName(), data.mod);
                     continue;
                 }
 
@@ -53,7 +53,7 @@ public class PermissionGroupRegistry {
                     loaded++;
                 }
                 final String modLabel = (data.mod != null && !data.mod.isEmpty()) ? data.mod : "always";
-                LOGGER.info("Loaded {} group(s) from {} [mod: {}]", data.groups.size(), file.getFileName(), modLabel);
+                LOGGER.debug("Loaded {} group(s) from {} [mod: {}]", data.groups.size(), file.getFileName(), modLabel);
             } catch (final Exception e) {
                 LOGGER.error("Failed to load group file {}: {}", file.getFileName(), e.getMessage());
             }

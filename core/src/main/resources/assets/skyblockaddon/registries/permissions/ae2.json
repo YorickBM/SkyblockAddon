@@ -2,63 +2,23 @@
   "mod": "ae2",
   "permissions": [
     {
-      "id": "ae2_storage",
-      "priority": 15,
+      "id": "open_AE",
+      "priority": 10,
       "order": 8,
       "item": {
-        "display_name": ["{\"text\": \"AE2 — Storage Access\", \"color\":\"aqua\", \"bold\":\"true\"}"],
-        "item": "ae2:drive",
+        "display_name": ["{\"text\": \"Interact with AE2 Network\", \"color\":\"aqua\", \"bold\":\"true\"}"],
+        "item": "ae2:controller",
         "lore": [
           ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
           ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
           ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"ME Drive, Chest, Terminal, Controller, Energy Cell, Wireless AP.\",\"color\":\"white\"}"]
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"AE2, AE2 Things, ME Requester.\",\"color\":\"white\"}"]
         ]
       },
       "category": "Storage",
       "triggers": ["onRightClickBlock"],
       "data": {
-        "block": ["#ae2_storage_blocks"]
-      }
-    },
-    {
-      "id": "ae2_crafting",
-      "priority": 15,
-      "order": 8,
-      "item": {
-        "display_name": ["{\"text\": \"AE2 — Crafting\", \"color\":\"aqua\", \"bold\":\"true\"}"],
-        "item": "ae2:molecular_assembler",
-        "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Crafting Terminal, Pattern Provider, Inscriber, Molecular Assembler.\",\"color\":\"white\"}"]
-        ]
-      },
-      "category": "Storage",
-      "triggers": ["onRightClickBlock"],
-      "data": {
-        "block": ["#ae2_crafting_blocks"]
-      }
-    },
-    {
-      "id": "ae2_network",
-      "priority": 15,
-      "order": 8,
-      "item": {
-        "display_name": ["{\"text\": \"AE2 — Network Config\", \"color\":\"aqua\", \"bold\":\"true\"}"],
-        "item": "ae2:interface",
-        "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Importers, Exporters, Interfaces, Planes, Buses, Cables.\",\"color\":\"white\"}"]
-        ]
-      },
-      "category": "Storage",
-      "triggers": ["onRightClickBlock"],
-      "data": {
-        "block": ["#ae2_network_blocks"]
+        "block": ["ae2:.*", "ae2things:.*", "merequester:.*"]
       }
     }
   ]

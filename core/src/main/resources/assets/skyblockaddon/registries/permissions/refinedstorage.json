@@ -2,63 +2,23 @@
   "mod": "refinedstorage",
   "permissions": [
     {
-      "id": "rs_storage",
-      "priority": 15,
+      "id": "open_RF",
+      "priority": 10,
       "order": 9,
       "item": {
-        "display_name": ["{\"text\": \"Refined Storage — Storage\", \"color\":\"aqua\", \"bold\":\"true\"}"],
-        "item": "refinedstorage:disk_drive",
+        "display_name": ["{\"text\": \"Interact with Refined Storage Network\", \"color\":\"aqua\", \"bold\":\"true\"}"],
+        "item": "refinedstorage:controller",
         "lore": [
           ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
           ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
           ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Grid, Disk Drive, Controller, Storage Monitor.\",\"color\":\"white\"}"]
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Refined Storage, RS Addons, RS Requestify, Extra Storage.\",\"color\":\"white\"}"]
         ]
       },
       "category": "Storage",
       "triggers": ["onRightClickBlock"],
       "data": {
-        "block": ["#rs_storage_blocks"]
-      }
-    },
-    {
-      "id": "rs_crafting",
-      "priority": 15,
-      "order": 9,
-      "item": {
-        "display_name": ["{\"text\": \"Refined Storage — Crafting\", \"color\":\"aqua\", \"bold\":\"true\"}"],
-        "item": "refinedstorage:crafting_grid",
-        "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Crafting Manager, Pattern Grid, Autocrafting.\",\"color\":\"white\"}"]
-        ]
-      },
-      "category": "Storage",
-      "triggers": ["onRightClickBlock"],
-      "data": {
-        "block": ["#rs_crafting_blocks"]
-      }
-    },
-    {
-      "id": "rs_network",
-      "priority": 15,
-      "order": 9,
-      "item": {
-        "display_name": ["{\"text\": \"Refined Storage — Network Config\", \"color\":\"aqua\", \"bold\":\"true\"}"],
-        "item": "refinedstorage:importer",
-        "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Exporter, Importer, Destructor, Constructor, Interface.\",\"color\":\"white\"}"]
-        ]
-      },
-      "category": "Storage",
-      "triggers": ["onRightClickBlock"],
-      "data": {
-        "block": ["#rs_network_blocks"]
+        "block": ["refinedstorage:.*", "refinedstorageaddons:.*", "rsrequestify:.*", "extrastorage:.*"]
       }
     }
   ]

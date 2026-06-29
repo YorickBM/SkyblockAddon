@@ -28,7 +28,7 @@
           "create:windmill_bearing", "create:mechanical_drill",
           "create:mechanical_harvester", "create:mechanical_plough",
           "create:mechanical_roller", "create:blaze_burner",
-          "create:furnace_engine", "create:flywheel",
+          "create:flywheel",
           "create:water_wheel", "create:large_water_wheel",
           "create:cogwheel", "create:large_cogwheel",
           "create:shaft", "create:encased_chain_drive",
@@ -37,8 +37,7 @@
           "create:clutch", "create:sequenced_gearshift",
           "create:rotation_speed_controller",
           "create:nixie_tube", "create:display_board",
-          "create:track_observer", "create:track_signal",
-          "create:controller_rail", "create:portable_storage_interface",
+          "create:portable_storage_interface",
           "create:portable_fluid_interface",
           "create:weighted_ejector", "create:weighted_ejector_.*",
           "create:stockpile_switch", "create:threshold_switch",
@@ -51,7 +50,7 @@
       "id": "redstone_create_links",
       "priority": 10,
       "item": {
-        "display_name": ["{\"text\": \"Create — Redstone Links\", \"color\":\"gold\", \"bold\":\"true\"}"],
+        "display_name": ["{\"text\": \"Interact with Create Links\", \"color\":\"blue\", \"bold\":\"true\"}"],
         "item": "create:redstone_link",
         "lore": [
           ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
@@ -59,7 +58,7 @@
           ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
         ]
       },
-      "category": "Create",
+      "category": "Redstone",
       "triggers": ["onRightClickBlock"],
       "data": {
         "block": ["#redstone_links"]
