@@ -94,9 +94,8 @@ public class ResourceManager {
 
 
         //Generate void protection config
-        getOrCreateDirectory(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/"), "configs");
-        generateFile(FMLPath, "configs/void_protection.json", "configs/void_protection.json");
-        VoidProtectionConfig.getInstance().load(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/configs/void_protection.json"));
+        generateFile(FMLPath, "void_protection.json", "void_protection.json");
+        VoidProtectionConfig.getInstance().load(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/void_protection.json"));
 
         //Generate category registry (extract default, then load)
         generateFile(FMLPath, "registries/categories.json", "registries/categories.json");
