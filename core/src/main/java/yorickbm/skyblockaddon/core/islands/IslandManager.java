@@ -31,6 +31,7 @@ public class IslandManager {
         islandsByUUID = new HashMap<>();
         lastLocation = new Vec3i(0,0,0);
         reusableLocations = new LinkedList();
+        initializeCaches(20); // safe default; overridden by initializeCaches(actualPlayerCount) on server start
     }
 
     /**
