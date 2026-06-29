@@ -267,6 +267,25 @@
       }
     },
     {
+      "id": "vh_enter_vault",
+      "priority": 20,
+      "item": {
+        "display_name": ["{\"text\": \"Enter Vault\", \"color\":\"yellow\", \"bold\":\"true\"}"],
+        "item": "the_vault:vault_portal",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Allows: \",\"color\":\"dark_gray\"}", "{\"text\":\"Entering the Vault dimension via a Vault Portal.\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Vaulthunters",
+      "triggers": ["onEnterVaultPortal"],
+      "data": {
+        "block": ["the_vault:vault_portal"]
+      }
+    },
+    {
       "id": "vh_miscellaneous",
       "priority": 20,
       "item": {
