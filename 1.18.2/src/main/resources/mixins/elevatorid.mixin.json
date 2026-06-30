@@ -7,7 +7,7 @@
     "defaultRequire": 1
   },
   "server": [
-    "BuildingGadgetsMixinConfig"
+    "ElevatoridMixinConfig"
   ],
   "refmap": "skyblockaddon.refmap.json"
 }

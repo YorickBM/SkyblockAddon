@@ -15,7 +15,7 @@
         ]
       },
       "category": "Miscellaneous",
-      "triggers": ["onRightClickBlock"],
+      "triggers": ["onElevatorUse"],
       "data": {
         "block": ["elevatorid:.*"]
       }
