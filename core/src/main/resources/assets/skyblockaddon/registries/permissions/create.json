@@ -11,13 +11,70 @@
           ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
           ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
           ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Mechanical Arm, Deployer, Mixer, Press, Saw, Fan, Millstone, etc.\",\"color\":\"white\"}"]
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Mechanical Arm, Deployer, Mixer, Press, Saw, Fan, Millstone, Funnels, Tunnels, Valve Handles, Elevators, etc.\",\"color\":\"white\"}"]
         ]
       },
       "category": "Create",
       "triggers": ["onRightClickBlock", "onLeftClickBlock"],
       "data": {
         "block": ["#create_machines"]
+      }
+    },
+    {
+      "id": "create_seats",
+      "priority": 10,
+      "item": {
+        "display_name": ["{\"text\": \"Create — Seats\", \"color\":\"gold\", \"bold\":\"true\"}"],
+        "item": "create:white_seat",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Allows: \",\"color\":\"dark_gray\"}", "{\"text\":\"Sitting on Create Seats (including seats built into trains/contraptions).\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Create",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["create:.*_seat"]
+      }
+    },
+    {
+      "id": "create_train_controls",
+      "priority": 10,
+      "item": {
+        "display_name": ["{\"text\": \"Create — Train Controls\", \"color\":\"gold\", \"bold\":\"true\"}"],
+        "item": "create:controls",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Train Controls, Contraption Controls.\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Create",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["create:controls", "create:contraption_controls"]
+      }
+    },
+    {
+      "id": "create_train_assembly",
+      "priority": 10,
+      "item": {
+        "display_name": ["{\"text\": \"Create — Assemble Trains\", \"color\":\"gold\", \"bold\":\"true\"}"],
+        "item": "create:track_station",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Allows: \",\"color\":\"dark_gray\"}", "{\"text\":\"Assembling, disassembling, and renaming Trains at a Train Station. Separate from create_train_controls, so someone can be allowed to drive a train without being able to (dis)assemble it.\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Create",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["create:track_station"]
       }
     },
     {
