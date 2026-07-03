@@ -310,7 +310,7 @@
       "priority": 20,
       "item": {
         "display_name": ["{\"text\": \"Enter Vault\", \"color\":\"yellow\", \"bold\":\"true\"}"],
-        "item": "the_vault:vault_portal",
+        "item": "the_vault:vault_crystal",
         "lore": [
           ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
           ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
