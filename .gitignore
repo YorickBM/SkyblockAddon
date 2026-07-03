@@ -20,3 +20,4 @@ Thumbs.db
 /.idea
 /SkyblockAddon.wiki
 /core/src/main/resources/assets/skyblockaddon/registries/legacy
+*.zip
