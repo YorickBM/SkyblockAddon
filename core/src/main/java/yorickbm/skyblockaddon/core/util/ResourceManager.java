@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import yorickbm.skyblockaddon.core.SkyblockAddonCore;
 import yorickbm.skyblockaddon.core.configs.SkyBlockAddonLanguage;
 import yorickbm.skyblockaddon.core.configs.VoidProtectionConfig;
-import yorickbm.skyblockaddon.core.registries.CategoryRegistry;
 import yorickbm.skyblockaddon.core.util.exceptions.ResourceNotFoundException;
 
 import java.io.File;
@@ -16,11 +15,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.FileSystemNotFoundException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.util.jar.JarFile;
 import java.util.stream.Stream;
 
@@ -97,10 +92,6 @@ public class ResourceManager {
         generateFile(FMLPath, "void_protection.json", "void_protection.json");
         VoidProtectionConfig.getInstance().load(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/void_protection.json"));
 
-        //Generate category registry (extract default, then load)
-        generateFile(FMLPath, "registries/categories.json", "registries/categories.json");
-        CategoryRegistry.getInstance().load(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/registries/categories.json"));
-
         // Extract GUI files (each individually — only creates if missing, so server edits survive)
         getOrCreateDirectory(FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/"), "guis");
         generateFile(FMLPath, "guis/overview.json", "guis/overview.json");
@@ -112,18 +103,7 @@ public class ResourceManager {
         generateFile(FMLPath, "guis/set_group.json", "guis/set_group.json");
         generateFile(FMLPath, "guis/set_permission.json", "guis/set_permission.json");
         generateFile(FMLPath, "guis/members_group.json", "guis/members_group.json");
-
-        // Generate permissions.json from CategoryRegistry — always overwrite so it stays in
-        // sync with the loaded mod set. permissions.json is NOT user-editable; edit categories.json instead.
-        if (isModLoaded != null) {
-            CategoryRegistry.getInstance().generatePermissionsGui(
-                    FMLPath.resolve(SkyblockAddonCore.MOD_ID + "/guis/permissions.json"),
-                    isModLoaded
-            );
-        } else {
-            // Fallback: extract static default (shows all categories, no mod-gating)
-            generateFile(FMLPath, "guis/permissions.json", "guis/permissions.json");
-        }
+        generateFile(FMLPath, "guis/permissions.json", "guis/permissions.json");
     }
 
     /**

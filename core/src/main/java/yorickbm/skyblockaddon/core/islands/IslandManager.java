@@ -4,12 +4,11 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import yorickbm.skyblockaddon.core.SkyblockAddonCore;
-import yorickbm.skyblockaddon.core.util.geometry.BoundingBox;
-import yorickbm.skyblockaddon.core.util.geometry.Vec3i;
-
 import yorickbm.skyblockaddon.core.events.IslandCreatedEvent;
 import yorickbm.skyblockaddon.core.events.IslandDeletedEvent;
 import yorickbm.skyblockaddon.core.events.IslandEventBus;
+import yorickbm.skyblockaddon.core.util.geometry.BoundingBox;
+import yorickbm.skyblockaddon.core.util.geometry.Vec3i;
 
 import javax.annotation.Nonnull;
 import java.util.*;

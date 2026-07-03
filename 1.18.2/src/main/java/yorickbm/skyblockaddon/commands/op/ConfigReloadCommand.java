@@ -14,10 +14,9 @@ import yorickbm.guilibrary.GUILibraryRegistry;
 import yorickbm.skyblockaddon.commands.interfaces.Cmds;
 import yorickbm.skyblockaddon.core.SkyblockAddonCore;
 import yorickbm.skyblockaddon.core.permissions.PermissionManager;
-import yorickbm.skyblockaddon.core.registries.CategoryRegistry;
 import yorickbm.skyblockaddon.core.registries.PermissionGroupRegistry;
-import yorickbm.skyblockaddon.core.util.ResourceManager;
 import yorickbm.skyblockaddon.core.util.RegistrySelector;
+import yorickbm.skyblockaddon.core.util.ResourceManager;
 
 import java.nio.file.Path;
 import java.util.Map;
@@ -60,11 +59,6 @@ public class ConfigReloadCommand {
         } else {
             count = PermissionManager.getInstance().loadPermissions(newPermsDir, isModLoaded);
         }
-
-        // Regenerate permissions.json GUI for current mod set, then reload all GUIs
-        final Path categoriesPath = modDir.resolve("registries/categories.json");
-        CategoryRegistry.getInstance().load(categoriesPath);
-        CategoryRegistry.getInstance().generatePermissionsGui(modDir.resolve("guis/permissions.json"), isModLoaded);
 
         GUILibraryRegistry.registerFolder(SkyblockAddonCore.MOD_ID, modDir.resolve("guis/"));
 

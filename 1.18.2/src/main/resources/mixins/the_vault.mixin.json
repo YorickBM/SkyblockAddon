@@ -7,8 +7,8 @@
     "defaultRequire": 1
   },
   "server": [
-    "VaultTreasurePedestalMixinConfig",
-    "VaultPortalMixinConfig"
+    "VaultPortalMixinConfig",
+    "VaultTreasurePedestalMixinConfig"
   ],
   "refmap": "skyblockaddon.refmap.json"
 }

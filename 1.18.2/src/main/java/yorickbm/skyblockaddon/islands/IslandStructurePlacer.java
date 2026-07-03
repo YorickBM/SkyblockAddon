@@ -24,11 +24,7 @@ import yorickbm.skyblockaddon.core.util.exceptions.NBTNotFoundException;
 import yorickbm.skyblockaddon.util.BuildingBlock;
 import yorickbm.skyblockaddon.util.ForgeConverter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class IslandStructurePlacer {
     private static final Logger LOGGER = LogUtils.getLogger();

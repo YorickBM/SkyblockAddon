@@ -1,11 +1,8 @@
 package yorickbm.skyblockaddon.islands;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.*;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -34,7 +31,6 @@ import yorickbm.skyblockaddon.core.util.geometry.ChunkRef;
 import yorickbm.skyblockaddon.core.util.geometry.Square;
 import yorickbm.skyblockaddon.util.*;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;

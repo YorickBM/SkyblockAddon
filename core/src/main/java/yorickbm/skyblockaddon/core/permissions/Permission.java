@@ -1,8 +1,8 @@
 package yorickbm.skyblockaddon.core.permissions;
 
 import com.google.gson.Gson;
-import yorickbm.skyblockaddon.core.JSON.PermissionDataJson;
 import yorickbm.skyblockaddon.core.JSON.ItemStackJson;
+import yorickbm.skyblockaddon.core.JSON.PermissionDataJson;
 import yorickbm.skyblockaddon.core.util.JSON.JSONSerializable;
 
 import java.util.Arrays;

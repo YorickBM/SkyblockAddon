@@ -2,11 +2,9 @@ package yorickbm.skyblockaddon.util;
 
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraftforge.registries.ForgeRegistries;
 import yorickbm.guilibrary.GUIItemStackHolder;
 import yorickbm.skyblockaddon.core.JSON.ItemStackJson;
 

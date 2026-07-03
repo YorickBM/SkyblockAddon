@@ -1,7 +1,6 @@
 package yorickbm.skyblockaddon.core.events;
 
 import yorickbm.skyblockaddon.core.islands.Island;
-import yorickbm.skyblockaddon.core.islands.IslandGroup;
 
 import java.util.UUID;
 
