@@ -86,7 +86,7 @@
       "order": 7,
       "item": {
         "display_name": ["{\"text\": \"Furniture — Fridge\", \"color\":\"green\", \"bold\":\"true\"}"],
-        "item": "cfm:fridge",
+        "item": "cfm:fridge_light",
         "lore": [
           ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
           ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
