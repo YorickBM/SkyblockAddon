@@ -6,18 +6,43 @@
       "priority": 10,
       "order": 14,
       "item": {
-        "display_name": ["{\"text\": \"Elevators\", \"color\":\"green\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Elevators\", \"color\": \"green\", \"bold\": \"true\"}"
+        ],
         "item": "elevatorid:elevator_white",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "Miscellaneous",
-      "triggers": ["onElevatorUse"],
+      "triggers": [
+        "onElevatorUse"
+      ],
       "data": {
-        "block": ["elevatorid:.*"]
+        "block": [
+          "elevatorid:.*"
+        ]
       }
     }
   ]

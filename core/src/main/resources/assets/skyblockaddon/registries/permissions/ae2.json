@@ -6,29 +6,80 @@
       "priority": 10,
       "order": 8,
       "item": {
-        "display_name": ["{\"text\": \"Interact with AE2 Network\", \"color\":\"aqua\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Interact with AE2 Network\", \"color\": \"aqua\", \"bold\": \"true\"}"
+        ],
         "item": "ae2:controller",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"AE2.\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          {
+            "join": {
+              "prefix": {
+                "text": "♦ Contains: ",
+                "color": "dark_gray"
+              },
+              "separator": {
+                "text": ", ",
+                "color": "gray"
+              },
+              "entries": [
+                {
+                  "text": "AE2",
+                  "color": "white",
+                  "conditions": [
+                    "mod:ae2"
+                  ]
+                }
+              ]
+            }
+          }
         ],
         "conditional_lore": [
           {
             "condition": "any_mod_loaded:ae2things",
-            "line": ["{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}", "{\"text\":\"AE2 Things.\",\"color\":\"white\"}"]
+            "line": [
+              "{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}",
+              "{\"text\":\"AE2 Things.\",\"color\":\"white\"}"
+            ]
           },
           {
             "condition": "any_mod_loaded:merequester",
-            "line": ["{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}", "{\"text\":\"ME Requester.\",\"color\":\"white\"}"]
+            "line": [
+              "{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}",
+              "{\"text\":\"ME Requester.\",\"color\":\"white\"}"
+            ]
           }
         ]
       },
       "category": "Storage",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["#ae2_blocks"]
+        "block": [
+          "#ae2_blocks"
+        ]
       }
     }
   ]

@@ -6,19 +6,71 @@
       "priority": 10,
       "order": 21,
       "item": {
-        "display_name": ["{\"text\": \"Chestmonster\", \"color\":\"yellow\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Chestmonster\", \"color\": \"green\", \"bold\": \"true\"}"
+        ],
         "item": "chestmonster:grid",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Chestmonster, Chestmonster Hand\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          {
+            "join": {
+              "prefix": {
+                "text": "♦ Contains: ",
+                "color": "dark_gray"
+              },
+              "separator": {
+                "text": ", ",
+                "color": "gray"
+              },
+              "entries": [
+                {
+                  "text": "Chestmonster",
+                  "color": "white",
+                  "conditions": [
+                    "mod:chestmonster"
+                  ]
+                },
+                {
+                  "text": "Chestmonster Hand",
+                  "color": "white",
+                  "conditions": [
+                    "mod:chestmonster"
+                  ]
+                }
+              ]
+            }
+          }
         ]
       },
       "category": "Miscellaneous",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["#chestmonster_blocks"]
+        "block": [
+          "#chestmonster_blocks"
+        ]
       }
     }
   ]

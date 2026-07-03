@@ -6,19 +6,85 @@
       "priority": 15,
       "order": 10,
       "item": {
-        "display_name": ["{\"text\": \"Flux Networks\", \"color\":\"red\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Flux Networks\", \"color\": \"green\", \"bold\": \"true\"}"
+        ],
         "item": "fluxnetworks:flux_plug",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Flux Plug, Flux Point, Flux Controller, Flux Storage.\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          {
+            "join": {
+              "prefix": {
+                "text": "♦ Contains: ",
+                "color": "dark_gray"
+              },
+              "separator": {
+                "text": ", ",
+                "color": "gray"
+              },
+              "entries": [
+                {
+                  "text": "Flux Plug",
+                  "color": "white",
+                  "conditions": [
+                    "mod:fluxnetworks"
+                  ]
+                },
+                {
+                  "text": "Flux Point",
+                  "color": "white",
+                  "conditions": [
+                    "mod:fluxnetworks"
+                  ]
+                },
+                {
+                  "text": "Flux Controller",
+                  "color": "white",
+                  "conditions": [
+                    "mod:fluxnetworks"
+                  ]
+                },
+                {
+                  "text": "Flux Storage",
+                  "color": "white",
+                  "conditions": [
+                    "mod:fluxnetworks"
+                  ]
+                }
+              ]
+            }
+          }
         ]
       },
       "category": "Miscellaneous",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["#flux_networks"]
+        "block": [
+          "#flux_networks"
+        ]
       }
     }
   ]

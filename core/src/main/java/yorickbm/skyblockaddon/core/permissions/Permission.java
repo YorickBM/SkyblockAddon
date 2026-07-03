@@ -5,8 +5,6 @@ import yorickbm.skyblockaddon.core.JSON.ItemStackJson;
 import yorickbm.skyblockaddon.core.JSON.PermissionDataJson;
 import yorickbm.skyblockaddon.core.util.JSON.JSONSerializable;
 
-import java.util.Arrays;
-
 public class Permission implements JSONSerializable {
 
     protected String id;
@@ -14,25 +12,26 @@ public class Permission implements JSONSerializable {
     protected String category;
     protected String[] triggers;
     protected PermissionDataJson data;
-    protected int priority = 0;
-    protected int order = 0;
+    protected int priority;
+    protected int order;
 
-    @Override
-    public String toJSON() {
-        final Gson gson = new Gson();
-        return gson.toJson(this);
+    public Permission() {
     }
 
-    @Override
-    public void fromJSON(final String json) {
-        final Gson gson = new Gson();
-        final Permission temp = gson.fromJson(json, Permission.class);
+    public String toJSON() {
+        return new Gson().toJson(this);
+    }
 
-        this.id = temp.id;
-        this.item = temp.item;
-        this.category = temp.category;
-        this.triggers = temp.triggers;
-        this.data = temp.data;
+    public void fromJSON(String json) {
+        Gson gson = new Gson();
+        Permission parsed = gson.fromJson(json, Permission.class);
+        this.id = parsed.id;
+        this.item = parsed.item;
+        this.category = parsed.category;
+        this.triggers = parsed.triggers;
+        this.data = parsed.data;
+        this.priority = parsed.priority;
+        this.order = parsed.order;
     }
 
     public String getCategory() {
@@ -43,15 +42,27 @@ public class Permission implements JSONSerializable {
         return id;
     }
 
-    public ItemStackJson getItem() { return item; }
-
-    public boolean hasTrigger(final String trigger) {
-        return Arrays.stream(triggers).toList().contains(trigger);
+    public ItemStackJson getItem() {
+        return item;
     }
 
-    public PermissionDataJson getData() { return this.data; }
+    public boolean hasTrigger(String trigger) {
+        if (triggers == null) return false;
+        for (String t : triggers) {
+            if (t.equals(trigger)) return true;
+        }
+        return false;
+    }
 
-    public int getPriority() { return priority; }
+    public PermissionDataJson getData() {
+        return data;
+    }
 
-    public int getOrder() { return order; }
+    public int getPriority() {
+        return priority;
+    }
+
+    public int getOrder() {
+        return order;
+    }
 }

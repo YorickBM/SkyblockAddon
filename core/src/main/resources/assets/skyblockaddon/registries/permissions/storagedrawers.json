@@ -6,25 +6,74 @@
       "priority": 10,
       "order": 4,
       "item": {
-        "display_name": ["{\"text\": \"Storage Drawers\", \"color\":\"aqua\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Storage Drawers\", \"color\": \"aqua\", \"bold\": \"true\"}"
+        ],
         "item": "storagedrawers:oak_full_drawers_1",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Storage Drawers.\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          {
+            "join": {
+              "prefix": {
+                "text": "♦ Contains: ",
+                "color": "dark_gray"
+              },
+              "separator": {
+                "text": ", ",
+                "color": "gray"
+              },
+              "entries": [
+                {
+                  "text": "Storage Drawers",
+                  "color": "white",
+                  "conditions": [
+                    "mod:storagedrawers"
+                  ]
+                }
+              ]
+            }
+          }
         ],
         "conditional_lore": [
           {
             "condition": "any_mod_loaded:framedcompactdrawers",
-            "line": ["{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}", "{\"text\":\"Framed Compact Drawers.\",\"color\":\"white\"}"]
+            "line": [
+              "{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}",
+              "{\"text\":\"Framed Compact Drawers.\",\"color\":\"white\"}"
+            ]
           }
         ]
       },
       "category": "Storage",
-      "triggers": ["onRightClickBlock", "onLeftClickBlock"],
+      "triggers": [
+        "onRightClickBlock",
+        "onLeftClickBlock"
+      ],
       "data": {
-        "block": ["#storage_drawers"]
+        "block": [
+          "#storage_drawers"
+        ]
       }
     }
   ]

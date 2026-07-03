@@ -6,19 +6,48 @@
       "priority": 10,
       "order": 1,
       "item": {
-        "display_name": ["{\"text\": \"Easy Villagers\", \"color\":\"yellow\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Easy Villagers\", \"color\": \"green\", \"bold\": \"true\"}"
+        ],
         "item": "easy_villagers:villager",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "Miscellaneous",
-      "triggers": ["onRightClickBlock", "onEVBlockInteract", "onPickupVillager"],
+      "triggers": [
+        "onRightClickBlock",
+        "onEVBlockInteract",
+        "onPickupVillager"
+      ],
       "data": {
-        "block": ["#easy_villagers_blocks"],
-        "entity": ["minecraft:villager"]
+        "block": [
+          "#easy_villagers_blocks"
+        ],
+        "entity": [
+          "minecraft:villager"
+        ]
       }
     }
   ]

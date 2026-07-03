@@ -5,19 +5,87 @@
       "id": "create_railways",
       "priority": 15,
       "item": {
-        "display_name": ["{\"text\": \"Create: Railways\", \"color\":\"gold\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Create: Railways\", \"color\": \"gold\", \"bold\": \"true\"}"
+        ],
         "item": "create:track",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Train Stations, Signal Blocks, Schedule Blocks, Track Observer.\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          {
+            "join": {
+              "prefix": {
+                "text": "♦ Contains: ",
+                "color": "dark_gray"
+              },
+              "separator": {
+                "text": ", ",
+                "color": "gray"
+              },
+              "entries": [
+                {
+                  "text": "Train Stations",
+                  "color": "white",
+                  "conditions": [
+                    "mod:railways"
+                  ]
+                },
+                {
+                  "text": "Signal Blocks",
+                  "color": "white",
+                  "conditions": [
+                    "mod:railways"
+                  ]
+                },
+                {
+                  "text": "Schedule Blocks",
+                  "color": "white",
+                  "conditions": [
+                    "mod:railways"
+                  ]
+                },
+                {
+                  "text": "Track Observer",
+                  "color": "white",
+                  "conditions": [
+                    "mod:create"
+                  ]
+                }
+              ]
+            }
+          }
         ]
       },
       "category": "Create",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["railways:.*", "create:track_signal", "create:track_observer"]
+        "block": [
+          "railways:.*",
+          "create:track_signal",
+          "create:track_observer"
+        ]
       }
     }
   ]

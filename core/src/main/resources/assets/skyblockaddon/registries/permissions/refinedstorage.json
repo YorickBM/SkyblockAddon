@@ -6,33 +6,87 @@
       "priority": 10,
       "order": 9,
       "item": {
-        "display_name": ["{\"text\": \"Interact with Refined Storage Network\", \"color\":\"aqua\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Interact with Refined Storage Network\", \"color\": \"aqua\", \"bold\": \"true\"}"
+        ],
         "item": "refinedstorage:creative_controller",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Refined Storage.\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          {
+            "join": {
+              "prefix": {
+                "text": "♦ Contains: ",
+                "color": "dark_gray"
+              },
+              "separator": {
+                "text": ", ",
+                "color": "gray"
+              },
+              "entries": [
+                {
+                  "text": "Refined Storage",
+                  "color": "white",
+                  "conditions": [
+                    "mod:refinedstorage"
+                  ]
+                }
+              ]
+            }
+          }
         ],
         "conditional_lore": [
           {
             "condition": "any_mod_loaded:refinedstorageaddons",
-            "line": ["{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}", "{\"text\":\"RS Addons.\",\"color\":\"white\"}"]
+            "line": [
+              "{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}",
+              "{\"text\":\"RS Addons.\",\"color\":\"white\"}"
+            ]
           },
           {
             "condition": "any_mod_loaded:rsrequestify",
-            "line": ["{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}", "{\"text\":\"RS Requestify.\",\"color\":\"white\"}"]
+            "line": [
+              "{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}",
+              "{\"text\":\"RS Requestify.\",\"color\":\"white\"}"
+            ]
           },
           {
             "condition": "any_mod_loaded:extrastorage",
-            "line": ["{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}", "{\"text\":\"Extra Storage.\",\"color\":\"white\"}"]
+            "line": [
+              "{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}",
+              "{\"text\":\"Extra Storage.\",\"color\":\"white\"}"
+            ]
           }
         ]
       },
       "category": "Storage",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["#refinedstorage_blocks"]
+        "block": [
+          "#refinedstorage_blocks"
+        ]
       }
     }
   ]

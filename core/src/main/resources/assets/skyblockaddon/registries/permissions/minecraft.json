@@ -5,19 +5,48 @@
       "priority": 5,
       "order": 1,
       "item": {
-        "display_name": ["{\"text\": \"Place Blocks\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Place Blocks\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:bricks",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "General",
-      "triggers": ["onPlaceBlock", "onUse"],
+      "triggers": [
+        "onPlaceBlock",
+        "onUse"
+      ],
       "data": {
-        "item": ["!#spawn_eggs", "#slingshots"],
-        "block": [".*:.*"]
+        "item": [
+          "!#spawn_eggs",
+          "#slingshots"
+        ],
+        "block": [
+          ".*:.*"
+        ]
       }
     },
     {
@@ -25,20 +54,54 @@
       "priority": 5,
       "order": 2,
       "item": {
-        "display_name": ["{\"text\": \"Destroy Blocks\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Destroy Blocks\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:iron_pickaxe",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "General",
-      "triggers": ["onLeftClickBlock", "onAttack", "onQuarkPickarangMixin"],
+      "triggers": [
+        "onLeftClickBlock",
+        "onAttack",
+        "onQuarkPickarangMixin"
+      ],
       "data": {
-        "item": ["#quark_items"],
-        "block": ["!storagedrawers:.*", "!the_vault:animal_pen"],
-        "entity": ["#vehicles", "#item_frames", "#armor_stands"]
+        "item": [
+          "#quark_items"
+        ],
+        "block": [
+          "!storagedrawers:.*",
+          "!the_vault:animal_pen"
+        ],
+        "entity": [
+          "#vehicles",
+          "#item_frames",
+          "#armor_stands"
+        ]
       }
     },
     {
@@ -46,16 +109,39 @@
       "priority": 5,
       "order": 3,
       "item": {
-        "display_name": ["{\"text\": \"Place/Pickup Fluids\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Place/Pickup Fluids\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:bucket",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "General",
-      "triggers": ["onBucket"],
+      "triggers": [
+        "onBucket"
+      ],
       "data": {}
     },
     {
@@ -63,16 +149,40 @@
       "priority": 5,
       "order": 4,
       "item": {
-        "display_name": ["{\"text\": \"Pickup/Drop Items\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Pickup/Drop Items\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:candle",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "General",
-      "triggers": ["onPickup", "onDrop"],
+      "triggers": [
+        "onPickup",
+        "onDrop"
+      ],
       "data": {}
     },
     {
@@ -80,18 +190,43 @@
       "priority": 5,
       "order": 5,
       "item": {
-        "display_name": ["{\"text\": \"Collect XP Orbs\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Collect XP Orbs\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:experience_bottle",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "General",
-      "triggers": ["onXp"],
+      "triggers": [
+        "onXp"
+      ],
       "data": {
-        "entity": ["#xp_orbs"]
+        "entity": [
+          "#xp_orbs"
+        ]
       }
     },
     {
@@ -99,18 +234,43 @@
       "priority": 10,
       "order": 6,
       "item": {
-        "display_name": ["{\"text\": \"Sleep in Beds\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Sleep in Beds\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:red_bed",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "General",
-      "triggers": ["onSleepInBed"],
+      "triggers": [
+        "onSleepInBed"
+      ],
       "data": {
-        "block": ["#beds"]
+        "block": [
+          "#beds"
+        ]
       }
     },
     {
@@ -118,18 +278,43 @@
       "priority": 10,
       "order": 7,
       "item": {
-        "display_name": ["{\"text\": \"Interact with Doors & Trapdoors\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Interact with Doors & Trapdoors\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:oak_door",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "General",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["#doors"]
+        "block": [
+          "#doors"
+        ]
       }
     },
     {
@@ -137,19 +322,71 @@
       "priority": 10,
       "order": 8,
       "item": {
-        "display_name": ["{\"text\": \"Interact with Fence Gates\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Interact with Fence Gates\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:oak_fence_gate",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"All fence gate variants. If Macaw's Fences is installed: all railing gates.\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          {
+            "join": {
+              "prefix": {
+                "text": "♦ Contains: ",
+                "color": "dark_gray"
+              },
+              "separator": {
+                "text": ", ",
+                "color": "gray"
+              },
+              "entries": [
+                {
+                  "text": "Fence Gates",
+                  "color": "white",
+                  "conditions": [
+                    "mod:minecraft"
+                  ]
+                },
+                {
+                  "text": "Railing Gates",
+                  "color": "white",
+                  "conditions": [
+                    "mod:mcwfences"
+                  ]
+                }
+              ]
+            }
+          }
         ]
       },
       "category": "General",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["#fence_gates"]
+        "block": [
+          "#fence_gates"
+        ]
       }
     },
     {
@@ -157,18 +394,43 @@
       "priority": 10,
       "order": 9,
       "item": {
-        "display_name": ["{\"text\": \"Interact with Item Frames\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Interact with Item Frames\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:item_frame",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "General",
-      "triggers": ["onRightClickEntity"],
+      "triggers": [
+        "onRightClickEntity"
+      ],
       "data": {
-        "entity": ["#item_frames"]
+        "entity": [
+          "#item_frames"
+        ]
       }
     },
     {
@@ -176,25 +438,87 @@
       "priority": 10,
       "order": 10,
       "item": {
-        "display_name": ["{\"text\": \"Interact with Furnaces\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Interact with Furnaces\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:furnace",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Furnace, Blast Furnace, Smoker.\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          {
+            "join": {
+              "prefix": {
+                "text": "♦ Contains: ",
+                "color": "dark_gray"
+              },
+              "separator": {
+                "text": ", ",
+                "color": "gray"
+              },
+              "entries": [
+                {
+                  "text": "Furnace",
+                  "color": "white",
+                  "conditions": [
+                    "mod:minecraft"
+                  ]
+                },
+                {
+                  "text": "Blast Furnace",
+                  "color": "white",
+                  "conditions": [
+                    "mod:minecraft"
+                  ]
+                },
+                {
+                  "text": "Smoker",
+                  "color": "white",
+                  "conditions": [
+                    "mod:minecraft"
+                  ]
+                }
+              ]
+            }
+          }
         ],
         "conditional_lore": [
           {
             "condition": "any_mod_loaded:ironfurnaces",
-            "line": ["{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}", "{\"text\":\"Iron Furnaces.\",\"color\":\"white\"}"]
+            "line": [
+              "{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}",
+              "{\"text\":\"Iron Furnaces.\",\"color\":\"white\"}"
+            ]
           }
         ]
       },
       "category": "General",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["#furnaces"]
+        "block": [
+          "#furnaces"
+        ]
       }
     },
     {
@@ -202,19 +526,53 @@
       "priority": 0,
       "order": 11,
       "item": {
-        "display_name": ["{\"text\": \"Interact with Blocks\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Interact with Blocks\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:crafting_table",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Fallback permission for all block interactions.\",\"color\":\"dark_gray\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          [
+            {
+              "text": "♦ Allows: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "Fallback permission for all block interactions.",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "General",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": [".*:.*"]
+        "block": [
+          ".*:.*"
+        ]
       }
     },
     {
@@ -222,16 +580,39 @@
       "priority": 5,
       "order": 12,
       "item": {
-        "display_name": ["{\"text\": \"Trample Crops\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Trample Crops\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:farmland",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "General",
-      "triggers": ["onTrample"],
+      "triggers": [
+        "onTrample"
+      ],
       "data": {}
     },
     {
@@ -239,18 +620,45 @@
       "priority": 5,
       "order": 13,
       "item": {
-        "display_name": ["{\"text\": \"Attack Entities\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Attack Entities\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:iron_sword",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "General",
-      "triggers": ["onAttack"],
+      "triggers": [
+        "onAttack"
+      ],
       "data": {
-        "entity": ["!#vehicles", "!#item_frames", "!#armor_stands"]
+        "entity": [
+          "!#vehicles",
+          "!#item_frames",
+          "!#armor_stands"
+        ]
       }
     },
     {
@@ -258,18 +666,45 @@
       "priority": 10,
       "order": 14,
       "item": {
-        "display_name": ["{\"text\": \"Spawn Entities\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Spawn Entities\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:zombie_spawn_egg",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "General",
-      "triggers": ["onPlaceBlock", "onRightClickBlock", "onRightClickItem"],
+      "triggers": [
+        "onPlaceBlock",
+        "onRightClickBlock",
+        "onRightClickItem"
+      ],
       "data": {
-        "item": ["#spawn_eggs"]
+        "item": [
+          "#spawn_eggs"
+        ]
       }
     },
     {
@@ -277,19 +712,79 @@
       "priority": 5,
       "order": 15,
       "item": {
-        "display_name": ["{\"text\": \"Use Vehicles\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Use Vehicles\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:oak_boat",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Minecarts, Boats, Saddled Entities.\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          {
+            "join": {
+              "prefix": {
+                "text": "♦ Contains: ",
+                "color": "dark_gray"
+              },
+              "separator": {
+                "text": ", ",
+                "color": "gray"
+              },
+              "entries": [
+                {
+                  "text": "Minecarts",
+                  "color": "white",
+                  "conditions": [
+                    "mod:minecraft"
+                  ]
+                },
+                {
+                  "text": "Boats",
+                  "color": "white",
+                  "conditions": [
+                    "mod:minecraft"
+                  ]
+                },
+                {
+                  "text": "Saddled Entities",
+                  "color": "white",
+                  "conditions": [
+                    "mod:minecraft"
+                  ]
+                }
+              ]
+            }
+          }
         ]
       },
       "category": "General",
-      "triggers": ["onMount", "onRightClickEntity"],
+      "triggers": [
+        "onMount",
+        "onRightClickEntity"
+      ],
       "data": {
-        "entity": ["#vehicles"]
+        "entity": [
+          "#vehicles"
+        ]
       }
     },
     {
@@ -297,17 +792,68 @@
       "priority": 5,
       "order": 16,
       "item": {
-        "display_name": ["{\"text\": \"Teleportation\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Teleportation\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:ender_pearl",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Ender Pearls, Chorus Fruit.\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          {
+            "join": {
+              "prefix": {
+                "text": "♦ Contains: ",
+                "color": "dark_gray"
+              },
+              "separator": {
+                "text": ", ",
+                "color": "gray"
+              },
+              "entries": [
+                {
+                  "text": "Ender Pearls",
+                  "color": "white",
+                  "conditions": [
+                    "mod:minecraft"
+                  ]
+                },
+                {
+                  "text": "Chorus Fruit",
+                  "color": "white",
+                  "conditions": [
+                    "mod:minecraft"
+                  ]
+                }
+              ]
+            }
+          }
         ]
       },
       "category": "General",
-      "triggers": ["onEnderPearl", "onChorusFruit"],
+      "triggers": [
+        "onEnderPearl",
+        "onChorusFruit"
+      ],
       "data": {}
     },
     {
@@ -315,19 +861,49 @@
       "priority": 5,
       "order": 17,
       "item": {
-        "display_name": ["{\"text\": \"Use Nether Portal\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Use Nether Portal\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:obsidian",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "General",
-      "triggers": ["onPortalIgnition", "onPlayerChangedDimension", "onEnterPortal"],
+      "triggers": [
+        "onPortalIgnition",
+        "onPlayerChangedDimension",
+        "onEnterPortal"
+      ],
       "data": {
-        "dimension": ["minecraft:the_nether", "minecraft:overworld"],
-        "block": ["minecraft:nether_portal"]
+        "dimension": [
+          "minecraft:the_nether",
+          "minecraft:overworld"
+        ],
+        "block": [
+          "minecraft:nether_portal"
+        ]
       }
     },
     {
@@ -335,17 +911,60 @@
       "priority": 5,
       "order": 18,
       "item": {
-        "display_name": ["{\"text\": \"Use Bone Meal\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Use Bone Meal\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:bone_meal",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Bone Meal.\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          {
+            "join": {
+              "prefix": {
+                "text": "♦ Contains: ",
+                "color": "dark_gray"
+              },
+              "separator": {
+                "text": ", ",
+                "color": "gray"
+              },
+              "entries": [
+                {
+                  "text": "Bone Meal",
+                  "color": "white",
+                  "conditions": [
+                    "mod:minecraft"
+                  ]
+                }
+              ]
+            }
+          }
         ]
       },
       "category": "General",
-      "triggers": ["onBonemeal"],
+      "triggers": [
+        "onBonemeal"
+      ],
       "data": {}
     },
     {
@@ -353,18 +972,43 @@
       "priority": 5,
       "order": 19,
       "item": {
-        "display_name": ["{\"text\": \"Use Anvils\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Use Anvils\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:anvil",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "General",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["#anvils"]
+        "block": [
+          "#anvils"
+        ]
       }
     },
     {
@@ -372,18 +1016,44 @@
       "priority": 5,
       "order": 20,
       "item": {
-        "display_name": ["{\"text\": \"Island Admin\", \"color\":\"red\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Island Admin\", \"color\": \"blue\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:spyglass",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "General",
-      "triggers": ["onGui"],
+      "triggers": [
+        "onGui"
+      ],
       "data": {
-        "gui": ["members", "settings"]
+        "gui": [
+          "members",
+          "settings"
+        ]
       }
     },
     {
@@ -391,19 +1061,47 @@
       "priority": 10,
       "order": 1,
       "item": {
-        "display_name": ["{\"text\": \"Interact with Chests\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Interact with Chests\", \"color\": \"aqua\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:chest",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "Storage",
-      "triggers": ["onRightClickBlock", "onRightClickEntity"],
+      "triggers": [
+        "onRightClickBlock",
+        "onRightClickEntity"
+      ],
       "data": {
-        "block": ["#chests"],
-        "entity": ["#chests"]
+        "block": [
+          "#chests"
+        ],
+        "entity": [
+          "#chests"
+        ]
       }
     },
     {
@@ -411,18 +1109,43 @@
       "priority": 10,
       "order": 3,
       "item": {
-        "display_name": ["{\"text\": \"Interact with Shulker Boxes\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Interact with Shulker Boxes\", \"color\": \"aqua\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:shulker_box",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "Storage",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["#shulkers"]
+        "block": [
+          "#shulkers"
+        ]
       }
     },
     {
@@ -430,18 +1153,43 @@
       "priority": 10,
       "order": 2,
       "item": {
-        "display_name": ["{\"text\": \"Interact with Barrels\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Interact with Barrels\", \"color\": \"aqua\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:barrel",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "Storage",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["#barrels"]
+        "block": [
+          "#barrels"
+        ]
       }
     },
     {
@@ -449,19 +1197,78 @@
       "priority": 10,
       "order": 1,
       "item": {
-        "display_name": ["{\"text\": \"Redstone Delays\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Redstone Delays\", \"color\": \"red\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:repeater",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Repeater, Comparator (+ Create variants).\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          {
+            "join": {
+              "prefix": {
+                "text": "♦ Contains: ",
+                "color": "dark_gray"
+              },
+              "separator": {
+                "text": ", ",
+                "color": "gray"
+              },
+              "entries": [
+                {
+                  "text": "Repeater",
+                  "color": "white",
+                  "conditions": [
+                    "mod:minecraft"
+                  ]
+                },
+                {
+                  "text": "Comparator",
+                  "color": "white",
+                  "conditions": [
+                    "mod:minecraft"
+                  ]
+                },
+                {
+                  "text": "Create Repeater/Extender variants",
+                  "color": "white",
+                  "conditions": [
+                    "mod:create"
+                  ]
+                }
+              ]
+            }
+          }
         ]
       },
       "category": "Redstone",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["#redstone_delays"]
+        "block": [
+          "#redstone_delays"
+        ]
       }
     },
     {
@@ -469,18 +1276,43 @@
       "priority": 10,
       "order": 3,
       "item": {
-        "display_name": ["{\"text\": \"Buttons & Levers\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Buttons & Levers\", \"color\": \"red\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:lever",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "Redstone",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["#redstone_switches"]
+        "block": [
+          "#redstone_switches"
+        ]
       }
     },
     {
@@ -488,19 +1320,47 @@
       "priority": 10,
       "order": 4,
       "item": {
-        "display_name": ["{\"text\": \"Interact with Hoppers\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Interact with Hoppers\", \"color\": \"red\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:hopper",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "Redstone",
-      "triggers": ["onRightClickBlock", "onRightClickEntity"],
+      "triggers": [
+        "onRightClickBlock",
+        "onRightClickEntity"
+      ],
       "data": {
-        "block": ["minecraft:hopper"],
-        "entity": ["#redstone_containers"]
+        "block": [
+          "minecraft:hopper"
+        ],
+        "entity": [
+          "#redstone_containers"
+        ]
       }
     },
     {
@@ -508,35 +1368,110 @@
       "priority": 10,
       "order": 5,
       "item": {
-        "display_name": ["{\"text\": \"Interact with Containers\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Interact with Containers\", \"color\": \"red\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:dispenser",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Dispenser, Dropper.\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          {
+            "join": {
+              "prefix": {
+                "text": "♦ Contains: ",
+                "color": "dark_gray"
+              },
+              "separator": {
+                "text": ", ",
+                "color": "gray"
+              },
+              "entries": [
+                {
+                  "text": "Dispenser",
+                  "color": "white",
+                  "conditions": [
+                    "mod:minecraft"
+                  ]
+                },
+                {
+                  "text": "Dropper",
+                  "color": "white",
+                  "conditions": [
+                    "mod:minecraft"
+                  ]
+                }
+              ]
+            }
+          }
         ]
       },
       "category": "Redstone",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["#redstone_containers"]
+        "block": [
+          "#redstone_containers"
+        ]
       }
     },
     {
       "id": "disable_hostile_spawns",
       "priority": 5,
       "item": {
-        "display_name": ["{\"text\": \"Hostile Mobs\", \"color\":\"red\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Hostile Mobs\", \"color\": \"dark_red\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:zombie_head",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "Admin",
-      "triggers": ["OnHostileMobSpawn"],
+      "triggers": [
+        "OnHostileMobSpawn"
+      ],
       "data": {
         "defaults": true
       }
@@ -545,19 +1480,42 @@
       "id": "disable_passive_spawns",
       "priority": 5,
       "item": {
-        "display_name": ["{\"text\": \"Passive Mobs\", \"color\":\"red\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Passive Mobs\", \"color\": \"dark_red\", \"bold\": \"true\"}"
+        ],
         "item": "minecraft:player_head",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ],
         "data": {
           "SkullTexture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzFhZmY2ZWNjZWRmMzYwNzFiY2NlYTRiNWE2MjY1MTYzMWVhYzJlM2ZkYTk5ZGM3MWZkNDNlZTgzYmU4ZDJlOSJ9fX0="
         }
       },
       "category": "Admin",
-      "triggers": ["OnPassiveMobSpawn"],
+      "triggers": [
+        "OnPassiveMobSpawn"
+      ],
       "data": {
         "defaults": true
       }

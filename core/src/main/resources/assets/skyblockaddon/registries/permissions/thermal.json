@@ -6,19 +6,78 @@
       "priority": 15,
       "order": 12,
       "item": {
-        "display_name": ["{\"text\": \"Thermal Machines\", \"color\":\"orange\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Thermal Machines\", \"color\": \"green\", \"bold\": \"true\"}"
+        ],
         "item": "thermal:machine_furnace",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"All Thermal Expansion machines, dynamos and energy cells.\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          {
+            "join": {
+              "prefix": {
+                "text": "♦ Contains: ",
+                "color": "dark_gray"
+              },
+              "separator": {
+                "text": ", ",
+                "color": "gray"
+              },
+              "entries": [
+                {
+                  "text": "Machines",
+                  "color": "white",
+                  "conditions": [
+                    "mod:thermal"
+                  ]
+                },
+                {
+                  "text": "Dynamos",
+                  "color": "white",
+                  "conditions": [
+                    "mod:thermal"
+                  ]
+                },
+                {
+                  "text": "Energy Cells",
+                  "color": "white",
+                  "conditions": [
+                    "mod:thermal"
+                  ]
+                }
+              ]
+            }
+          }
         ]
       },
       "category": "Miscellaneous",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["thermal:.*"]
+        "block": [
+          "thermal:.*"
+        ]
       }
     }
   ]

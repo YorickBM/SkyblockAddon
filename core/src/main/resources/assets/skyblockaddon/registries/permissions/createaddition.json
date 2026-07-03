@@ -5,19 +5,85 @@
       "id": "create_electrical",
       "priority": 15,
       "item": {
-        "display_name": ["{\"text\": \"Create: Addition — Electrical\", \"color\":\"gold\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Create: Addition — Electrical\", \"color\": \"gold\", \"bold\": \"true\"}"
+        ],
         "item": "createaddition:electric_motor",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Electric Motor, Alternator, Accumulator, Battery Box.\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          {
+            "join": {
+              "prefix": {
+                "text": "♦ Contains: ",
+                "color": "dark_gray"
+              },
+              "separator": {
+                "text": ", ",
+                "color": "gray"
+              },
+              "entries": [
+                {
+                  "text": "Electric Motor",
+                  "color": "white",
+                  "conditions": [
+                    "mod:createaddition"
+                  ]
+                },
+                {
+                  "text": "Alternator",
+                  "color": "white",
+                  "conditions": [
+                    "mod:createaddition"
+                  ]
+                },
+                {
+                  "text": "Accumulator",
+                  "color": "white",
+                  "conditions": [
+                    "mod:createaddition"
+                  ]
+                },
+                {
+                  "text": "Battery Box",
+                  "color": "white",
+                  "conditions": [
+                    "mod:createaddition"
+                  ]
+                }
+              ]
+            }
+          }
         ]
       },
       "category": "Create",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["createaddition:.*"]
+        "block": [
+          "createaddition:.*"
+        ]
       }
     }
   ]

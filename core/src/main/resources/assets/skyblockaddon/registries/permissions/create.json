@@ -5,113 +5,409 @@
       "id": "create_machines",
       "priority": 15,
       "item": {
-        "display_name": ["{\"text\": \"Create — Machines\", \"color\":\"gold\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Create — Machines\", \"color\": \"gold\", \"bold\": \"true\"}"
+        ],
         "item": "create:mechanical_arm",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Mechanical Arm, Deployer, Mixer, Press, Saw, Fan, Millstone, Funnels, Tunnels, Valve Handles, Elevators, etc.\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          {
+            "join": {
+              "prefix": {
+                "text": "♦ Contains: ",
+                "color": "dark_gray"
+              },
+              "separator": {
+                "text": ", ",
+                "color": "gray"
+              },
+              "entries": [
+                {
+                  "text": "Mechanical Arm",
+                  "color": "white",
+                  "conditions": [
+                    "mod:create"
+                  ]
+                },
+                {
+                  "text": "Deployer",
+                  "color": "white",
+                  "conditions": [
+                    "mod:create"
+                  ]
+                },
+                {
+                  "text": "Mixer",
+                  "color": "white",
+                  "conditions": [
+                    "mod:create"
+                  ]
+                },
+                {
+                  "text": "Press",
+                  "color": "white",
+                  "conditions": [
+                    "mod:create"
+                  ]
+                },
+                {
+                  "text": "Saw",
+                  "color": "white",
+                  "conditions": [
+                    "mod:create"
+                  ]
+                },
+                {
+                  "text": "Fan",
+                  "color": "white",
+                  "conditions": [
+                    "mod:create"
+                  ]
+                },
+                {
+                  "text": "Millstone",
+                  "color": "white",
+                  "conditions": [
+                    "mod:create"
+                  ]
+                },
+                {
+                  "text": "Funnels",
+                  "color": "white",
+                  "conditions": [
+                    "mod:create"
+                  ]
+                },
+                {
+                  "text": "Tunnels",
+                  "color": "white",
+                  "conditions": [
+                    "mod:create"
+                  ]
+                },
+                {
+                  "text": "Valve Handles",
+                  "color": "white",
+                  "conditions": [
+                    "mod:create"
+                  ]
+                },
+                {
+                  "text": "Elevators",
+                  "color": "white",
+                  "conditions": [
+                    "mod:create"
+                  ]
+                }
+              ]
+            }
+          }
         ]
       },
       "category": "Create",
-      "triggers": ["onRightClickBlock", "onLeftClickBlock"],
+      "triggers": [
+        "onRightClickBlock",
+        "onLeftClickBlock"
+      ],
       "data": {
-        "block": ["#create_machines"]
+        "block": [
+          "#create_machines"
+        ]
       }
     },
     {
       "id": "create_seats",
       "priority": 10,
       "item": {
-        "display_name": ["{\"text\": \"Create — Seats\", \"color\":\"gold\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Create — Seats\", \"color\": \"gold\", \"bold\": \"true\"}"
+        ],
         "item": "create:white_seat",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Allows: \",\"color\":\"dark_gray\"}", "{\"text\":\"Sitting on Create Seats (including seats built into trains/contraptions).\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          [
+            {
+              "text": "♦ Allows: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "Sitting on Create Seats (including seats built into trains/contraptions).",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "Create",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["create:.*_seat"]
+        "block": [
+          "create:.*_seat"
+        ]
       }
     },
     {
       "id": "create_train_controls",
       "priority": 10,
       "item": {
-        "display_name": ["{\"text\": \"Create — Train Controls\", \"color\":\"gold\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Create — Train Controls\", \"color\": \"gold\", \"bold\": \"true\"}"
+        ],
         "item": "create:controls",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Train Controls, Contraption Controls.\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          {
+            "join": {
+              "prefix": {
+                "text": "♦ Contains: ",
+                "color": "dark_gray"
+              },
+              "separator": {
+                "text": ", ",
+                "color": "gray"
+              },
+              "entries": [
+                {
+                  "text": "Train Controls",
+                  "color": "white",
+                  "conditions": [
+                    "mod:create"
+                  ]
+                },
+                {
+                  "text": "Contraption Controls",
+                  "color": "white",
+                  "conditions": [
+                    "mod:create"
+                  ]
+                }
+              ]
+            }
+          }
         ]
       },
       "category": "Create",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["create:controls", "create:contraption_controls"]
+        "block": [
+          "create:controls",
+          "create:contraption_controls"
+        ]
       }
     },
     {
       "id": "create_train_assembly",
       "priority": 10,
       "item": {
-        "display_name": ["{\"text\": \"Create — Assemble Trains\", \"color\":\"gold\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Create — Assemble Trains\", \"color\": \"gold\", \"bold\": \"true\"}"
+        ],
         "item": "create:track_station",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Allows: \",\"color\":\"dark_gray\"}", "{\"text\":\"Assembling, disassembling, and renaming Trains at a Train Station. Separate from create_train_controls, so someone can be allowed to drive a train without being able to (dis)assemble it.\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          [
+            {
+              "text": "♦ Allows: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "Assembling, disassembling, and renaming Trains at a Train Station. Separate from create_train_controls, so someone can drive a train without being able to (dis)assemble it.",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "Create",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["create:track_station"]
+        "block": [
+          "create:track_station"
+        ]
       }
     },
     {
       "id": "create_copycats",
       "priority": 10,
       "item": {
-        "display_name": ["{\"text\": \"Create — Copycats\", \"color\":\"gold\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Create — Copycats\", \"color\": \"gold\", \"bold\": \"true\"}"
+        ],
         "item": "create:copycat_panel",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
-          ["{\"text\":\"♦ Allows: \",\"color\":\"dark_gray\"}", "{\"text\":\"Changing the appearance of Copycat blocks.\",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ],
+          [
+            {
+              "text": "♦ Allows: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "Changing the appearance of Copycat blocks.",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "Create",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["create:copycat_.*"]
+        "block": [
+          "create:copycat_.*"
+        ]
       }
     },
     {
       "id": "redstone_create_links",
       "priority": 10,
       "item": {
-        "display_name": ["{\"text\": \"Interact with Create Links\", \"color\":\"blue\", \"bold\":\"true\"}"],
+        "display_name": [
+          "{\"text\": \"Interact with Create Links\", \"color\": \"gold\", \"bold\": \"true\"}"
+        ],
         "item": "create:redstone_link",
         "lore": [
-          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+          [
+            {
+              "text": "» Click to toggle the status of this permission for %data_group_name%.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Status: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_status% ",
+              "color": "white"
+            }
+          ]
         ]
       },
       "category": "Create",
-      "triggers": ["onRightClickBlock"],
+      "triggers": [
+        "onRightClickBlock"
+      ],
       "data": {
-        "block": ["#redstone_links"]
+        "block": [
+          "#redstone_links"
+        ]
       }
     }
   ]
