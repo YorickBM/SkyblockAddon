@@ -1,4 +1,8 @@
 {
   "mod": "chestmonster",
-  "groups": {}
+  "groups": {
+    "chestmonster_blocks": {
+      "block": ["chestmonster:.*"]
+    }
+  }
 }

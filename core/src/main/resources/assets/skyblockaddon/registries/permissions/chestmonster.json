@@ -1,4 +1,25 @@
 {
   "mod": "chestmonster",
-  "permissions": []
+  "permissions": [
+    {
+      "id": "chestmonster_interact",
+      "priority": 10,
+      "order": 21,
+      "item": {
+        "display_name": ["{\"text\": \"Chestmonster\", \"color\":\"yellow\", \"bold\":\"true\"}"],
+        "item": "chestmonster:grid",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"],
+          ["{\"text\":\"♦ Contains: \",\"color\":\"dark_gray\"}", "{\"text\":\"Chestmonster, Chestmonster Hand\",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Miscellaneous",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#chestmonster_blocks"]
+      }
+    }
+  ]
 }
