@@ -15,8 +15,9 @@ public class MixinConnector implements IMixinConnector {
         Mixins.addConfiguration("/mixins/buildinggadgets.mixin.json");
         Mixins.addConfiguration("/mixins/the_vault.mixin.json");
         Mixins.addConfiguration("/mixins/buildscape.mixin.json");
-        //TODO: Mixin Easy Villagers
-        //TODO: Mixin Easy Piglins
+        Mixins.addConfiguration("/mixins/easy_villagers.mixin.json");
+        Mixins.addConfiguration("/mixins/easy_piglins.mixin.json");
+        //TODO: Mixin botania
         Mixins.addConfiguration("/mixins/elevatorid.mixin.json");
         //TODO??: Block carpentry Mixin (Seperate interaction and replace texture)
     }

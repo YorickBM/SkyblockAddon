@@ -3,11 +3,13 @@ package yorickbm.skyblockaddon.events;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -289,15 +291,24 @@ public class PermissionEvents {
         if (blocked) denyEvent(event, player);
     }
 
-    private void denyEvent(final Event event, final ServerPlayer player) {
-        if (event instanceof PlayerInteractEvent.RightClickBlock interactEvent) {
-            // Do NOT cancel RightClickBlock — cancelling interrupts Forge's ack flow
-            // (ClientboundBlockChangedAckPacket is never sent), so the client keeps its
-            // prediction active and ignores any block update packets we send.
-            // Setting DENY flags is sufficient: Forge skips state.use() so the block
-            // never changes on the server, and the natural ack resolves the prediction.
-            interactEvent.setUseBlock(Event.Result.DENY);
-            interactEvent.setUseItem(Event.Result.DENY);
+    private void denyEvent(Event event, ServerPlayer player) {
+        if (event instanceof PlayerInteractEvent.RightClickBlock) {
+            PlayerInteractEvent.RightClickBlock rcb = (PlayerInteractEvent.RightClickBlock) event;
+            rcb.setUseBlock(Event.Result.DENY);
+            rcb.setUseItem(Event.Result.DENY);
+
+            BlockEntity be = rcb.getWorld().getBlockEntity(rcb.getPos());
+            if (be != null) {
+                Packet<?> packet = be.getUpdatePacket();
+                if (packet != null) {
+                    player.connection.send(packet);
+                }
+            }
+
+            if (player.containerMenu != player.inventoryMenu) {
+                player.closeContainer();
+            }
+
         } else if (event.isCancelable()) {
             event.setCanceled(true);
         } else {
@@ -306,7 +317,8 @@ public class PermissionEvents {
 
         player.displayClientMessage(
                 new TextComponent(SkyBlockAddonLanguage.getLocalizedString("toolbar.overlay.nothere"))
-                        .withStyle(ChatFormatting.DARK_RED), true);
+                        .withStyle(ChatFormatting.DARK_RED),
+                true);
     }
 
     /**
