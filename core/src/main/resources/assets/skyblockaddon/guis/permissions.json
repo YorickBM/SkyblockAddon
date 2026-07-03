@@ -26,7 +26,12 @@
         ],
         "item": "minecraft:COMMAND_BLOCK",
         "lore": [
-          ["{\"text\":\"» Access special administrative controls.\",\"color\":\"dark_gray\"}"]
+          [
+            {
+              "text": "» Access special administrative controls.",
+              "color": "dark_gray"
+            }
+          ]
         ],
         "data": {
           "category_id": "admin"
@@ -39,7 +44,9 @@
           "gui": "skyblockaddon:set_permission"
         }
       },
-      "conditions": ["is_op"]
+      "conditions": [
+        "is_op"
+      ]
     },
     {
       "item": {
@@ -48,8 +55,12 @@
         ],
         "item": "minecraft:GRASS_BLOCK",
         "lore": [
-          ["{\"text\":\"» Change general permissions.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Place/Destroy, Items, Vehicles, Transport, Beds, etc.\",\"color\":\"dark_gray\"}"]
+          [
+            {
+              "text": "» Change general permissions.",
+              "color": "dark_gray"
+            }
+          ]
         ],
         "data": {
           "category_id": "general"
@@ -70,8 +81,12 @@
         ],
         "item": "minecraft:REDSTONE",
         "lore": [
-          ["{\"text\":\"» Change redstone permissions.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Delays, Detectors, Buttons, Levers, Hoppers, Containers.\",\"color\":\"dark_gray\"}"]
+          [
+            {
+              "text": "» Change redstone permissions.",
+              "color": "dark_gray"
+            }
+          ]
         ],
         "data": {
           "category_id": "redstone"
@@ -92,8 +107,12 @@
         ],
         "item": "minecraft:CHEST",
         "lore": [
-          ["{\"text\":\"» Change storage permissions.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Drawers, Colossals, Backpacks, Chests, AE2, RS, SSN, Mekanism QIO.\",\"color\":\"dark_gray\"}"]
+          [
+            {
+              "text": "» Change storage permissions.",
+              "color": "dark_gray"
+            }
+          ]
         ],
         "data": {
           "category_id": "storage"
@@ -114,8 +133,12 @@
         ],
         "item": "minecraft:PISTON",
         "lore": [
-          ["{\"text\":\"» Change Create mod permissions.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Machines, Copycats, Railways, Electrical, Burners, Links.\",\"color\":\"dark_gray\"}"]
+          [
+            {
+              "text": "» Change Create mod permissions.",
+              "color": "dark_gray"
+            }
+          ]
         ],
         "data": {
           "category_id": "create"
@@ -136,8 +159,12 @@
         ],
         "item": "minecraft:COMPASS",
         "lore": [
-          ["{\"text\":\"» Change miscellaneous permissions.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Mekanism, Flux, Thermal, Botania, Waystones, CFM, etc.\",\"color\":\"dark_gray\"}"]
+          [
+            {
+              "text": "» Change miscellaneous permissions.",
+              "color": "dark_gray"
+            }
+          ]
         ],
         "data": {
           "category_id": "miscellaneous"
@@ -158,8 +185,12 @@
         ],
         "item": "the_vault:vault_crystal",
         "lore": [
-          ["{\"text\":\"» Change Vault Hunters permissions.\",\"color\":\"dark_gray\"}"],
-          ["{\"text\":\"♦ Crafting stations, storage, companions, eternals, etc.\",\"color\":\"dark_gray\"}"]
+          [
+            {
+              "text": "» Change Vault Hunters permissions.",
+              "color": "dark_gray"
+            }
+          ]
         ],
         "data": {
           "category_id": "vaulthunters"

@@ -2,14 +2,15 @@ package yorickbm.skyblockaddon.events.Gui;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yorickbm.guilibrary.GUIItemStackHolder;
+import yorickbm.guilibrary.util.ConditionEvaluator;
 import yorickbm.skyblockaddon.components.ItemStackComponent;
 import yorickbm.skyblockaddon.core.SkyblockAddonCore;
 import yorickbm.skyblockaddon.core.configs.SkyBlockAddonLanguage;
@@ -98,9 +99,29 @@ public class RegistryGuiEvents {
                 data.putString("status",
                         registry.getGroup().canDo(permission.get().getId()) ?
                                 SkyBlockAddonLanguage.getLocalizedString("island.permission.enabled")
-                        :
+                                :
                                 SkyBlockAddonLanguage.getLocalizedString("island.permission.disabled"));
-                stack = ForgeConverter.JSONItemToGUIItemStackHolder(permission.get().getItem(), ModList.get()::isLoaded);
+
+                final Player viewer = event.getTarget();
+                final IslandGroup viewedGroup = registry.getGroup();
+                final ConditionEvaluator.Context context = new ConditionEvaluator.Context() {
+                    @Override
+                    public boolean isAdmin() {
+                        return false; // TODO: needs a public owner/admin check - see note above
+                    }
+
+                    @Override
+                    public boolean isOp() {
+                        return viewer != null && viewer.hasPermissions(2);
+                    }
+
+                    @Override
+                    public boolean isPart() {
+                        return viewer != null && viewedGroup.hasMember(viewer.getUUID());
+                    }
+                };
+
+                stack = ForgeConverter.JSONItemToGUIItemStackHolder(permission.get().getItem(), context);
             }
 
             ItemStack item = event.processHolder(stack, data.copy()).getItemStack();

@@ -19,9 +19,9 @@ public class GUIItemStackJson implements JSONSerializable {
 
     private List<String> display_name;
     private String item;
-    private int amount;
+    private int amount = 1;
     private List<LoreLineJson> lore;
-    private HashMap<String, String> data;
+    private HashMap<String, String> data = new HashMap<>();;
 
     public GUIItemStackJson() {
     }

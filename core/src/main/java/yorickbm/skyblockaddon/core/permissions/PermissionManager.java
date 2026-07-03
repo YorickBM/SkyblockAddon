@@ -1,8 +1,11 @@
 package yorickbm.skyblockaddon.core.permissions;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import yorickbm.skyblockaddon.core.JSON.LoreLineDeserializer;
+import yorickbm.skyblockaddon.core.JSON.LoreLineJson;
 import yorickbm.skyblockaddon.core.JSON.PermissionJson;
 import yorickbm.skyblockaddon.core.registries.PermissionGroupRegistry;
 import yorickbm.skyblockaddon.core.util.JSON.JSONEncoder;
@@ -65,7 +68,9 @@ public class PermissionManager {
             return -1;
         }
 
-        final Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LoreLineJson.class, new LoreLineDeserializer())
+                .create();
         for (final Path file : files) {
             try {
                 final String content = Files.readString(file);

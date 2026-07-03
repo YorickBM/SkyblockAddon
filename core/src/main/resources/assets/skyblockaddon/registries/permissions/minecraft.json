@@ -496,18 +496,16 @@
                   "conditions": [
                     "mod:minecraft"
                   ]
+                },
+                {
+                  "text": "Iron Furnaces",
+                  "color": "white",
+                  "conditions": [
+                    "mod:ironfurnaces"
+                  ]
                 }
               ]
             }
-          }
-        ],
-        "conditional_lore": [
-          {
-            "condition": "any_mod_loaded:ironfurnaces",
-            "line": [
-              "{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}",
-              "{\"text\":\"Iron Furnaces.\",\"color\":\"white\"}"
-            ]
           }
         ]
       },
@@ -1087,7 +1085,42 @@
               "text": "%data_status% ",
               "color": "white"
             }
-          ]
+          ],
+          {
+            "join": {
+              "prefix": {
+                "text": "♦ Contains: ",
+                "color": "dark_gray"
+              },
+              "separator": {
+                "text": ", ",
+                "color": "gray"
+              },
+              "entries": [
+                {
+                  "text": "Regular Chests",
+                  "color": "white",
+                  "conditions": [
+                    "mod:minecraft"
+                  ]
+                },
+                {
+                  "text": "Trapped Chests",
+                  "color": "white",
+                  "conditions": [
+                    "mod:minecraft"
+                  ]
+                },
+                {
+                  "text": "Vault Chests (I.E. Living, Ornate)",
+                  "color": "white",
+                  "conditions": [
+                    "mod:the_vault"
+                  ]
+                }
+              ]
+            }
+          }
         ]
       },
       "category": "Storage",
@@ -1179,7 +1212,35 @@
               "text": "%data_status% ",
               "color": "white"
             }
-          ]
+          ],
+          {
+            "join": {
+              "prefix": {
+                "text": "♦ Contains: ",
+                "color": "dark_gray"
+              },
+              "separator": {
+                "text": ", ",
+                "color": "gray"
+              },
+              "entries": [
+                {
+                  "text": "Regular Barrels",
+                  "color": "white",
+                  "conditions": [
+                    "mod:minecraft"
+                  ]
+                },
+                {
+                  "text": "Vault Barrels (I.E. Living, Ornate)",
+                  "color": "white",
+                  "conditions": [
+                    "mod:the_vault"
+                  ]
+                }
+              ]
+            }
+          }
         ]
       },
       "category": "Storage",

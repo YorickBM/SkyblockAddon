@@ -50,25 +50,23 @@
                   "conditions": [
                     "mod:ae2"
                   ]
+                },
+                {
+                  "text": "AE2 Things",
+                  "color": "white",
+                  "conditions": [
+                    "mod:ae2things"
+                  ]
+                },
+                {
+                  "text": "ME Requester",
+                  "color": "white",
+                  "conditions": [
+                    "mod:merequester"
+                  ]
                 }
               ]
             }
-          }
-        ],
-        "conditional_lore": [
-          {
-            "condition": "any_mod_loaded:ae2things",
-            "line": [
-              "{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}",
-              "{\"text\":\"AE2 Things.\",\"color\":\"white\"}"
-            ]
-          },
-          {
-            "condition": "any_mod_loaded:merequester",
-            "line": [
-              "{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}",
-              "{\"text\":\"ME Requester.\",\"color\":\"white\"}"
-            ]
           }
         ]
       },

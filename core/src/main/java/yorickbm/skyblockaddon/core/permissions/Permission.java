@@ -1,7 +1,10 @@
 package yorickbm.skyblockaddon.core.permissions;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import yorickbm.skyblockaddon.core.JSON.ItemStackJson;
+import yorickbm.skyblockaddon.core.JSON.LoreLineDeserializer;
+import yorickbm.skyblockaddon.core.JSON.LoreLineJson;
 import yorickbm.skyblockaddon.core.JSON.PermissionDataJson;
 import yorickbm.skyblockaddon.core.util.JSON.JSONSerializable;
 
@@ -19,11 +22,11 @@ public class Permission implements JSONSerializable {
     }
 
     public String toJSON() {
-        return new Gson().toJson(this);
+        return gson().toJson(this);
     }
 
     public void fromJSON(String json) {
-        Gson gson = new Gson();
+        Gson gson = gson();
         Permission parsed = gson.fromJson(json, Permission.class);
         this.id = parsed.id;
         this.item = parsed.item;
@@ -64,5 +67,11 @@ public class Permission implements JSONSerializable {
 
     public int getOrder() {
         return order;
+    }
+
+    private static Gson gson() {
+        return new GsonBuilder()
+                .registerTypeAdapter(LoreLineJson.class, new LoreLineDeserializer())
+                .create();
     }
 }

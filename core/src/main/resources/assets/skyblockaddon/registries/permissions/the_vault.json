@@ -1160,60 +1160,6 @@
       }
     },
     {
-      "id": "interact_animal_pen",
-      "priority": 20,
-      "item": {
-        "display_name": [
-          "{\"text\": \"Interact with Animal Pen\", \"color\": \"yellow\", \"bold\": \"true\"}"
-        ],
-        "item": "the_vault:animal_pen",
-        "lore": [
-          [
-            {
-              "text": "» Click to toggle the status of this permission for %data_group_name%.",
-              "color": "dark_gray"
-            }
-          ],
-          [
-            {
-              "text": " ",
-              "color": "dark_gray"
-            }
-          ],
-          [
-            {
-              "text": "♦ Status: ",
-              "color": "dark_gray"
-            },
-            {
-              "text": "%data_status% ",
-              "color": "white"
-            }
-          ],
-          [
-            {
-              "text": "♦ Allows: ",
-              "color": "dark_gray"
-            },
-            {
-              "text": "Feed, Collect, Attack.",
-              "color": "white"
-            }
-          ]
-        ]
-      },
-      "category": "Vaulthunters",
-      "triggers": [
-        "onRightClickBlock",
-        "onLeftClickBlock"
-      ],
-      "data": {
-        "block": [
-          "the_vault:animal_pen"
-        ]
-      }
-    },
-    {
       "id": "vh_enter_vault",
       "priority": 20,
       "item": {

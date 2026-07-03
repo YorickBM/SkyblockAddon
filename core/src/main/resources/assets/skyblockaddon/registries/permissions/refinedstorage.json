@@ -50,32 +50,23 @@
                   "conditions": [
                     "mod:refinedstorage"
                   ]
+                },
+                {
+                  "text": "RS Addons",
+                  "color": "white",
+                  "conditions": [
+                    "mod:refinedstorageaddons"
+                  ]
+                },
+                {
+                  "text": "RS Requestify",
+                  "color": "white",
+                  "conditions": [
+                    "mod:rsrequestify"
+                  ]
                 }
               ]
             }
-          }
-        ],
-        "conditional_lore": [
-          {
-            "condition": "any_mod_loaded:refinedstorageaddons",
-            "line": [
-              "{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}",
-              "{\"text\":\"RS Addons.\",\"color\":\"white\"}"
-            ]
-          },
-          {
-            "condition": "any_mod_loaded:rsrequestify",
-            "line": [
-              "{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}",
-              "{\"text\":\"RS Requestify.\",\"color\":\"white\"}"
-            ]
-          },
-          {
-            "condition": "any_mod_loaded:extrastorage",
-            "line": [
-              "{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}",
-              "{\"text\":\"Extra Storage.\",\"color\":\"white\"}"
-            ]
           }
         ]
       },

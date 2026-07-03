@@ -23,15 +23,30 @@
         "item": "minecraft:PLAYER_HEAD",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to change the group this member is a part of.\",\"color\":\"dark_gray\"}"
+            {
+              "text": "» Click to change the group this member is a part of.",
+              "color": "dark_gray"
+            }
           ],
           [
-            "{\"text\":\" \",\"color\":\"dark_gray\"}"
+            {
+              "text": " ",
+              "color": "dark_gray"
+            }
           ],
           [
-            "{\"text\":\"\u2666 Part of: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%data_group_name% \",\"color\":\"white\"}",
-            "{\"text\":\".\",\"color\":\"dark_gray\"}"
+            {
+              "text": "♦ Part of: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_group_name% ",
+              "color": "white"
+            },
+            {
+              "text": ".",
+              "color": "dark_gray"
+            }
           ]
         ],
         "data": {}

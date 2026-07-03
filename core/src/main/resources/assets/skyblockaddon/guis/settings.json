@@ -21,14 +21,26 @@
   "items": [
     {
       "item": {
-        "display_name": ["{\"text\": \"Biome\",\"bold\": true,\"color\": \"blue\"}"],
+        "display_name": [
+          "{\"text\": \"Biome\",\"bold\": true,\"color\": \"blue\"}"
+        ],
         "item": "minecraft:OAK_SAPLING",
         "lore": [
           [
-            "{\"text\":\"\u00bb Change the biome of your island.\",\"color\":\"dark_gray\"}"
+            {
+              "text": "» Change the biome of your island.",
+              "color": "dark_gray"
+            }
           ],
           [
-            "{\"text\":\"\u2666 Current: \",\"color\":\"dark_gray\"}", "{\"text\":\"%biome%\",\"color\":\"white\"}"
+            {
+              "text": "♦ Current: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%biome%",
+              "color": "white"
+            }
           ]
         ],
         "data": {}
@@ -66,15 +78,36 @@
         "item": "minecraft:RED_BED",
         "lore": [
           [
-            "{\"text\":\"\u00bb Set the spawn point of your island.\",\"color\":\"dark_gray\"}"
+            {
+              "text": "» Set the spawn point of your island.",
+              "color": "dark_gray"
+            }
           ],
           [
-            "{\"text\":\"\u2666 Current: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%x%\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%y%\",\"color\":\"white\"}",
-            "{\"text\":\", \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%z%\",\"color\":\"white\"}"
+            {
+              "text": "♦ Current: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%x%",
+              "color": "white"
+            },
+            {
+              "text": ", ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%y%",
+              "color": "white"
+            },
+            {
+              "text": ", ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%z%",
+              "color": "white"
+            }
           ]
         ],
         "data": {}
@@ -92,11 +125,20 @@
         "item": "minecraft:OAK_BOAT",
         "lore": [
           [
-            "{\"text\":\"\u00bb Change visibility of your island.\",\"color\":\"dark_gray\"}"
+            {
+              "text": "» Change visibility of your island.",
+              "color": "dark_gray"
+            }
           ],
           [
-            "{\"text\":\"\u2666 Current: \",\"color\":\"dark_gray\"}",
-            "{\"text\":\"%visibility%\",\"color\":\"white\"}"
+            {
+              "text": "♦ Current: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%visibility%",
+              "color": "white"
+            }
           ]
         ],
         "data": {}

@@ -1,35 +1,30 @@
 package yorickbm.skyblockaddon.core.JSON;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import yorickbm.skyblockaddon.core.util.JSON.JSONSerializable;
+
+import java.util.List;
 
 public class ItemStackJson implements JSONSerializable {
 
-    public static class ConditionalLoreEntry {
-        public String condition;
-        public String[] line;
-    }
-
     protected String[] display_name;
     protected String item;
-    protected String[][] lore;
-    protected ConditionalLoreEntry[] conditional_lore;
+    protected List<LoreLineJson> lore;
 
-    @Override
-    public String toJSON() {
-        final Gson gson = new Gson();
-        return gson.toJson(this);
+    public ItemStackJson() {
     }
 
-    @Override
-    public void fromJSON(final String json) {
-        final Gson gson = new Gson();
-        final ItemStackJson temp = gson.fromJson(json, ItemStackJson.class);
+    public String toJSON() {
+        return gson().toJson(this);
+    }
 
-        this.display_name = temp.display_name;
-        this.item = temp.item;
-        this.lore = temp.lore;
-        this.conditional_lore = temp.conditional_lore;
+    public void fromJSON(String json) {
+        Gson gson = gson();
+        ItemStackJson parsed = gson.fromJson(json, ItemStackJson.class);
+        this.display_name = parsed.display_name;
+        this.item = parsed.item;
+        this.lore = parsed.lore;
     }
 
     public String getItem() {
@@ -40,11 +35,13 @@ public class ItemStackJson implements JSONSerializable {
         return display_name;
     }
 
-    public String[][] getLore() {
+    public List<LoreLineJson> getLore() {
         return lore;
     }
 
-    public ConditionalLoreEntry[] getConditionalLore() {
-        return conditional_lore;
+    private static Gson gson() {
+        return new GsonBuilder()
+                .registerTypeAdapter(LoreLineJson.class, new LoreLineDeserializer())
+                .create();
     }
 }

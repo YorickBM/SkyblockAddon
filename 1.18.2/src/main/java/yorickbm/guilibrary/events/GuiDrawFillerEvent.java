@@ -1,5 +1,6 @@
 package yorickbm.guilibrary.events;
 
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
@@ -24,6 +25,10 @@ public class GuiDrawFillerEvent extends Event {
         this.pattern = filler.getPattern();
         this.slots = slots;
         this.filler = filler;
+    }
+
+    public Player getTarget() {
+        return instance.getOwner();
     }
 
     public GUIItemStackHolder getItemStackHolder() { return this.item; }

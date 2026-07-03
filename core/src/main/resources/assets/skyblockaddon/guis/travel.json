@@ -25,7 +25,10 @@
         "item": "minecraft:PLAYER_HEAD",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to travel to this island.\",\"color\":\"dark_gray\"}"
+            {
+              "text": "» Click to travel to this island.",
+              "color": "dark_gray"
+            }
           ]
         ],
         "data": {}

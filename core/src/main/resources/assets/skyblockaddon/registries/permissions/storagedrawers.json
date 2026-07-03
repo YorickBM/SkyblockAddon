@@ -50,18 +50,16 @@
                   "conditions": [
                     "mod:storagedrawers"
                   ]
+                },
+                {
+                  "text": "Framed Compact Drawers",
+                  "color": "white",
+                  "conditions": [
+                    "mod:framedcompactdrawers"
+                  ]
                 }
               ]
             }
-          }
-        ],
-        "conditional_lore": [
-          {
-            "condition": "any_mod_loaded:framedcompactdrawers",
-            "line": [
-              "{\"text\":\"♦ Also: \",\"color\":\"dark_gray\"}",
-              "{\"text\":\"Framed Compact Drawers.\",\"color\":\"white\"}"
-            ]
           }
         ]
       },

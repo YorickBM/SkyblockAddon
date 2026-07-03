@@ -23,10 +23,20 @@
         "item": "minecraft:PAPER",
         "lore": [
           [
-            "{\"text\":\"\u00bb Click to change the biome of your island.\",\"color\":\"dark_gray\"}"
+            {
+              "text": "» Click to change the biome of your island.",
+              "color": "dark_gray"
+            }
           ],
           [
-            "{\"text\":\"\u2666 Current: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_island_biome%\",\"color\":\"white\"}"
+            {
+              "text": "♦ Current: ",
+              "color": "dark_gray"
+            },
+            {
+              "text": "%data_island_biome%",
+              "color": "white"
+            }
           ]
         ],
         "data": {
