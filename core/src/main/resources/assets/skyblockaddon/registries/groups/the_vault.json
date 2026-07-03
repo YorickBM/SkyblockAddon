@@ -1,47 +1,50 @@
 {
   "mod": "the_vault",
   "groups": {
-    "vh_crystal_crafting": {
-      "block": ["the_vault:vault_altar", "the_vault:vault_greed_altar", "the_vault:inscription_table", "the_vault:crystal_workbench", "the_vault:catalyst_infusion_table"]
+    "vault_companions": {
+      "block": ["the_vault:relic_crafting_table", "the_vault:companion_incubator", "the_vault:companion_home"]
     },
-    "vh_gear_tools": {
-      "block": ["the_vault:vault_forge", "the_vault:vault_artisan_station", "the_vault:vault_sealer", "the_vault:imbuement_altar", "the_vault:tool_station", "the_vault:vault_enchanter"]
+    "vault_personal": {
+      "block": ["the_vault:bounty_block", "the_vault:black_market", "the_vault:spirit_extractor", "the_vault:transmog_table", "the_vault:player_customisation_station", "the_vault:trinket_forge", "the_vault:etching_application_table", "the_vault:alchemy_table", "the_vault:identification_stand", "the_vault:skill_altar"]
     },
-    "vh_jewels_trinkets": {
-      "block": ["the_vault:vault_jewel_application_station", "the_vault:jewel_crafting_table", "the_vault:unboxing_station", "the_vault:trinket_forge"]
+    "vault_crystal_modification": {
+      "block": ["the_vault:crystal_workbench", "the_vault:augment_station", "the_vault:catalyst_infusion_table", "the_vault:inscription_table"]
     },
-    "vh_decks_cards": {
-      "block": ["the_vault:deck_station", "the_vault:card_essence_extractor", "the_vault:card_binder"]
+    "vault_jewels": {
+      "block": ["the_vault:jewel_crafting_table", "the_vault:vault_jewel_application_station"]
     },
-    "vh_etchings": {
-      "block": ["the_vault:etching_application_table", "the_vault:artifact_projector_block"]
+    "vault_cards": {
+      "block": ["the_vault:reclamation_altar", "the_vault:card_binder", "the_vault:unboxing_station", "the_vault:deck_station", "the_vault:card_essence_extractor"]
     },
-    "vh_alchemy": {
-      "block": ["the_vault:alchemy_table", "the_vault:vault_coffee_machine"]
+    "vault_animatrix": {
+      "block": ["the_vault:animatrix_block"]
     },
-    "vh_companions": {
-      "block": ["the_vault:companion_incubator", "the_vault:companion_home"]
+    "vault_ascension": {
+      "block": ["the_vault:ascension_forge", "the_vault:personal_vault", "the_vault:greed_cauldron"]
     },
-    "vh_personal": {
-      "block": ["the_vault:spirit_extractor", "the_vault:wardrobe", "the_vault:skill_altar", "the_vault:personal_vault", "the_vault:ascension_forge"]
+    "vault_wardrobe": {
+      "block": ["the_vault:wardrobe", "the_vault:unique_wardrobe"]
     },
-    "vh_animals": {
-      "block": ["the_vault:animal_pen", "the_vault:animatrix_block"]
+    "vault_gear": {
+      "block": ["the_vault:imbuement_altar", "the_vault:vault_sealer", "the_vault:vault_forge", "the_vault:vault_artisan_station"]
     },
-    "vh_crates": {
-      "block": ["the_vault:.*_crate_.*", "the_vault:.*_crate"]
+    "vault_tools": {
+      "block": ["the_vault:tool_station"]
     },
-    "vh_eternals": {
-      "block": ["the_vault:cryo_chamber", "the_vault:eternal_pedestal"]
+    "vault_recycle": {
+      "block": ["the_vault:vault_harvester", "the_vault:vault_diffuser", "the_vault:vault_recycler"]
     },
-    "vh_recycle": {
-      "block": ["the_vault:vault_recycler", "the_vault:vault_diffuser", "the_vault:vault_harvester", "the_vault:vault_charm_controller"]
+    "vault_crusible": {
+      "block": ["the_vault:vault_charm_controller"]
     },
-    "vh_misc": {
-      "block": ["the_vault:transmog_table", "the_vault:bounty_block", "the_vault:black_market", "the_vault:vault_anvil", "the_vault:spectator_terminal", "the_vault:identification_stand", "the_vault:treasure_pedestal"]
+    "vault_artifact": {
+      "block": ["the_vault:artifact_projector_block"]
     },
-    "vh_all_stations": {
-      "block": ["#vh_crystal_crafting", "#vh_gear_tools", "#vh_jewels_trinkets", "#vh_decks_cards", "#vh_etchings", "#vh_alchemy", "#vh_companions", "#vh_personal", "#vh_animals", "#vh_recycle", "#vh_misc"]
+    "vault_animal_pen": {
+      "block": ["the_vault:animal_pen", "the_vault:animal_jar"]
+    },
+    "vault_crates": {
+      "block": ["the_vault:.*_crate_.*", "the_vault:.*_crate", "the_vault:crate", "the_vault:crate_.*"]
     }
   }
 }

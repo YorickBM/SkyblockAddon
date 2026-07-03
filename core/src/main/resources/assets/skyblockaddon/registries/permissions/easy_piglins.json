@@ -15,10 +15,28 @@
         ]
       },
       "category": "Miscellaneous",
-      "triggers": ["onRightClickBlock"],
+      "triggers": ["onRightClickBlock", "onEPBlockInteract"],
       "data": {
-        "block": ["easy_piglins:.*"],
-        "entity": ["minecraft:piglin", "minecraft:piglin_brute"]
+        "block": ["easy_piglins:.*"]
+      }
+    },
+    {
+      "id": "pickup_piglin",
+      "priority": 10,
+      "order": 16,
+      "item": {
+        "display_name": ["{\"text\": \"Pick Up Piglin\", \"color\":\"yellow\", \"bold\":\"true\"}"],
+        "item": "easy_piglins:piglin",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Miscellaneous",
+      "triggers": ["onPickupPiglin"],
+      "data": {
+        "entity": ["minecraft:piglin"]
       }
     }
   ]

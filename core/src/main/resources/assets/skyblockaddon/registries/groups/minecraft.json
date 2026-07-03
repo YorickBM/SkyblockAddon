@@ -1,39 +1,80 @@
 {
   "groups": {
     "chests": {
-      "block": [".*:chest", ".*:.*_chest", ".*:.*_chest_placeable"],
-      "entity": ["minecraft:chest_minecart"]
+      "block": [
+        ".*:chest",
+        ".*:.*_chest",
+        ".*:.*_chest_placeable"
+      ],
+      "entity": [
+        "minecraft:chest_minecart"
+      ]
     },
     "shulkers": {
-      "block": [".*:shulker_box", ".*:.*_shulker_box"]
+      "block": [
+        ".*:shulker_box",
+        ".*:.*_shulker_box"
+      ]
     },
     "barrels": {
-      "block": [".*:barrel", ".*:.*_barrel"]
+      "block": [
+        ".*:barrel",
+        ".*:.*_barrel"
+      ]
     },
     "doors": {
-      "block": [".*:.*_door", ".*:.*_trapdoor"]
+      "block": [
+        ".*:.*_door",
+        ".*:.*_trapdoor"
+      ]
     },
     "beds": {
-      "block": [".*:.*_bed"]
+      "block": [
+        ".*:.*_bed"
+      ]
     },
     "redstone_delays": {
-      "block": [".*:repeater", ".*:.*_comparator"]
+      "block": [
+        ".*:repeater",
+        ".*:.*_comparator"
+      ]
     },
     "redstone_detectors": {
-      "block": [".*:daylight_detector", ".*:.*_note_block"]
+      "block": [
+        ".*:daylight_detector",
+        ".*:.*_note_block"
+      ]
     },
     "redstone_switches": {
-      "block": [".*:lever", ".*:.*_button", ".*:.*_button_.*", ".*:.*_lever", ".*:.*_lever_.*", ".*:.*_pressure_plate"]
+      "block": [
+        ".*:lever",
+        ".*:.*_button",
+        ".*:.*_button_.*",
+        ".*:.*_lever",
+        ".*:.*_lever_.*",
+        ".*:.*_pressure_plate"
+      ]
     },
     "redstone_containers": {
-      "block": [".*:hopper", ".*:.*_dispenser", ".*:.*_dropper"],
-      "entity": [".*:hopper_minecart"]
+      "block": [
+        ".*:hopper",
+        ".*:.*_dispenser",
+        ".*:.*_dropper"
+      ],
+      "entity": [
+        ".*:hopper_minecart"
+      ]
     },
     "spawn_eggs": {
-      "item": [".*:.*_spawn_egg", "minecraft:egg"]
+      "item": [
+        ".*:.*_spawn_egg",
+        "minecraft:egg"
+      ]
     },
     "xp_orbs": {
-      "entity": ["minecraft:experience_orb"]
+      "entity": [
+        "minecraft:experience_orb"
+      ]
     },
     "vehicles": {
       "entity": [
@@ -55,17 +96,34 @@
       ]
     },
     "furnaces": {
-      "block": ["minecraft:furnace", "minecraft:blast_furnace", "minecraft:smoker"]
+      "block": [
+        "minecraft:furnace",
+        "minecraft:blast_furnace",
+        "minecraft:smoker"
+      ]
     },
     "item_frames": {
-      "entity": [".*:item_frame", ".*:.*_item_frame"]
+      "entity": [
+        ".*:item_frame",
+        ".*:.*_item_frame"
+      ]
     },
     "armor_stands": {
-      "entity": ["minecraft:armor_stand"]
+      "entity": [
+        "minecraft:armor_stand"
+      ]
     },
     "fence_gates": {
       "block": [
         ".*:.*_fence_gate"
+      ]
+    },
+    "anvils": {
+      "block": [
+        ".*:anvil",
+        ".*:.*_anvil",
+        ".*:anvil_.*",
+        ".*:.*_anvil_.*"
       ]
     }
   }

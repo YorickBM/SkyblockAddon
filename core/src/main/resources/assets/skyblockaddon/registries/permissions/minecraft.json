@@ -324,9 +324,10 @@
         ]
       },
       "category": "General",
-      "triggers": ["onPortalIgnition", "onPlayerChangedDimension"],
+      "triggers": ["onPortalIgnition", "onPlayerChangedDimension", "onEnterPortal"],
       "data": {
-        "dimension": ["minecraft:the_nether", "minecraft:overworld"]
+        "dimension": ["minecraft:the_nether", "minecraft:overworld"],
+        "block": ["minecraft:nether_portal"]
       }
     },
     {
@@ -348,12 +349,31 @@
       "data": {}
     },
     {
-      "id": "admin_menu",
+      "id": "use_anvils",
       "priority": 5,
       "order": 19,
       "item": {
-        "display_name": ["{\"text\": \"Island Admin\", \"color\":\"red\", \"bold\":\"true\"}"],
+        "display_name": ["{\"text\": \"Use Anvils\", \"color\":\"blue\", \"bold\":\"true\"}"],
         "item": "minecraft:anvil",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "General",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#anvils"]
+      }
+    },
+    {
+      "id": "admin_menu",
+      "priority": 5,
+      "order": 20,
+      "item": {
+        "display_name": ["{\"text\": \"Island Admin\", \"color\":\"red\", \"bold\":\"true\"}"],
+        "item": "minecraft:spyglass",
         "lore": [
           ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
           ["{\"text\":\" \",\"color\":\"dark_gray\"}"],

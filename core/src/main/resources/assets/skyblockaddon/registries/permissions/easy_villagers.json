@@ -15,11 +15,28 @@
         ]
       },
       "category": "Miscellaneous",
-      "triggers": ["onRightClickBlock"],
+      "triggers": ["onRightClickBlock", "onEVBlockInteract"],
       "data": {
-        "block": ["#easy_villagers_blocks"],
-        "item": ["#easy_villagers_blocks"],
-        "entity": ["#easy_villagers_blocks"]
+        "block": ["#easy_villagers_blocks"]
+      }
+    },
+    {
+      "id": "pickup_villager",
+      "priority": 10,
+      "order": 15,
+      "item": {
+        "display_name": ["{\"text\": \"Pick Up Villager\", \"color\":\"yellow\", \"bold\":\"true\"}"],
+        "item": "easy_villagers:villager",
+        "lore": [
+          ["{\"text\":\"» Click to toggle the status of this permission for %data_group_name%.\",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\" \",\"color\":\"dark_gray\"}"],
+          ["{\"text\":\"♦ Status: \",\"color\":\"dark_gray\"}", "{\"text\":\"%data_status% \",\"color\":\"white\"}"]
+        ]
+      },
+      "category": "Miscellaneous",
+      "triggers": ["onPickupVillager"],
+      "data": {
+        "entity": ["minecraft:villager"]
       }
     }
   ]
