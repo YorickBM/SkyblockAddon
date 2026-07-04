@@ -1,0 +1,66 @@
+{
+  "mod": "sophisticatedstorage",
+  "permissions": [
+    {
+      "id": "sophisticatedstorage_storage",
+      "priority": 10,
+      "item": {
+        "display_name": [
+          {"text": "Sophisticated Storage", "color": "aqua", "bold": "true"}
+        ],
+        "item": "sophisticatedstorage:iron_chest",
+        "lore": [
+          [{"text": "» Click to toggle the status of this permission for %data_group_name%.", "color": "dark_gray"}],
+          [{"text": " ", "color": "dark_gray"}],
+          [{"text": "♦ Status: ", "color": "dark_gray"}, {"text": "%data_status% ", "color": "white"}],
+          {
+            "join": {
+              "prefix": {"text": "♦ Contains: ", "color": "dark_gray"},
+              "separator": {"text": ", ", "color": "gray"},
+              "entries": [
+                {"text": "All Sophisticated Storage Chests", "color": "white", "conditions": ["mod:sophisticatedstorage"]},
+                {"text": "All Barrels (incl. Limited tiers)", "color": "white", "conditions": ["mod:sophisticatedstorage"]},
+                {"text": "All Shulker Boxes", "color": "white", "conditions": ["mod:sophisticatedstorage"]}
+              ]
+            }
+          }
+        ]
+      },
+      "category": "Storage",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#sophisticatedstorage_storage"]
+      }
+    },
+    {
+      "id": "sophisticatedstorage_link",
+      "priority": 10,
+      "item": {
+        "display_name": [
+          {"text": "Storage Network Linking", "color": "aqua", "bold": "true"}
+        ],
+        "item": "sophisticatedstorage:controller",
+        "lore": [
+          [{"text": "» Click to toggle the status of this permission for %data_group_name%.", "color": "dark_gray"}],
+          [{"text": " ", "color": "dark_gray"}],
+          [{"text": "♦ Status: ", "color": "dark_gray"}, {"text": "%data_status% ", "color": "white"}],
+          {
+            "join": {
+              "prefix": {"text": "♦ Contains: ", "color": "dark_gray"},
+              "separator": {"text": ", ", "color": "gray"},
+              "entries": [
+                {"text": "Storage Controller", "color": "white", "conditions": ["mod:sophisticatedstorage"]},
+                {"text": "Storage Link", "color": "white", "conditions": ["mod:sophisticatedstorage"]}
+              ]
+            }
+          }
+        ]
+      },
+      "category": "Storage",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["#sophisticatedstorage_link"]
+      }
+    }
+  ]
+}
