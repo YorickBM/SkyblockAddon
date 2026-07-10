@@ -1,0 +1,25 @@
+{
+  "mod": "powah",
+  "permissions": [
+    {
+      "id": "powah_power_network",
+      "priority": 15,
+      "item": {
+        "display_name": [
+          "{\"text\": \"Powah\", \"color\": \"green\", \"bold\": \"true\"}"
+        ],
+        "item": "powah:reactor_hardened",
+        "lore": [
+          [{"text": "» Click to toggle the status of this permission for %data_group_name%.", "color": "dark_gray"}],
+          [{"text": " ", "color": "dark_gray"}],
+          [{"text": "♦ Status: ", "color": "dark_gray"}, {"text": "%data_status% ", "color": "white"}]
+        ]
+      },
+      "category": "Miscellaneous",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["powah:.*"]
+      }
+    }
+  ]
+}

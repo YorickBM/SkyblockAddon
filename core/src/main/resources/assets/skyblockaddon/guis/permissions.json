@@ -207,6 +207,38 @@
     {
       "item": {
         "display_name": [
+          "{\"text\": \"RFTools\", \"color\":\"light_purple\", \"bold\":\"true\"}"
+        ],
+        "item": "rftoolsutility:matter_transmitter",
+        "lore": [
+          [
+            {
+              "text": "» Change RFTools permissions.",
+              "color": "dark_gray"
+            }
+          ],
+          [
+            {
+              "text": "♦ Power, Storage, Utility & Teleportation.",
+              "color": "dark_gray"
+            }
+          ]
+        ],
+        "data": {
+          "category_id": "rftools"
+        }
+      },
+      "slot": 13,
+      "action": {
+        "onClick": "yorickbm.guilibrary.events.ItemOpenMenuEvent",
+        "data": {
+          "gui": "skyblockaddon:set_permission"
+        }
+      }
+    },
+    {
+      "item": {
+        "display_name": [
           "{\"text\": \"Remove group\",\"bold\": true,\"color\": \"red\"}"
         ],
         "item": "minecraft:BARRIER",

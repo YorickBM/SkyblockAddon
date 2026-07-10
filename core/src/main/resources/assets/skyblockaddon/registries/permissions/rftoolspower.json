@@ -1,0 +1,26 @@
+{
+  "mod": "rftoolspower",
+  "permissions": [
+    {
+      "id": "rftoolspower_machines",
+      "priority": 15,
+      "item": {
+        "display_name": [
+          "{\"text\": \"RFTools - Power\", \"color\": \"light_purple\", \"bold\": \"true\"}"
+        ],
+        "item": "rftoolspower:endergenic",
+        "lore": [
+          [{"text": "» Click to toggle the status of this permission for %data_group_name%.", "color": "dark_gray"}],
+          [{"text": " ", "color": "dark_gray"}],
+          [{"text": "♦ Status: ", "color": "dark_gray"}, {"text": "%data_status% ", "color": "white"}],
+          [{"text": "♦ Allows: ", "color": "dark_gray"}, {"text": "All RFTools Power generators, powercells, and dimensional cells.", "color": "white"}]
+        ]
+      },
+      "category": "RFTools",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["rftoolspower:.*"]
+      }
+    }
+  ]
+}

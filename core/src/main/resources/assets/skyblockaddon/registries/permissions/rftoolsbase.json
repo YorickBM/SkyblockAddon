@@ -1,0 +1,36 @@
+{
+  "mod": "rftoolsbase",
+  "permissions": [
+    {
+      "id": "rftoolsbase_machines",
+      "priority": 15,
+      "item": {
+        "display_name": [
+          "{\"text\": \"RFTools - Base\", \"color\": \"light_purple\", \"bold\": \"true\"}"
+        ],
+        "item": "rftoolsbase:machine_infuser",
+        "lore": [
+          [{"text": "» Click to toggle the status of this permission for %data_group_name%.", "color": "dark_gray"}],
+          [{"text": " ", "color": "dark_gray"}],
+          [{"text": "♦ Status: ", "color": "dark_gray"}, {"text": "%data_status% ", "color": "white"}],
+          {
+            "join": {
+              "prefix": {"text": "♦ Contains: ", "color": "dark_gray"},
+              "separator": {"text": ", ", "color": "gray"},
+              "entries": [
+                {"text": "Machine Infuser", "color": "white", "conditions": ["mod:rftoolsbase"]},
+                {"text": "Security Manager", "color": "white", "conditions": ["mod:rftoolsbase"]},
+                {"text": "Information Screen", "color": "white", "conditions": ["mod:rftoolsbase"]}
+              ]
+            }
+          }
+        ]
+      },
+      "category": "RFTools",
+      "triggers": ["onRightClickBlock"],
+      "data": {
+        "block": ["rftoolsbase:.*"]
+      }
+    }
+  ]
+}
